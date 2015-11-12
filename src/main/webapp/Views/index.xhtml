@@ -6,7 +6,20 @@
 
 <h:body>
 
-<h1>#{loginController.getName()}</h1>
+	<h:form id="loginForm">
+		<p:focus />
+		<p:panelGrid columns="2">
+		Username:
+		<p:inputText value="#{loginController.userName}" />
+		
+		Password:
+		<p:inputText value="#{loginController.password}" />
+		</p:panelGrid>
+		<p:commandButton value="save" action="#{loginController.loginPressed()}"
+		 />
+	</h:form>
+
+	<!-- <h1>#{loginController.getName()}</h1> -->
 
 </h:body>
 
