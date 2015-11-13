@@ -7,13 +7,17 @@
 
 <h:body>
 
-	<h1>Welcome to dashboars</h1>
 <h:body>
     <div id="divTop">
         <ui:insert name="top">
             <ui:include src="/Views/Template/Top.xhtml"/>
         </ui:insert>
     </div>
+    
+    <div id="divMain">
+        <ui:insert name="mainContent" />
+    </div>
+    <ui:debug/>
  
     <div id="divMenu">
         <ui:insert name="footer">
@@ -21,10 +25,7 @@
         </ui:insert>
     </div>
  
-    <div id="divMain">
-        <ui:insert name="mainContent" />
-    </div>
-    <ui:debug/>
+    
 </h:body>
 
 

@@ -7,8 +7,6 @@
 
 <h:head>
 
-
-
 </h:head>
 
 <h:body>
@@ -52,10 +50,13 @@
             </p:submenu>
         </p:submenu>
  
-        <p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
+ 		<p:submenu label="Entity">
+            <p:menuitem value="Create" actionListener="#{entityController.createEntity}" />
+            <p:menuitem value="View" action="#{entityController.viewEntity()}" />
+        </p:submenu>
  
         <f:facet name="options">
-            <p:inputText style="margin-right:10px" placeholder="Search"/>
+            <!-- <p:inputText style="margin-right:10px" placeholder="Search"/> -->
             <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
         </f:facet>
     </p:menubar>
@@ -63,7 +64,5 @@
 		
 	</ui:composition>
 </h:body>
-
-
 
 </html>
