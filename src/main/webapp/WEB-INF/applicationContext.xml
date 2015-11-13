@@ -15,8 +15,10 @@
 	<context:component-scan base-package="com.Beendo.Controllers" />
 	<mvc:annotation-driven />
 
-	<context:component-scan base-package="com.Beendo.Service" />
 	<context:component-scan base-package="com.Beendo.Dao" />
+	<context:component-scan base-package="com.Beendo.Services" />
+	<!-- <jpa:repositories base-package="com.Beendo.Repositories" /> -->
+
 	<context:annotation-config />
 
 
@@ -30,17 +32,12 @@
 		<property name="password" value="admin" />
 
 	</bean>
-
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="com.Beendo.Entities" />
-		<!-- <property name="mappingResources">
-			<list>
-				<value>/src/main/java/hibernate.cfg.xml
-				</value>
-			</list>
-		</property> -->
+		<!-- <property name="mappingResources"> <list> <value>/src/main/java/hibernate.cfg.xml 
+			</value> </list> </property> -->
 		<property name="configLocation">
 			<value>classpath:/hibernate.cfg.xml</value>
 		</property>
