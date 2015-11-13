@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+
+<h:body>
+
+	<h:body>
+		<ui:composition template="/Views/Template/MainTemplate.xhtml">
+			<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+        </ui:define>
+
+			<ui:define name="mainContent">
+				<h2>Practise Details</h2>
+				
+				<h:form>
+				    <p:commandButton value="View" icon="ui-icon-extlink" 
+				    actionListener="#{entityController.createEntity}" />
+				</h:form>
+				
+			</ui:define>
+		</ui:composition>
+	</h:body>
+
+
+</h:body>
+
+</html>
