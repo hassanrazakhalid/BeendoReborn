@@ -1,21 +1,16 @@
 package com.Beendo.Controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.w3c.dom.stylesheets.LinkStyle;
 
-import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Services.PractiseService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,16 +20,15 @@ import lombok.Setter;
 @Controller
 public class PractiseController {
 
-	public String _kEntity = "Entity";
-
-	private String practiseName;
 	private String entityName;
-
 	private List<String> listEntities;
 	private List<Practice> listPractise;
 
 	private Boolean isEditMode;
 
+	@Autowired
+	private PractiseService practiseService;
+	
 	private Practice practise = new Practice();
 
 	public String viewPractise() {
@@ -56,7 +50,7 @@ public class PractiseController {
 		tmpPractise.setName("PKPK");
 
 		listPractise.add(tmpPractise);
-
+		
 		return "Practise/PractiseView?faces-redirect=true";
 	}
 
@@ -100,14 +94,26 @@ public class PractiseController {
 		practise = sender;
 		isEditMode = true;
 	}
-
+	
 	public void createEditLogic() {
 
 		if (isEditMode == false) {
-			practise.setId(3);
-			listPractise.add(practise);
-			initNewPractise();
+	
+			List<Practice> result =	practiseService.isNameExist(listPractise, practise.getName());
+			if(result.size() <= 0)
+			{
+				practiseService.save(practise);
+				practise.setId(3);
+				listPractise.add(practise);
+				initNewPractise();				
+			}
+			else
+			{
+				
+			}
 		} else {
+			
+			practiseService.update(practise);
 
 		}
 
