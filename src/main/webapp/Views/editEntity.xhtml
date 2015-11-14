@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+     
+    <h:head>
+        <title>Create Entity</title>
+        
+        <style type="text/css">
+			html {
+			        overflow: auto;
+			}
+		</style>
+        
+        <!-- <style type="text/css">
+            .ui-widget {
+                font-size: 100%;
+            }
+        </style> -->
+    </h:head>
+     
+    <h:body>
+ 
+ 	<h:form id="entityForm" style="height: 120px">
+		<p:focus />
+	    
+	    <div>
+	    	Entity Name: 
+	    	<p:inputText value="#{entityController.entity.name}" />
+	    	
+	    	<br /><br />
+	    	<p:commandButton value="Save" action="#{entityController.editPressed()}" />
+	    	
+	    </div>	    
+		
+	</h:form>
+        
+    </h:body>
+     
+</html>
