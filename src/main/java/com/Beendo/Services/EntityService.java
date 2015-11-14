@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Beendo.Dao.EntityDao;
 import com.Beendo.Dao.ICRUD;
 import com.Beendo.Entities.CEntitiy;
 

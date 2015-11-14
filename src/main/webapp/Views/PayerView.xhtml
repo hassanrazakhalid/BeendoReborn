@@ -1,0 +1,150 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+
+<h:body>
+
+	<h:body>
+		<ui:composition template="/Views/Template/MainTemplate.xhtml">
+			<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+        </ui:define>
+
+			<ui:define name="mainContent">
+				<h2>Payer Details</h2>
+				
+				<h:form>
+					<p:commandButton value="Create" update=":addForm"
+						action="#{payerController.clearData()}"
+								oncomplete="PF('addDlg').show();" />
+								
+					<br/>
+				</h:form>
+				
+				 <h:form id="mainForm"> 
+    
+				    <p:dataTable value="#{payerController.payers}" var="payer" >
+
+						<p:column headerText="Company Name">
+							#{payer.companyName}
+						</p:column>
+						
+						<p:column headerText="Plan Name">
+							#{payer.planName}
+						</p:column>
+						
+						<p:column headerText="Phone Number">
+							#{payer.phoneNumber}
+						</p:column>
+						
+						<p:column headerText="Street">
+							#{payer.street}
+						</p:column>
+						
+						<p:column headerText="City">
+							#{payer.city}
+						</p:column>
+						
+						<p:column headerText="State">
+							#{payer.state}
+						</p:column>
+						
+						<p:column headerText="ZipCode">
+							#{payer.zip}
+						</p:column>
+						
+						<p:column headerText="Edit" width="80">
+							<p:commandButton icon="ui-icon-pencil" update=":editForm"
+								oncomplete="PF('editDlg').show();" 
+								 action="#{payerController.setPayer(payer)}" />
+						</p:column>
+		
+					</p:dataTable>
+				    
+				 </h:form>
+				
+				
+				<!-- EDIT ENTITY -->
+				
+				<p:dialog header="Edit"  modal="true" position="top" widgetVar="editDlg" minHeight="40">
+				    
+				  <h:form id="editForm">
+				  
+				  	<h:panelGrid columns="2" cellpadding="8">   
+			            <p:inputText value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" /> 
+			            <p:inputText value="#{payerController.payer.planName}" placeholder="Plan Name" required="true" />  
+			        </h:panelGrid>  
+			        
+			        <h:panelGrid columns="2" cellpadding="8">   
+			            <p:inputText value="#{payerController.payer.phoneNumber}" placeholder="Phone Number" required="true" /> 
+			            <p:inputText value="#{payerController.payer.street}" placeholder="Street" required="true" />  
+			        </h:panelGrid> 
+			        
+			        <h:panelGrid columns="2" cellpadding="8">   
+			            <p:inputText value="#{payerController.payer.city}" placeholder="City" required="true" /> 
+			            <p:inputText value="#{payerController.payer.state}" placeholder="State" required="true" />  
+			        </h:panelGrid> 
+			        
+			        <h:panelGrid columns="2" cellpadding="8">   
+			            <p:inputText value="#{payerController.payer.zip}" placeholder="Zip Code" required="true" />   
+			        </h:panelGrid>  
+
+					<br />
+				  
+				  	<p:commandButton value="Save" action="#{payerController.editPressed()}"
+				    		oncomplete="PF('editDlg').hide();" 
+				    		 update="editForm, :mainForm" />
+					
+				  </h:form>
+
+				</p:dialog>
+				
+				
+				<!-- CREATE ENTITY -->
+				
+				<p:dialog header="Add" widgetVar="addDlg" position="top" modal="true" minHeight="40">
+				    
+				  <h:form id="addForm">
+				  
+				  	<h:panelGrid columns="2" cellpadding="8">   
+			            <p:inputText value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" /> 
+			            <p:inputText value="#{payerController.payer.planName}" placeholder="Plan Name" required="true" />  
+			        </h:panelGrid>  
+			        
+			        <h:panelGrid columns="2" cellpadding="8">   
+			            <p:inputText value="#{payerController.payer.phoneNumber}" placeholder="Phone Number" required="true" /> 
+			            <p:inputText value="#{payerController.payer.street}" placeholder="Street" required="true" />  
+			        </h:panelGrid> 
+			        
+			        <h:panelGrid columns="2" cellpadding="8">   
+			            <p:inputText value="#{payerController.payer.city}" placeholder="City" required="true" /> 
+			            <p:inputText value="#{payerController.payer.state}" placeholder="State" required="true" />  
+			        </h:panelGrid> 
+			        
+			        <h:panelGrid columns="2" cellpadding="8">   
+			            <p:inputText value="#{payerController.payer.zip}" placeholder="Zip Code" required="true" />   
+			        </h:panelGrid>  
+
+					<br />
+					
+				    <p:commandButton value="Save" action="#{payerController.createPressed()}"
+				    		oncomplete="PF('addDlg').hide();" 
+				    		 update="addForm, :mainForm" />				  
+
+				  </h:form>
+
+				</p:dialog>
+				
+				
+				
+			</ui:define>
+		</ui:composition>
+	</h:body>
+
+
+</h:body>
+
+</html>

@@ -45,7 +45,7 @@
 				
 				<!-- EDIT ENTITY -->
 				
-				<p:dialog header="Edit" widgetVar="editDlg" minHeight="40">
+				<p:dialog header="Edit"  modal="true" position="top" widgetVar="editDlg" minHeight="40">
 				    
 				  <h:form id="editForm">
 					<div>
@@ -65,12 +65,12 @@
 				
 				<!-- CREATE ENTITY -->
 				
-				<p:dialog header="Add" widgetVar="addDlg" minHeight="40">
+				<p:dialog header="Add" widgetVar="addDlg" position="top" modal="true" minHeight="40">
 				    
 				  <h:form id="addForm">
 					<div>
 				    	Entity Name: 
-				    	<p:inputText value="#{entityController.entity.name}" required />
+				    	<p:inputText value="#{entityController.entity.name}" />
 				    	
 				    	<br /><br />
 				    	<p:commandButton value="Save" action="#{entityController.createPressed()}"
