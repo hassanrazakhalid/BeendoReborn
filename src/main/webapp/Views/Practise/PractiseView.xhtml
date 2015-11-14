@@ -1,31 +1,110 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 </h:head>
 
 <h:body>
 
-	<h:body>
-		<ui:composition template="/Views/Template/MainTemplate.xhtml">
-			<ui:define name="pageTitle">
-            Welcome [Dashboard.xhtml]
+
+
+	<ui:composition template="/Views/Template/MainTemplate.xhtml">
+		<ui:define name="pageTitle">
+            Welcome [PractiseView.xhtml]
         </ui:define>
 
-			<ui:define name="mainContent">
-				<h2>Practise Details</h2>
-				
-				<h:form>
-				    <p:commandButton value="View" icon="ui-icon-extlink" 
-				    actionListener="#{entityController.createEntity}" />
+		<ui:define name="mainContent">
+			<!-- <h2>Practise Details</h2> -->
+
+			<h:form>
+				<p:commandButton value="Create Practise"
+					action="#{practiseController.createClicked()}"
+					oncomplete="PF('dlg2').show()" update=":createForm">
+				</p:commandButton>
+			</h:form>
+
+			<!-- <ui:include src="/createPractise.xhtml" /> -->
+			<!-- Data Table -->
+
+			<p:dataTable value="#{practiseController.listPractise}"
+				var="practise" id="practiseTable">
+
+				<p:column headerText="Practise Id">
+					#{practise.id}
+				</p:column>
+				<p:column headerText="Name">
+					#{practise.name}
+				</p:column>
+
+				<p:column headerText="Providers">
+					UpComing
+				</p:column>
+
+				<p:column headerText="Operation">
+					<h:form>
+						<p:commandButton value="edit"
+							action="#{practiseController.updateClicked(practise)}"
+							oncomplete="PF('dlg2').show()"
+							update=":createForm, :practiseTable" />
+						<p:commandButton value="remove"
+							action="#{practiseController.remove(practise)}"
+							update=":practiseTable">
+
+							<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</h:form>
+				</p:column>
+
+			</p:dataTable>
+
+
+			<!-- Create and Update Code -->
+
+			<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true"
+				height="200">
+
+				<h:form id="createForm">
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<h:outputLabel for="practiseName" value="Practise Name" />
+						<h:inputText id="practiseName"
+							value="#{practiseController.practise.name}" />
+						<!-- <h:panelGroup> -->
+
+						<p:outputLabel for="entities" value="Entity: " />
+						<p:selectOneMenu id="entities"
+							value="#{practiseController.entityName}" style="width:150px">
+							<!-- <p:ajax listener="#{dropdownView.onCountryChange}" /> -->
+							<f:selectItem itemLabel="Select Entity" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{practiseController.listEntities}" />
+						</p:selectOneMenu>
+						<!-- </h:panelGroup> -->
+					</h:panelGrid>
+
+					<p:separator />
+
+					<p:commandButton value="Submit"
+						action="#{practiseController.createEditLogic()}"
+						update=":practiseTable" oncomplete="PF('dlg2).hide()"
+						icon="ui-icon-check" />
+					<!--  </p:panel> -->
 				</h:form>
-				
-			</ui:define>
-		</ui:composition>
-	</h:body>
 
+			</p:dialog>
 
+		</ui:define>
+	</ui:composition>
 </h:body>
 
 </html>
