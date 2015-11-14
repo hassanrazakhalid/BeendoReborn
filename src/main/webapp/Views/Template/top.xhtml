@@ -42,9 +42,12 @@
 				</p:submenu>
 
 				<p:submenu label="Practise" icon="ui-icon-gear">
-					<p:menuitem value="Create" action="#{practiseController.createPractise()}"
-						icon="ui-icon-disk" update="messages" />
-					<p:menuitem value="View" actionListener="#{practiseController.viewPractise()}"
+					<p:menuitem value="Create"
+						actionListener="#{practiseController.showCreatePractiseView}"
+						icon="ui-icon-disk" update="messages">
+					</p:menuitem>
+					<p:menuitem value="View"
+						action="#{practiseController.viewPractise()}"
 						icon="ui-icon-arrowrefresh-1-w" update="messages" />
 				</p:submenu>
 
@@ -61,7 +64,7 @@
 				</f:facet>
 			</p:menubar>
 		</h:form>
-
+		<ui:debug />
 	</ui:composition>
 </h:body>
 
