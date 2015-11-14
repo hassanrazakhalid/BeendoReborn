@@ -16,6 +16,14 @@
 			<ui:define name="mainContent">
 				<h2>Entity Details</h2>
 				
+				<h:form>
+					<p:commandButton value="Create" update=":addForm"
+						action="#{entityController.clearData()}"
+								oncomplete="PF('addDlg').show();" />
+								
+					<br/>
+				</h:form>
+				
 				 <h:form id="entityTable"> 
     
 				    <p:dataTable value="#{entityController.entities}" var="entity" >
@@ -25,7 +33,7 @@
 						</p:column>
 						
 						<p:column headerText="Edit" width="80">
-							<p:commandButton icon="ui-icon-pencil" update=":entityForm"
+							<p:commandButton icon="ui-icon-pencil" update=":editForm"
 								oncomplete="PF('editDlg').show();" 
 								 action="#{entityController.setEntity(entity)}" />
 						</p:column>
@@ -35,9 +43,11 @@
 				 </h:form>
 				
 				
+				<!-- EDIT ENTITY -->
+				
 				<p:dialog header="Edit" widgetVar="editDlg" minHeight="40">
 				    
-				  <h:form id="entityForm">
+				  <h:form id="editForm">
 					<div>
 				    	Entity Name: 
 				    	<p:inputText value="#{entityController.entity.name}" />
@@ -45,7 +55,27 @@
 				    	<br /><br />
 				    	<p:commandButton value="Save" action="#{entityController.editPressed()}"
 				    		oncomplete="PF('editDlg').hide();" 
-				    		 update="entityForm, :entityTable" />
+				    		 update="editForm, :entityTable" />
+				    	
+				    </div>	
+				  </h:form>
+
+				</p:dialog>
+				
+				
+				<!-- CREATE ENTITY -->
+				
+				<p:dialog header="Add" widgetVar="addDlg" minHeight="40">
+				    
+				  <h:form id="addForm">
+					<div>
+				    	Entity Name: 
+				    	<p:inputText value="#{entityController.entity.name}" />
+				    	
+				    	<br /><br />
+				    	<p:commandButton value="Save" action="#{entityController.createPressed()}"
+				    		oncomplete="PF('addDlg').hide();" 
+				    		 update="addForm, :entityTable" />
 				    	
 				    </div>	
 				  </h:form>

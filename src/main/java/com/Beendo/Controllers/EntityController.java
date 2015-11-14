@@ -35,13 +35,13 @@ public class EntityController {
 		return "EntityView";
 	}
 	
-	public void createEntity()
-	{		
-		Map<String,Object> options = new HashMap<String, Object>();
-        options.put("resizable", false);
-        options.put("modal", true);
-        RequestContext.getCurrentInstance().openDialog("createEntity", options, null);
-	}
+//	public void createEntity()
+//	{		
+//		Map<String,Object> options = new HashMap<String, Object>();
+//        options.put("resizable", false);
+//        options.put("modal", true);
+//        RequestContext.getCurrentInstance().openDialog("createEntity", options, null);
+//	}
 	
 //	public void editEntity(CEntitiy _entity)
 //	{		
@@ -53,8 +53,10 @@ public class EntityController {
 	
 	public void createPressed()
 	{
+		entities.add(entity);
 		entityService.save(entity);
-		//showMessage("Entity has been saved");
+		showMessage("Entity has been saved");
+		clearData();
 		//RequestContext.getCurrentInstance().closeDialog("createEntity");
 		//entity = new CEntitiy();
 	}
@@ -65,9 +67,14 @@ public class EntityController {
 		entityService.update(entity);
 		//RequestContext.getCurrentInstance().closeDialog("editEntity");
 		showMessage("Entity has been updated");
-		entity = new CEntitiy();
+		clearData();
+		
 	}
 	
+	public void clearData()
+	{
+		entity = new CEntitiy();
+	}
 	
 	public void showMessage(String msg) {
 		
