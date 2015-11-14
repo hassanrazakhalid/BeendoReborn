@@ -16,10 +16,43 @@
 			<ui:define name="mainContent">
 				<h2>Entity Details</h2>
 				
-				<h:form>
-				    <p:commandButton value="View" icon="ui-icon-extlink" 
-				    actionListener="#{entityController.createEntity}" />
-				</h:form>
+				 <h:form id="entityTable"> 
+    
+				    <p:dataTable value="#{entityController.entities}" var="entity" >
+
+						<p:column headerText="Enity Name">
+							#{entity.name}
+						</p:column>
+						
+						<p:column headerText="Edit" width="80">
+							<p:commandButton icon="ui-icon-pencil" update=":entityForm"
+								oncomplete="PF('editDlg').show();" 
+								 action="#{entityController.setEntity(entity)}" />
+						</p:column>
+		
+					</p:dataTable>
+				    
+				 </h:form>
+				
+				
+				<p:dialog header="Edit" widgetVar="editDlg" minHeight="40">
+				    
+				  <h:form id="entityForm">
+					<div>
+				    	Entity Name: 
+				    	<p:inputText value="#{entityController.entity.name}" />
+				    	
+				    	<br /><br />
+				    	<p:commandButton value="Save" action="#{entityController.editPressed()}"
+				    		oncomplete="PF('editDlg').hide();" 
+				    		 update="entityForm, :entityTable" />
+				    	
+				    </div>	
+				  </h:form>
+
+				</p:dialog>
+				
+				
 				
 			</ui:define>
 		</ui:composition>

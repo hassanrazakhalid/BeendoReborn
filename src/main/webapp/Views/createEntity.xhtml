@@ -31,10 +31,10 @@
 	    
 	    <div>
 	    	Entity Name: 
-	    	<p:inputText />
+	    	<p:inputText value="#{entityController.entity.name}" />
 	    	
 	    	<br /><br />
-	    	<p:commandButton value="Save" />
+	    	<p:commandButton value="Save" action="#{entityController.createPressed()}" />
 	    	
 	    </div>	    
 		
