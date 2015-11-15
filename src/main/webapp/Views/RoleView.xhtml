@@ -1,0 +1,128 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+
+<h:body>
+
+	<h:body>
+		<ui:composition template="/Views/Template/MainTemplate.xhtml">
+			<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+        </ui:define>
+
+			<ui:define name="mainContent">
+				<h2>Role Details</h2>
+				
+				<h:form>
+					<p:commandButton value="Create" update=":myForm"
+						action="#{roleController.clearData()}"
+								oncomplete="PF('Dlg1').show();" />
+								
+					<br/>
+				</h:form>
+				
+				 <h:form id="mainForm"> 
+    
+				    <p:dataTable value="#{roleController.roles}" var="role" >
+
+						<p:column headerText="Role Name">
+							#{role.name}
+						</p:column>
+						
+						<p:column headerText="Provider Add">
+							#{role.canProviderAdd}
+						</p:column>
+						
+						<p:column headerText="Provider Edit">
+							#{role.canProviderEdit}
+						</p:column>
+						
+						<p:column headerText="Payer Add">
+							#{role.canPayerAdd}
+						</p:column>
+						
+						<p:column headerText="Payer Edit">
+							#{role.canPayerEdit}
+						</p:column>
+						
+						<p:column headerText="Transaction Add">
+							#{role.canPayerTransactionAdd}
+						</p:column>
+						
+						<p:column headerText="Transaction Edit">
+							#{role.canPayerTransactionEdit}
+						</p:column>
+						
+						<p:column headerText="Operations" width="80">
+							<p:commandButton icon="ui-icon-pencil" update=":myForm"
+								oncomplete="PF('Dlg1').show();" 
+								 action="#{roleController.updateClicked(role)}" />
+								 
+							<p:commandButton icon="ui-icon-copy" update=":myForm"
+								oncomplete="PF('Dlg1').show();"
+								actionListener="roleController.assignCopyToCurrent" 
+								 action="#{roleController.copyClicked(role)}" />
+								 
+						</p:column>
+		
+					</p:dataTable>
+				    
+				 </h:form>
+				
+				
+				
+				<!-- ADD / EDIT DIALOG -->
+				
+				<p:dialog header="Role"  modal="true" position="top" widgetVar="Dlg1" minHeight="40">
+				    
+				  <h:form id="myForm">
+				  
+				  	<h:panelGrid columns="2" cellpadding="8">   
+				  	
+			            <h:outputText value="Role Name: " /> 
+			            <p:inputText value="#{roleController.role.name}" required="true" />
+			            
+			            <h:outputText value="Can Provider Add: " /> 
+			            <p:selectBooleanCheckbox value="#{roleController.role.canProviderAdd}" />
+			            
+			            <h:outputText value="Can Provider Edit: " /> 
+			            <p:selectBooleanCheckbox value="#{roleController.role.canProviderEdit}" />
+			            
+			            <h:outputText value="Can Payer Add: " /> 
+			            <p:selectBooleanCheckbox value="#{roleController.role.canPayerAdd}" />
+			            
+			            <h:outputText value="Can Payer Edit: " /> 
+			            <p:selectBooleanCheckbox value="#{roleController.role.canPayerEdit}" />
+			            
+			            <h:outputText value="Can Payer transaction Add: " /> 
+			            <p:selectBooleanCheckbox value="#{roleController.role.canPayerTransactionAdd}" />
+			            
+			            <h:outputText value="Can Payer transaction Edit: " /> 
+			            <p:selectBooleanCheckbox value="#{roleController.role.canPayerTransactionEdit}" />
+			              
+			        </h:panelGrid>  
+
+					<br />
+				  
+				  	<p:commandButton value="Save" action="#{roleController.saveInfo()}"
+				    		oncomplete="PF('Dlg1').hide();" 
+				    		 update="myForm, :mainForm" />
+					
+				  </h:form>
+
+				</p:dialog>
+				
+				
+				
+				
+			</ui:define>
+		</ui:composition>
+	</h:body>
+
+
+</h:body>
+
+</html>

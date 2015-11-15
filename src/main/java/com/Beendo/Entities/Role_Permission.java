@@ -24,5 +24,19 @@ public class Role_Permission {
 	private boolean canPayerEdit;
 	private boolean canPayerTransactionAdd;
 	private boolean canPayerTransactionEdit;
-	
+
+	public static Role_Permission copy(Role_Permission sender){
+		
+		Role_Permission rol = new Role_Permission();
+		rol.setCanPayerAdd(sender.isCanPayerAdd());
+		rol.setCanPayerEdit(sender.isCanPayerEdit());
+		rol.setCanProviderAdd(sender.isCanProviderAdd());
+		rol.setCanProviderEdit(sender.isCanProviderEdit());
+		rol.setCanPayerTransactionAdd(sender.isCanPayerTransactionAdd());
+		rol.setCanPayerTransactionEdit(sender.isCanPayerTransactionEdit());
+		rol.setName(sender.getName());
+		
+		return rol;
+		
+	}
 }
