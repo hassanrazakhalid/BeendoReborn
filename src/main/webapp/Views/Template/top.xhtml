@@ -11,7 +11,7 @@
 <h:body>
 	<ui:composition>
 		<h:form>
-			<p:growl id="messages" />
+			<!-- <p:growl id="messages" /> -->
 
 			<p:menubar>
 				<p:submenu label="File" icon="ui-icon-document">
@@ -44,11 +44,11 @@
 				<p:submenu label="Practise" icon="ui-icon-gear">
 					<p:menuitem value="Create"
 						actionListener="#{practiseController.showCreatePractiseView}"
-						icon="ui-icon-disk" update="messages">
+						icon="ui-icon-disk">
 					</p:menuitem>
 					<p:menuitem value="View"
 						action="#{practiseController.viewPractise()}"
-						icon="ui-icon-arrowrefresh-1-w" update="messages" />
+						icon="ui-icon-arrowrefresh-1-w" />
 				</p:submenu>
 
 				<p:submenu label="Entity">

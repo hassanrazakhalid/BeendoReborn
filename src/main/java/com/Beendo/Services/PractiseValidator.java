@@ -33,8 +33,13 @@ public class PractiseValidator implements Validator, ClientValidator {
 			return;
 		String strVal = (String)value;
 		 if(strVal.length() < 4) {
-	            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error", 
-	                        value + " is not a valid email;"));
+			 
+/*			 FacesContext context = FacesContext.getCurrentInstance();
+*/
+		        context.addMessage(component.getClientId(), new FacesMessage("Test msg"));
+			 
+	            /*throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error", 
+	                        value + " is not a valid email;"));*/
 	        }
 	}
 

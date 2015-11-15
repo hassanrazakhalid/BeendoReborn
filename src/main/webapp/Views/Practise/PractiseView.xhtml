@@ -21,6 +21,7 @@
 			<h:form>
 				<p:commandButton value="Create Practise"
 					action="#{practiseController.createClicked()}"
+					resetValues="true"
 					oncomplete="PF('dlg2').show()" update=":createForm">
 				</p:commandButton>
 			</h:form>
@@ -50,7 +51,8 @@
 							update=":createForm, :practiseTable" />
 						<p:commandButton value="remove"
 							action="#{practiseController.remove(practise)}"
-							update=":practiseTable">
+							update=":practiseTable"
+							resetValues="true">
 
 							<p:confirm header="Confirmation" message="Are you sure?"
 								icon="ui-icon-alert" />
@@ -71,16 +73,22 @@
 			<!-- Create and Update Code -->
 
 			<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true"
-				height="200">
+				height="250">
 
 				<h:form id="createForm">
-					<h:panelGrid columns="2" cellpadding="5">
+					<p:messages id="msgs" />
+					<h:panelGrid columns="3" cellpadding="5">
 
-						<h:outputLabel for="practiseName" value="Practise Name" />
-						<h:inputText id="practiseName"
-							value="#{practiseController.practise.name}" >
-							<f:validator validatorId="custom.PractiseValidator"/>
-							 </h:inputText>
+						<p:outputLabel for="practiseName" value="Practise Name:" />
+						<p:inputText id="practiseName" label="Practise Name"
+							required="true"
+							
+							value="#{practiseController.practise.name}">
+							<!-- <f:validateLength minimum="5" /> -->
+							<p:ajax event="keyup" update="msgs,iconAlertName"></p:ajax>
+							<f:validator validatorId="custom.PractiseValidator" />
+						</p:inputText>
+						<p:message for="practiseName" display="icon" id="iconAlertName" />
 						<!-- <h:panelGroup> -->
 
 						<p:outputLabel for="entities" value="Entity: " />
@@ -96,17 +104,25 @@
 
 					<p:separator />
 
-					<p:commandButton value="Submit"
-					validateClient="true"
-					ajax="false"
+					<p:commandButton value="Submit" validateClient="true"
 						action="#{practiseController.createEditLogic()}"
-						update=":practiseTable" oncomplete="PF('dlg2).hide()"
-						icon="ui-icon-check" />
+						update=":practiseTable, createForm" icon="ui-icon-check"
+						oncomplete="handleDialogSubmit(args,'dlg2')"
+						 />
 					<!--  </p:panel> -->
 				</h:form>
 
 			</p:dialog>
+			<script type="text/javascript">
+    function handleDialogSubmit(args, dialogName) {
 
+    	console.log('In handle');
+        
+        if (!args.validationFailed) {
+            PF(dialogName).hide();
+        }
+    }
+</script>
 		</ui:define>
 	</ui:composition>
 </h:body>

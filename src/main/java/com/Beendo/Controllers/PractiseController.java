@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +106,7 @@ public class PractiseController {
 				practiseService.save(practise);
 				practise.setId(3);
 				listPractise.add(practise);
-				initNewPractise();				
+//				initNewPractise();				
 			}
 			else
 			{
@@ -114,9 +115,9 @@ public class PractiseController {
 		} else {
 			
 			practiseService.update(practise);
-
+			FacesContext.getCurrentInstance().addMessage(null,
+	                new FacesMessage("Saved Sucessfully"));
 		}
-
 	}
 
 	public void remove(Practice sender) {
