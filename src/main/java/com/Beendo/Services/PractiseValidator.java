@@ -1,5 +1,6 @@
 package com.Beendo.Services;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -10,6 +11,9 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import org.primefaces.validate.ClientValidator;
+
+import com.Beendo.Entities.Practice;
+import com.Beendo.Utils.SharedData;
 
 @FacesValidator("custom.PractiseValidator")
 public class PractiseValidator implements Validator, ClientValidator {
@@ -32,11 +36,15 @@ public class PractiseValidator implements Validator, ClientValidator {
 		if(value == null)
 			return;
 		String strVal = (String)value;
-		 if(strVal.length() < 4) {
+		List<Practice> list = SharedData.getSharedInstace().getListPractise();
+		 if(strVal.length() < 0) {
+			 
+			 
 			 
 /*			 FacesContext context = FacesContext.getCurrentInstance();
 */
-		        context.addMessage(component.getClientId(), new FacesMessage("Test msg"));
+		        context.addMessage(component.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error: ", 
+                        value + " is not a valid email;"));
 			 
 	            /*throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error", 
 	                        value + " is not a valid email;"));*/

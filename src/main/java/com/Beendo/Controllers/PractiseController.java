@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.Practice;
 import com.Beendo.Services.PractiseService;
+import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -51,6 +52,8 @@ public class PractiseController {
 		tmpPractise.setName("PKPK");
 
 		listPractise.add(tmpPractise);
+		
+		SharedData.getSharedInstace().addPactiseList(listPractise);
 		
 		return "Practise/PractiseView?faces-redirect=true";
 	}

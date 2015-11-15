@@ -24,7 +24,7 @@ public class Entities {
 	private String name;
 	
 	@OneToMany
-	private List<Practices> practiceList = new ArrayList<Practices>();
+	private List<Practice> practiceList = new ArrayList<Practice>();
 	
 	@OneToMany
 	private List<Provider> providerList = new ArrayList<Provider>();

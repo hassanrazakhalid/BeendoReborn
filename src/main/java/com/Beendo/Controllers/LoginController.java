@@ -30,6 +30,8 @@ public class LoginController {
 		
 		User user = userService.isUserValid(userName, password);
 		
+		SharedData sharedData = SharedData.getSharedInstace();
+		
 		SharedData.getSharedInstace().currentUser = user;
 		
 		return "Dashboard";
