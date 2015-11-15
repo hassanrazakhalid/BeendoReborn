@@ -37,18 +37,24 @@ public class PractiseValidator implements Validator, ClientValidator {
 			return;
 		String strVal = (String)value;
 		List<Practice> list = SharedData.getSharedInstace().getListPractise();
-		 if(strVal.length() < 0) {
+		 if(strVal.length() > 0) {
 			 
-			 
+			List<Practice> result = PractiseService.isNameExist(list, strVal);
 			 
 /*			 FacesContext context = FacesContext.getCurrentInstance();
 */
-		        context.addMessage(component.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error: ", 
-                        value + " is not a valid email;"));
-			 
+			if(result.size() > 0)
+			{
+				context.addMessage(component.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", 
+                        value + " already exist"));
+				context.validationFailed();
+			}
+			else
+			{
+				context.addMessage(component.getClientId(), new FacesMessage(FacesMessage.SEVERITY_INFO, "Correct", "Valid Name"));
+			} 
 	            /*throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error", 
 	                        value + " is not a valid email;"));*/
 	        }
 	}
-
 }

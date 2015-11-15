@@ -23,7 +23,7 @@
 
         <!-- Disable the second-level cache  -->
         <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-        
+        <property name="hibernate.enable_lazy_load_no_trans">true</property> 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 

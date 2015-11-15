@@ -44,9 +44,10 @@ public class PractiseDao implements ICRUD<Practice, Integer> {
 	}
 
 	@Override
+	@Transactional
 	public void delete(Practice entity) {
 		// TODO Auto-generated method stub
-		
+		this.sessionFactory.getCurrentSession().delete(entity);
 	}
 
 	@Override

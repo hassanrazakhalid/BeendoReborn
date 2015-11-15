@@ -3,6 +3,7 @@ package com.Beendo.Entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ public class CEntitiy {
 	private Integer id;
 	private String name;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Practice> practiceList = new ArrayList<Practice>();
 	
 	@OneToMany

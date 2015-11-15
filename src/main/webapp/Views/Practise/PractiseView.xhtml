@@ -20,8 +20,7 @@
 
 			<h:form>
 				<p:commandButton value="Create Practise"
-					action="#{practiseController.createClicked()}"
-					resetValues="true"
+					action="#{practiseController.createClicked()}" resetValues="true"
 					oncomplete="PF('dlg2').show()" update=":createForm">
 				</p:commandButton>
 			</h:form>
@@ -51,8 +50,7 @@
 							update=":createForm, :practiseTable" />
 						<p:commandButton value="remove"
 							action="#{practiseController.remove(practise)}"
-							update=":practiseTable"
-							resetValues="true">
+							update=":practiseTable" resetValues="true">
 
 							<p:confirm header="Confirmation" message="Are you sure?"
 								icon="ui-icon-alert" />
@@ -81,9 +79,7 @@
 
 						<p:outputLabel for="practiseName" value="Practise Name:" />
 						<p:inputText id="practiseName" label="Practise Name"
-							required="true"
-							
-							value="#{practiseController.practise.name}">
+							required="true" value="#{practiseController.practise.name}">
 							<!-- <f:validateLength minimum="5" /> -->
 							<p:ajax event="keyup" update="msgs,iconAlertName"></p:ajax>
 							<f:validator validatorId="custom.PractiseValidator" />
@@ -92,13 +88,26 @@
 						<!-- <h:panelGroup> -->
 
 						<p:outputLabel for="entities" value="Entity: " />
-						<p:selectOneMenu id="entities"
+						<p:selectOneMenu id="entities" value="#{practiseController.currentEntity}"
+							converter="practiseConverter" panelStyle="width:180px" effect="fade" 
+							var="t" style="width:160px" filter="true"
+							filterMatchMode="startsWith">
+							
+							<f:selectItems value="#{practiseController.listEntities}" var="entity"
+								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
+						
+						<!-- <p:selectOneMenu id="entities"
 							value="#{practiseController.entityName}" style="width:150px">
-							<!-- <p:ajax listener="#{dropdownView.onCountryChange}" /> -->
+							<p:ajax listener="#{dropdownView.onCountryChange}" />
 							<f:selectItem itemLabel="Select Entity" itemValue=""
 								noSelectionOption="true" />
 							<f:selectItems value="#{practiseController.listEntities}" />
-						</p:selectOneMenu>
+						</p:selectOneMenu> -->
 						<!-- </h:panelGroup> -->
 					</h:panelGrid>
 
@@ -107,8 +116,7 @@
 					<p:commandButton value="Submit" validateClient="true"
 						action="#{practiseController.createEditLogic()}"
 						update=":practiseTable, createForm" icon="ui-icon-check"
-						oncomplete="handleDialogSubmit(args,'dlg2')"
-						 />
+						oncomplete="handleDialogSubmit(args,'dlg2')" />
 					<!--  </p:panel> -->
 				</h:form>
 

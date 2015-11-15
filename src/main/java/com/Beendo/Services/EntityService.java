@@ -1,12 +1,19 @@
 package com.Beendo.Services;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.ICRUD;
+import com.Beendo.Dao.IEntity;
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.Practice;
 
 
 
@@ -14,8 +21,38 @@ import com.Beendo.Entities.CEntitiy;
 public class EntityService {
 
 	@Autowired
-	private ICRUD<CEntitiy, Integer> _service;
+	private IEntity _service;
 	
+//	private List<CEntitiy> listEntities;
+	private HashMap<Integer, CEntitiy> hashEntities;
+	
+	
+	@PostConstruct
+	private void init(){
+		
+	List<CEntitiy>	listEntities = this.findAll();
+		hashEntities = new HashMap<Integer, CEntitiy>();
+		for(int i=0; i < listEntities.size(); i++)
+		{
+			CEntitiy entity = listEntities.get(i);
+			hashEntities.put(entity.getId(), entity);
+		}
+		
+	}
+	
+	public List<CEntitiy> getAllEntities(){
+		
+		Collection<CEntitiy> col =  hashEntities.values();
+		List<CEntitiy> list = new ArrayList(col);
+		return list;
+//		return (List<CEntitiy>) hashEntities.values();
+		
+	}
+
+	public CEntitiy getEntityById(Integer id)
+	{
+		return hashEntities.get(id);
+	}
 	public void save(CEntitiy entity)
 	{
 		_service.save(entity);
@@ -31,4 +68,5 @@ public class EntityService {
 		return _service.findAll();
 	}
 	
+	// Practise Code
 }

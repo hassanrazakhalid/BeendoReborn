@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.Practice;
 
 @Repository
-public class EntityDao implements ICRUD<CEntitiy, Integer> {
+public class EntityDao implements IEntity {
 
 	
 	@Autowired
@@ -67,5 +68,4 @@ public class EntityDao implements ICRUD<CEntitiy, Integer> {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

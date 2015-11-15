@@ -31,7 +31,7 @@ public class PractiseService {
 		iPractise.update(practise);
 	}
 
-	public List<Practice> isNameExist(List<Practice> practises,String name){
+	public static List<Practice> isNameExist(List<Practice> practises,String name){
 		
 		return filterEmployees(practises, getUserNamePredicate(name));
 	}
@@ -44,4 +44,9 @@ public class PractiseService {
 
 		 return p -> p.getName().equalsIgnoreCase(name);
 	 }
+
+	public void remove(Practice sender) {
+		// TODO Auto-generated method stub
+		iPractise.delete(sender);
+	}
 }

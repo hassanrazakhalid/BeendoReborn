@@ -10,7 +10,9 @@ import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Utils.SharedData;
 
@@ -23,23 +25,31 @@ import lombok.Setter;
 public class PractiseController {
 
 	private String entityName;
-	private List<String> listEntities;
+	private List<CEntitiy> listEntities;
 	private List<Practice> listPractise;
 
+	private CEntitiy currentEntity;
+	
 	private Boolean isEditMode;
 
 	@Autowired
 	private PractiseService practiseService;
 	
+	@Autowired
+	private EntityService entityService;
+	
 	private Practice practise = new Practice();
 
 	public String viewPractise() {
 
-		listEntities = new ArrayList<String>();
+/*		listEntities = new ArrayList<String>();
 		listEntities.add("ABV");
 		listEntities.add("XYZ");
-
-		listPractise = new ArrayList<Practice>();
+*/
+		listEntities = entityService.getAllEntities(); 
+		listPractise = practiseService.fetchAll();
+		
+		/*listPractise = new ArrayList<Practice>();
 
 		Practice tmpPractise = new Practice();
 		tmpPractise.setId(1);
@@ -52,7 +62,7 @@ public class PractiseController {
 		tmpPractise.setName("PKPK");
 
 		listPractise.add(tmpPractise);
-		
+*/		
 		SharedData.getSharedInstace().addPactiseList(listPractise);
 		
 		return "Practise/PractiseView?faces-redirect=true";
@@ -106,8 +116,9 @@ public class PractiseController {
 			List<Practice> result =	practiseService.isNameExist(listPractise, practise.getName());
 			if(result.size() <= 0)
 			{
-				practiseService.save(practise);
-				practise.setId(3);
+				currentEntity.getPracticeList().add(practise);
+				entityService.save(currentEntity);
+//				practiseService.save(practise);
 				listPractise.add(practise);
 //				initNewPractise();				
 			}
@@ -126,6 +137,7 @@ public class PractiseController {
 	public void remove(Practice sender) {
 
 		listPractise.remove(sender);
+		practiseService.remove(sender);
 
 	}
 
