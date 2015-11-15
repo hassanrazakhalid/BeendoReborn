@@ -28,12 +28,14 @@
     
 				    <p:dataTable value="#{roleController.roles}" var="role" >
 
-						<p:column headerText="Role Name">
-							#{role.name}
+						<p:column headerText="Role Name"> 
+							 #{role.name} 
 						</p:column>
 						
 						<p:column headerText="Provider Add">
-							#{role.canProviderAdd}
+							<!-- <p:commandButton icon="ui-icon-copy"
+								style="border:0px solid black; background-color: transparent;" /> -->
+							 #{role.canProviderAdd} 
 						</p:column>
 						
 						<p:column headerText="Provider Edit">
@@ -61,7 +63,7 @@
 								oncomplete="PF('Dlg1').show();" 
 								 action="#{roleController.updateClicked(role)}" />
 								 
-							<p:commandButton icon="ui-icon-copy" update=":myForm"
+							<p:commandButton icon="ui-icon-copy" update=":myForm" 
 								oncomplete="PF('Dlg1').show();"
 								actionListener="roleController.assignCopyToCurrent" 
 								 action="#{roleController.copyClicked(role)}" />

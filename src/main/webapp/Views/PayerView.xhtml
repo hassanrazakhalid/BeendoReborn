@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 </h:head>
@@ -27,6 +28,10 @@
 				 <h:form id="mainForm"> 
     
 				    <p:dataTable value="#{payerController.payers}" var="payer" >
+
+						<p:column headerText="Payer Name">
+							#{payer.name}
+						</p:column>
 
 						<p:column headerText="Company Name">
 							#{payer.companyName}
@@ -74,24 +79,44 @@
 				    
 				  <h:form id="myForm">
 				  
-				  	<h:panelGrid columns="2" cellpadding="8">   
+				  	<h:panelGrid columns="2" cellpadding="8">  
+				  	 
+				  	 	<p:inputText value="#{payerController.payer.name}" placeholder="Payer Name" required="true" />
 			            <p:inputText value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" /> 
-			            <p:inputText value="#{payerController.payer.planName}" placeholder="Plan Name" required="true" />  
-			        </h:panelGrid>  
-			        
-			        <h:panelGrid columns="2" cellpadding="8">   
+			            
+			            <p:inputText value="#{payerController.payer.planName}" placeholder="Plan Name" required="true" />   			       
 			            <p:inputText value="#{payerController.payer.phoneNumber}" placeholder="Phone Number" required="true" /> 
-			            <p:inputText value="#{payerController.payer.street}" placeholder="Street" required="true" />  
-			        </h:panelGrid> 
-			        
-			        <h:panelGrid columns="2" cellpadding="8">   
+			            
+			            <p:inputText value="#{payerController.payer.street}" placeholder="Street" required="true" />   			          
 			            <p:inputText value="#{payerController.payer.city}" placeholder="City" required="true" /> 
-			            <p:inputText value="#{payerController.payer.state}" placeholder="State" required="true" />  
-			        </h:panelGrid> 
+			            
+			            <p:inputText value="#{payerController.payer.state}" placeholder="State" required="true" />
+			            <p:inputText value="#{payerController.payer.zip}" placeholder="Zip Code" required="true" />
+			            
+			            
+			            <p:selectOneMenu value="#{payerController.payer.par}" style="width:175px">
+				            <f:selectItem itemLabel="PAR" itemValue="PAR" />
+				            <f:selectItem itemLabel="Non-Par" itemValue="Non-Par" />
+				        </p:selectOneMenu>
+			               
+			            <p:selectOneMenu value="#{payerController.payer.appPackageComplete}" style="width:175px">
+				            <f:selectItem itemLabel="Application Package Complete" itemValue="Application Package Complete" />
+				            <f:selectItem itemLabel="Application Filed" itemValue="Application Filed" />
+				        </p:selectOneMenu>
+				        
+				        <p:selectOneMenu value="#{payerController.payer.appAccepted}" style="width:175px">
+				            <f:selectItem itemLabel="Application Accepted" itemValue="Application Accepted" />
+				            <f:selectItem itemLabel="Application Rejected" itemValue="Application Rejected" />
+				        </p:selectOneMenu>
+				        
+				        <p:selectOneMenu value="#{payerController.payer.effectiveDateAssigned}" style="width:175px">
+				            <f:selectItem itemLabel="Effective Date Assigned" itemValue="Effective Date Assigned" />
+				            <f:selectItem itemLabel="Letter Received" itemValue="Letter Received" />
+				        </p:selectOneMenu>
 			        
-			        <h:panelGrid columns="2" cellpadding="8">   
-			            <p:inputText value="#{payerController.payer.zip}" placeholder="Zip Code" required="true" />   
-			        </h:panelGrid>  
+			        </h:panelGrid>   
+			        
+			        
 
 					<br />
 				  

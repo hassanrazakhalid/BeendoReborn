@@ -18,6 +18,7 @@ public class Payer {
 	@Id
 	@GeneratedValue
 	private Integer id;
+	private String name;
 	private String companyName;
 	private String planName;
 	private String phoneNumber;
@@ -25,5 +26,10 @@ public class Payer {
 	private String city;
 	private String state;
 	private String zip;
+	
+	private String par;
+	private String appPackageComplete;
+	private String appAccepted;	
+	private String effectiveDateAssigned;
 	
 }
