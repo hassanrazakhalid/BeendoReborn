@@ -21,7 +21,9 @@ import lombok.Setter;
 @Getter
 @Controller
 public class UserController {
-
+	
+	private Boolean sendEmail;
+	
 	@Autowired
 	private EntityService entityService;
 
