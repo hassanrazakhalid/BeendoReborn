@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head></h:head>
+
+
+<h:body>
+	<ui:composition template="/Views/Template/MainTemplate.xhtml">
+		<ui:define name="pageTitle">
+            Welcome [UserView.xhtml]
+        </ui:define>
+
+		<ui:define name="mainContent">
+
+			<h:form>
+
+				<p:commandButton action="userController.createUserClicked()"
+					value="Create User" oncomplete="PF('userCreateDialog').show()"></p:commandButton>
+			</h:form>
+
+
+
+			<p:dialog header="Create User" modal="true"
+				widgetVar="userCreateDialog">
+
+				<h:form id="userForm">
+
+					<p:panelGrid id="panelGrid" columns="2">
+						<p:outputLabel for="tfUsername" value="UserName:" />
+						<p:inputText id="tfUsername" value="${userController.user.name}"></p:inputText>
+
+						<p:outputLabel for="listEntity" value="Select Entity:" />
+						<p:selectOneMenu id="listEntity"
+							value="#{userController.selectedEntity}"
+							converter="entityConverter" panelStyle="width:180px"
+							effect="fade" var="t" style="width:160px" filter="true"
+							filterMatchMode="startsWith">
+
+							<f:selectItems value="#{userController.listEntities}"
+								var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+							<p:ajax event="change" execute="@this"
+								listener="#{userController.entityChanged()}"
+								update="listPractise"></p:ajax>
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
+
+						<p:outputLabel for="listPractise" value="Select Practise:" />
+						<p:selectOneMenu id="listPractise"
+							value="#{userController.selectedPractise}"
+							panelStyle="width:180px" effect="fade" var="t"
+							style="width:160px" filter="true" filterMatchMode="startsWith">
+							<f:selectItems value="#{userController.listPractise}"
+								var="practise" itemLabel="#{practise.name}"
+								itemValue="#{practise}" />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
+
+						<p:outputLabel for="listRoles" value="Select Role:" />
+						<p:selectOneMenu id="listRoles"
+							value="#{userController.selectedRole}" panelStyle="width:180px"
+							effect="fade" var="t" style="width:160px">
+
+							<f:selectItems value="#{userController.listRoles}" var="role"
+								itemLabel="#{role.name}" itemValue="#{role}" />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
+
+						<h:outputText value="Can Create User: " />
+						<p:selectBooleanCheckbox
+							value="#{userController.user.canCreateUser}" />
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
+
+		</ui:define>
+	</ui:composition>
+
+
+</h:body>
+
+</html>

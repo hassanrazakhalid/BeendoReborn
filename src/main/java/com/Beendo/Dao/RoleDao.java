@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.Beendo.Entities.Role_Permission;
 
 @Repository
-public class RoleDao implements ICRUD<Role_Permission, Integer> {
+public class RoleDao implements IRole {
 
 	@Autowired
     private SessionFactory sessionFactory;

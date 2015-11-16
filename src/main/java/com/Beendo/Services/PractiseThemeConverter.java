@@ -17,7 +17,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Utils.SharedData;
 
 @Controller
-@FacesConverter("practiseConverter")
+@FacesConverter("entityConverter")
 public class PractiseThemeConverter implements Converter {
 	
 	/*@Autowired

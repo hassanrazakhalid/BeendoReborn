@@ -24,28 +24,11 @@
 					<p:menuitem value="Quit" url="#" />
 				</p:submenu>
 
-				<p:submenu label="Edit" icon="ui-icon-pencil">
-					<p:menuitem value="Undo" url="#"
-						icon="ui-icon-arrowreturnthick-1-w" />
-					<p:menuitem value="Redo" url="#"
-						icon="ui-icon-arrowreturnthick-1-e" />
-				</p:submenu>
-
-				<p:submenu label="Help" icon="ui-icon-help">
-					<p:menuitem value="Contents" url="#" />
-					<p:submenu label="Search" icon="ui-icon-search">
-						<p:submenu label="Text">
-							<p:menuitem value="Workspace" url="#" />
-						</p:submenu>
-						<p:menuitem value="File" url="#" />
-					</p:submenu>
+				<p:submenu label="User" icon="ui-icon-help">
+					<p:menuitem value="UserView" action="#{userController.showUserMainView()}" />
 				</p:submenu>
 
 				<p:submenu label="Practise" icon="ui-icon-gear">
-					<p:menuitem value="Create"
-						actionListener="#{practiseController.showCreatePractiseView}"
-						icon="ui-icon-disk">
-					</p:menuitem>
 					<p:menuitem value="View"
 						action="#{practiseController.viewPractise()}"
 						icon="ui-icon-arrowrefresh-1-w" />

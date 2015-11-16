@@ -24,14 +24,13 @@ public class EntityService {
 	private IEntity _service;
 	
 //	private List<CEntitiy> listEntities;
-	private HashMap<Integer, CEntitiy> hashEntities;
+	private HashMap<Integer, CEntitiy> hashEntities = new HashMap<Integer, CEntitiy>();
 	
 	
 	@PostConstruct
 	private void init(){
 		
 	List<CEntitiy>	listEntities = this.findAll();
-		hashEntities = new HashMap<Integer, CEntitiy>();
 		for(int i=0; i < listEntities.size(); i++)
 		{
 			CEntitiy entity = listEntities.get(i);
