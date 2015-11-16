@@ -1,0 +1,141 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+
+<h:body>
+
+	<h:body>
+		<ui:composition template="/Views/Template/MainTemplate.xhtml">
+			<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+        </ui:define>
+
+			<ui:define name="mainContent">
+				<h2>Payer Details</h2>
+				
+				<h:form>
+					<p:commandButton value="Create" update=":myForm"
+						action="#{providerController.clearData()}"
+								oncomplete="PF('Dlg1').show();" />
+								
+					<br/>
+				</h:form>
+				
+				 <h:form id="mainForm"> 
+    
+				    <p:dataTable value="#{providerController.providerList}" var="provider" >
+
+						<p:column headerText="Provider Name">
+							#{provider.name}
+						</p:column>
+
+						<p:column headerText="Npi Number">
+							#{provider.npiNum}
+						</p:column>
+
+						
+						<p:column headerText="Edit" width="80">
+							<p:commandButton icon="ui-icon-pencil" update=":myForm"
+								oncomplete="PF('Dlg1').show();" 
+								 action="#{providerController.updateClicked(provider)}" />
+						</p:column>
+		
+					</p:dataTable>
+				    
+				 </h:form>
+				
+				
+				
+				<!-- ADD / EDIT DIALOG -->
+				
+				<p:dialog header="Provider"  modal="true" position="top" widgetVar="Dlg1" minHeight="40">
+				    
+				  <h:form id="myForm">
+				  
+				  	<h:panelGrid columns="2" cellpadding="8">  
+				  	 
+				  	 
+				  	 	<!-- <p:selectOneMenu id="entities"
+							value="#{providerController.currentEntity}" style="width:177px">
+							<f:selectItem itemLabel="Select Entity" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{providerController.entityList}" />
+						</p:selectOneMenu> -->
+						
+						<p:selectOneMenu id="entities" value="#{providerController.currentEntity}"
+							panelStyle="width:180px" effect="fade"
+							converter="entityConverter"  
+							var="t" style="width:177px" filter="true"
+							filterMatchMode="startsWith">
+							
+							<p:ajax listener="#{providerController.onEntityChange}" update="myPractices" />
+							
+							
+							<f:selectItems value="#{providerController.entityList}" var="entity"
+								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
+						
+						
+						<p:selectCheckboxMenu id="myPractices" value="#{providerController.provider.practiceList}" label="Select Practices"
+				            filter="true" filterMatchMode="startsWith" style="width:177px" panelStyle="width:250px">
+				            
+				            <f:selectItems value="#{providerController.practiceList}" var="practice"
+								itemLabel="#{practice.name}" itemValue="#{practice}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+				            
+				        </p:selectCheckboxMenu>
+						
+						
+					  <p:selectCheckboxMenu value="#{providerController.provider.payerList}" label="Select Payers"
+				            filter="true" filterMatchMode="startsWith" style="width:177px" panelStyle="width:250px">
+				            
+				            <f:selectItems value="#{providerController.payerList}" var="payer"
+								itemLabel="#{payer.name}" itemValue="#{payer}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+				            
+				        </p:selectCheckboxMenu> 
+						
+				  	 
+				  	 	<p:inputText value="#{providerController.provider.name}" placeholder="Provider Name" required="true" />
+			            <p:inputText value="#{providerController.provider.npiNum}" placeholder="Npi Number" required="true" /> 
+			            
+			       
+			        </h:panelGrid>   
+			        
+			        
+
+					<br />
+				  
+				  	<p:commandButton value="Save" action="#{providerController.saveInfo()}"
+				    		oncomplete="PF('Dlg1').hide();" 
+				    		 update="myForm, :mainForm" />
+					
+				  </h:form>
+
+				</p:dialog>
+				
+				
+				
+				
+			</ui:define>
+		</ui:composition>
+	</h:body>
+
+
+</h:body>
+
+</html>

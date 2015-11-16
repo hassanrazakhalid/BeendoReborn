@@ -3,6 +3,7 @@ package com.Beendo.Entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -32,4 +33,6 @@ public class Payer {
 	private String appAccepted;	
 	private String effectiveDateAssigned;
 	
+	@ManyToOne
+	private Provider provider;
 }

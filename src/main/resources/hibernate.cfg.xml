@@ -36,6 +36,7 @@
  		<mapping class="com.Beendo.Entities.Practice"/>
  		<mapping class="com.Beendo.Entities.CEntitiy"/>
  		<mapping class="com.Beendo.Entities.Provider"/>
+ 		<mapping class="com.Beendo.Entities.Payer"/>
  		 
     </session-factory>
 </hibernate-configuration>

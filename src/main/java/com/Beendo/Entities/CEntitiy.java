@@ -24,10 +24,10 @@ public class CEntitiy {
 	private Integer id;
 	private String name;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity")
 	private List<Practice> practiceList = new ArrayList<Practice>();
 	
-	@OneToMany
+	/*@OneToMany
 	private List<Provider> providerList = new ArrayList<Provider>();
-	
+*/
 }

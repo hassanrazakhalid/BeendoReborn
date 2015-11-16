@@ -23,4 +23,6 @@ public class Practice {
 	@ManyToOne
 	private CEntitiy entity;
 	
+	@ManyToOne
+	private Practice practise;
 }

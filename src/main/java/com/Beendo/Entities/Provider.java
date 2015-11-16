@@ -3,10 +3,12 @@ package com.Beendo.Entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -23,5 +25,15 @@ public class Provider {
 	private Integer id;
 	private String name;
 	private String npiNum;
+	
+	
+	@OneToOne()
+	private CEntitiy centity = new CEntitiy();
+	
+	@OneToMany( mappedBy = "provider")
+	private List<Payer> payerList = new ArrayList<Payer>();
+	
+	@OneToMany( mappedBy = "practise")
+	private List<Practice> practiceList = new ArrayList<Practice>();
 	
 }
