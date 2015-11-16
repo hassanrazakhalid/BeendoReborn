@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 </h:head>
 
@@ -15,75 +16,97 @@
 
 			<ui:define name="mainContent">
 				<h2>Entity Details</h2>
-				
+
 				<h:form>
 					<p:commandButton value="Create" update=":addForm"
 						action="#{entityController.clearData()}"
-								oncomplete="PF('addDlg').show();" />
-								
-					<br/>
+						oncomplete="PF('addDlg').show();" />
+
+					<br />
 				</h:form>
-				
-				 <h:form id="entityTable"> 
-    
-				    <p:dataTable value="#{entityController.entities}" var="entity" >
+
+				<h:form id="entityTable">
+
+					<p:dataTable value="#{entityController.entities}" var="entity">
 
 						<p:column headerText="Enity Name">
 							#{entity.name}
 						</p:column>
-						
+
+						<p:column headerText="Practise">
+
+							<p:selectOneMenu id="advanced"
+								 panelStyle="width:180px"
+								effect="fade" var="t" style="width:160px" filter="true"
+								filterMatchMode="startsWith">
+								<f:selectItems value="#{entity.practiceList}" var="practise"
+									itemLabel="#{practise.name}" itemValue="#{practise}" />
+
+								<p:column>
+									<h:outputText value="#{t.name}" />
+								</p:column>
+								
+							</p:selectOneMenu>
+
+						</p:column>
+
 						<p:column headerText="Edit" width="80">
 							<p:commandButton icon="ui-icon-pencil" update=":editForm"
-								oncomplete="PF('editDlg').show();" 
-								 action="#{entityController.setEntity(entity)}" />
+								oncomplete="PF('editDlg').show();"
+								action="#{entityController.setEntity(entity)}" />
 						</p:column>
-		
+
 					</p:dataTable>
-				    
-				 </h:form>
-				
-				
+
+				</h:form>
+
+
 				<!-- EDIT ENTITY -->
-				
-				<p:dialog header="Edit"  modal="true" position="top" widgetVar="editDlg" minHeight="40">
-				    
-				  <h:form id="editForm">
-					<div>
-				    	Entity Name: 
-				    	<p:inputText value="#{entityController.entity.name}" />
-				    	
-				    	<br /><br />
-				    	<p:commandButton value="Save" action="#{entityController.editPressed()}"
-				    		oncomplete="PF('editDlg').hide();" 
-				    		 update="editForm, :entityTable" />
-				    	
-				    </div>	
-				  </h:form>
+
+				<p:dialog header="Edit" modal="true" position="top"
+					widgetVar="editDlg" minHeight="40">
+
+					<h:form id="editForm">
+						<div>
+							Entity Name:
+							<p:inputText value="#{entityController.entity.name}" />
+
+							<br />
+							<br />
+							<p:commandButton value="Save"
+								action="#{entityController.editPressed()}"
+								oncomplete="PF('editDlg').hide();"
+								update="editForm, :entityTable" />
+
+						</div>
+					</h:form>
 
 				</p:dialog>
-				
-				
+
+
 				<!-- CREATE ENTITY -->
-				
-				<p:dialog header="Add" widgetVar="addDlg" position="top" modal="true" minHeight="40">
-				    
-				  <h:form id="addForm">
-					<div>
-				    	Entity Name: 
-				    	<p:inputText value="#{entityController.entity.name}" />
-				    	
-				    	<br /><br />
-				    	<p:commandButton value="Save" action="#{entityController.createPressed()}"
-				    		oncomplete="PF('addDlg').hide();" 
-				    		 update="addForm, :entityTable" />
-				    	
-				    </div>	
-				  </h:form>
+
+				<p:dialog header="Add" widgetVar="addDlg" position="top"
+					modal="true" minHeight="40">
+
+					<h:form id="addForm">
+						<div>
+							Entity Name:
+							<p:inputText value="#{entityController.entity.name}" />
+
+							<br />
+							<br />
+							<p:commandButton value="Save"
+								action="#{entityController.createPressed()}"
+								oncomplete="PF('addDlg').hide();" update="addForm, :entityTable" />
+
+						</div>
+					</h:form>
 
 				</p:dialog>
-				
-				
-				
+
+
+
 			</ui:define>
 		</ui:composition>
 	</h:body>

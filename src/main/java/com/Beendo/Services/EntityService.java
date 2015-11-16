@@ -56,6 +56,7 @@ public class EntityService {
 	public void save(CEntitiy entity)
 	{
 		_service.save(entity);
+		hashEntities.put(entity.getId(), entity);
 	}
 	
 	public void update(CEntitiy entity)

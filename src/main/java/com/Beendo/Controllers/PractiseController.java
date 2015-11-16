@@ -30,7 +30,7 @@ public class PractiseController {
 
 	private CEntitiy currentEntity;
 	
-	private Boolean isEditMode;
+	private boolean isEditMode;
 
 	@Autowired
 	private PractiseService practiseService;
@@ -117,10 +117,11 @@ public class PractiseController {
 			if(result.size() <= 0)
 			{
 				currentEntity.getPracticeList().add(practise);
-				entityService.save(currentEntity);
+				practise.setEntity(currentEntity);
+				entityService.update(currentEntity);
 //				practiseService.save(practise);
 				listPractise.add(practise);
-//				initNewPractise();				
+				initNewPractise();				
 			}
 			else
 			{

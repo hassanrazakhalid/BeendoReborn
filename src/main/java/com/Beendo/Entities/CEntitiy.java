@@ -24,7 +24,7 @@ public class CEntitiy {
 	private Integer id;
 	private String name;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="")
 	private List<Practice> practiceList = new ArrayList<Practice>();
 	
 	@OneToMany
