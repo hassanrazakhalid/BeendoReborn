@@ -34,4 +34,9 @@ public class UserService {
 		// TODO Auto-generated method stub
 		iUserDao.update(user);
 	}
+
+	public void remove(User sender) {
+		// TODO Auto-generated method stub
+		iUserDao.delete(sender);
+	}
 }

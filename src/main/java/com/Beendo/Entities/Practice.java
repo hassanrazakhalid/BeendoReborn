@@ -32,7 +32,4 @@ public class Practice {
 	
 	@ManyToOne
 	private Practice practise;
-//	, mappedBy="practise"
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<User> users = new HashSet<>(0);
 }

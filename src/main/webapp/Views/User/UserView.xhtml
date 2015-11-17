@@ -39,9 +39,42 @@
 					<p:column headerText="Entity">
 					#{user.entity.name}
 					</p:column>
-					<p:column headerText="Entity Id">
-					#{user.entity.id}
+					<p:column headerText="Practise">
+						<p:selectOneMenu id="userPractise" panelStyle="width:180px"
+							effect="fade" var="t" style="width:160px">
+
+							<f:selectItems value="#{user.practises}" var="practise"
+								itemLabel="#{practise.name}" itemValue="#{practise}" />
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
 					</p:column>
+
+					<p:column headerText="Operation">
+						<h:form>
+							<p:commandButton value="edit"
+								action="#{userController.editButtonClicked(user)}"
+								oncomplete="PF('userCreateDialog').show()"
+								update=":userForm" />
+							<p:commandButton value="remove"
+								action="#{userController.remove(user)}"
+								update=":userTable" resetValues="true">
+
+								<p:confirm header="Confirmation" message="Are you sure?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Yes" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="No" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+						</h:form>
+					</p:column>
+
 				</p:dataTable>
 			</h:form>
 
@@ -71,33 +104,30 @@
 							<f:selectItems value="#{userController.listEntities}"
 								var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
 							<p:ajax event="change" execute="@this"
-								listener="#{userController.entityChanged()}"
-								update=""></p:ajax>
+								listener="#{userController.entityChanged()}" update=""></p:ajax>
 
 							<p:column>
 								<h:outputText value="#{t.name}" />
 							</p:column>
 						</p:selectOneMenu>
 
-	 					<p:outputLabel for="listPractise" value="Select Practise:" />
+						<p:outputLabel for="listPractise" value="Select Practise:" />
 						<p:selectCheckboxMenu id="listPractise"
 							value="#{userController.selectedPractises}"
 							label="Select Practices" style="width:177px"
-							panelStyle="width:250px"
-							converter="practiseConverter"
-							>
+							panelStyle="width:250px" converter="practiseConverter">
 
 							<f:selectItems value="#{userController.listPractise}"
 								var="practice" itemLabel="#{practice.name}"
 								itemValue="#{practice}" />
 
-						</p:selectCheckboxMenu> 
-	
+						</p:selectCheckboxMenu>
+
 						<p:outputLabel for="listRoles" value="Select Role:" />
 						<p:selectOneMenu id="listRoles"
 							value="#{userController.selectedRole}" panelStyle="width:180px"
-							converter="roleConverter"
-							effect="fade" var="t" style="width:160px">
+							converter="roleConverter" effect="fade" var="t"
+							style="width:160px">
 
 							<f:selectItems value="#{userController.listRoles}" var="role"
 								itemLabel="#{role.name}" itemValue="#{role}" />
@@ -114,12 +144,11 @@
 						<p:selectBooleanCheckbox value="#{userController.sendEmail}" />
 
 					</p:panelGrid>
-					
+
 					<br />
 					<p:commandButton value="Save"
 						action="#{userController.createButtonClicked()}"
-						update=":userTable"
-						oncomplete="PF('userDialog').hide()" />
+						update=":userTable" oncomplete="PF('userDialog').hide()" />
 				</h:form>
 			</p:dialog>
 

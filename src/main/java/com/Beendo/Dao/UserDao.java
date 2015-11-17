@@ -52,9 +52,11 @@ public class UserDao implements IUserDao {
 		return null;
 	}
 
+	@Transactional
 	public void delete(User entity) {
 		// TODO Auto-generated method stub
-		
+	
+		sessionFactory.getCurrentSession().delete(entity);
 	}
 
 	@Transactional

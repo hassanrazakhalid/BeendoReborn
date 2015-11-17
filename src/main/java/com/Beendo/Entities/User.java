@@ -1,13 +1,18 @@
 package com.Beendo.Entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +38,7 @@ public class User {
 	@OneToOne
 	private CEntitiy entity;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Practice practise;
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Practice> practises = new HashSet<>(0);
 	
 }

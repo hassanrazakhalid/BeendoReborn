@@ -54,6 +54,7 @@ public class UserController {
 	public String showUserMainView() {
 
 		init();
+		initUserList();
 		return "User/UserView";
 	}
 
@@ -109,7 +110,7 @@ public class UserController {
 //		Collection<CEntitiy> col =  hashEntities.values();
 //		List<CEntitiy> list = new ArrayList(col);
 		
-		for (Object obj : selectedPractises) {
+	/*	for (Object obj : selectedPractises) {
 
 			Practice practise = (Practice)obj;
 			user.setPractise(practise);
@@ -117,14 +118,14 @@ public class UserController {
 			System.out.println("asdsad");
 			
 		}
-	}
+*/	}
 	
 	public void createButtonClicked(){
 		
 		if(isEditMode == false)
 		{
 			user.setEntity(selectedEntity);
-			
+			user.getPractises().addAll(selectedPractises);
 			user.setRole(selectedRole);
 			addUserToSelectedPractise();
 			userService.save(user);
@@ -137,10 +138,15 @@ public class UserController {
 		}
 	}
 	
-	public void editButtonClicked(){
+	public void editButtonClicked(User sender){
 		
+		user = sender;
 		isEditMode = true;
 	}
 	
-	// Get Practse Obj
+	public void remove(User sender){
+		
+		userService.remove(sender);
+		listUsers.remove(sender);
+	}
 }
