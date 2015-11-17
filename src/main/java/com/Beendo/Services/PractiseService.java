@@ -49,4 +49,20 @@ public class PractiseService {
 		// TODO Auto-generated method stub
 		iPractise.delete(sender);
 	}
-}
+	
+	// GET practise ID From List
+	
+/*	public static Practice getPractiseIdByList(List<Practice> practises, Integer name){
+		
+		return filtePractiseId(practises, getPractiseIdPredicate(name));
+	}
+	
+	private static Practice filtePractiseId (List<Practice> practiseList, Predicate<Practice> predicate) {
+        return practiseList.stream().filter( predicate ).collect(Collectors.<Practice>toList());
+    }
+	
+	private static Predicate getPractiseIdPredicate(Integer name){
+
+		 return p -> p.getId().compareTo(name);
+	 }
+*/}

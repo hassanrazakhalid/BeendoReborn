@@ -21,9 +21,31 @@
 					value="Create User" oncomplete="PF('userCreateDialog').show()"></p:commandButton>
 			</h:form>
 
+			<h:form id="userTable">
+				<p:dataTable value="${userController.listUsers}" var="user">
 
+					<p:column headerText="Name">
+					#{user.name}
+					</p:column>
+					<p:column headerText="Email">
+					#{user.email}
+					</p:column>
+					<p:column headerText="Password">
+					#{user.password}
+					</p:column>
+					<p:column headerText="Role">
+					#{user.role.name}
+					</p:column>
+					<p:column headerText="Entity">
+					#{user.entity.name}
+					</p:column>
+					<p:column headerText="Entity Id">
+					#{user.entity.id}
+					</p:column>
+				</p:dataTable>
+			</h:form>
 
-			<p:dialog header="Create User" modal="true"
+			<p:dialog id="userDialog" header="Create User" modal="true"
 				widgetVar="userCreateDialog">
 
 				<h:form id="userForm">
@@ -31,9 +53,13 @@
 					<p:panelGrid id="panelGrid" columns="2">
 						<p:outputLabel for="tfUsername" value="UserName:" />
 						<p:inputText id="tfUsername" value="${userController.user.name}"></p:inputText>
-						
+
 						<p:outputLabel for="tfPassword" value="Password:" />
-						<p:inputText id="tfPassword" value="${userController.user.password}"></p:inputText>
+						<p:inputText id="tfPassword"
+							value="${userController.user.password}"></p:inputText>
+
+						<p:outputLabel for="tfEmail" value="Email:" />
+						<p:inputText id="tfEmail" value="${userController.user.email}"></p:inputText>
 
 						<p:outputLabel for="listEntity" value="Select Entity:" />
 						<p:selectOneMenu id="listEntity"
@@ -46,30 +72,31 @@
 								var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
 							<p:ajax event="change" execute="@this"
 								listener="#{userController.entityChanged()}"
-								update="listPractise"></p:ajax>
+								update=""></p:ajax>
 
 							<p:column>
 								<h:outputText value="#{t.name}" />
 							</p:column>
 						</p:selectOneMenu>
 
-						<p:outputLabel for="listPractise" value="Select Practise:" />
-						<p:selectOneMenu id="listPractise"
-							value="#{userController.selectedPractise}"
-							panelStyle="width:180px" effect="fade" var="t"
-							style="width:160px" filter="true" filterMatchMode="startsWith">
+	 					<p:outputLabel for="listPractise" value="Select Practise:" />
+						<p:selectCheckboxMenu id="listPractise"
+							value="#{userController.selectedPractises}"
+							label="Select Practices" style="width:177px"
+							panelStyle="width:250px"
+							converter="practiseConverter"
+							>
+
 							<f:selectItems value="#{userController.listPractise}"
-								var="practise" itemLabel="#{practise.name}"
-								itemValue="#{practise}" />
+								var="practice" itemLabel="#{practice.name}"
+								itemValue="#{practice}" />
 
-							<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column>
-						</p:selectOneMenu>
-
+						</p:selectCheckboxMenu> 
+	
 						<p:outputLabel for="listRoles" value="Select Role:" />
 						<p:selectOneMenu id="listRoles"
 							value="#{userController.selectedRole}" panelStyle="width:180px"
+							converter="roleConverter"
 							effect="fade" var="t" style="width:160px">
 
 							<f:selectItems value="#{userController.listRoles}" var="role"
@@ -84,9 +111,15 @@
 						<p:selectBooleanCheckbox
 							value="#{userController.user.canCreateUser}" />
 						<h:outputText value="Send Email: " />
-						<p:selectBooleanCheckbox
-							value="#{userController.sendEmail}" />
+						<p:selectBooleanCheckbox value="#{userController.sendEmail}" />
+
 					</p:panelGrid>
+					
+					<br />
+					<p:commandButton value="Save"
+						action="#{userController.createButtonClicked()}"
+						update=":userTable"
+						oncomplete="PF('userDialog').hide()" />
 				</h:form>
 			</p:dialog>
 

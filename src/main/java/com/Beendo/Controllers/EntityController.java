@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +34,12 @@ public class EntityController {
 	public String viewEntity()
 	{
 		entities = entityService.findAll();
-		//return "Entity/EntityView?faces-redirect=true";
 		return "EntityView";
-	}
+/*		HttpServletRequest request =(HttpServletRequest)	FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		String path = request.getContextPath();
+//		String pathInfo = request.getPathInfo();
+		
+*/	}
 	
 //	public void createEntity()
 //	{		

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -27,6 +28,8 @@ public class CEntitiy {
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity")
 	private List<Practice> practiceList = new ArrayList<Practice>();
 	
+	/*@OneToOne
+	private User user;*/
 	/*@OneToMany
 	private List<Provider> providerList = new ArrayList<Provider>();
 */

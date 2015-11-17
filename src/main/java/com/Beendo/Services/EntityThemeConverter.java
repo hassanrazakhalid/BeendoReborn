@@ -13,13 +13,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.Beendo.Controllers.UserController;
 import com.Beendo.Entities.CEntitiy;
-import com.Beendo.Entities.Practice;
 import com.Beendo.Utils.SharedData;
 
-@FacesConverter("practiseConverter")
-public class PractiseThemeConverter implements Converter {
+@Controller
+@FacesConverter("entityConverter")
+public class EntityThemeConverter implements Converter {
 	
 	/*@Autowired
 	private SharedData sharedData;*/
@@ -40,11 +39,11 @@ public class PractiseThemeConverter implements Converter {
             try {
             	
             	
-            	UserController userController = (UserController) getSpringContext().getBean("userController");
+            	EntityService entityService = (EntityService) getSpringContext().getBean("entityService");
             	
 //                EntityService service = (EntityService) context.getExternalContext().getApplicationMap().get("themeService");
 //                return service.getThemes().get(Integer.parseInt(value));
-            	Practice entity = userController.getPractiseById((Integer.parseInt(value)));
+            	CEntitiy entity = entityService.getEntityById(Integer.parseInt(value));
             	return entity;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
@@ -60,7 +59,7 @@ public class PractiseThemeConverter implements Converter {
 		// TODO Auto-generated method stub
 		if(value != null)
 		{
-			Practice entity = (Practice)value;
+			CEntitiy entity = (CEntitiy)value;
 			String index = String.valueOf(entity.getId()) ;
 			return index;
 		}

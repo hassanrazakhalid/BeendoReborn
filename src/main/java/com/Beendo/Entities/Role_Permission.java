@@ -3,6 +3,7 @@ package com.Beendo.Entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -24,6 +25,9 @@ public class Role_Permission {
 	private boolean canPayerEdit;
 	private boolean canPayerTransactionAdd;
 	private boolean canPayerTransactionEdit;
+	
+	@OneToOne
+	private User user;
 
 	public static Role_Permission copy(Role_Permission sender){
 		

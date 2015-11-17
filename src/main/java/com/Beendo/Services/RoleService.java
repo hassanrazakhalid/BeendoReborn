@@ -20,7 +20,7 @@ public class RoleService {
 	
 	@Autowired
 	private IRole service;
-	
+		
 	@PostConstruct
 	public void init(){
 		 
@@ -54,6 +54,11 @@ public class RoleService {
 	public List<Role_Permission> findAll()
 	{
 		return service.findAll();
+	}
+
+	public Role_Permission getEntityById(int parseInt) {
+		// TODO Auto-generated method stub
+		return hashRole.get(parseInt);
 	}
 	
 }

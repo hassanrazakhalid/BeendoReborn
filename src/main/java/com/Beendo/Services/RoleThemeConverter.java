@@ -13,13 +13,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.Beendo.Controllers.UserController;
 import com.Beendo.Entities.CEntitiy;
-import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Role_Permission;
 import com.Beendo.Utils.SharedData;
 
-@FacesConverter("practiseConverter")
-public class PractiseThemeConverter implements Converter {
+@Controller
+@FacesConverter("roleConverter")
+public class RoleThemeConverter implements Converter {
 	
 	/*@Autowired
 	private SharedData sharedData;*/
@@ -32,6 +32,11 @@ public class PractiseThemeConverter implements Converter {
                         .getContext());
 		 return ctx;
 	}
+	private RoleService getRoleService(){
+		
+		RoleService roleService = (RoleService) getSpringContext().getBean("roleService");
+		return roleService;
+	}
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
@@ -40,12 +45,11 @@ public class PractiseThemeConverter implements Converter {
             try {
             	
             	
-            	UserController userController = (UserController) getSpringContext().getBean("userController");
             	
 //                EntityService service = (EntityService) context.getExternalContext().getApplicationMap().get("themeService");
 //                return service.getThemes().get(Integer.parseInt(value));
-            	Practice entity = userController.getPractiseById((Integer.parseInt(value)));
-            	return entity;
+            	Role_Permission role = getRoleService().getEntityById(Integer.parseInt(value));
+            	return role;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
             }
@@ -60,7 +64,7 @@ public class PractiseThemeConverter implements Converter {
 		// TODO Auto-generated method stub
 		if(value != null)
 		{
-			Practice entity = (Practice)value;
+			Role_Permission entity = (Role_Permission)value;
 			String index = String.valueOf(entity.getId()) ;
 			return index;
 		}

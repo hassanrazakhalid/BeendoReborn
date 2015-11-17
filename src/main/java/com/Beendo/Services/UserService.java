@@ -29,4 +29,9 @@ public class UserService {
 		User user =	iUserDao.isUserValid(email, password);
 		return user;
 	}
+
+	public void update(User user) {
+		// TODO Auto-generated method stub
+		iUserDao.update(user);
+	}
 }
