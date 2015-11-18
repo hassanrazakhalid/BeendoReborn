@@ -31,7 +31,7 @@ public class Practice {
 	@ManyToOne
 	private CEntitiy entity;
 	
-	@ManyToOne
-	private Provider provider;
+	//@ManyToOne
+	//private Provider provider;
 
 }
