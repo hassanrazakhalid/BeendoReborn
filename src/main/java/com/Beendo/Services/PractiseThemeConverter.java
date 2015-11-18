@@ -1,5 +1,9 @@
 package com.Beendo.Services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -8,15 +12,12 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import javax.servlet.ServletContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.Beendo.Controllers.ProviderController;
 import com.Beendo.Controllers.UserController;
-import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
-import com.Beendo.Utils.SharedData;
 
 @FacesConverter("practiseConverter")
 public class PractiseThemeConverter implements Converter {
@@ -39,13 +40,23 @@ public class PractiseThemeConverter implements Converter {
 		if(value != null && value.trim().length() > 0) {
             try {
             	
+            	String viewId = context.getViewRoot().getViewId();
+            	Practice practise = null;
             	
-            	UserController userController = (UserController) getSpringContext().getBean("userController");
-            	
+            	if(viewId.contains("ProviderView.xhtml"))
+            	{
+            		ProviderController userController = (ProviderController) getSpringContext().getBean("providerController");
+            	practise = userController.hashPractise.get((Integer.parseInt(value)));
+            	}
+            	else
+            	{
+            		UserController userController = (UserController) getSpringContext().getBean("userController");
+            	}
 //                EntityService service = (EntityService) context.getExternalContext().getApplicationMap().get("themeService");
 //                return service.getThemes().get(Integer.parseInt(value));
-            	Practice entity = userController.getPractiseById((Integer.parseInt(value)));
-            	return entity;
+//            	Practice entity = userController.getPractiseById((Integer.parseInt(value)));
+            	 
+            	return practise;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
             }
@@ -61,6 +72,19 @@ public class PractiseThemeConverter implements Converter {
 		if(value != null)
 		{
 			Practice entity = (Practice)value;
+//			String viewId = context.getViewRoot().getViewId();
+//			
+//           	if(viewId.compareToIgnoreCase("ProviderView.xhtml") == 0)
+//        	{
+//        		ProviderController userController = (ProviderController) getSpringContext().getBean("providerController");
+//        	practise = userController.hashPractise.get((Integer.parseInt(value)));
+//        	}
+//        	else
+//        	{
+//        		UserController userController = (UserController) getSpringContext().getBean("userController");
+//        	}
+			
+//			hashPractise.put(entity.getId(), entity);
 			String index = String.valueOf(entity.getId()) ;
 			return index;
 		}

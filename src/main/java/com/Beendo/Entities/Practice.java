@@ -31,5 +31,8 @@ public class Practice {
 	private CEntitiy entity;
 	
 	@ManyToOne
-	private Practice practise;
+	private Provider provider;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<User> users = new HashSet<>(0);
 }

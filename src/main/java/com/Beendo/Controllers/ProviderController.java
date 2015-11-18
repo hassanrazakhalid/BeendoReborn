@@ -1,5 +1,7 @@
 package com.Beendo.Controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -39,16 +41,19 @@ public class ProviderController {
 	private List<Provider> providerList;
 	
 	private List<Practice> practiceList;
-	private List<Practice> selectedPractices;
+	//private List<Practice> selectedPractices;
 	
 	private List<Payer> payerList;
-	private List<Provider> selectedPayers;
+	//private List<Payer> selectedPayers;
 	
 	private List<CEntitiy> entityList;
-	private List<CEntitiy> entitySel;
+	//private List<CEntitiy> entitySel;
 	
 	private CEntitiy currentEntity;
 	private Boolean isEditMode;
+	
+	public HashMap<Integer, Practice> hashPractise = new HashMap<>();	
+
 	
 	public String view()
 	{
@@ -74,8 +79,7 @@ public class ProviderController {
 			showMessage("Provider has been updated");
 		}
 		else
-		{
-			Provider p = provider;
+		{	
 			providerList.add(provider);
 			providerService.save(provider);
 			showMessage("Provider has been saved");
@@ -94,6 +98,12 @@ public class ProviderController {
 	{
 		provider.setCentity(currentEntity);
 		practiceList = currentEntity.getPracticeList();
+		hashPractise.clear();
+		
+		for (Practice practice : practiceList) {
+			
+			hashPractise.put(practice.getId(), practice);
+		}
 	}
 	
 	

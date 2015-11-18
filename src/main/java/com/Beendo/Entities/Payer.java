@@ -33,6 +33,6 @@ public class Payer {
 	private String appAccepted;	
 	private String effectiveDateAssigned;
 	
-	@ManyToOne
-	private Provider provider;
+//	@ManyToOne
+//	private Provider provider;
 }

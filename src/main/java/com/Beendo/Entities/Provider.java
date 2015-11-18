@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,13 +29,18 @@ public class Provider {
 	private String npiNum;
 	
 	
-	@OneToOne()
+	@OneToOne(cascade=CascadeType.ALL)
 	private CEntitiy centity = new CEntitiy();
 	
-	@OneToMany( mappedBy = "provider")
+	//@JoinColumn(name = "id")
+	//@OneToMany(cascade=CascadeType.ALL, mappedBy = "PROVIDER")
+	//@OneToMany(fetch = FetchType.EAGER, mappedBy = "provider") 
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Payer> payerList = new ArrayList<Payer>();
 	
-	@OneToMany( mappedBy = "practise")
+	//@OneToMany(cascade=CascadeType.ALL, mappedBy = "PROVIDER")
+	//@OneToMany(fetch = FetchType.EAGER, mappedBy = "provider") 
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Practice> practiceList = new ArrayList<Practice>();
 	
 }
