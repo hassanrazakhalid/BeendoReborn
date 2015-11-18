@@ -7,7 +7,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,7 +26,7 @@ import lombok.Setter;
 public class User {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="User_Id")
 	private Integer id;
 	private String name;
@@ -32,13 +34,24 @@ public class User {
 	private String password;
 	private Boolean canCreateUser;
 	
-	@OneToOne(mappedBy = "user")
+	@OneToOne
 	private Role_Permission role;
 	
 	@OneToOne
 	private CEntitiy entity;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<Practice> practises = new HashSet<>(0);
 	
+	
+	public static User copy(User sender){
+		
+		User copyUser = new User();
+		copyUser.setEmail(sender.email);
+		copyUser.setName(sender.name);
+		copyUser.setCanCreateUser(sender.canCreateUser);
+		copyUser.setEntity(sender.entity);
+		copyUser.setPractises(sender.practises);
+		return copyUser;
+	}
 }

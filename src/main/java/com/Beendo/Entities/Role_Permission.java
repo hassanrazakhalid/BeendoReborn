@@ -26,7 +26,7 @@ public class Role_Permission {
 	private boolean canPayerTransactionAdd;
 	private boolean canPayerTransactionEdit;
 	
-	@OneToOne
+	@OneToOne(mappedBy = "role")
 	private User user;
 
 	public static Role_Permission copy(Role_Permission sender){

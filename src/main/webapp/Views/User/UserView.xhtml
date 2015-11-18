@@ -57,13 +57,14 @@
 								action="#{userController.editButtonClicked(user)}"
 								oncomplete="PF('userCreateDialog').show()"
 								update=":userForm" />
-							<p:commandButton value="remove"
+								
+							<!-- <p:commandButton value="remove"
 								action="#{userController.remove(user)}"
 								update=":userTable" resetValues="true">
 
 								<p:confirm header="Confirmation" message="Are you sure?"
 									icon="ui-icon-alert" />
-							</p:commandButton>
+							</p:commandButton> -->
 
 							<p:confirmDialog global="true" showEffect="fade"
 								hideEffect="fade">
@@ -148,7 +149,8 @@
 					<br />
 					<p:commandButton value="Save"
 						action="#{userController.createButtonClicked()}"
-						update=":userTable" oncomplete="PF('userDialog').hide()" />
+						update=":userTable,userForm"
+						 oncomplete="PF('userCreateDialog').hide()" />
 				</h:form>
 			</p:dialog>
 

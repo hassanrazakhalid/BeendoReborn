@@ -1,7 +1,6 @@
 package com.Beendo.Controllers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +15,7 @@ import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.RoleService;
 import com.Beendo.Services.UserService;
+import com.Beendo.Utils.OperationType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +25,7 @@ import lombok.Setter;
 @Controller
 public class UserController {
 	
-	private boolean isEditMode;
+	private OperationType operationType;
 	
 	private Boolean sendEmail;
 	
@@ -53,6 +53,7 @@ public class UserController {
 
 	public String showUserMainView() {
 
+		
 		init();
 		initUserList();
 		return "User/UserView";
@@ -66,7 +67,7 @@ public class UserController {
 	
 	public void init() {
 
-		isEditMode = false;
+		operationType = OperationType.Create;
 		listEntities = entityService.getAllEntities();
 
 		if (listEntities.size() > 0) {
@@ -96,6 +97,7 @@ public class UserController {
 
 	public void createUserClicked() {
 
+		operationType = OperationType.Create;
 		initUser();
 	}
 
@@ -122,26 +124,40 @@ public class UserController {
 	
 	public void createButtonClicked(){
 		
-		if(isEditMode == false)
+		switch (operationType) {
+		case Create:
+		case Copy:
 		{
 			user.setEntity(selectedEntity);
-			user.getPractises().addAll(selectedPractises);
+			user.setPractises(selectedPractises);
 			user.setRole(selectedRole);
 			addUserToSelectedPractise();
 			userService.save(user);
 			listUsers.add(user);
 			initUser();
 		}
-		else
+			break;
+		case Edit:
 		{
 			userService.update(user);
+		}
+			break;
+
+		default:
+			break;
 		}
 	}
 	
 	public void editButtonClicked(User sender){
 		
+		operationType = OperationType.Edit;
 		user = sender;
-		isEditMode = true;
+	}
+	
+	public void copyButtonClicked(User sender){
+		
+		operationType = OperationType.Copy;
+		user = User.copy(sender);
 	}
 	
 	public void remove(User sender){

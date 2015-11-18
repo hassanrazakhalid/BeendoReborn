@@ -51,6 +51,7 @@ public class PractiseThemeConverter implements Converter {
             	else
             	{
             		UserController userController = (UserController) getSpringContext().getBean("userController");
+            		practise = userController.getTmpHasnPractise().get((Integer.parseInt(value)));
             	}
 //                EntityService service = (EntityService) context.getExternalContext().getApplicationMap().get("themeService");
 //                return service.getThemes().get(Integer.parseInt(value));
@@ -72,19 +73,6 @@ public class PractiseThemeConverter implements Converter {
 		if(value != null)
 		{
 			Practice entity = (Practice)value;
-//			String viewId = context.getViewRoot().getViewId();
-//			
-//           	if(viewId.compareToIgnoreCase("ProviderView.xhtml") == 0)
-//        	{
-//        		ProviderController userController = (ProviderController) getSpringContext().getBean("providerController");
-//        	practise = userController.hashPractise.get((Integer.parseInt(value)));
-//        	}
-//        	else
-//        	{
-//        		UserController userController = (UserController) getSpringContext().getBean("userController");
-//        	}
-			
-//			hashPractise.put(entity.getId(), entity);
 			String index = String.valueOf(entity.getId()) ;
 			return index;
 		}
