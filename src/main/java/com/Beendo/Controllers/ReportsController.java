@@ -77,7 +77,7 @@ public class ReportsController {
 	public void onEntityChange()
 	{
 		//currentProvider.setCentity(currentEntity);
-		payerProvider = currentProvider.getPayerList();
+		//payerProvider = currentProvider.getPayerList();
 			
 		hashPayer.clear();
 		for (Payer pro : currentProvider.getPayerList()) {
@@ -89,7 +89,7 @@ public class ReportsController {
 	
 	public void getPayerData()
 	{	
-		payerProvider = currentProvider.getPayerList();
+		//payerList = payerProvider;// = currentProvider.getPayerList();
 	}
 	
 	public void getData()
