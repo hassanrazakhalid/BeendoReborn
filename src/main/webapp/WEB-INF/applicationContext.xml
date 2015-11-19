@@ -74,5 +74,5 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	<!-- <import resource="security.xml" /> -->
+	 <import resource="security.xml" /> 
 </beans>

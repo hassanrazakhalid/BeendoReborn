@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,13 +35,13 @@ public class User {
 	private String password;
 	private Boolean canCreateUser;
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	private Role_Permission role;
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	private CEntitiy entity;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<Practice> practises = new HashSet<>(0);
 	
 	

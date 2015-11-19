@@ -2,7 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
 
 <h:head>
 
@@ -10,6 +11,11 @@
 
 <h:body>
 	<ui:composition>
+	
+	<sec:authorize access="hasAnyRole('Admin')">
+	<h1>IS Admin logged in</h1>
+	</sec:authorize>
+	
 		<h:form>
 			<!-- <p:growl id="messages" /> -->
 
@@ -24,9 +30,11 @@
 					<p:menuitem value="Quit" url="#" />
 				</p:submenu>
 
-				<p:submenu label="User" icon="ui-icon-help">
-					<p:menuitem value="UserView" action="#{userController.showUserMainView()}" />
-				</p:submenu>
+				
+					<p:submenu label="User" icon="ui-icon-help">
+						<p:menuitem value="UserView"
+							action="#{userController.showUserMainView()}" />
+					</p:submenu>
 
 				<p:submenu label="Practise" icon="ui-icon-gear">
 					<p:menuitem value="View"
@@ -34,23 +42,23 @@
 						icon="ui-icon-arrowrefresh-1-w" />
 				</p:submenu>
 
-			 	<p:submenu label="Entity">
+				<p:submenu label="Entity">
 					<p:menuitem value="View" action="#{entityController.viewEntity()}" />
 				</p:submenu>
-				
-				
+
+
 				<p:submenu label="Payer">
 					<p:menuitem value="View" action="#{payerController.view()}" />
 				</p:submenu>
-				
+
 				<p:submenu label="Role">
 					<p:menuitem value="View" action="#{roleController.view()}" />
 				</p:submenu>
-				
+
 				<p:submenu label="Provider">
 					<p:menuitem value="View" action="#{providerController.view()}" />
 				</p:submenu>
-				
+
 				<p:submenu label="Transaction">
 					<p:menuitem value="View" action="#{transactionController.view()}" />
 				</p:submenu>

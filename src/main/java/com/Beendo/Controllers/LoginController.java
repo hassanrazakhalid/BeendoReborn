@@ -32,12 +32,12 @@ public class LoginController {
 	public String loginPressed(){
 		
 		userName = "pk@hotmail.com";
-		password = "1243";
+		password = "12434";
 			User user = userService.isUserValid(userName, password);
 		
-			/*	SharedData sharedData = SharedData.getSharedInstace();
+			/*	SharedData sharedData = SharedData.getSharedInstace();*/
 		
-		SharedData.getSharedInstace().currentUser = user;*/
+		SharedData.getSharedInstace().currentUser = user;
 		
 		return "Dashboard";
 		//System.out.println("InDell");
