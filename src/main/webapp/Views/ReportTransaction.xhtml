@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+</h:head>
+
+<h:body>
+
+	<h:body>
+		<ui:composition template="/Views/Template/MainTemplate.xhtml">
+			<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+        </ui:define>
+
+			<ui:define name="mainContent">
+				<h2>Payer Transaction Report</h2>
+
+				<h:form>
+					
+					<h:panelGrid columns="3" cellpadding="0">  
+					
+						<p:outputLabel for="idPayers" value="Select Payer: " />
+						<p:selectOneMenu id="idPayers" value="#{reportsController.currentPayer}"
+								panelStyle="width:180px" effect="fade" converter="payerConverter" 
+								var="t" style="width:177px">
+								
+								<f:selectItems value="#{reportsController.payerList}" var="entity"
+									itemLabel="#{entity.name}" itemValue="#{entity}"  />
+	
+								<p:column>
+									<h:outputText value="#{t.name}" />
+								</p:column>
+							</p:selectOneMenu>
+					
+						<p:commandButton value="Search" update=":frmMain"
+							action="#{reportsController.getData()}" />
+						<br />
+						
+					</h:panelGrid>
+						
+				</h:form>
+
+				<h:form id="frmMain">
+
+					<p:dataTable value="#{reportsController.transactions}" var="transaction" >
+
+						<p:column headerText="Payer Name">
+							#{transaction.payer.name}
+						</p:column>
+						
+						<p:column headerText="Practice Name">
+							#{transaction.practice.name}
+						</p:column>
+
+						<p:column headerText="Date">
+							#{transaction.transactionDate}
+						</p:column>
+						
+						<p:column headerText="Type">
+							#{transaction.transactionType}
+						</p:column>
+						
+						<p:column headerText="Comments">
+							#{transaction.comments}
+						</p:column>
+		
+					</p:dataTable>
+
+				</h:form>
+
+			</ui:define>
+		</ui:composition>
+	</h:body>
+
+
+</h:body>
+
+</html>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,10 +38,17 @@ public class ProviderDao implements ICRUD<Provider, Integer> {
 		
 	}
 
+	@Transactional
 	@Override
 	public Provider findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		//return (Provider)this.sessionFactory.getCurrentSession().createQuery("FROM Provider").list().get(0);
+		
+//		Query query = this.sessionFactory.getCurrentSession().createQuery("FROM Provider where id = :code ");
+//		query.setParameter("code", id);
+//		return (Provider)query.list().get(0);
+		
+		return (Provider)this.sessionFactory.getCurrentSession().get(Provider.class, id);
 	}
 
 	@Override

@@ -62,6 +62,11 @@
 				<p:submenu label="Transaction">
 					<p:menuitem value="View" action="#{transactionController.view()}" />
 				</p:submenu>
+				
+				<p:submenu label="Reports">
+					<p:menuitem value="Transaction Report" action="#{reportsController.viewRepTransac()}" />
+					<p:menuitem value="Provider Report" action="#{reportsController.viewRepProvider()}" />
+				</p:submenu>
 
 				<f:facet name="options">
 					<!-- <p:inputText style="margin-right:10px" placeholder="Search"/> -->

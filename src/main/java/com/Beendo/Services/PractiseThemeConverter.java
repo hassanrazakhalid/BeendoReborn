@@ -47,7 +47,7 @@ public class PractiseThemeConverter implements Converter {
             	if(viewId.contains("ProviderView.xhtml"))
             	{
             		ProviderController userController = (ProviderController) getSpringContext().getBean("providerController");
-            	practise = userController.hashPractise.get((Integer.parseInt(value)));
+            		practise = userController.hashPractise.get((Integer.parseInt(value)));
             	}
             	
             	else if(viewId.contains("ViewTransaction.xhtml"))

@@ -25,6 +25,11 @@ public class ProviderService {
 		service.update(entity);
 	}
 	
+	public Provider findById(Integer id)
+	{
+		return service.findById(id);
+	}
+	
 	public List<Provider> findAll()
 	{
 		return service.findAll();
