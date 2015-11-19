@@ -19,6 +19,9 @@ public class LoginController {
 	private String password;
 	
 	@Autowired
+	private SharedData sharedData;
+	
+	@Autowired
 	private UserService userService;
 	
 	public String getName(){
@@ -28,11 +31,13 @@ public class LoginController {
 	
 	public String loginPressed(){
 		
-		User user = userService.isUserValid(userName, password);
+		userName = "pk@hotmail.com";
+		password = "1243";
+			User user = userService.isUserValid(userName, password);
 		
-		SharedData sharedData = SharedData.getSharedInstace();
+			/*	SharedData sharedData = SharedData.getSharedInstace();
 		
-		SharedData.getSharedInstace().currentUser = user;
+		SharedData.getSharedInstace().currentUser = user;*/
 		
 		return "Dashboard";
 		//System.out.println("InDell");

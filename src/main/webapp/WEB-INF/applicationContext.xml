@@ -4,19 +4,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.1.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
-
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 	<context:component-scan base-package="com.Beendo.Controllers" />
-	<mvc:annotation-driven />
-
 	<context:component-scan base-package="com.Beendo.Dao" />
 	<context:component-scan base-package="com.Beendo.Services" />
+	<context:component-scan base-package="com.Beendo.Security" />
+	<context:component-scan base-package="com.Beendo.Utils" />
+	
+	<mvc:annotation-driven />
+	
 	<!-- <jpa:repositories base-package="com.Beendo.Repositories" /> -->
 
 	<context:annotation-config />
@@ -25,22 +28,33 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/janjua_TestDB" />
-		<!-- <property name="root" value="janjua_Centos" /> <property name="password" 
-			value="welcome123" /> -->
-		<property name="username" value="root" />
-		<property name="password" value="sa123" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3307/janjua_TestDB" />
+		<property name="username" value="admin" />
+		<property name="password" value="admin" />
 
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="com.Beendo.Entities" />
-		<!-- <property name="mappingResources"> <list> <value>/src/main/java/hibernate.cfg.xml 
-			</value> </list> </property> -->
-		<property name="configLocation">
-			<value>classpath:/hibernate.cfg.xml</value>
+		 <property name="packagesToScan">
+			<list>
+				<value>com.Beendo.Entities</value>
+			</list>
 		</property>
+		<!--  <property name="configLocation">
+			<value>classpath:/hibernate.cfg.xml</value>
+		</property> -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="connection.pool_size">1</prop>
+				<prop key="show_sql">true</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+				<prop key="hbm2ddl.auto">update</prop>
+				
+			</props>
+		</property>
+
 
 		<!-- <property name="hibernateProperties"> <props> <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> 
 			<prop key="hibernate.connection.url">jdbc:mysql://192.168.1.8:3307/beendo</prop> 

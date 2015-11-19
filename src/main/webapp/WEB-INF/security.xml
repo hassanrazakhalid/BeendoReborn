@@ -6,20 +6,18 @@
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
-<!-- 	<http use-expressions="true">
+	<http use-expressions="true">
 		<csrf disabled="true" />
-		<intercept-url pattern="/users**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />
-		<form-login login-page='/login.html'/>
+		<intercept-url pattern="/user**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/user/**" access="hasRole('ADMIN')" />
+		<form-login login-page='/index.xhtml'/>
 		<logout logout-url="/logout.html" />
 	</http>
 
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
-			</user-service>
-		</authentication-provider>
-	</authentication-manager> -->
+		<authentication-provider user-service-ref="userSecurityService">  
+            <password-encoder hash="plaintext">  
+        </password-encoder></authentication-provider>  
+	</authentication-manager> 
 
 </beans:beans>

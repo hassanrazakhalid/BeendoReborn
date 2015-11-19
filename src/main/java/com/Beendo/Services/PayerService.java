@@ -22,8 +22,6 @@ public class PayerService {
 	
 	private HashMap<Integer, Payer> hashEntities = new HashMap<Integer, Payer>();
 	
-	
-	@PostConstruct
 	private void init(){
 		
 	List<Payer>	listEntities = service.findAll();

@@ -31,14 +31,15 @@ public class SharedData {
 //        final SharedData previous = INSTANCE.getAndSet(this);
 //        if(previous != null)
 //            throw new IllegalStateException("Second singleton " + this + " created after " + previous);
-        
+        if(instance == null)
+        	instance = this;
         this.init();
     }
 
     public static SharedData getSharedInstace() {
 
-    	if(instance == null)
-    		instance = new SharedData();
+    	/*if(instance == null)
+    		instance = new SharedData();*/
         return instance;
     }
 

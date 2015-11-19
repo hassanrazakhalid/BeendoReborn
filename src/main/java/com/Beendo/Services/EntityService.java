@@ -26,8 +26,6 @@ public class EntityService {
 //	private List<CEntitiy> listEntities;
 	private HashMap<Integer, CEntitiy> hashEntities = new HashMap<Integer, CEntitiy>();
 	
-	
-	@PostConstruct
 	private void init(){
 		
 	List<CEntitiy>	listEntities = this.findAll();
