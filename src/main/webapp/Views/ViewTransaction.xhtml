@@ -1,0 +1,137 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+
+<h:body>
+
+	<h:body>
+		<ui:composition template="/Views/Template/MainTemplate.xhtml">
+			<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+        </ui:define>
+
+			<ui:define name="mainContent">
+				<h2>Transaction Details</h2>
+				
+				<h:form>
+					<p:commandButton value="Create" update=":myForm"
+						action="#{transactionController.clearData()}"
+								oncomplete="PF('Dlg1').show();" />
+								
+					<br/>
+				</h:form>
+				
+				 <h:form id="mainForm"> 
+    
+				    <p:dataTable value="#{transactionController.transactions}" var="transaction" >
+
+						<p:column headerText="Payer Name">
+							#{transaction.payer.name}
+						</p:column>
+						
+						<p:column headerText="Practice Name">
+							#{transaction.practice.name}
+						</p:column>
+
+						<p:column headerText="Date">
+							#{transaction.transactionDate}
+						</p:column>
+						
+						<p:column headerText="Type">
+							#{transaction.transactionType}
+						</p:column>
+						
+						<p:column headerText="Comments">
+							#{transaction.comments}
+						</p:column>
+						
+						<p:column headerText="Edit" width="80">
+							<p:commandButton icon="ui-icon-pencil" update=":myForm"
+								oncomplete="PF('Dlg1').show();" 
+								 action="#{transactionController.updateClicked(transaction)}" />
+						</p:column>
+		
+					</p:dataTable>
+				    
+				 </h:form>
+				
+				
+				
+				<!-- ADD / EDIT DIALOG -->
+				
+				<p:dialog header="Transaction"  modal="true" position="top" widgetVar="Dlg1" minHeight="40">
+				    
+				  <h:form id="myForm">
+				  
+				  	<h:panelGrid columns="4" cellpadding="8">  
+				  	
+				  		<p:outputLabel for="idPayer" value="Select Payer: " />
+				  		<p:selectOneMenu id="idPayer" value="#{transactionController.currentPayer}"
+							panelStyle="width:180px" effect="fade"  
+							converter="payerConverter"
+							var="t" style="width:177px" filter="true">
+							
+							<f:selectItems value="#{transactionController.payerList}" var="entity"
+								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
+						
+						
+						<p:outputLabel for="idPractice" value="Select Practices: " />
+						<p:selectOneMenu id="idPractice" value="#{transactionController.currentPractice}"
+							panelStyle="width:180px" effect="fade" 
+							converter="practiseConverter"
+							var="t" style="width:177px" filter="true">
+							
+							<f:selectItems value="#{transactionController.practiceList}" var="entity"
+								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
+						
+						<p:outputLabel for="idType" value="Transaction Type: " />
+						<p:selectOneMenu id="idType" value="#{transactionController.transaction.transactionType}" style="width:177px">
+				            <f:selectItem itemLabel="Application Process" itemValue="Application Process" />
+				            <f:selectItem itemLabel="Communication with Provider" itemValue="Communication with Provider" />
+				            <f:selectItem itemLabel="Communication with Payer" itemValue="Communication with Payer" />
+				            <f:selectItem itemLabel="Status Update" itemValue="Status Update" />
+				        </p:selectOneMenu>
+				  	
+				  		<p:outputLabel for="idDate" value="Current Date: " />
+				  	 	<p:inputText id="idDate" value="#{transactionController.transaction.transactionDate}" required="true" /> 
+			            
+			            <p:outputLabel for="idComments" value="Comments: " />
+			            <p:inputText id="idComments" value="#{transactionController.transaction.comments}" placeholder="Comments" required="true" /> 
+			       
+			        </h:panelGrid>   
+
+					<br />
+				  
+				  	<p:commandButton value="Save" action="#{transactionController.saveInfo()}"
+				    		oncomplete="PF('Dlg1').hide();" 
+				    		 update="myForm, :mainForm" />
+					
+				  </h:form>
+
+				</p:dialog>
+				
+				
+				
+				
+			</ui:define>
+		</ui:composition>
+	</h:body>
+
+
+</h:body>
+
+</html>

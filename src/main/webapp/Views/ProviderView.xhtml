@@ -106,7 +106,7 @@
 						
 						
 						<p:selectCheckboxMenu id="myPractices" value="#{providerController.provider.practiceList}" label="Select Practices"
-				            filter="true" filterMatchMode="startsWith" style="width:177px" 
+				            filter="true" filterMatchMode="startsWith" style="width:177px" var="t"
 				            converter="practiseConverter" panelStyle="width:250px">
 				            
 				            <f:selectItems value="#{providerController.practiceList}" var="practice"
@@ -120,7 +120,7 @@
 						
 						
 					  <p:selectCheckboxMenu value="#{providerController.provider.payerList}" label="Select Payers"
-				            filter="true" filterMatchMode="startsWith" style="width:177px" 
+				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="payerConverter" panelStyle="width:250px">
 				            
 				            <f:selectItems value="#{providerController.payerList}" var="payer"

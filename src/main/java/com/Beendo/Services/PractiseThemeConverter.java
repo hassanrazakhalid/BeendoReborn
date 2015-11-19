@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.Beendo.Controllers.ProviderController;
+import com.Beendo.Controllers.TransactionController;
 import com.Beendo.Controllers.UserController;
 import com.Beendo.Entities.Practice;
 
@@ -48,6 +49,13 @@ public class PractiseThemeConverter implements Converter {
             		ProviderController userController = (ProviderController) getSpringContext().getBean("providerController");
             	practise = userController.hashPractise.get((Integer.parseInt(value)));
             	}
+            	
+            	else if(viewId.contains("ViewTransaction.xhtml"))
+            	{
+            		TransactionController userController = (TransactionController) getSpringContext().getBean("transactionController");
+            		practise = userController.get_hash().get((Integer.parseInt(value)));
+            	}
+            	
             	else
             	{
             		UserController userController = (UserController) getSpringContext().getBean("userController");

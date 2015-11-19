@@ -67,7 +67,26 @@ public class ProviderController {
 	public void updateClicked(Provider _provider)
 	{
 		provider = _provider;
+		practiceList = provider.getCentity().getPracticeList();
+		//provider.setPracticeList(getSelectedList());
 		isEditMode = true;
+	}
+	
+	private List<Practice> getSelectedList()
+	{
+		List<Practice> list = new ArrayList();
+		
+		for (Practice practice : provider.getCentity().getPracticeList()) {
+			
+			for (Practice prac : provider.getPracticeList()) {
+				
+				if(prac.getId() == practice.getId())
+					list.add(practice);
+			}
+			
+		}
+		
+		return list;
 	}
 	
 	public void saveInfo()
