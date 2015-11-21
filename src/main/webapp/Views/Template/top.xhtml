@@ -20,7 +20,7 @@
 			<!-- <p:growl id="messages" /> -->
 
 			<p:menubar>
-				<p:submenu label="File" icon="ui-icon-document">
+				<!-- <p:submenu label="File" icon="ui-icon-document">
 					<p:submenu label="New" icon="ui-icon-contact">
 						<p:menuitem value="Project" url="#" />
 						<p:menuitem value="Other" url="#" />
@@ -28,44 +28,29 @@
 					<p:menuitem value="Open" url="#" />
 					<p:separator />
 					<p:menuitem value="Quit" url="#" />
-				</p:submenu>
+				</p:submenu> -->
 
 				
-					<p:submenu label="User" icon="ui-icon-help">
-						<p:menuitem value="UserView"
+					<p:menuitem value="User" icon="ui-icon-user-1"
 							action="#{userController.showUserMainView()}" />
-					</p:submenu>
 
-				<p:submenu label="Practise" icon="ui-icon-gear">
-					<p:menuitem value="View"
-						action="#{practiseController.viewPractise()}"
-						icon="ui-icon-arrowrefresh-1-w" />
-				</p:submenu>
+					<p:menuitem value="Practise" icon="ui-icon-gear"
+						action="#{practiseController.viewPractise()}" />
 
-				<p:submenu label="Entity">
-					<p:menuitem value="View" action="#{entityController.viewEntity()}" />
-				</p:submenu>
+				<p:menuitem value="Entity" action="#{entityController.viewEntity()}" icon="ui-icon-contact" />
 
+				<p:menuitem value="Payer" action="#{payerController.view()}" icon="ui-icon-user-1" />
 
-				<p:submenu label="Payer">
-					<p:menuitem value="View" action="#{payerController.view()}" />
-				</p:submenu>
+				<p:menuitem value="Role" action="#{roleController.view()}" icon="ui-icon-user-1" />
 
-				<p:submenu label="Role">
-					<p:menuitem value="View" action="#{roleController.view()}" />
-				</p:submenu>
+				<p:menuitem value="Provider" action="#{providerController.view()}" icon="ui-icon-user-1" />
 
-				<p:submenu label="Provider">
-					<p:menuitem value="View" action="#{providerController.view()}" />
-				</p:submenu>
-
-				<p:submenu label="Transaction">
-					<p:menuitem value="View" action="#{transactionController.view()}" />
-				</p:submenu>
+				<p:menuitem value="Transaction" action="#{transactionController.view()}" icon="ui-icon-user-1" />
 				
 				<p:submenu label="Reports">
 					<p:menuitem value="Transaction Report" action="#{reportsController.viewRepTransac()}" />
 					<p:menuitem value="Provider Report" action="#{reportsController.viewRepProvider()}" />
+					<p:menuitem value="Practice Report" action="#{reportsController.viewRepPractice()}" />
 				</p:submenu>
 
 				<f:facet name="options">

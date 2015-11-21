@@ -12,6 +12,7 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Services.PayerService;
+import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
 
@@ -32,6 +33,9 @@ public class ReportsController {
 	@Autowired
 	private ProviderService providerService;
 	
+	@Autowired
+	private PractiseService practiseService;
+	
 	// Transaction
 	private List<ProviderTransaction> transactions;
 	private List<ProviderTransaction> savedTransactions;
@@ -44,6 +48,10 @@ public class ReportsController {
 	private List<Provider> providerList;
 	private Provider currentProvider;
 	private List<Payer> payerProvider;
+	
+	// Practice
+	private List<Practice> practiceList;
+	private Practice currentPractice;
 	
 	
 	public HashMap<Integer, Provider> tmpHasnPractise = new HashMap<Integer, Provider>();
@@ -69,6 +77,14 @@ public class ReportsController {
 		return "ReportProvider";
 	}
 	
+	public String viewRepPractice()
+	{
+		practiceList = practiseService.fetchAll();
+		providerList = providerService.findAll();
+		
+		return "ReportPractice";
+	}
+	
 	public Provider getProviderById(Integer id){
 		
 		return tmpHasnPractise.get(id);
@@ -86,6 +102,13 @@ public class ReportsController {
 		}
 		
 	}
+	
+	
+	public void onPracticeChange()
+	{
+		
+	}
+	
 	
 	public void getPayerData()
 	{	
