@@ -21,6 +21,7 @@ public class RoleService {
 	@Autowired
 	private IRole service;
 		
+	@PostConstruct
 	public void init(){
 		 
 		List<Role_Permission> list = service.findAll();

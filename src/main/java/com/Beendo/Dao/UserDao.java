@@ -35,6 +35,22 @@ public class UserDao implements IUserDao {
 		
 		return user;	
 	}
+	
+	@Transactional
+	public User finsUserByUserName(String email){
+		
+		User user = null;
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM User U where U.email = :email");
+		query.setParameter("email", email);
+		
+		List<User> result = query.list();
+		if(!result.isEmpty())
+			user = result.get(0);
+		
+		return user;	
+	}
 
 	@Transactional
 	public void save(User entity) {
@@ -77,7 +93,6 @@ public class UserDao implements IUserDao {
 	@Transactional
 	public void delete(int id) {
 		User tmp = (User) sessionFactory.getCurrentSession().load(User.class, id);
-		sessionFactory.getCurrentSession().delete(tmp);
-		
+		sessionFactory.getCurrentSession().delete(tmp);	
 	}
 }

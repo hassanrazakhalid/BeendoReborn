@@ -33,7 +33,7 @@ public class EntityController {
 	
 	public String viewEntity()
 	{
-		entities = entityService.findAll();
+		entities = entityService.getAllEntities();
 		return "EntityView";
 /*		HttpServletRequest request =(HttpServletRequest)	FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		String path = request.getContextPath();

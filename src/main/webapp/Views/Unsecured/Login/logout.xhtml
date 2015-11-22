@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+
+<h:body>
+
+	<h:form id="loginForm">
+		<p:focus />
+		<p:panelGrid columns="2">
+		Username:
+		<p:inputText value="#{loginController.userName}" />
+		
+		Password:
+		<p:inputText value="#{loginController.password}" />
+		</p:panelGrid>
+		<p:commandButton value="save" action="#{loginController.loginPressed()}"
+		 />
+	</h:form>
+
+	<!-- <h1>#{loginController.getName()}</h1> -->
+
+</h:body>
+
+
+
+</html>

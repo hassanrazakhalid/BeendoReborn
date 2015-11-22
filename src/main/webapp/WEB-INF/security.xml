@@ -13,17 +13,24 @@
 
 	<http auto-config="true" use-expressions="true">
 		<csrf disabled="true" />
-		<intercept-url pattern="/Views/User**" access="hasRole('ADMIN')" />
-		<intercept-url pattern="/Views/User/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/javax.faces.resource/**" access="permitAll"/>
+		<intercept-url pattern="/Views/Unsecured/Login/*" access="permitAll"/>
+		 <intercept-url pattern="/Views/Unsecured/**" access="permitAll"/>
+		 <!-- <intercept-url pattern="/Views/**" access="permitAll"/> -->
+		
+		<intercept-url pattern="/Views/Secured/Dashboard/*" access="permitAll" />
+		
+		<intercept-url pattern="/Views/Secured/User/*" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/Views/Secured/User/**" access="hasRole('ROLE_ADMIN')" />
+		
   
         <!-- Define login page for Spring Security -->      
-        <form-login login-page="/index.xhtml"/>
-		<logout logout-url="/logout.html" />
+        <form-login login-page="/Views/Login/index.xhtml"/>
+		<logout invalidate-session="true" delete-cookies="true" logout-url="/logout.xhtml" />
 	</http>
 
 	<authentication-manager id="authenticationManager">
-		<authentication-provider user-service-ref="userSecurityService">  
+		<authentication-provider user-service-ref="userService">  
             <password-encoder hash="plaintext">  
         </password-encoder></authentication-provider>  
 	</authentication-manager> 

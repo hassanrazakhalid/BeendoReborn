@@ -6,8 +6,14 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,10 +23,23 @@ import org.springframework.stereotype.Service;
 import com.Beendo.Entities.Role_Permission;
 import com.Beendo.Utils.SharedData;
 
-@Service
+
+/*@Service
 @Transactional
 public class UserSecurityService implements UserDetailsService {
 
+	static private UserSecurityService instance = null;
+	
+	 public UserSecurityService() {
+	
+		 if(instance == null)
+			 instance = this;
+	}
+	 
+	 public static UserSecurityService sharedInstance(){
+		 return instance;
+	 }
+	
 	@Override
 	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
@@ -47,12 +66,13 @@ public class UserSecurityService implements UserDetailsService {
 		 
         List<String> roles = new ArrayList<String>();
         roles.add(role.getName());
-/*        if (role.intValue() == 1) {
+//        roles.add("ROLE_MODERATOR");
+        if (role.intValue() == 1) {
             roles.add("ROLE_MODERATOR");
             roles.add("ROLE_ADMIN");
         } else if (role.intValue() == 2) {
             roles.add("ROLE_MODERATOR");
-        }*/
+        }
         return roles;
     }
      
@@ -69,4 +89,6 @@ public class UserSecurityService implements UserDetailsService {
         }
         return authorities;
     }
-}
+    
+    // Logic Code
+}*/

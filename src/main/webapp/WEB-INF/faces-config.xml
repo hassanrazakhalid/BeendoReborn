@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
-	version="2.2">
-
-	<application>
-		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
-		
-		<action-listener>
-			org.primefaces.application.DialogActionListener
-		</action-listener>
-		<navigation-handler>
-			org.primefaces.application.DialogNavigationHandler
-		</navigation-handler>
-		<view-handler>
-			org.primefaces.application.DialogViewHandler
-		</view-handler>
-		
-	</application>
-	
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+ <navigation-rule>
+  <display-name>AfterLogin</display-name>
+  <from-view-id>/Views/Unsecured/Login/index.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>correct</from-outcome>
+   <to-view-id>/Views/Secured/Dashboard/Dashboard.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <display-name>LogoutHandling</display-name>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>logout</from-outcome>
+   <to-view-id>/Views/Unsecured/Login/index.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <display-name>UsersHandling</display-name>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>UserView</from-outcome>
+   <to-view-id>/Views/Secured/User/UserView.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ <application>
+  <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+  <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+  <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+  <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+ </application>
 </faces-config>

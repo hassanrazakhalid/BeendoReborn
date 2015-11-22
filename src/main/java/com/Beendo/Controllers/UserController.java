@@ -56,33 +56,15 @@ public class UserController {
 	private List<User> listUsers = new ArrayList<User>();
 	// Security Code
 	
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	
 	// ---------------------- Methods
-
-	// Security Code
-	public void checkForSecurity(){
-		
-		String isOK = null;
-		
-		try {
-            Authentication request = new UsernamePasswordAuthenticationToken("pk@hotmail.com", "12434");
-            Authentication result = authenticationManager.authenticate(request);
-            SecurityContextHolder.getContext().setAuthentication(result);
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
-            isOK = "incorrect";
-        }
-        isOK = "correct";
-	}
 	
 	public String showUserMainView() {
 
-		checkForSecurity();
 		init();
 		initUserList();
-		return "User/UserView?faces-redirect=true";
+		
+		return "UserView";
+//		return "User/UserView?faces-redirect=true";
 	}
 
 	public void initUserList(){

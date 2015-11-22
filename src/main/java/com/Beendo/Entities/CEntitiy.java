@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -25,7 +26,7 @@ public class CEntitiy {
 	private Integer id;
 	private String name;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
 	private List<Practice> practiceList = new ArrayList<Practice>();
 	
 	/*@OneToOne

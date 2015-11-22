@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "ROLE_PERMISSION")
-public class Role_Permission {
+public class Role_Permission  implements GrantedAuthority {
 
 	@Id
 	@GeneratedValue
@@ -42,5 +44,13 @@ public class Role_Permission {
 		
 		return rol;
 		
+	}
+
+	@Override
+	public String getAuthority() {
+		// TODO Auto-generated method stub
+//		return "ROLE_ADMIN";
+	String str = "ROLE_"+this.getName().toUpperCase();
+		return str;
 	}
 }

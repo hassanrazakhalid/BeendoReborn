@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PROCESS model-entity="JSFProcess"/>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="logout::#Views#Unsecured#Login#index.xhtml"
+    NAME="output" PATH="/Views/Unsecured/Login/index.xhtml"
+    TARGET="rules:#Views#Unsecured#Login#index.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Dashboard#Dashboard.xhtml"
+  PATH="/Views/Secured/Dashboard/Dashboard.xhtml" SHAPE="32,241,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Unsecured#Login#index.xhtml"
+  PATH="/Views/Unsecured/Login/index.xhtml" SHAPE="32,465,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#Views#Unsecured#Login#index.xhtml:0"
+   NAME="item" PATH="/Views/Unsecured/Login/index.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="correct::#Views#Secured#Dashboard#Dashboard.xhtml" NAME="output"
+    PATH="/Views/Secured/Dashboard/Dashboard.xhtml"
+    TARGET="rules:#Views#Secured#Dashboard#Dashboard.xhtml"
+    TITLE="correct" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="48,577,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="UserView::#Views#Secured#User#UserView.xhtml" NAME="output"
+    PATH="/Views/Secured/User/UserView.xhtml"
+    TARGET="rules:#Views#Secured#User#UserView.xhtml" TITLE="UserView" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#User#UserView.xhtml"
+  PATH="/Views/Secured/User/UserView.xhtml" SHAPE="32,689,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>
