@@ -12,9 +12,11 @@
 <h:body>
 	<ui:composition>
 	
-	<sec:authorize access="hasAnyRole('Admin')">
-	<h1>IS Admin logged in</h1>
-	</sec:authorize>
+	<!-- rendered="#{sec:areAnyGranted('Admin')}" -->
+		<!-- <sec:authorize access="hasRole('ROLE_ADMIN')"> -->
+			<h:outputLabel value="IS Admin logged in"
+				rendered="#{sec:areAnyGranted('ROLE_ADMIN')}" />
+		<!-- </sec:authorize> -->
 	
 		<h:form>
 			<!-- <p:growl id="messages" /> -->
@@ -55,7 +57,8 @@
 
 				<f:facet name="options">
 					<!-- <p:inputText style="margin-right:10px" placeholder="Search"/> -->
-					<p:commandButton type="button" value="Logout"
+					<p:commandButton value="Logout"
+					action="#{loginController.logout()}"
 						icon="ui-icon-extlink" />
 				</f:facet>
 			</p:menubar>
