@@ -8,6 +8,7 @@ import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Role_Permission;
 import com.Beendo.Services.RoleService;
 
@@ -54,10 +55,16 @@ public class RoleController {
 		}
 		else
 		{
-			roles.add(role);
-			roleService.save(role);
-			clearData();
-			showMessage("Role has been saved");
+			List<Role_Permission> result =	roleService.isNameExist(roles, role.getName());
+			if(result.size() <= 0)
+			{
+				roles.add(role);
+				roleService.save(role);
+				clearData();
+				showMessage("Role has been saved");
+			}
+			else
+				showMessage("Role name already exists!");
 		}
 	}
 	

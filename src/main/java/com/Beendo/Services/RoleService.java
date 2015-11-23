@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.IRole;
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Role_Permission;
 
 @Service
@@ -60,5 +63,20 @@ public class RoleService {
 		// TODO Auto-generated method stub
 		return hashRole.get(parseInt);
 	}
+	
+	
+	public static List<Role_Permission> isNameExist(List<Role_Permission> entities, String name){
+		
+		return filterData(entities, getNamePredicate(name));
+	}
+	
+	private static List<Role_Permission> filterData (List<Role_Permission> list, Predicate<Role_Permission> predicate) {
+        return list.stream().filter( predicate ).collect(Collectors.<Role_Permission>toList());
+    }
+	
+	private static Predicate<Role_Permission> getNamePredicate(String name){
+
+		 return p -> p.getName().equalsIgnoreCase(name);
+	 }
 	
 }

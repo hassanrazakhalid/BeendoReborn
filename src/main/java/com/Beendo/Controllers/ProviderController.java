@@ -99,9 +99,15 @@ public class ProviderController {
 		}
 		else
 		{	
-			providerList.add(provider);
-			providerService.save(provider);
-			showMessage("Provider has been saved");
+			List<Provider> result =	providerService.isNameExist(providerList, provider.getName(), provider.getNpiNum());
+			if(result.size() <= 0)
+			{
+				providerList.add(provider);
+				providerService.save(provider);
+				showMessage("Provider has been saved");
+			}
+			else
+				showMessage("Provider name or npi already exists!");
 		}
 	}
 

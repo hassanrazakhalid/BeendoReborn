@@ -17,7 +17,7 @@
 
 			<h:form>
 
-				<p:commandButton action="userController.createUserClicked()"
+				<p:commandButton actionListener="userController.createUserClicked()" process="@this"
 					value="Create User" oncomplete="PF('userCreateDialog').show()"></p:commandButton>
 			</h:form>
 
@@ -40,21 +40,27 @@
 					#{user.entity.name}
 					</p:column>
 					<p:column headerText="Practise">
-						<p:selectOneMenu id="userPractise" panelStyle="width:180px"
-							effect="fade" var="t" style="width:160px">
-
-							<f:selectItems value="#{user.practises}" var="practise"
-								itemLabel="#{practise.name}" itemValue="#{practise}" />
-							<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column>
-						</p:selectOneMenu>
+					<table >
+					<ui:repeat value="#{user.practises.toArray()}" var="t">
+					
+					<tr>
+					<td style="border:0px;">
+					<h:outputText value="#{t.name}" />
+					</td>
+					
+					</tr>
+					
+					
+								
+							
+							</ui:repeat>
+							</table>
 					</p:column>
 
 					<p:column headerText="Operation">
-						<h:form>
+						
 							<p:commandButton value="edit"
-								action="#{userController.editButtonClicked(user)}"
+								actionListener="#{userController.editButtonClicked(user)}"
 								oncomplete="PF('userCreateDialog').show()"
 								update=":userForm" />
 								
@@ -73,7 +79,7 @@
 								<p:commandButton value="No" type="button"
 									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 							</p:confirmDialog>
-						</h:form>
+						
 					</p:column>
 
 				</p:dataTable>
@@ -96,6 +102,8 @@
 						<p:inputText id="tfEmail" value="${userController.user.email}"></p:inputText>
 
 						<p:outputLabel for="listEntity" value="Select Entity:" />
+						
+						
 						<p:selectOneMenu id="listEntity"
 							value="#{userController.selectedEntity}"
 							converter="entityConverter" panelStyle="width:180px"
@@ -114,12 +122,12 @@
 
 						<p:outputLabel for="listPractise" value="Select Practise:" />
 						<p:selectCheckboxMenu id="listPractise"
-							value="#{userController.selectedPractises}"
+							value="#{userController.selectedPrac}" 
 							label="Select Practices" style="width:177px"
 							panelStyle="width:250px" converter="practiseConverter">
 
 							<f:selectItems value="#{userController.listPractise}"
-								var="practice" itemLabel="#{practice.name}"
+								var="practice" itemLabel="#{practice.name}" 
 								itemValue="#{practice}" />
 
 						</p:selectCheckboxMenu>

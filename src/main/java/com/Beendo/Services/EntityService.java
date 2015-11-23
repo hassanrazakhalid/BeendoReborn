@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -67,5 +69,18 @@ public class EntityService {
 		return _service.findAll();
 	}
 	
-	// Practise Code
+	public static List<CEntitiy> isNameExist(List<CEntitiy> entities, String name){
+		
+		return filterData(entities, getNamePredicate(name));
+	}
+	
+	private static List<CEntitiy> filterData (List<CEntitiy> list, Predicate<CEntitiy> predicate) {
+        return list.stream().filter( predicate ).collect(Collectors.<CEntitiy>toList());
+    }
+	
+	private static Predicate<CEntitiy> getNamePredicate(String name){
+
+		 return p -> p.getName().equalsIgnoreCase(name);
+	 }
+	
 }

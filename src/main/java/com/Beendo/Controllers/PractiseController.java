@@ -65,7 +65,8 @@ public class PractiseController {
 */		
 		SharedData.getSharedInstace().addPactiseList(listPractise);
 		
-		return "Practise/PractiseView?faces-redirect=true";
+//		return "Practise/PractiseView?faces-redirect=true";
+		return "PractiseView";
 	}
 
 	/*

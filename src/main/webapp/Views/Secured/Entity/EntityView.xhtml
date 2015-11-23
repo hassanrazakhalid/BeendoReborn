@@ -9,6 +9,7 @@
 <h:body>
 
 	<h:body>
+
 		<ui:composition template="/Views/Template/MainTemplate.xhtml">
 			<ui:define name="pageTitle">
             Welcome [Dashboard.xhtml]
@@ -33,12 +34,11 @@
 							#{entity.name}
 						</p:column>
 
-						<p:column headerText="Practise">
+					   <p:column headerText="Practise">
 
 							<p:selectOneMenu id="advanced"
 								 panelStyle="width:180px"
-								effect="fade" var="t" style="width:160px" filter="true"
-								filterMatchMode="startsWith">
+								effect="fade" var="t" style="width:160px">
 								<f:selectItems value="#{entity.practiceList}" var="practise"
 									itemLabel="#{practise.name}" itemValue="#{practise}" />
 
@@ -48,7 +48,7 @@
 								
 							</p:selectOneMenu>
 
-						</p:column>
+						</p:column> 
 
 						<p:column headerText="Edit" width="80">
 							<p:commandButton icon="ui-icon-pencil" update=":editForm"
@@ -67,7 +67,21 @@
 					widgetVar="editDlg" minHeight="40">
 
 					<h:form id="editForm">
-						<div>
+					
+						
+						<h:panelGrid columns="2" cellpadding="5">
+						
+							<p:outputLabel for="entityName" value="Entity Name:" />
+							<p:inputText id="entityName" value="#{entityController.entity.name}" />
+						
+						</h:panelGrid>
+						
+						<p:commandButton value="Save"
+								action="#{entityController.editPressed()}"
+								oncomplete="PF('editDlg').hide();"
+								update="editForm, :entityTable" />
+					
+						<!-- <div>
 							Entity Name:
 							<p:inputText value="#{entityController.entity.name}" />
 
@@ -78,7 +92,7 @@
 								oncomplete="PF('editDlg').hide();"
 								update="editForm, :entityTable" />
 
-						</div>
+						</div> -->
 					</h:form>
 
 				</p:dialog>
@@ -90,7 +104,20 @@
 					modal="true" minHeight="40">
 
 					<h:form id="addForm">
-						<div>
+										
+						<h:panelGrid columns="2" cellpadding="5">
+						
+							<h:outputLabel for="EntityName" value="Entity Name:" />
+							<p:inputText id="EntityName" value="#{entityController.entity.name}"
+								 required="true" label="EntityName" />
+						
+						</h:panelGrid>
+					
+						<p:commandButton value="Save"
+								action="#{entityController.createPressed()}"
+								oncomplete="PF('addDlg').hide();" update="addForm, :entityTable" />
+					
+						<!-- <div>
 							Entity Name:
 							<p:inputText value="#{entityController.entity.name}" />
 
@@ -100,7 +127,7 @@
 								action="#{entityController.createPressed()}"
 								oncomplete="PF('addDlg').hide();" update="addForm, :entityTable" />
 
-						</div>
+						</div> -->
 					</h:form>
 
 				</p:dialog>

@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PROCESS model-entity="JSFProcess">
- <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="logout::#Views#Unsecured#Login#index.xhtml"
-    NAME="output" PATH="/Views/Unsecured/Login/index.xhtml"
-    TARGET="rules:#Views#Unsecured#Login#index.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
-  </PROCESS-ITEM>
- </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#Views#Secured#Dashboard#Dashboard.xhtml"
-  PATH="/Views/Secured/Dashboard/Dashboard.xhtml" SHAPE="32,241,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#Views#Unsecured#Login#index.xhtml"
   PATH="/Views/Unsecured/Login/index.xhtml" SHAPE="32,465,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#Views#Unsecured#Login#index.xhtml:0"
@@ -20,14 +11,88 @@
     TITLE="correct" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="48,577,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Dashboard#Dashboard.xhtml"
+  PATH="/Views/Secured/Dashboard/Dashboard.xhtml" SHAPE="32,241,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Entity#EntityView.xhtml"
+  PATH="/Views/Secured/Entity/EntityView.xhtml" SHAPE="240,817,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Payer#PayerView.xhtml"
+  PATH="/Views/Secured/Payer/PayerView.xhtml" SHAPE="256,961,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Provider#ProviderView.xhtml"
+  PATH="/Views/Secured/Provider/ProviderView.xhtml" SHAPE="272,1105,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Role#RoleView.xhtml"
+  PATH="/Views/Secured/Role/RoleView.xhtml" SHAPE="288,1249,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Practise#PractiseView.xhtml"
+  PATH="/Views/Secured/Practise/PractiseView.xhtml" SHAPE="304,1281,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Reports#ReportPractice.xhtml"
+  PATH="/Views/Secured/Reports/ReportPractice.xhtml"
+  SHAPE="304,1313,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Reports#ReportProvider.xhtml"
+  PATH="/Views/Secured/Reports/ReportProvider.xhtml"
+  SHAPE="304,1345,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#Views#Secured#Reports#ReportTransaction.xhtml"
+  PATH="/Views/Secured/Reports/ReportTransaction.xhtml"
+  SHAPE="304,1377,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#Views#Secured#Transaction#ViewTransaction.xhtml"
+  PATH="/Views/Secured/Transaction/ViewTransaction.xhtml"
+  SHAPE="304,1409,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#User#UserView.xhtml"
+  PATH="/Views/Secured/User/UserView.xhtml" SHAPE="304,705,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,577,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="UserView::#Views#Secured#User#UserView.xhtml" NAME="output"
+    ID="EntityView::#Views#Secured#Entity#EntityView.xhtml"
+    NAME="output" PATH="/Views/Secured/Entity/EntityView.xhtml"
+    TARGET="rules:#Views#Secured#Entity#EntityView.xhtml"
+    TITLE="EntityView" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="PayerView::#Views#Secured#Payer#PayerView.xhtml" NAME="output1"
+    PATH="/Views/Secured/Payer/PayerView.xhtml"
+    TARGET="rules:#Views#Secured#Payer#PayerView.xhtml"
+    TITLE="PayerView" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="ProviderView::#Views#Secured#Provider#ProviderView.xhtml"
+    NAME="output2" PATH="/Views/Secured/Provider/ProviderView.xhtml"
+    TARGET="rules:#Views#Secured#Provider#ProviderView.xhtml"
+    TITLE="ProviderView" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="RoleView::#Views#Secured#Role#RoleView.xhtml" NAME="output3"
+    PATH="/Views/Secured/Role/RoleView.xhtml"
+    TARGET="rules:#Views#Secured#Role#RoleView.xhtml" TITLE="RoleView" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="PractiseView::#Views#Secured#Practise#PractiseView.xhtml"
+    NAME="output4" PATH="/Views/Secured/Practise/PractiseView.xhtml"
+    TARGET="rules:#Views#Secured#Practise#PractiseView.xhtml"
+    TITLE="PractiseView" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="ReportPractice::#Views#Secured#Reports#ReportPractice.xhtml"
+    NAME="output5" PATH="/Views/Secured/Reports/ReportPractice.xhtml"
+    TARGET="rules:#Views#Secured#Reports#ReportPractice.xhtml"
+    TITLE="ReportPractice" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="ReportProvider::#Views#Secured#Reports#ReportProvider.xhtml"
+    NAME="output6" PATH="/Views/Secured/Reports/ReportProvider.xhtml"
+    TARGET="rules:#Views#Secured#Reports#ReportProvider.xhtml"
+    TITLE="ReportProvider" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="ReportTransaction::#Views#Secured#Reports#ReportTransaction.xhtml"
+    NAME="output7" PATH="/Views/Secured/Reports/ReportTransaction.xhtml"
+    TARGET="rules:#Views#Secured#Reports#ReportTransaction.xhtml"
+    TITLE="ReportTransaction" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="ViewTransaction::#Views#Secured#Transaction#ViewTransaction.xhtml"
+    NAME="output8"
+    PATH="/Views/Secured/Transaction/ViewTransaction.xhtml"
+    TARGET="rules:#Views#Secured#Transaction#ViewTransaction.xhtml"
+    TITLE="ViewTransaction" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="UserView::#Views#Secured#User#UserView.xhtml" NAME="output9"
     PATH="/Views/Secured/User/UserView.xhtml"
     TARGET="rules:#Views#Secured#User#UserView.xhtml" TITLE="UserView" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="logout::#Views#Unsecured#Login#index.xhtml"
+    NAME="output10" PATH="/Views/Unsecured/Login/index.xhtml"
+    TARGET="rules:#Views#Unsecured#Login#index.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#Views#Secured#User#UserView.xhtml"
-  PATH="/Views/Secured/User/UserView.xhtml" SHAPE="32,689,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

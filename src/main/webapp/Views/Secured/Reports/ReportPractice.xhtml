@@ -1,0 +1,125 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+</h:head>
+
+<h:body>
+
+	<h:body>
+		<ui:composition template="/Views/Template/MainTemplate.xhtml">
+			<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+        </ui:define>
+
+			<ui:define name="mainContent">
+				<h2>Practice Report</h2>
+
+				<h:form>
+					
+					<h:panelGrid columns="7" cellpadding="0">  
+					
+					
+						<p:outputLabel for="idPractices" value="Select Practice: " />
+						<p:selectOneMenu id="idPractices" value="#{reportsController.currentPractice}"
+								panelStyle="width:180px" effect="fade" converter="practiseConverter"
+								var="t" style="width:177px">
+								
+								<!-- <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" />
+								 -->
+								<f:selectItems value="#{reportsController.practiceList}" var="entity"
+									itemLabel="#{entity.name}" itemValue="#{entity}"  />
+	
+								<p:column>
+									<h:outputText value="#{t.name}" />
+								</p:column>
+							</p:selectOneMenu>
+					
+						<p:outputLabel for="idProviders" value="Select Provider: " />
+						<p:selectOneMenu id="idProviders" value="#{reportsController.currentProvider}"
+								panelStyle="width:180px" effect="fade" converter="providerConverter"
+								var="t" style="width:177px">
+								
+								<p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" />
+								
+								<f:selectItems value="#{reportsController.providerList}" var="entity"
+									itemLabel="#{entity.name}" itemValue="#{entity}"  />
+	
+								<p:column>
+									<h:outputText value="#{t.name}" />
+								</p:column>
+							</p:selectOneMenu>
+							
+							
+						<p:outputLabel for="idPayers" value="Select Payer: " />
+						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.payerProvider}" label="Select Payers"
+				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
+				            converter="payerConverter" panelStyle="width:250px">
+				            
+				            <f:selectItems value="#{reportsController.currentProvider.payerList}" var="payer"
+								itemLabel="#{payer.name}" itemValue="#{payer}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+				            
+				        </p:selectCheckboxMenu>
+					
+						<p:commandButton value="Search" update=":frmMain"
+							action="#{reportsController.getPayerData()}" />
+						<br />
+						
+					</h:panelGrid>
+						
+				</h:form>
+
+				<h:form id="frmMain">
+
+					  <p:dataTable value="#{reportsController.payerProvider}" var="payer" >
+
+						<p:column headerText="Payer Name">
+							#{payer.name}
+						</p:column>
+
+						<p:column headerText="Company Name">
+							#{payer.companyName}
+						</p:column>
+						
+						<p:column headerText="Plan Name">
+							#{payer.planName}
+						</p:column>
+						
+						<p:column headerText="Phone Number">
+							#{payer.phoneNumber}
+						</p:column>
+						
+						<p:column headerText="Street">
+							#{payer.street}
+						</p:column>
+						
+						<p:column headerText="City">
+							#{payer.city}
+						</p:column>
+						
+						<p:column headerText="State">
+							#{payer.state}
+						</p:column>
+						
+						<p:column headerText="ZipCode">
+							#{payer.zip}
+						</p:column>
+		
+					</p:dataTable>  
+
+				</h:form>
+
+			</ui:define>
+		</ui:composition>
+	</h:body>
+
+
+</h:body>
+
+</html>

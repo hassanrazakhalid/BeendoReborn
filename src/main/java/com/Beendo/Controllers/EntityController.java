@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.UserService;
 
@@ -59,10 +60,17 @@ public class EntityController {
 	
 	public void createPressed()
 	{
-		entities.add(entity);
-		entityService.save(entity);
-		showMessage("Entity has been saved");
-		clearData();
+		
+		List<CEntitiy> result =	entityService.isNameExist(entities, entity.getName());
+		if(result.size() <= 0)
+		{
+			entities.add(entity);
+			entityService.save(entity);
+			showMessage("Entity has been saved");
+			clearData();
+		}
+		else
+			showMessage("Entity name already exists!");
 		//RequestContext.getCurrentInstance().closeDialog("createEntity");
 		//entity = new CEntitiy();
 	}

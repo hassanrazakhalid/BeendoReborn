@@ -11,20 +11,61 @@
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
-  <display-name>LogoutHandling</display-name>
+  <display-name>EntityView</display-name>
   <from-view-id>*</from-view-id>
   <navigation-case>
-   <from-outcome>logout</from-outcome>
-   <to-view-id>/Views/Unsecured/Login/index.xhtml</to-view-id>
+   <from-outcome>EntityView</from-outcome>
+   <to-view-id>/Views/Secured/Entity/EntityView.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
- </navigation-rule>
- <navigation-rule>
-  <display-name>UsersHandling</display-name>
-  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>PayerView</from-outcome>
+   <to-view-id>/Views/Secured/Payer/PayerView.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>ProviderView</from-outcome>
+   <to-view-id>/Views/Secured/Provider/ProviderView.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>RoleView</from-outcome>
+   <to-view-id>/Views/Secured/Role/RoleView.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>PractiseView</from-outcome>
+   <to-view-id>/Views/Secured/Practise/PractiseView.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>ReportPractice</from-outcome>
+   <to-view-id>/Views/Secured/Reports/ReportPractice.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>ReportProvider</from-outcome>
+   <to-view-id>/Views/Secured/Reports/ReportProvider.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>ReportTransaction</from-outcome>
+   <to-view-id>/Views/Secured/Reports/ReportTransaction.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>ViewTransaction</from-outcome>
+   <to-view-id>/Views/Secured/Transaction/ViewTransaction.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
   <navigation-case>
    <from-outcome>UserView</from-outcome>
    <to-view-id>/Views/Secured/User/UserView.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>logout</from-outcome>
+   <to-view-id>/Views/Unsecured/Login/index.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>

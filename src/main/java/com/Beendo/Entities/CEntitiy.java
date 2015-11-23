@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -29,9 +30,7 @@ public class CEntitiy {
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
 	private List<Practice> practiceList = new ArrayList<Practice>();
 	
-	/*@OneToOne
-	private User user;*/
-	/*@OneToMany
+	@ManyToMany
 	private List<Provider> providerList = new ArrayList<Provider>();
-*/
+
 }

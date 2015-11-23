@@ -8,6 +8,7 @@ import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Services.PayerService;
 
@@ -47,9 +48,15 @@ public class PayerController {
 		}
 		else
 		{
-			payers.add(payer);
-			payerService.save(payer);
-			showMessage("Payer has been saved");
+			List<Payer> result = payerService.isNameExist(payers, payer.getName(), payer.getPlanName(), payer.getCity(), payer.getState(), payer.getZip(), payer.getStreet());
+			if(result.size() <= 0)
+			{
+				payers.add(payer);
+				payerService.save(payer);
+				showMessage("Payer has been saved");
+			}
+			else
+				showMessage("Payer info already exists!");
 		}
 	}
 
