@@ -13,7 +13,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.Beendo.Controllers.EntityController;
 import com.Beendo.Controllers.ProviderController;
+import com.Beendo.Controllers.RootController;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Utils.SharedData;
 
@@ -44,7 +46,17 @@ public class EntityThemeConverter implements Converter {
             	Integer id = Integer.parseInt(value);
             	if(viewId.contains("ProviderView"))
             	{
-            		ProviderController entityService = (ProviderController) getSpringContext().getBean("providerController");
+            		RootController entityService = (RootController) getSpringContext().getBean("providerController");
+                	entity = entityService.getEntityById(id);
+            	}
+            	else if(viewId.contains("EntityView"))
+            	{
+            		RootController entityService = (RootController) getSpringContext().getBean("entityController");
+                	entity = entityService.getEntityById(id);
+            	}
+            	else if(viewId.contains("PractiseView"))
+            	{
+            		RootController entityService = (RootController) getSpringContext().getBean("practiseController");
                 	entity = entityService.getEntityById(id);
             	}
             	

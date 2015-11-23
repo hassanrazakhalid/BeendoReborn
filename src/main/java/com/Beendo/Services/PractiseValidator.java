@@ -12,6 +12,7 @@ import javax.faces.validator.ValidatorException;
 
 import org.primefaces.validate.ClientValidator;
 
+import com.Beendo.Controllers.RootController;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Utils.SharedData;
 
@@ -36,7 +37,15 @@ public class PractiseValidator implements Validator, ClientValidator {
 		if(value == null)
 			return;
 		String strVal = (String)value;
-		List<Practice> list = SharedData.getSharedInstace().getListPractise();
+		String viewName = context.getViewRoot().getViewId();
+//		Integer id = Integer.parseInt(strVal);
+		List<Practice> list = null;
+		if(viewName.contains("PractiseView"))
+		{
+			RootController rootController = (RootController)SharedData.getSharedInstace().getSpringContext().getBean("practiseController");
+			list = rootController.getAllHashTwo();
+		}
+		 
 		 if(strVal.length() > 0) {
 			 
 			List<Practice> result = PractiseService.isNameExist(list, strVal);

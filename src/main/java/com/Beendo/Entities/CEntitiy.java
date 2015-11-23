@@ -33,4 +33,9 @@ public class CEntitiy {
 	@ManyToMany
 	private List<Provider> providerList = new ArrayList<Provider>();
 
+	/*@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.valueOf(getId());
+	}*/
 }

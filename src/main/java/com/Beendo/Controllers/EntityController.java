@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-public class EntityController {
+public class EntityController extends RootController {
 
 	@Autowired
 	private EntityService entityService;
@@ -35,6 +35,7 @@ public class EntityController {
 	public String viewEntity()
 	{
 		entities = entityService.getAllEntities();
+		initHashOne(entities);
 		return "EntityView";
 /*		HttpServletRequest request =(HttpServletRequest)	FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		String path = request.getContextPath();
@@ -65,16 +66,16 @@ public class EntityController {
 //		else
 //			return;
 		
-		List<CEntitiy> result =	entityService.isNameExist(entities, entity.getName());
-		if(result.size() <= 0)
+//		List<CEntitiy> result =	entityService.isNameExist(entities, entity.getName());
+//		if(result.size() <= 0)
 		{
 			entities.add(entity);
 			entityService.save(entity);
 			showMessage("Entity has been saved");
 			clearData();
 		}
-		else
-			showMessage("Entity name already exists!");
+//		else
+//			showMessage("Entity name already exists!");
 		//RequestContext.getCurrentInstance().closeDialog("createEntity");
 		//entity = new CEntitiy();
 	}

@@ -5,15 +5,19 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Role_Permission;
@@ -58,29 +62,16 @@ public class SharedData {
     		instance = new SharedData();*/
         return instance;
     }
-
-    // Practise List Code
-    
-    public void addPactiseList(List<Practice> sender){
-    	
-    	listPractise.addAll(sender);
-    }
-    
-    public void addPactise(Practice sender){
-    	
-    	listPractise.add(sender);
-    }
-    
-    public void removePactise(Practice sender){
-    	
-    	listPractise.remove(sender);
-    }
-
-	public List<Practice> getListPractise() {
-		// TODO Auto-generated method stub
-		return listPractise;
-	} 
 	
+	public ApplicationContext getSpringContext(){
+		
+		 ApplicationContext ctx = WebApplicationContextUtils
+               .getRequiredWebApplicationContext((ServletContext) FacesContext
+                       .getCurrentInstance().getExternalContext()
+                       .getContext());
+		 return ctx;
+	}
+    
 	// Security Code
 	public String checkForSecurity(String userName, String password){
 		

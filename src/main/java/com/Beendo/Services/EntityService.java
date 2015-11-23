@@ -77,7 +77,15 @@ public class EntityService {
 	}
 	
 	private static List<CEntitiy> filterData (List<CEntitiy> list, Predicate<CEntitiy> predicate) {
-        return list.stream().filter( predicate ).collect(Collectors.<CEntitiy>toList());
+		
+		List<CEntitiy> result = null;
+		try {
+			result =	list.stream().filter( predicate ).collect(Collectors.<CEntitiy>toList());
+		} catch (Exception e) {
+			System.out.println(e);
+			// TODO: handle exception
+		}
+        return result;
     }
 	
 	private static Predicate<CEntitiy> getNamePredicate(String name){

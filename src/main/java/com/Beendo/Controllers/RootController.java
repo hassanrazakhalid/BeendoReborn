@@ -1,5 +1,7 @@
 package com.Beendo.Controllers;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +29,13 @@ public class RootController {
 		}
 	}
 	
+	public List<CEntitiy> getAllHashOne(){
+		
+		Collection<CEntitiy> col =  hashOne.values();
+		List<CEntitiy> list = new ArrayList(col);
+		return list;
+	}
+	
 	public CEntitiy getEntityById(Integer id){
 	
 		return hashOne.get(id);
@@ -35,7 +44,7 @@ public class RootController {
 	
 	public void initHashTwo(List<Practice> list){
 		
-		if(hashOne ==  null)
+		if(hashTwo ==  null)
 			hashTwo = new HashMap<>();
 		
 		updateHashTwo(list);
@@ -47,6 +56,13 @@ public class RootController {
 			
 			hashTwo.put(object.getId(), object);
 		}
+	}
+	
+	public List<Practice> getAllHashTwo(){
+		
+		Collection<Practice> col =  hashTwo.values();
+		List<Practice> list = new ArrayList(col);
+		return list;
 	}
 	
 	public void clearHashTwo(){

@@ -112,4 +112,10 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.valueOf(getId());
+	}
 }

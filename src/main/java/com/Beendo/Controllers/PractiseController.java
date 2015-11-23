@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Controller
-public class PractiseController {
+public class PractiseController extends RootController {
 
 	private String entityName;
 	private List<CEntitiy> listEntities;
@@ -42,29 +42,11 @@ public class PractiseController {
 
 	public String viewPractise() {
 
-/*		listEntities = new ArrayList<String>();
-		listEntities.add("ABV");
-		listEntities.add("XYZ");
-*/
 		listEntities = entityService.getAllEntities(); 
 		listPractise = practiseService.fetchAll();
-		
-		/*listPractise = new ArrayList<Practice>();
-
-		Practice tmpPractise = new Practice();
-		tmpPractise.setId(1);
-		tmpPractise.setName("KOKO");
-
-		listPractise.add(tmpPractise);
-
-		tmpPractise = new Practice();
-		tmpPractise.setId(2);
-		tmpPractise.setName("PKPK");
-
-		listPractise.add(tmpPractise);
-*/		
-		SharedData.getSharedInstace().addPactiseList(listPractise);
-		
+			
+		initHashOne(listEntities);
+		initHashTwo(listPractise);		
 //		return "Practise/PractiseView?faces-redirect=true";
 		return "PractiseView";
 	}
