@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.Beendo.Controllers.ProviderController;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Utils.SharedData;
 
@@ -38,12 +39,20 @@ public class EntityThemeConverter implements Converter {
 		if(value != null && value.trim().length() > 0) {
             try {
             	
+            	String viewId = context.getViewRoot().getViewId();
+            	CEntitiy entity = null;
+            	Integer id = Integer.parseInt(value);
+            	if(viewId.contains("ProviderView"))
+            	{
+            		ProviderController entityService = (ProviderController) getSpringContext().getBean("providerController");
+                	entity = entityService.getEntityById(id);
+            	}
             	
-            	EntityService entityService = (EntityService) getSpringContext().getBean("entityService");
+            	
             	
 //                EntityService service = (EntityService) context.getExternalContext().getApplicationMap().get("themeService");
 //                return service.getThemes().get(Integer.parseInt(value));
-            	CEntitiy entity = entityService.getEntityById(Integer.parseInt(value));
+//            	 entity = entityService.getEntityById();
             	return entity;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));

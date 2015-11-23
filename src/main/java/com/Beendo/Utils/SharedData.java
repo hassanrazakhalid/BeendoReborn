@@ -1,8 +1,8 @@
 package com.Beendo.Utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.faces.application.FacesMessage;
 
@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Role_Permission;
 import com.Beendo.Entities.User;
 
 
@@ -34,7 +35,7 @@ public class SharedData {
 
     private Authentication authentication;
     
-    public User currentUser;
+    private User currentUser;
     
     private void init(){
     	
@@ -98,13 +99,26 @@ public class SharedData {
     		RequestContext.getCurrentInstance().showMessageInDialog(message);
         }
 		
+//	Collection roles =	 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		
         return isOK;
 	}
+	
+
+	
+	// Getters Annd Setters
 	
 	public String logoutLogic(){
 		
 		SecurityContextHolder.clearContext();
 		return "logout";
 	}
-	
+
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
+	}
 }

@@ -50,7 +50,7 @@ public class UserService implements UserDetailsService {
 		// TODO Auto-generated method stub
 		
 //		User user =	iUserDao.finsUserByUserName(username);
-		User user =	SharedData.getSharedInstace().currentUser;
+		User user =	SharedData.getSharedInstace().getCurrentUser();
 		return user;
 	}	
 	// Security Methods

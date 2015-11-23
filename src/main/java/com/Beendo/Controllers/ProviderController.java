@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-public class ProviderController {
+public class ProviderController extends RootController {
 
 	@Autowired
 	private ProviderService providerService;
@@ -61,6 +61,13 @@ public class ProviderController {
 		entityList = entityService.getAllEntities();
 		payerList = payerService.findAll();
 		
+		if(!entityList.isEmpty())
+		{
+			setCurrentEntity(entityList.get(0));
+			onEntityChange();			
+		}
+		 initHashOne(entityList);
+		
 		return "ProviderView";
 	}
 	
@@ -83,9 +90,7 @@ public class ProviderController {
 				if(prac.getId() == practice.getId())
 					list.add(practice);
 			}
-			
 		}
-		
 		return list;
 	}
 	

@@ -17,10 +17,11 @@
 			<ui:define name="mainContent">
 				<h2>Payer Details</h2>
 				
-				<h:form>
+				<h:form rendered="#{sharedData.currentUser.role.canPayerAdd}">
 					<p:commandButton value="Create" update=":myForm"
 						action="#{payerController.clearData()}"
-								oncomplete="PF('Dlg1').show();" />
+								oncomplete="PF('Dlg1').show();"
+								 />
 								
 					<br/>
 				</h:form>
@@ -61,7 +62,10 @@
 							#{payer.zip}
 						</p:column>
 						
-						<p:column headerText="Edit" width="80">
+						<p:column headerText="Edit"
+						 width="80"
+						 rendered="#{sharedData.currentUser.role.canPayerEdit}"
+						 >
 							<p:commandButton icon="ui-icon-pencil" update=":myForm"
 								oncomplete="PF('Dlg1').show();" 
 								 action="#{payerController.updateClicked(payer)}" />

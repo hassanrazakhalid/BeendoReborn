@@ -15,10 +15,12 @@
 
 		<ui:define name="mainContent">
 
-			<h:form>
+			<h:form rendered="#{sharedData.currentUser.canCreateUser}">
 
 				<p:commandButton actionListener="userController.createUserClicked()" process="@this"
-					value="Create User" oncomplete="PF('userCreateDialog').show()"></p:commandButton>
+					value="Create User" oncomplete="PF('userCreateDialog').show()"
+					 />
+					 <br />
 			</h:form>
 
 			<h:form id="userTable">

@@ -53,7 +53,7 @@ public class LoginController {
 
 		SharedData sharedData = SharedData.getSharedInstace();
 
-		sharedData.currentUser = user;
+		sharedData.setCurrentUser(user);
 		return sharedData.checkForSecurity(userName, password);
 
 		/*		List auth = (List) SecurityContextHolder.getContext().getAuthentication().getAuthorities();

@@ -20,7 +20,8 @@
 				<h:form>
 					<p:commandButton value="Create" update=":myForm"
 						action="#{providerController.clearData()}"
-								oncomplete="PF('Dlg1').show();" />
+								oncomplete="PF('Dlg1').show();"
+								rendered="#{sharedData.currentUser.role.canProviderAdd}" />
 								
 					<br/>
 				</h:form>
@@ -59,7 +60,7 @@
 						</p:column>
 
 						
-						<p:column headerText="Edit" width="80">
+						<p:column headerText="Edit" width="80" rendered="#{sharedData.currentUser.role.canProviderEdit}">
 							<p:commandButton icon="ui-icon-pencil" update=":myForm"
 								oncomplete="PF('Dlg1').show();" 
 								 action="#{providerController.updateClicked(provider)}" />

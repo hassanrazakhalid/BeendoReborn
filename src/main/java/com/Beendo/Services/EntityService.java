@@ -26,7 +26,7 @@ public class EntityService {
 	private IEntity _service;
 	
 //	private List<CEntitiy> listEntities;
-	private HashMap<Integer, CEntitiy> hashEntities = new HashMap<Integer, CEntitiy>();
+/*	private HashMap<Integer, CEntitiy> hashEntities = new HashMap<Integer, CEntitiy>();
 	
 	@PostConstruct
 	private void init(){
@@ -38,25 +38,27 @@ public class EntityService {
 			hashEntities.put(entity.getId(), entity);
 		}
 		
-	}
+	}*/
 	
 	public List<CEntitiy> getAllEntities(){
 		
-		Collection<CEntitiy> col =  hashEntities.values();
+/*		Collection<CEntitiy> col =  hashEntities.values();
 		List<CEntitiy> list = new ArrayList(col);
-		return list;
+		return list;*/
+		return _service.findAll();
 //		return (List<CEntitiy>) hashEntities.values();
 		
 	}
 
-	public CEntitiy getEntityById(Integer id)
+/*	public CEntitiy getEntityById(Integer id)
 	{
 		return hashEntities.get(id);
 	}
+*/	
 	public void save(CEntitiy entity)
 	{
 		_service.save(entity);
-		hashEntities.put(entity.getId(), entity);
+//		hashEntities.put(entity.getId(), entity);
 	}
 	
 	public void update(CEntitiy entity)
