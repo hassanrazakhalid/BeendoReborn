@@ -43,6 +43,7 @@ public class ReportsController {
 	// Payer
 	private List<Payer> payerList;
 	private Payer currentPayer;
+	public String currentPayerStatus;
 	
 	//Provider
 	private List<Provider> providerList;
@@ -56,10 +57,12 @@ public class ReportsController {
 	
 	public HashMap<Integer, Provider> tmpHasnPractise = new HashMap<Integer, Provider>();
 	public HashMap<Integer, Payer> hashPayer = new HashMap<Integer, Payer>();
+	public HashMap<Integer, Practice> hashPractice = new HashMap<Integer, Practice>();
 	
 	
 	public String viewRepTransac()
 	{
+		cleanData();
 		payerList = payerService.findAll();
 		savedTransactions = transactionService.findAll();
 		return "ReportTransaction";
@@ -67,7 +70,9 @@ public class ReportsController {
 	
 	public String viewRepProvider()
 	{
+		cleanData();
 		providerList = providerService.findAll();
+		tmpHasnPractise.clear();
 		
 		for (Provider pro : providerList) {
 			
@@ -79,10 +84,68 @@ public class ReportsController {
 	
 	public String viewRepPractice()
 	{
+		cleanData();
 		practiceList = practiseService.fetchAll();
-		providerList = providerService.findAll();
+		hashPractice.clear();
+		
+		for (Practice practice : practiceList) {
+			
+			hashPractice.put(practice.getId(), practice);
+		}
+		
+		//providerList = providerService.findAll();
+		
+		/*tmpHasnPractise.clear();
+		
+		for (Provider pro : providerList) {
+			
+			tmpHasnPractise.put(pro.getId(), pro);
+		}*/
 		
 		return "ReportPractice";
+	}
+	
+	
+	private void cleanData()
+	{
+		// Transaction
+		transactions = new ArrayList<ProviderTransaction>();
+		savedTransactions = new ArrayList<ProviderTransaction>();
+		
+		// Payer
+		payerList = new ArrayList<Payer>();
+		Payer currentPayer = new Payer();
+		
+		//Provider
+		providerList = new ArrayList<Provider>();
+		currentProvider = new Provider();
+		payerProvider = new ArrayList<Payer>();
+		
+		// Practice
+		practiceList = new ArrayList<Practice>();
+		currentPractice = new Practice();
+	}
+	
+	
+	private List<Provider> getProvidersFromPractice( )
+	{
+		List<Provider> provList = providerService.findAll();
+		List<Provider> tmpProvider = new ArrayList<Provider>();
+		
+		for (Provider provider : provList) {
+			
+			for (Practice prac : provider.getPracticeList()) {
+				
+				if(prac.getId().equals(currentPractice.getId()))
+				{
+					tmpProvider.add(provider);
+					break;
+				}
+			}
+		}
+		
+		return tmpProvider;
+		
 	}
 	
 	public Provider getProviderById(Integer id){
@@ -107,12 +170,29 @@ public class ReportsController {
 	public void onPracticeChange()
 	{
 		
+		providerList = getProvidersFromPractice();
+		
+		tmpHasnPractise.clear();
+		
+		for (Provider pro : providerList) {
+			
+			tmpHasnPractise.put(pro.getId(), pro);
+		}
 	}
 	
 	
 	public void getPayerData()
 	{	
 		//payerList = payerProvider;// = currentProvider.getPayerList();
+		List<Payer> tmpList = new ArrayList<Payer>();
+		for (Payer payer : payerProvider) {
+			
+			if(payer.getPar().equals(currentPayerStatus))
+				tmpList.add(payer);
+		}
+		
+		payerProvider = tmpList;
+		
 	}
 	
 	public void getData()

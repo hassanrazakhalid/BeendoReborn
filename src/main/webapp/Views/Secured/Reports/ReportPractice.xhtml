@@ -19,7 +19,7 @@
 
 				<h:form>
 					
-					<h:panelGrid columns="7" cellpadding="0">  
+					<h:panelGrid columns="9" cellpadding="0">  
 					
 					
 						<p:outputLabel for="idPractices" value="Select Practice: " />
@@ -27,8 +27,8 @@
 								panelStyle="width:180px" effect="fade" converter="practiseConverter"
 								var="t" style="width:177px">
 								
-								<!-- <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" />
-								 -->
+								 <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" />
+								 
 								<f:selectItems value="#{reportsController.practiceList}" var="entity"
 									itemLabel="#{entity.name}" itemValue="#{entity}"  />
 	
@@ -37,7 +37,7 @@
 								</p:column>
 							</p:selectOneMenu>
 					
-						<p:outputLabel for="idProviders" value="Select Provider: " />
+						<h:outputLabel  value="Select Provider: " />
 						<p:selectOneMenu id="idProviders" value="#{reportsController.currentProvider}"
 								panelStyle="width:180px" effect="fade" converter="providerConverter"
 								var="t" style="width:177px">
@@ -53,7 +53,7 @@
 							</p:selectOneMenu>
 							
 							
-						<p:outputLabel for="idPayers" value="Select Payer: " />
+						<h:outputLabel  value="Select Payer: " />
 						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.payerProvider}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="payerConverter" panelStyle="width:250px">
@@ -66,6 +66,20 @@
 							</p:column>
 				            
 				        </p:selectCheckboxMenu>
+				        
+				        
+				        <h:outputLabel for="status" value="Select Status:" />
+			        	<p:selectOneMenu value="#{reportsController.currentPayerStatus}" style="width:175px">
+				            <f:selectItem itemLabel="PAR" itemValue="PAR" />
+				            <f:selectItem itemLabel="Non-Par" itemValue="Non-Par" />
+				            <f:selectItem itemLabel="Application Package Complete" itemValue="Application Package Complete" />
+				            <f:selectItem itemLabel="Application Filed" itemValue="Application Filed" />
+				            <f:selectItem itemLabel="Application Accepted" itemValue="Application Accepted" />
+				            <f:selectItem itemLabel="Application Rejected" itemValue="Application Rejected" />
+				            <f:selectItem itemLabel="Effective Date Assigned" itemValue="Effective Date Assigned" />
+				            <f:selectItem itemLabel="Letter Received" itemValue="Letter Received" />
+				        </p:selectOneMenu>
+				        
 					
 						<p:commandButton value="Search" update=":frmMain"
 							action="#{reportsController.getPayerData()}" />

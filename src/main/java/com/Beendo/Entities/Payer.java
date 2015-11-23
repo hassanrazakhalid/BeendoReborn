@@ -29,9 +29,6 @@ public class Payer {
 	private String zip;
 	
 	private String par;
-	private String appPackageComplete;
-	private String appAccepted;	
-	private String effectiveDateAssigned;
 	
 //	@ManyToOne
 //	private Provider provider;

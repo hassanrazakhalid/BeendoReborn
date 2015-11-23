@@ -60,6 +60,10 @@ public class EntityController {
 	
 	public void createPressed()
 	{
+//		if(!entity.getName().isEmpty())
+//			RequestContext.getCurrentInstance().execute("addDlg.hide()");
+//		else
+//			return;
 		
 		List<CEntitiy> result =	entityService.isNameExist(entities, entity.getName());
 		if(result.size() <= 0)

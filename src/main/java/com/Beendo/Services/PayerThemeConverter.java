@@ -50,6 +50,16 @@ public class PayerThemeConverter implements Converter {
 	            	
 	            	return entity;
             	}
+            	
+            	else if(viewId.contains("ReportPractice.xhtml"))
+            	{        	
+	            	Payer entity = null;
+	            	ReportsController userController = (ReportsController) getSpringContext().getBean("reportsController");
+	            	entity = userController.hashPayer.get((Integer.parseInt(value)));
+	            	
+	            	return entity;
+            	}
+            	
             	else
             	{
 	            	PayerService payerService = (PayerService) getSpringContext().getBean("payerService");         	
