@@ -15,7 +15,9 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.Beendo.Controllers.ProviderController;
 import com.Beendo.Controllers.ReportsController;
+import com.Beendo.Controllers.RootController;
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Utils.SharedData;
 
@@ -41,11 +43,22 @@ public class ProviderThemeConverter implements Converter {
 		if(value != null && value.trim().length() > 0) {
             try {
             	
-            	Provider entity = null;
-            	ReportsController userController = (ReportsController) getSpringContext().getBean("reportsController");
-            	entity = userController.tmpHasnPractise.get((Integer.parseInt(value)));
+            	String viewId = context.getViewRoot().getViewId();
+            	Integer id = Integer.parseInt(value);
+            	Provider provider = null;
             	
-            	return entity;
+            	if(viewId.contains("ReportProvider.xhtml"))
+            	{        		
+            		RootController userController = (RootController) getSpringContext().getBean("reportsController");
+	            	provider = userController.getProviderById(id);	            	
+            	}
+            	else if(viewId.contains("ProviderView.xhtml"))
+            	{        		
+	            	RootController userController = (RootController) getSpringContext().getBean("providerController");
+	            	provider = userController.getProviderById(id);	            	
+            	}
+            	
+            	return provider;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
             }

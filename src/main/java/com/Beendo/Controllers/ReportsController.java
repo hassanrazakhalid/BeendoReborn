@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-public class ReportsController {
+public class ReportsController extends RootController {
 
 	@Autowired
 	private PayerService payerService;

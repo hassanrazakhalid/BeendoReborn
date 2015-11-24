@@ -30,8 +30,8 @@ public class CEntitiy {
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
 	private List<Practice> practiceList = new ArrayList<Practice>();
 	
-	@ManyToMany
-	private List<Provider> providerList = new ArrayList<Provider>();
+	/*@ManyToMany
+	private List<Provider> providerList = new ArrayList<Provider>();*/
 
 	/*@Override
 	public String toString() {

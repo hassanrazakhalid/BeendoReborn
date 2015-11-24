@@ -69,6 +69,8 @@ public class ProviderController extends RootController {
 			onEntityChange();			
 		}
 		 initHashOne(entityList);
+		 initHashFour(providerList);
+		 initHashThree(payerList);
 		
 		return "ProviderView";
 	}

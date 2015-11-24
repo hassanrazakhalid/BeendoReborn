@@ -8,15 +8,13 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import javax.servlet.ServletContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.Beendo.Controllers.ReportsController;
+import com.Beendo.Controllers.RootController;
 import com.Beendo.Entities.Payer;
-import com.Beendo.Entities.Provider;
-import com.Beendo.Utils.SharedData;
 
 @Controller
 @FacesConverter("payerConverter")
@@ -41,32 +39,28 @@ public class PayerThemeConverter implements Converter {
             try {
             	
             	String viewId = context.getViewRoot().getViewId();
-            	
+            	Payer payer = null;
+            	Integer id = Integer.parseInt(value);
             	if(viewId.contains("ReportProvider.xhtml"))
             	{        	
-	            	Payer entity = null;
-	            	ReportsController userController = (ReportsController) getSpringContext().getBean("reportsController");
-	            	entity = userController.hashPayer.get((Integer.parseInt(value)));
 	            	
-	            	return entity;
+	            	ReportsController userController = (ReportsController) getSpringContext().getBean("reportsController");
+	            	payer = userController.hashPayer.get(id);	            	
             	}
             	
             	else if(viewId.contains("ReportPractice.xhtml"))
             	{        	
-	            	Payer entity = null;
 	            	ReportsController userController = (ReportsController) getSpringContext().getBean("reportsController");
-	            	entity = userController.hashPayer.get((Integer.parseInt(value)));
-	            	
-	            	return entity;
+	            	payer = userController.getPayerById(id);  	
             	}
             	
-            	else
+            	else if(viewId.contains("ProviderView.xhtml"))
             	{
-	            	PayerService payerService = (PayerService) getSpringContext().getBean("payerService");         	
-	            	Payer payer = payerService.getEntityById(Integer.parseInt(value));
-	            	return payer;
+            		RootController userController = (RootController) getSpringContext().getBean("providerController");
+	            	payer = userController.getPayerById(id);  
+	            	 
             	}
-            	
+            	return payer;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
             }
