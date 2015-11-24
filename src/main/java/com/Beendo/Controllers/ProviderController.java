@@ -43,19 +43,14 @@ public class ProviderController extends RootController {
 	private List<Provider> providerList;
 	
 	private List<Practice> practiceList;
-	//private List<Practice> selectedPractices;
+	private List<Practice> selectedPractices;
 	
 	private List<Payer> payerList;
-	//private List<Payer> selectedPayers;
 	
 	private List<CEntitiy> entityList;
-	//private List<CEntitiy> entitySel;
 	
 	private CEntitiy currentEntity;
 	private OperationType opetationType;
-	
-	public HashMap<Integer, Practice> hashPractise = new HashMap<>();	
-
 	
 	public String view()
 	{
@@ -100,7 +95,7 @@ public class ProviderController extends RootController {
 	
 	public void saveInfo()
 	{
-		provider.setPracticeList(new HashSet<>(practiceList));
+		provider.setPracticeList(new HashSet<>(selectedPractices));
 		switch (this.opetationType) {
 		case Create:
 		{
@@ -141,12 +136,12 @@ public class ProviderController extends RootController {
 	{
 		provider.setCentity(currentEntity);
 		practiceList = currentEntity.getPracticeList();
-		hashPractise.clear();
-		
-		for (Practice practice : practiceList) {
+		initHashTwo(practiceList);
+	/*	for (Practice practice : practiceList) {
+			
 			
 			hashPractise.put(practice.getId(), practice);
-		}
+		}*/
 	}
 	
 	
