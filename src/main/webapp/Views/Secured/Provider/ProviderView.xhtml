@@ -90,12 +90,11 @@
 						<p:selectOneMenu id="entities" value="#{providerController.currentEntity}"
 							panelStyle="width:180px" effect="fade"
 							converter="entityConverter"  
-							var="t" style="width:177px" filter="true"
-							filterMatchMode="startsWith">
+							var="t" style="width:177px">
 							
 							<p:ajax listener="#{providerController.onEntityChange}" update="myPractices" />
 							
-							
+							<f:selectItem itemLabel="Select Entity" />
 							<f:selectItems value="#{providerController.entityList}" var="entity"
 								itemLabel="#{entity.name}" itemValue="#{entity}"  />
 

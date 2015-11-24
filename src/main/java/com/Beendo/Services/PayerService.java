@@ -49,10 +49,10 @@ public class PayerService {
 	
 	public List<Payer> findAll()
 	{
-		Collection<Payer> col =  hashEntities.values();
-		List<Payer> list = new ArrayList(col);
-		return list;
-		//return service.findAll();
+//		Collection<Payer> col =  hashEntities.values();
+//		List<Payer> list = new ArrayList(col);
+//		return list;
+		return service.findAll();
 	}
 
 	public Payer getEntityById(int id) {

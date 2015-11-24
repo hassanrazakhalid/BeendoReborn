@@ -78,8 +78,9 @@
 				  		<p:selectOneMenu id="idPayer" value="#{transactionController.currentPayer}"
 							panelStyle="width:180px" effect="fade"  
 							converter="payerConverter"
-							var="t" style="width:177px" filter="true">
+							var="t" style="width:177px">
 							
+							<f:selectItem itemLabel="Select" />
 							<f:selectItems value="#{transactionController.payerList}" var="entity"
 								itemLabel="#{entity.name}" itemValue="#{entity}"  />
 
