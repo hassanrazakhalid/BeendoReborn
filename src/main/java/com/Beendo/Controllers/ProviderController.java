@@ -96,6 +96,7 @@ public class ProviderController extends RootController {
 	public void saveInfo()
 	{
 		provider.setPracticeList(new HashSet<>(selectedPractices));
+		provider.setCentity(currentEntity);
 		switch (this.opetationType) {
 		case Create:
 		{
