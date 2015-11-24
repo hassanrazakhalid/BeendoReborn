@@ -22,13 +22,14 @@
 					<h:panelGrid columns="9" cellpadding="0">  
 					
 					
-						<p:outputLabel for="idPractices" value="Select Practice: " />
+						<!-- <p:outputLabel for="idPractices" value="Select Practice: " /> -->
 						<p:selectOneMenu id="idPractices" value="#{reportsController.currentPractice}"
 								panelStyle="width:180px" effect="fade" converter="practiseConverter"
 								var="t" style="width:177px">
 								
 								 <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" />
 								 
+								 <f:selectItem itemLabel="Select Practice" />
 								<f:selectItems value="#{reportsController.practiceList}" var="entity"
 									itemLabel="#{entity.name}" itemValue="#{entity}"  />
 	
@@ -37,13 +38,14 @@
 								</p:column>
 							</p:selectOneMenu>
 					
-						<h:outputLabel  value="Select Provider: " />
+						<!-- <h:outputLabel  value="Select Provider: " /> -->
 						<p:selectOneMenu id="idProviders" value="#{reportsController.currentProvider}"
 								panelStyle="width:180px" effect="fade" converter="providerConverter"
 								var="t" style="width:177px">
 								
 								<p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" />
 								
+								<f:selectItem itemLabel="Select Provider" />
 								<f:selectItems value="#{reportsController.providerList}" var="entity"
 									itemLabel="#{entity.name}" itemValue="#{entity}"  />
 	
@@ -53,7 +55,7 @@
 							</p:selectOneMenu>
 							
 							
-						<h:outputLabel  value="Select Payer: " />
+						<!-- <h:outputLabel  value="Select Payer: " /> -->
 						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.payerProvider}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="payerConverter" panelStyle="width:250px">
@@ -68,8 +70,9 @@
 				        </p:selectCheckboxMenu>
 				        
 				        
-				        <h:outputLabel for="status" value="Select Status:" />
+				        <!-- <h:outputLabel for="status" value="Select Status:" /> -->
 			        	<p:selectOneMenu value="#{reportsController.currentPayerStatus}" style="width:175px">
+			        		<f:selectItem itemLabel="Select Status" />
 				            <f:selectItem itemLabel="PAR" itemValue="PAR" />
 				            <f:selectItem itemLabel="Non-Par" itemValue="Non-Par" />
 				            <f:selectItem itemLabel="Application Package Complete" itemValue="Application Package Complete" />

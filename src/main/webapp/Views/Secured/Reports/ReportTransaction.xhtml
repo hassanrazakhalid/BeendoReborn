@@ -21,11 +21,12 @@
 					
 					<h:panelGrid columns="3" cellpadding="0">  
 					
-						<p:outputLabel for="idPayers" value="Select Payer: " />
+						<!-- <p:outputLabel for="idPayers" value="Select Payer: " /> -->
 						<p:selectOneMenu id="idPayers" value="#{reportsController.currentPayer}"
 								panelStyle="width:180px" effect="fade" converter="payerConverter" 
 								var="t" style="width:177px">
-								
+						
+								<f:selectItem itemLabel="Select Payer" />		
 								<f:selectItems value="#{reportsController.payerList}" var="entity"
 									itemLabel="#{entity.name}" itemValue="#{entity}"  />
 	

@@ -33,29 +33,60 @@
 						</p:column>
 						
 						<p:column headerText="Provider Add">
-							<!-- <p:commandButton icon="ui-icon-copy"
-								style="border:0px solid black; background-color: transparent;" /> -->
-							 #{role.canProviderAdd} 
+							 <p:commandButton icon="ui-icon-check" rendered="#{role.canProviderAdd}"
+								style="border:0px solid black; background-color: transparent;" /> 
+								
+							<p:commandButton icon="ui-icon-close" rendered="#{!role.canProviderAdd}"
+								style="border:0px solid black; background-color: transparent;" /> 
+								
+							 <!-- #{role.canProviderAdd}  -->
 						</p:column>
 						
 						<p:column headerText="Provider Edit">
-							#{role.canProviderEdit}
+						
+							<p:commandButton icon="ui-icon-check" rendered="#{role.canProviderEdit}"
+								style="border:0px solid black; background-color: transparent;" /> 
+								
+							<p:commandButton icon="ui-icon-close" rendered="#{!role.canProviderEdit}"
+								style="border:0px solid black; background-color: transparent;" /> 
+						
+							<!-- #{role.canProviderEdit} -->
 						</p:column>
 						
 						<p:column headerText="Payer Add">
-							#{role.canPayerAdd}
+							<p:commandButton icon="ui-icon-check" rendered="#{role.canPayerAdd}"
+								style="border:0px solid black; background-color: transparent;" /> 
+								
+							<p:commandButton icon="ui-icon-close" rendered="#{!role.canPayerAdd}"
+								style="border:0px solid black; background-color: transparent;" /> 
+							<!-- #{role.canPayerAdd} -->
 						</p:column>
 						
 						<p:column headerText="Payer Edit">
-							#{role.canPayerEdit}
+							<p:commandButton icon="ui-icon-check" rendered="#{role.canPayerEdit}"
+								style="border:0px solid black; background-color: transparent;" /> 
+								
+							<p:commandButton icon="ui-icon-close" rendered="#{!role.canPayerEdit}"
+								style="border:0px solid black; background-color: transparent;" /> 
+							<!-- #{role.canPayerEdit} -->
 						</p:column>
 						
 						<p:column headerText="Transaction Add">
-							#{role.canPayerTransactionAdd}
+							<p:commandButton icon="ui-icon-check" rendered="#{role.canPayerTransactionAdd}"
+								style="border:0px solid black; background-color: transparent;" /> 
+								
+							<p:commandButton icon="ui-icon-close" rendered="#{!role.canPayerTransactionAdd}"
+								style="border:0px solid black; background-color: transparent;" /> 
+							<!-- #{role.canPayerTransactionAdd} -->
 						</p:column>
 						
 						<p:column headerText="Transaction Edit">
-							#{role.canPayerTransactionEdit}
+							<p:commandButton icon="ui-icon-check" rendered="#{role.canPayerTransactionEdit}"
+								style="border:0px solid black; background-color: transparent;" /> 
+								
+							<p:commandButton icon="ui-icon-close" rendered="#{!role.canPayerTransactionEdit}"
+								style="border:0px solid black; background-color: transparent;" /> 
+							<!-- #{role.canPayerTransactionEdit} -->
 						</p:column>
 						
 						<p:column headerText="Operations" width="80">
