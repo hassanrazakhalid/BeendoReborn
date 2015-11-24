@@ -1,7 +1,9 @@
 package com.Beendo.Entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -36,7 +38,7 @@ public class Provider {
 	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<Payer> payerList = new ArrayList<Payer>();
 	
-	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-	private List<Practice> practiceList = new ArrayList<Practice>();
+	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="providers")
+	private Set<Practice> practiceList = new HashSet<Practice>(0);
 	
 }

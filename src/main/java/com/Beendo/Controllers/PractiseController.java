@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
+import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
@@ -24,30 +26,30 @@ import lombok.Setter;
 @Controller
 public class PractiseController extends RootController {
 
+	private OperationType operationType;
+
 	private String entityName;
 	private List<CEntitiy> listEntities;
 	private List<Practice> listPractise;
 
 	private CEntitiy currentEntity;
-	
-	private boolean isEditMode;
 
 	@Autowired
 	private PractiseService practiseService;
-	
+
 	@Autowired
 	private EntityService entityService;
-	
+
 	private Practice practise = new Practice();
 
 	public String viewPractise() {
 
-		listEntities = entityService.getAllEntities(); 
+		listEntities = entityService.getAllEntities();
 		listPractise = practiseService.fetchAll();
-			
+
 		initHashOne(listEntities);
-		initHashTwo(listPractise);		
-//		return "Practise/PractiseView?faces-redirect=true";
+		initHashTwo(listPractise);
+		// return "Practise/PractiseView?faces-redirect=true";
 		return "PractiseView";
 	}
 
@@ -82,40 +84,41 @@ public class PractiseController extends RootController {
 
 	public void createClicked() {
 
-		isEditMode = false;
+		this.operationType = OperationType.Create;
 		initNewPractise();
 	}
 
 	public void updateClicked(Practice sender) {
 
 		practise = sender;
-		isEditMode = true;
+		this.operationType = OperationType.Edit;
 	}
-	
-	public void createEditLogic() {
 
-		if (isEditMode == false) {
-	
-			List<Practice> result =	practiseService.isNameExist(listPractise, practise.getName());
-			if(result.size() <= 0)
-			{
+	public void createEditLogic(ActionEvent event) {
+
+		switch (operationType) {
+		case Create: {
+			List<Practice> result = practiseService.isNameExist(listPractise, practise.getName());
+			if (result.size() <= 0) {
 				currentEntity.getPracticeList().add(practise);
 				practise.setEntity(currentEntity);
 				entityService.update(currentEntity);
-//				practiseService.save(practise);
+				// practiseService.save(practise);
 				listPractise.add(practise);
-				initNewPractise();				
+				initNewPractise();
 			}
-			else
-			{
-				
-			}
-		} else {
-			
-			practiseService.update(practise);
-			FacesContext.getCurrentInstance().addMessage(null,
-	                new FacesMessage("Saved Sucessfully"));
 		}
+			break;
+		case Edit: {
+
+			practiseService.update(practise);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Saved Sucessfully"));
+		}
+			break;
+		default:
+			break;
+		}
+		RequestContext.getCurrentInstance().execute("PF('dlg2').hide()");
 	}
 
 	public void remove(Practice sender) {

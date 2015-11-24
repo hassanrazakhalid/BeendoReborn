@@ -2,6 +2,7 @@ package com.Beendo.Controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -17,6 +18,7 @@ import com.Beendo.Entities.Provider;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.ProviderService;
+import com.Beendo.Utils.OperationType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -50,7 +52,7 @@ public class ProviderController extends RootController {
 	//private List<CEntitiy> entitySel;
 	
 	private CEntitiy currentEntity;
-	private Boolean isEditMode;
+	private OperationType opetationType;
 	
 	public HashMap<Integer, Practice> hashPractise = new HashMap<>();	
 
@@ -76,7 +78,7 @@ public class ProviderController extends RootController {
 		provider = _provider;
 		practiceList = provider.getCentity().getPracticeList();
 		//provider.setPracticeList(getSelectedList());
-		isEditMode = true;
+		this.opetationType = OperationType.Edit;
 	}
 	
 	private List<Practice> getSelectedList()
@@ -96,17 +98,15 @@ public class ProviderController extends RootController {
 	
 	public void saveInfo()
 	{
-		
-		if(isEditMode)
+		provider.setPracticeList(new HashSet<>(practiceList));
+		switch (this.opetationType) {
+		case Create:
 		{
-			providerService.update(provider);
-			showMessage("Provider has been updated");
-		}
-		else
-		{	
 			List<Provider> result =	providerService.isNameExist(providerList, provider.getName(), provider.getNpiNum());
 			if(result.size() <= 0)
 			{
+			
+				
 				providerList.add(provider);
 				providerService.save(provider);
 				showMessage("Provider has been saved");
@@ -114,13 +114,24 @@ public class ProviderController extends RootController {
 			else
 				showMessage("Provider name or npi already exists!");
 		}
-	}
+			break;
+		case Edit:
+		{
+			providerService.update(provider);
+			showMessage("Provider has been updated");
+		}
+			break;
+
+		default:
+			break;
+		}
+}
 
 	
 	public void clearData()
 	{
 		provider = new Provider();
-		isEditMode = false;
+		this.opetationType = OperationType.Create;
 	}
 	
 	

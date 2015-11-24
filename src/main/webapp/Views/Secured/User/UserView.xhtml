@@ -17,10 +17,10 @@
 
 			<h:form rendered="#{sharedData.currentUser.canCreateUser}">
 
-				<p:commandButton actionListener="userController.createUserClicked()" process="@this"
-					value="Create User" oncomplete="PF('userCreateDialog').show()"
-					 />
-					 <br />
+				<p:commandButton actionListener="userController.createUserClicked()"
+					process="@this" value="Create User"
+					oncomplete="PF('userCreateDialog').show()" />
+				<br />
 			</h:form>
 
 			<h:form id="userTable">
@@ -42,31 +42,25 @@
 					#{user.entity.name}
 					</p:column>
 					<p:column headerText="Practise">
-					<table >
-					<ui:repeat value="#{user.practises.toArray()}" var="t">
-					
-					<tr>
-					<td style="border:0px;">
-					<h:outputText value="#{t.name}" />
-					</td>
-					
-					</tr>
-					
-					
-								
-							
+						<table>
+							<ui:repeat value="#{user.practises.toArray()}" var="t">
+
+								<tr>
+									<td style="border: 0px;"><h:outputText value="#{t.name}" />
+									</td>
+
+								</tr>
 							</ui:repeat>
-							</table>
+						</table>
 					</p:column>
 
 					<p:column headerText="Operation">
-						
-							<p:commandButton value="edit"
-								actionListener="#{userController.editButtonClicked(user)}"
-								oncomplete="PF('userCreateDialog').show()"
-								update=":userForm" />
-								
-							<!-- <p:commandButton value="remove"
+
+						<p:commandButton value="edit"
+							actionListener="#{userController.editButtonClicked(user)}"
+							oncomplete="PF('userCreateDialog').show()" update=":userForm" />
+
+						<!-- <p:commandButton value="remove"
 								action="#{userController.remove(user)}"
 								update=":userTable" resetValues="true">
 
@@ -74,14 +68,13 @@
 									icon="ui-icon-alert" />
 							</p:commandButton> -->
 
-							<p:confirmDialog global="true" showEffect="fade"
-								hideEffect="fade">
-								<p:commandButton value="Yes" type="button"
-									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-								<p:commandButton value="No" type="button"
-									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-							</p:confirmDialog>
-						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+
 					</p:column>
 
 				</p:dataTable>
@@ -104,8 +97,8 @@
 						<p:inputText id="tfEmail" value="${userController.user.email}"></p:inputText>
 
 						<p:outputLabel for="listEntity" value="Select Entity:" />
-						
-						
+
+
 						<p:selectOneMenu id="listEntity"
 							value="#{userController.selectedEntity}"
 							converter="entityConverter" panelStyle="width:180px"
@@ -124,12 +117,12 @@
 
 						<p:outputLabel for="listPractise" value="Select Practise:" />
 						<p:selectCheckboxMenu id="listPractise"
-							value="#{userController.selectedPrac}" 
-							label="Select Practices" style="width:177px"
-							panelStyle="width:250px" converter="practiseConverter">
+							value="#{userController.selectedPrac}" label="Select Practices"
+							style="width:177px" panelStyle="width:250px"
+							converter="practiseConverter">
 
 							<f:selectItems value="#{userController.listPractise}"
-								var="practice" itemLabel="#{practice.name}" 
+								var="practice" itemLabel="#{practice.name}"
 								itemValue="#{practice}" />
 
 						</p:selectCheckboxMenu>
@@ -160,7 +153,7 @@
 					<p:commandButton value="Save"
 						action="#{userController.createButtonClicked()}"
 						update=":userTable,userForm"
-						 oncomplete="PF('userCreateDialog').hide()" />
+						oncomplete="PF('userCreateDialog').hide()" />
 				</h:form>
 			</p:dialog>
 

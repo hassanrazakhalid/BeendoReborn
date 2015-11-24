@@ -39,7 +39,16 @@
 				</p:column>
 
 				<p:column headerText="Providers">
-					UpComing
+					<table>
+						<ui:repeat value="#{user.practises.toArray()}" var="t">
+
+							<tr>
+								<td style="border: 0px;"><h:outputText value="#{t.name}" />
+								</td>
+
+							</tr>
+						</ui:repeat>
+					</table>
 				</p:column>
 
 				<p:column headerText="Operation">
@@ -88,19 +97,20 @@
 						<!-- <h:panelGroup> -->
 
 						<p:outputLabel for="entities" value="Entity: " />
-						<p:selectOneMenu id="entities" value="#{practiseController.currentEntity}"
-							converter="entityConverter" panelStyle="width:180px" effect="fade" 
-							var="t" style="width:160px" filter="true"
+						<p:selectOneMenu id="entities"
+							value="#{practiseController.currentEntity}"
+							converter="entityConverter" panelStyle="width:180px"
+							effect="fade" var="t" style="width:160px" filter="true"
 							filterMatchMode="startsWith">
-							
-							<f:selectItems value="#{practiseController.listEntities}" var="entity"
-								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+
+							<f:selectItems value="#{practiseController.listEntities}"
+								var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
 
 							<p:column>
 								<h:outputText value="#{t.name}" />
 							</p:column>
 						</p:selectOneMenu>
-						
+
 						<!-- <p:selectOneMenu id="entities"
 							value="#{practiseController.entityName}" style="width:150px">
 							<p:ajax listener="#{dropdownView.onCountryChange}" />
@@ -114,9 +124,10 @@
 					<p:separator />
 
 					<p:commandButton value="Submit" validateClient="true"
-						action="#{practiseController.createEditLogic()}"
-						update=":practiseTable, createForm" icon="ui-icon-check"
-						oncomplete="handleDialogSubmit(args,'dlg2')" />
+						actionListener="#{practiseController.createEditLogic}"
+						update=":practiseTable, createForm" icon="ui-icon-check" />
+
+					<!-- oncomplete="handleDialogSubmit(args,'dlg2')" -->
 					<!--  </p:panel> -->
 				</h:form>
 

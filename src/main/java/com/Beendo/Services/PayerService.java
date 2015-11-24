@@ -20,26 +20,11 @@ import com.Beendo.Entities.Payer;
 public class PayerService {
 
 	@Autowired
-	private ICRUD<Payer, Integer> service;
-	
-	private HashMap<Integer, Payer> hashEntities = new HashMap<Integer, Payer>();
-	
-	private void init(){
-		
-	List<Payer>	listEntities = service.findAll();
-		for(int i=0; i < listEntities.size(); i++)
-		{
-			Payer entity = listEntities.get(i);
-			hashEntities.put(entity.getId(), entity);
-		}
-		
-	}
-	
+	private ICRUD<Payer, Integer> service;	
 	
 	public void save(Payer entity)
 	{
 		service.save(entity);
-		hashEntities.put(entity.getId(), entity);
 	}
 	
 	public void update(Payer entity)
@@ -49,17 +34,8 @@ public class PayerService {
 	
 	public List<Payer> findAll()
 	{
-//		Collection<Payer> col =  hashEntities.values();
-//		List<Payer> list = new ArrayList(col);
-//		return list;
 		return service.findAll();
 	}
-
-	public Payer getEntityById(int id) {
-		
-		return hashEntities.get(id);
-	}
-	
 	
 	public static List<Payer> isNameExist(List<Payer> entities, String name, String planName, String city, String state, String zip, String street){
 		

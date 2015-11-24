@@ -15,7 +15,6 @@ public class RootController {
 	
 	public void initHashOne(List<CEntitiy> list){
 		
-		if(hashOne ==  null)
 			hashOne = new HashMap<>();
 		
 		updateHashOne(list);
@@ -44,7 +43,6 @@ public class RootController {
 	
 	public void initHashTwo(List<Practice> list){
 		
-		if(hashTwo ==  null)
 			hashTwo = new HashMap<>();
 		
 		updateHashTwo(list);
