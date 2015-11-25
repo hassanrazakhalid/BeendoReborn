@@ -34,7 +34,7 @@ public class Practice implements ICache<Practice> {
 	@ManyToOne
 	private CEntitiy entity;
 	
-	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="PRACTISE_PROVIDER",
 	joinColumns=@JoinColumn(name="PRACTISE_ID"),
 	inverseJoinColumns=@JoinColumn(name="PROVIDER_ID")

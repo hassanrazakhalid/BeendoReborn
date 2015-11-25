@@ -60,6 +60,13 @@ public class PayerThemeConverter implements Converter {
 	            	payer = userController.getPayerById(id);  
 	            	 
             	}
+            	
+            	else if(viewId.contains("ViewTransaction.xhtml"))
+            	{
+            		RootController userController = (RootController)getSpringContext().getBean("transactionController");
+            		payer = userController.getPayerById(id);
+            	}
+            	
             	return payer;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));

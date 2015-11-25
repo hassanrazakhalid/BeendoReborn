@@ -25,7 +25,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-public class TransactionController {
+public class TransactionController extends RootController {
 
 	@Autowired
 	private TransactionService transactionService;
@@ -48,7 +48,7 @@ public class TransactionController {
 	private List<Payer> payerList;
 	
 	
-	private HashMap<Integer, Practice> _hash = new HashMap<Integer, Practice>();
+	//private HashMap<Integer, Practice> _hash = new HashMap<Integer, Practice>();
 	
 	public String view()
 	{
@@ -56,18 +56,23 @@ public class TransactionController {
 		payerList = payerService.findAll();
 		practiceList = practiseService.fetchAll();
 		
-		for (Practice practice : practiceList) {
+		initHashTwo(practiceList);
+		initHashThree(payerList);
+		
+		/*for (Practice practice : practiceList) {
 			
 			_hash.put(practice.getId(), practice);
-		}
+		}*/
 		
 		return "ViewTransaction";
 	}
 	
 	public void updateClicked(ProviderTransaction _transaction)
 	{
-		currentPayer = _transaction.getPayer();
-		currentPractice = _transaction.getPractice();
+		//currentPayer = _transaction.getPayer();
+		//currentPractice = _transaction.getPractice();
+		currentPayer = getPayerById(_transaction.getPayer().getId());
+		currentPractice = getPractiseById(_transaction.getPractice().getId());
 		transaction = _transaction;
 		isEditMode = true;
 	}
@@ -92,6 +97,8 @@ public class TransactionController {
 	
 	public void clearData()
 	{	
+		currentPayer = null;
+		currentPractice = null;
 		transaction = new ProviderTransaction();
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

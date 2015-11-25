@@ -9,29 +9,16 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Utils.ICache;
+import com.Beendo.Entities.ProviderTransaction;
 
 public class RootController {
 
-	private HashMap<String, List<ICache>> cacheHash = new HashMap<>();
-	
 	private HashMap<Integer, CEntitiy> hashOne;
 	private HashMap<Integer, Practice> hashTwo;
 	private HashMap<Integer, Payer> hashThree;
 	private HashMap<Integer, Provider> hashFour;
+	private HashMap<Integer, ProviderTransaction> hashTrans;
 
-	// Generic Code
-	public void addList(List<ICache> list, String key){
-		
-		cacheHash.put(key, list);
-	}	
-	/*public ICache getObject(String listKey, Integer objectId)
-	{
-		cacheHash.get(listKey).get(objectId);
-	}*/
-	
-	//
-	
 	public void initHashOne(List<CEntitiy> list) {
 
 		hashOne = new HashMap<>();
@@ -155,4 +142,39 @@ public class RootController {
 
 		return hashFour.get(id);
 	}
+	
+	//------------------------- TRANSACTION HASH ------------------------
+	
+	public void initHash(List<ProviderTransaction> list) {
+
+		hashTrans = new HashMap<>();
+
+		updateHash(list);
+	}
+	
+	public void updateHash(List<ProviderTransaction> list) {
+
+		for (ProviderTransaction object : list) {
+
+			hashTrans.put(object.getId(), object);
+		}
+	}
+	
+	public List<ProviderTransaction> getAllHash() {
+
+		Collection<ProviderTransaction> col = hashTrans.values();
+		List<ProviderTransaction> list = new ArrayList<ProviderTransaction>(col);
+		return list;
+	}
+
+	public void clearHash() {
+		hashTrans.clear();
+	}
+
+	public ProviderTransaction getTransactionById(Integer id) {
+
+		return hashTrans.get(id);
+	}
+	
+	
 }

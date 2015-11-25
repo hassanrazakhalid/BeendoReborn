@@ -12,7 +12,7 @@
 		<ui:composition template="/Views/Template/MainTemplate.xhtml">
 			<ui:define name="pageTitle">
             Welcome [Dashboard.xhtml]
-        </ui:define>
+        	</ui:define>
 
 			<ui:define name="mainContent">
 				<h2>Provider Details</h2>
@@ -118,7 +118,7 @@
 				        </p:selectCheckboxMenu>
 						
 						
-					  <p:selectCheckboxMenu value="#{providerController.provider.payerList}" label="Select Payers"
+					  <p:selectCheckboxMenu value="#{providerController.selectedPayers}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="payerConverter" panelStyle="width:250px">
 				            

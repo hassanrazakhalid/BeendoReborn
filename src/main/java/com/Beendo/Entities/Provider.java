@@ -35,7 +35,7 @@ public class Provider {
 	@OneToOne(cascade=CascadeType.ALL)
 	private CEntitiy centity = new CEntitiy();
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Payer> payerList = new ArrayList<Payer>();
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="providers")

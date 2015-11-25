@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import com.Beendo.Utils.CustomArrayList;
+import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 
@@ -43,10 +43,11 @@ public class ProviderController extends RootController {
 	private Provider provider = new Provider();
 	private List<Provider> providerList;
 
-	private List<Practice> practiceList = new ArrayList<>();
-	private List<Practice> selectedPractices =  new ArrayList<>();
+	private List<Practice> practiceList;
+	private List<Practice> selectedPractices;
 
 	private List<Payer> payerList;
+	private List<Payer> selectedPayers;
 
 	private List<CEntitiy> entityList;
 
@@ -63,7 +64,6 @@ public class ProviderController extends RootController {
 			onEntityChange();
 		}
 		initHashOne(entityList);
-		initHashTwo(new ArrayList<>(currentEntity.getPracticeList()));
 		initHashFour(providerList);
 		initHashThree(payerList);
 
@@ -71,39 +71,40 @@ public class ProviderController extends RootController {
 	}
 
 	public void updateClicked(Provider _provider) {
+		
+		selectedPayers = getSelectedPayers(_provider);
+		selectedPractices = getSelectedPractices(_provider);
 		provider = _provider;
-//		practiceList = new ArrayList<>();
-//		provider.getPracticeList().toArray()
-		
-		practiceList.clear();
-		for (Practice practise : _provider.getPracticeList() ) {
-			
-			selectedPractices.add(getPractiseById(practise.getId()));
-			
-		}
-		
-		practiceList.addAll(getAllHashTwo());
-//	selectedPractices =	updateListForEdit(practiceList,selectedPractices);
+		//practiceList = new ArrayList<>(provider.getCentity().getPracticeList());
 		// provider.setPracticeList(getSelectedList());
 		this.opetationType = OperationType.Edit;
 	}
 	
-	public ArrayList<Practice> updateListForEdit(List<Practice> fromList, List<Practice> toList )
+	private List<Payer> getSelectedPayers(Provider _provider)
 	{
-		CustomArrayList<Practice> toCustomList = new CustomArrayList<>();
-		toCustomList.addAll(fromList);
-		for (Practice superPractice : fromList) {
+		List<Payer> list = new ArrayList();
+		
+		for (Payer payer : _provider.getPayerList()) {
 			
-			for (Practice practice : toList) {
-				
-				if(!toCustomList.contains(superPractice))
-				{
-					toCustomList.add(superPractice);
-				}
-			}			
+			list.add(getPayerById(payer.getId()));
 		}
 		
-		return new ArrayList<Practice>(toCustomList);
+		return list;
+	}
+	
+	private List<Practice> getSelectedPractices(Provider _provider)
+	{
+		List<Practice> mlist = new ArrayList();
+		Set<Practice> list = new HashSet<Practice>();
+		
+		for (Practice prac : _provider.getPracticeList()) {
+			
+			list.add(getPractiseById(prac.getId()));
+		}
+		
+		mlist.addAll(list);
+		
+		return mlist;
 	}
 
 	private List<Practice> getSelectedList() {
@@ -121,6 +122,8 @@ public class ProviderController extends RootController {
 	}
 
 	public void saveInfo() {
+		
+		provider.setPayerList(selectedPayers);
 		provider.setPracticeList(new HashSet<>(selectedPractices));
 		for (Practice practise : selectedPractices) {
 
@@ -151,6 +154,8 @@ public class ProviderController extends RootController {
 	}
 
 	public void clearData() {
+		selectedPayers = null;
+		selectedPractices = null;
 		provider = new Provider();
 		this.opetationType = OperationType.Create;
 	}

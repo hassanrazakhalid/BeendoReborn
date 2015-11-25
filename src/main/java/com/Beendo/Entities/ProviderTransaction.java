@@ -27,10 +27,10 @@ public class ProviderTransaction {
 	private String comments;
 	
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Payer payer = new Payer();
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Practice practice = new Practice();
 	
 }
