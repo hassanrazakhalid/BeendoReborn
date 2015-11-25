@@ -2,7 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
 
 <h:head></h:head>
 
@@ -87,7 +88,8 @@
 
 					<p:panelGrid id="panelGrid" columns="2">
 						<p:outputLabel for="tfUsername" value="UserName:" />
-						<p:inputText id="tfUsername" value="${userController.user.appUserName}"></p:inputText>
+						<p:inputText id="tfUsername"
+							value="${userController.user.appUserName}"></p:inputText>
 
 						<p:outputLabel for="tfPassword" value="Password:" />
 						<p:inputText id="tfPassword"
@@ -140,10 +142,13 @@
 								<h:outputText value="#{t.name}" />
 							</p:column>
 						</p:selectOneMenu>
-
-						<h:outputText value="Can Create User: " />
-						<p:selectBooleanCheckbox
-							value="#{userController.user.canCreateUser}" />
+						
+						
+						<sec:authorize access="hasRole('ROLE_SUPER_ADMIN')">
+							<h:outputText value="Can Create User: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.user.canCreateUser}" />
+						</sec:authorize>
 						<h:outputText value="Send Email: " />
 						<p:selectBooleanCheckbox value="#{userController.sendEmail}" />
 

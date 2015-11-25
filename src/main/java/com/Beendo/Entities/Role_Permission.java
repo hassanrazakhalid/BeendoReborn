@@ -50,7 +50,22 @@ public class Role_Permission  implements GrantedAuthority {
 	public String getAuthority() {
 		// TODO Auto-generated method stub
 //		return "ROLE_ADMIN";
-	String str = "ROLE_"+this.getName().toUpperCase();
+		String str = null;
+		if(isSuperAdmin())
+			str = "ROLE_SUPER_ADMIN";
+		else
+			str = "ROLE_"+this.getName().toUpperCase();
 		return str;
+	}
+	
+	private boolean isSuperAdmin(){
+		
+		if(this.user.getAppUserName().equalsIgnoreCase("SuperAdmin") &&
+		   this.user.getAppUserName().equalsIgnoreCase("Password"))
+		{
+			return true;
+		}
+		else
+			return false;
 	}
 }
