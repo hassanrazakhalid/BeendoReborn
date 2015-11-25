@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -31,6 +33,10 @@ public class Practice {
 	private CEntitiy entity;
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinTable(name="PRACTISE_PROVIDER",
+	joinColumns=@JoinColumn(name="PRACTISE_ID"),
+	inverseJoinColumns=@JoinColumn(name="PROVIDER_ID")
+	)
 	private Set<Provider> providers = new HashSet<Provider>();
 
 }
