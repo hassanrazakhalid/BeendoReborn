@@ -29,9 +29,9 @@ public class UserService implements UserDetailsService {
 		return iUserDao.findAll();
 	}
 	
-	public User isUserValid(String email, String password){
+	public User isUserValid(String appUserName, String password){
 	
-		User user =	iUserDao.isUserValid(email, password);
+		User user =	iUserDao.isUserValid(appUserName, password);
 		return user;
 	}
 

@@ -37,6 +37,7 @@ public class User implements UserDetails {
 	@Column(name = "User_Id")
 	private Integer id;
 	private String name;
+	private String appUserName;
 	private String email;
 	private String password;
 	private Boolean canCreateUser;
@@ -86,7 +87,7 @@ public class User implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return getEmail();
+		return getAppUserName();
 	}
 
 	@Override

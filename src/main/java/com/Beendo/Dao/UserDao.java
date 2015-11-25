@@ -20,13 +20,13 @@ public class UserDao implements IUserDao {
     private SessionFactory sessionFactory;
 
 	@Transactional
-	public User isUserValid(String email, String password){
+	public User isUserValid(String appUserName, String password){
 		
 		User user = null;
 	
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM User U where U.email = :email AND U.password = :password");
-		query.setParameter("email", email);
+		Query query = session.createQuery("FROM User U where U.appUserName = :appUserName AND U.password = :password");
+		query.setParameter("appUserName", appUserName);
 		query.setParameter("password", password);
 		
 		List<User> result = query.list();

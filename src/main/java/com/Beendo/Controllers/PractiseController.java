@@ -46,7 +46,7 @@ public class PractiseController extends RootController {
 
 		listEntities = entityService.getAllEntities();
 		listPractise = practiseService.fetchAll();
-
+		
 		initHashOne(listEntities);
 		initHashTwo(listPractise);
 		// return "Practise/PractiseView?faces-redirect=true";
