@@ -15,7 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Role_Permission;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
@@ -77,6 +79,12 @@ public class UserController {
 	public void initUserList(){
 		
 		List<User> tmpList = userService.fetchAll();
+		
+		for (User user : tmpList) {
+			
+			System.out.println("UserName:is"+user.getAppUserName()+"And Practise Count"+user.getPractises().size());
+		}
+		
 		listUsers = tmpList;
 	}
 	
@@ -169,16 +177,19 @@ public class UserController {
 		
 		Set<Practice> practises = sender.getPractises();
 
-		List<Practice> list = 		practiseService.fetchAll();
+		listPractise = getSelectedPractices(sender);
+		user = sender;
+		return;
+/*		List<Practice> list = 		practiseService.fetchAll();
 		listPractise =  new ArrayList<Practice>();
-	/*	for (Practice practic : list) {
+		for (Practice practic : list) {
 			Practice pr = new Practice();
 			
 			pr.setId(practic.getId());
 			pr.setName(practic.getName());
 			
 			listPractise.add(pr);
-		}*/
+		}
 		
 		
 		listPractise = list ;
@@ -196,7 +207,6 @@ for (Practice practic : listSelected) {
 	
 	
 }
-}
 
 
  selectedPrac = new Practice[listSelectedFinal.size()];
@@ -206,7 +216,35 @@ for (Practice practic : listSelected) {
 //		selectedPractises = new  HashSet<>(0);
 //		selectedPractises = practises;
 		
-		user = sender;
+		user = sender;*/
+
+	}
+	
+	/*private List<Payer> getSelectedPayers(Provider _provider)
+	{
+		List<Payer> list = new ArrayList();
+		
+		for (Payer payer : _provider.getPayerList()) {
+			
+			list.add(getPayerById(payer.getId()));
+		}
+		
+		return list;
+	}*/
+	
+	private List<Practice> getSelectedPractices(User _user)
+	{
+		List<Practice> mlist = new ArrayList();
+		Set<Practice> list = new HashSet<Practice>();
+		
+		for (Practice prac : _user.getPractises()) {
+			
+			list.add(getPractiseById(prac.getId()));
+		}
+		
+		mlist.addAll(list);
+		
+		return mlist;
 	}
 	
 	public void copyButtonClicked(User sender){

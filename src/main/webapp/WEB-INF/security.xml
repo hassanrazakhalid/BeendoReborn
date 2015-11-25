@@ -25,8 +25,8 @@
 		
   
         <!-- Define login page for Spring Security -->      
-        <form-login login-page="/Views/Login/index.xhtml"/>
-		<logout invalidate-session="true" delete-cookies="true" logout-url="/logout.xhtml" />
+        <form-login login-page="/Views/Unsecured/Login/index.xhtml"/>
+		<logout invalidate-session="true" delete-cookies="true" logout-url="/Views/Unsecured/logout.xhtml" />
 	</http>
 
 	<authentication-manager id="authenticationManager">

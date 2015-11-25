@@ -32,13 +32,13 @@ public class Provider {
 	private String npiNum;
 	
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne()
 	private CEntitiy centity = new CEntitiy();
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Payer> payerList = new ArrayList<Payer>();
 	
-	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="providers")
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy="providers")
 	private Set<Practice> practiceList = new HashSet<Practice>();
 	
 }
