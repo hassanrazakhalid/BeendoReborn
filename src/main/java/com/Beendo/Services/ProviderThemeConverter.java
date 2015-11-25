@@ -52,6 +52,13 @@ public class ProviderThemeConverter implements Converter {
             		RootController userController = (RootController) getSpringContext().getBean("reportsController");
 	            	provider = userController.getProviderById(id);	            	
             	}
+            	
+            	else if(viewId.contains("ReportPractice.xhtml"))
+            	{        		
+            		RootController userController = (RootController) getSpringContext().getBean("reportsController");
+	            	provider = userController.getProviderById(id);	            	
+            	}
+            	
             	else if(viewId.contains("ProviderView.xhtml"))
             	{        		
 	            	RootController userController = (RootController) getSpringContext().getBean("providerController");

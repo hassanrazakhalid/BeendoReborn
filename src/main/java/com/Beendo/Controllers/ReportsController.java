@@ -64,6 +64,7 @@ public class ReportsController extends RootController {
 	{
 		cleanData();
 		payerList = payerService.findAll();
+		initHashThree(payerList);
 		savedTransactions = transactionService.findAll();
 		return "ReportTransaction";
 	}
@@ -87,6 +88,9 @@ public class ReportsController extends RootController {
 		cleanData();
 		practiceList = practiseService.fetchAll();
 		hashPractice.clear();
+		
+		List<Provider> provList = providerService.findAll();
+		initHashFour(provList);
 		
 		for (Practice practice : practiceList) {
 			
@@ -163,6 +167,8 @@ public class ReportsController extends RootController {
 			
 			hashPayer.put(pro.getId(), pro);
 		}
+		
+		initHashThree(currentProvider.getPayerList());
 		
 	}
 	

@@ -15,8 +15,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.Beendo.Utils.ICache;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "PRACTISE")
-public class Practice implements ICache<Practice> {
+public class Practice {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -41,23 +39,4 @@ public class Practice implements ICache<Practice> {
 	)
 	private Set<Provider> providers = new HashSet<Provider>();
 
-	@Override
-	public Integer getCacheId(){
-		
-		return getId();
-	}
-	
-	@Override
-	public Practice getObject(Integer id){
-		
-		return null;
-	}
-
-	public boolean isEqual(Practice sender){
-	
-		if(this.id == sender.id)
-			return true;
-		else
-			return false;
-}
 }

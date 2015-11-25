@@ -54,6 +54,12 @@ public class PayerThemeConverter implements Converter {
 	            	payer = userController.getPayerById(id);  	
             	}
             	
+            	else if(viewId.contains("ReportTransaction.xhtml"))
+            	{
+            		RootController userController = (RootController)getSpringContext().getBean("reportsController");
+            		payer = userController.getPayerById(id);
+            	}
+            	
             	else if(viewId.contains("ProviderView.xhtml"))
             	{
             		RootController userController = (RootController) getSpringContext().getBean("providerController");
