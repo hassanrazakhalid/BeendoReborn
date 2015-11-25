@@ -20,8 +20,8 @@
 		
 		<intercept-url pattern="/Views/Secured/Dashboard/*" access="permitAll" />
 		
-		<intercept-url pattern="/Views/Secured/User/*" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/Views/Secured/User/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/Views/Secured/User/*" access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER_ADMIN')" />
+		<intercept-url pattern="/Views/Secured/User/**" access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER_ADMIN')" />
 		
   
         <!-- Define login page for Spring Security -->      
