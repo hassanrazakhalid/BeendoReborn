@@ -1,11 +1,13 @@
 package com.Beendo.Controllers;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +19,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.UserService;
+
 
 import lombok.Getter;
 import lombok.Setter;

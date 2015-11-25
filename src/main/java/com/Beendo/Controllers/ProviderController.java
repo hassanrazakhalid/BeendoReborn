@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import com.Beendo.Utils.CustomArrayList;
 
 import javax.faces.application.FacesMessage;
 
@@ -42,8 +43,8 @@ public class ProviderController extends RootController {
 	private Provider provider = new Provider();
 	private List<Provider> providerList;
 
-	private List<Practice> practiceList;
-	private List<Practice> selectedPractices;
+	private List<Practice> practiceList = new ArrayList<>();
+	private List<Practice> selectedPractices =  new ArrayList<>();
 
 	private List<Payer> payerList;
 
@@ -62,6 +63,7 @@ public class ProviderController extends RootController {
 			onEntityChange();
 		}
 		initHashOne(entityList);
+		initHashTwo(new ArrayList<>(currentEntity.getPracticeList()));
 		initHashFour(providerList);
 		initHashThree(payerList);
 
@@ -70,9 +72,38 @@ public class ProviderController extends RootController {
 
 	public void updateClicked(Provider _provider) {
 		provider = _provider;
-		practiceList = new ArrayList<>(provider.getCentity().getPracticeList());
+//		practiceList = new ArrayList<>();
+//		provider.getPracticeList().toArray()
+		
+		practiceList.clear();
+		for (Practice practise : _provider.getPracticeList() ) {
+			
+			selectedPractices.add(getPractiseById(practise.getId()));
+			
+		}
+		
+		practiceList.addAll(getAllHashTwo());
+//	selectedPractices =	updateListForEdit(practiceList,selectedPractices);
 		// provider.setPracticeList(getSelectedList());
 		this.opetationType = OperationType.Edit;
+	}
+	
+	public ArrayList<Practice> updateListForEdit(List<Practice> fromList, List<Practice> toList )
+	{
+		CustomArrayList<Practice> toCustomList = new CustomArrayList<>();
+		toCustomList.addAll(fromList);
+		for (Practice superPractice : fromList) {
+			
+			for (Practice practice : toList) {
+				
+				if(!toCustomList.contains(superPractice))
+				{
+					toCustomList.add(superPractice);
+				}
+			}			
+		}
+		
+		return new ArrayList<Practice>(toCustomList);
 	}
 
 	private List<Practice> getSelectedList() {

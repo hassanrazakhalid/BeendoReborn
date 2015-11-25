@@ -9,14 +9,29 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
+import com.Beendo.Utils.ICache;
 
 public class RootController {
 
+	private HashMap<String, List<ICache>> cacheHash = new HashMap<>();
+	
 	private HashMap<Integer, CEntitiy> hashOne;
 	private HashMap<Integer, Practice> hashTwo;
 	private HashMap<Integer, Payer> hashThree;
 	private HashMap<Integer, Provider> hashFour;
 
+	// Generic Code
+	public void addList(List<ICache> list, String key){
+		
+		cacheHash.put(key, list);
+	}	
+	/*public ICache getObject(String listKey, Integer objectId)
+	{
+		cacheHash.get(listKey).get(objectId);
+	}*/
+	
+	//
+	
 	public void initHashOne(List<CEntitiy> list) {
 
 		hashOne = new HashMap<>();

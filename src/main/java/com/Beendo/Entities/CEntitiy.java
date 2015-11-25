@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.Beendo.Utils.ICache;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "Entities")
-public class CEntitiy {
+public class CEntitiy implements ICache<CEntitiy> {
 
 	@Id
 	@GeneratedValue
@@ -39,4 +41,17 @@ public class CEntitiy {
 		// TODO Auto-generated method stub
 		return String.valueOf(getId());
 	}*/
+
+	@Override
+	public Integer getCacheId(){
+		
+		return getId();
+	}
+	
+	@Override
+	public CEntitiy getObject(Integer id){
+		
+		return null;
+	}
+
 }

@@ -28,9 +28,13 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3307/janjua_TestDB" />
+		<!-- <property name="url" value="jdbc:mysql://127.0.0.1:3307/janjua_TestDB" />
 		<property name="username" value="admin" />
-		<property name="password" value="admin" />
+		<property name="password" value="admin" /> -->
+		
+		<property name="url" value="jdbc:mysql://162.144.198.59:3306/janjua_TestDb" />
+		<property name="username" value="janjua_Admin" />
+		<property name="password" value=")th*@(i_IW43" />
 
 	</bean>
 	<bean id="sessionFactory"
@@ -48,9 +52,9 @@
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="connection.pool_size">1</prop>
-				<prop key="show_sql">true</prop>
+				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
-				<prop key="hbm2ddl.auto">update</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				
 			</props>
 		</property>

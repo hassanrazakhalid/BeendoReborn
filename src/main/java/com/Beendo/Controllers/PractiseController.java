@@ -1,7 +1,11 @@
 package com.Beendo.Controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -15,6 +19,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
+import com.Beendo.Utils.CustomArrayList;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.SharedData;
 
@@ -91,19 +96,26 @@ public class PractiseController extends RootController {
 	public void updateClicked(Practice sender) {
 
 		practise = sender;
+		
+		
+		
 		this.operationType = OperationType.Edit;
 	}
 
 	public void createEditLogic(ActionEvent event) {
 
+		Set<Practice> set = new HashSet<Practice>();
+		set.add(practise);
+		currentEntity.setPracticeList(set);
+		practise.setEntity(currentEntity);
+		
 		switch (operationType) {
 		case Create: {
 			List<Practice> result = practiseService.isNameExist(listPractise, practise.getName());
 			if (result.size() <= 0) {
-				currentEntity.getPracticeList().add(practise);
-				practise.setEntity(currentEntity);
-				entityService.update(currentEntity);
+				
 				// practiseService.save(practise);
+				entityService.update(currentEntity);
 				listPractise.add(practise);
 				initNewPractise();
 			}
