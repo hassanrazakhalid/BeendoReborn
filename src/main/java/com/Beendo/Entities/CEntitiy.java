@@ -1,7 +1,8 @@
 package com.Beendo.Entities;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,7 +29,7 @@ public class CEntitiy {
 	private String name;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
-	private List<Practice> practiceList = new ArrayList<Practice>();
+	private Set<Practice> practiceList = new HashSet<Practice>();
 	
 	/*@ManyToMany
 	private List<Provider> providerList = new ArrayList<Provider>();*/

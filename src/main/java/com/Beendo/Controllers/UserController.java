@@ -89,7 +89,7 @@ public class UserController {
 			CEntitiy entity = listEntities.get(0);
 			if (entity.getPracticeList().size() > 0)
 			{
-				listPractise = entity.getPracticeList();
+				listPractise = new ArrayList<Practice>(entity.getPracticeList());
 				for (Practice practice : listPractise) {
 					
 					tmpHasnPractise.put(practice.getId(), practice);
@@ -118,7 +118,7 @@ public class UserController {
 
 	public void entityChanged() {
 
-		listPractise = selectedEntity.getPracticeList();
+		listPractise = new ArrayList<>(selectedEntity.getPracticeList());
 		System.out.println("Changed");
 	}
 	
