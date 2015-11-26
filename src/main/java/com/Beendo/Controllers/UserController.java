@@ -6,6 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.print.attribute.standard.Severity;
+
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,14 +57,13 @@ public class UserController extends RootController {
 	private User user = new User();
 
 	private CEntitiy selectedEntity;
-	private Set<Practice> selectedPractises;
-	private Practice[] selectedPrac;
+	private ArrayList<Practice> selectedPractises =  new ArrayList<>();
 	private Role_Permission selectedRole;
 	
 	private HashMap<Integer, Practice> tmpHasnPractise = new HashMap<Integer, Practice>();
 
-	private List<CEntitiy> listEntities;
-	private List<Practice> listPractise;
+	private List<CEntitiy> listEntities = new ArrayList<>();
+	private List<Practice> listPractise = new ArrayList<>();
 	private List<Role_Permission> listRoles;
 	
 	private List<User> listUsers = new ArrayList<User>();
@@ -84,7 +89,6 @@ public class UserController extends RootController {
 			
 			System.out.println("UserName:is"+user.getAppUserName()+"And Practise Count"+user.getPractises().size());
 		}
-		
 		listUsers = tmpList;
 	}
 	
@@ -130,7 +134,8 @@ public class UserController extends RootController {
 
 	public void entityChanged() {
 
-		listPractise = new ArrayList<>(selectedEntity.getPracticeList());
+		listPractise.clear();
+		listPractise.addAll(selectedEntity.getPracticeList());
 		clearHashTwo();
 		initHashTwo(listPractise);
 		System.out.println("Changed");
@@ -152,38 +157,80 @@ public class UserController extends RootController {
 */	}
 	
 	public void createButtonClicked(){
-		//user = new User();
-		switch (operationType) {
-		case Create:
-		case Copy:
+		
+		operationType = OperationType.Create;
+		user = new User();
+		selectedPractises.clear();
+		
+		List<CEntitiy> tmpListEntity = entityService.fetchAllEntitiesByUser();
+		if(tmpListEntity.size() > 0)
 		{
-			user.setEntity(selectedEntity);
-			user.setPractises(selectedPractises);
-			user.setRole(selectedRole);
-			addUserToSelectedPractise();
-			userService.save(user);
-			listUsers.add(user);
-			initUser();
+			selectedEntity = tmpListEntity.get(0);
 		}
-			break;
-		case Edit:
+		List<Role_Permission> tmpRoles = getAllRoles();
+		if(tmpRoles.size() > 0)
 		{
-			userService.update(user);
-		}
-			break;
-
-		default:
-			break;
+			selectedRole = tmpRoles.get(0);
 		}
 	}
 	
+	private boolean isUserInfoValid(){
+		
+		boolean isOK = true;
+		
+		if(user.getUsername().length() <= 0)
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Username", "Username cannot be empty"));
+			isOK = false;
+		}
+		
+		return isOK;
+	}
+	
+	public void saveButtonClicked(ActionEvent event){
+		
+		if(isUserInfoValid())
+		{
+			user.setEntity(selectedEntity);
+			user.setPractises(new HashSet<>(selectedPractises));
+			user.setRole(selectedRole);
+			
+			switch (operationType) {
+			case Create:
+			case Copy:
+			{
+
+//				addUserToSelectedPractise();
+				userService.save(user);
+				listUsers.add(user);
+				initUser();
+			}
+				break;
+			case Edit:
+			{
+				userService.update(user);
+			}
+				break;
+
+			default:
+				break;
+			}
+			
+//			RequestContext.getCurrentInstance().execute("PF('userCreateDialog').hide()");
+		}
+
+	}
+	
 	public void editButtonClicked(User sender){
-		user = new User();
+		
 		operationType = OperationType.Edit;
 		
-		Set<Practice> practises = sender.getPractises();
+	//	Set<Practice> practises = sender.getPractises();
 
-		listPractise = getSelectedPractices(sender);
+//		listPractise = getSelectedPractices(sender);
+		updatePractiseList(sender);
+		updateSelectedRole(sender);
+		updateSelectedEntity(sender);
 		user = sender;
 		return;
 /*		List<Practice> list = 		practiseService.fetchAll();
@@ -238,19 +285,32 @@ for (Practice practic : listSelected) {
 		return list;
 	}*/
 	
-	private List<Practice> getSelectedPractices(User _user)
-	{
-		List<Practice> mlist = new ArrayList();
-		Set<Practice> list = new HashSet<Practice>();
+	private void updatePractiseList(User user){
 		
-		for (Practice prac : _user.getPractises()) {
+/*		HashMap<Integer, Practice> tmpHashMap = new HashMap<>();
+		
+		for (Practice practise : getAllHashTwo()) {
 			
-			list.add(getPractiseById(prac.getId()));
+			tmpHashMap.put(practise.getId(), practise);
 		}
 		
-		mlist.addAll(list);
+		listPractise = new ArrayList<Practice>(tmpHashMap.values());*/
 		
-		return mlist;
+		selectedPractises.clear();
+		for (Practice practise : user.getPractises()) {
+			
+			selectedPractises.add(getPractiseById(practise.getId()));
+		}
+	}
+
+	private void updateSelectedRole(User user){
+		
+		selectedRole = getRoleById(user.getRole().getId());
+	}
+	
+	private void updateSelectedEntity(User user){
+		
+		selectedEntity = getEntityById(user.getEntity().getId());
 	}
 	
 	public void copyButtonClicked(User sender){
@@ -264,143 +324,4 @@ for (Practice practic : listSelected) {
 		userService.remove(sender);
 		listUsers.remove(sender);
 	}
-
-	public OperationType getOperationType() {
-		return operationType;
-	}
-
-	public void setOperationType(OperationType operationType) {
-		this.operationType = operationType;
-	}
-
-	public Boolean getSendEmail() {
-		return sendEmail;
-	}
-
-	public void setSendEmail(Boolean sendEmail) {
-		this.sendEmail = sendEmail;
-	}
-
-	public EntityService getEntityService() {
-		return entityService;
-	}
-
-	public void setEntityService(EntityService entityService) {
-		this.entityService = entityService;
-	}
-
-	public RoleService getRoleService() {
-		return roleService;
-	}
-
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
-	}
-
-	public UserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public CEntitiy getSelectedEntity() {
-		return selectedEntity;
-	}
-
-	public void setSelectedEntity(CEntitiy selectedEntity) {
-		this.selectedEntity = selectedEntity;
-	}
-
-	public Set<Practice> getSelectedPractises() {
-		return selectedPractises;
-	}
-
-	public void setSelectedPractises(Set<Practice> selectedPractises) {
-		this.selectedPractises = selectedPractises;
-	}
-
-	public Role_Permission getSelectedRole() {
-		return selectedRole;
-	}
-
-	public void setSelectedRole(Role_Permission selectedRole) {
-		this.selectedRole = selectedRole;
-	}
-
-	public HashMap<Integer, Practice> getTmpHasnPractise() {
-		return tmpHasnPractise;
-	}
-
-	public void setTmpHasnPractise(HashMap<Integer, Practice> tmpHasnPractise) {
-		this.tmpHasnPractise = tmpHasnPractise;
-	}
-
-	public List<CEntitiy> getListEntities() {
-		return listEntities;
-	}
-
-	public void setListEntities(List<CEntitiy> listEntities) {
-		this.listEntities = listEntities;
-	}
-
-	public List<Practice> getListPractise() {
-		return listPractise;
-	}
-
-	public void setListPractise(List<Practice> listPractise) {
-		this.listPractise = listPractise;
-	}
-
-	public List<Role_Permission> getListRoles() {
-		return listRoles;
-	}
-
-	public void setListRoles(List<Role_Permission> listRoles) {
-		this.listRoles = listRoles;
-	}
-
-	public List<User> getListUsers() {
-		return listUsers;
-	}
-
-	public void setListUsers(List<User> listUsers) {
-		this.listUsers = listUsers;
-	}
-
-	public AuthenticationManager getAuthenticationManager() {
-		return authenticationManager;
-	}
-
-	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-		this.authenticationManager = authenticationManager;
-	}
-
-	public PractiseService getPractiseService() {
-		return practiseService;
-	}
-
-	public void setPractiseService(PractiseService practiseService) {
-		this.practiseService = practiseService;
-	}
-
-	public Practice[] getSelectedPrac() {
-		return selectedPrac;
-	}
-
-	public void setSelectedPrac(Practice[] selectedPrac) {
-		this.selectedPrac = selectedPrac;
-	}
-
-
-	
 }

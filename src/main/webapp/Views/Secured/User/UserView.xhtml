@@ -17,8 +17,8 @@
 
 			<h:form rendered="#{sharedData.currentUser.canCreateUser}">
 
-				<p:commandButton actionListener="userController.createUserClicked()"
-					process="@this" value="Create User"
+				<p:commandButton action="#{userController.createButtonClicked()}"
+					value="Create User" update=":userForm"
 					oncomplete="PF('userCreateDialog').show()" />
 				<br />
 			</h:form>
@@ -84,10 +84,15 @@
 				widgetVar="userCreateDialog">
 
 				<h:form id="userForm">
-
+				<p:messages id="msgs" showDetail="true" />
 					<p:panelGrid id="panelGrid" columns="2">
+
+						<p:outputLabel for="tfName" value="Name:" />
+						<p:inputText id="tfName" value="#{userController.user.name}"></p:inputText>
+					
 						<p:outputLabel for="tfUsername" value="UserName:" />
-						<p:inputText id="tfUsername" value="#{userController.user.appUserName}"></p:inputText>
+						<p:inputText id="tfUsername"
+							value="#{userController.user.appUserName}"></p:inputText>
 
 						<p:outputLabel for="tfPassword" value="Password:" />
 						<p:inputText id="tfPassword"
@@ -108,7 +113,8 @@
 							<f:selectItems value="#{userController.listEntities}"
 								var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
 							<p:ajax event="change" execute="@this"
-								listener="#{userController.entityChanged()}" update="listPractiseID"></p:ajax>
+								listener="#{userController.entityChanged()}"
+								update="listPractiseID"></p:ajax>
 
 							<p:column>
 								<h:outputText value="#{t.name}" />
@@ -117,9 +123,9 @@
 
 						<p:outputLabel for="listPractiseID" value="Select Practise:" />
 						<p:selectCheckboxMenu id="listPractiseID"
-							value="#{userController.selectedPrac}" label="Select Practices"
-							style="width:177px" panelStyle="width:250px"
-							converter="practiseConverter">
+							value="#{userController.selectedPractises}"
+							label="Select Practices" style="width:177px"
+							panelStyle="width:250px" converter="practiseConverter">
 
 							<f:selectItems value="#{userController.listPractise}"
 								var="practice" itemLabel="#{practice.name}"
@@ -151,9 +157,10 @@
 
 					<br />
 					<p:commandButton value="Save"
-						action="#{userController.createButtonClicked()}"
+						actionListener="#{userController.saveButtonClicked}"
 						update=":userTable,userForm"
-						oncomplete="PF('userCreateDialog').hide()" />
+						 />
+						 <!-- oncomplete="PF('userCreateDialog').hide()" -->
 				</h:form>
 			</p:dialog>
 
