@@ -60,6 +60,12 @@ public class EntityThemeConverter implements Converter {
                 	entity = entityService.getEntityById(id);
             	}
             	
+            	else if(viewId.contains("UserView"))
+            	{
+            		RootController entityService = (RootController) getSpringContext().getBean("userController");
+                	entity = entityService.getEntityById(id);
+            	}
+            	
             	
             	
 //                EntityService service = (EntityService) context.getExternalContext().getApplicationMap().get("themeService");

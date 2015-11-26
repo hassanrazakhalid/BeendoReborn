@@ -67,6 +67,12 @@ public class PractiseThemeConverter implements Converter {
             		practise = userController.getHashPractice().get((Integer.parseInt(value)));
             	}
             	
+            	else if(viewId.contains("UserView.xhtml"))
+            	{
+            		RootController userController = (RootController) getSpringContext().getBean("userController");
+            		practise = userController.getPractiseById(id) ;
+            	}
+            	
             	else
             	{
             		UserController userController = (UserController) getSpringContext().getBean("userController");

@@ -32,7 +32,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-public class UserController {
+public class UserController extends RootController {
 	
 	private OperationType operationType;
 	
@@ -92,27 +92,31 @@ public class UserController {
 
 		operationType = OperationType.Create;
 		listEntities = entityService.getAllEntities();
+		initHashOne(listEntities);
 
 		if (listEntities.size() > 0) {
 			CEntitiy entity = listEntities.get(0);
 			if (entity.getPracticeList().size() > 0)
 			{
 				listPractise = new ArrayList<Practice>(entity.getPracticeList());
-				for (Practice practice : listPractise) {
+				initHashTwo(listPractise);
+				/*for (Practice practice : listPractise) {
 					
 					tmpHasnPractise.put(practice.getId(), practice);
-				}
+				}*/
 			}
 
 		}
 		listRoles = roleService.getRoleList();
+		initRoleHash(listRoles);
+		
 	}
 	
-	public Practice getPractiseById(Integer id){
+	/*public Practice getPractiseById(Integer id){
 		
 		return tmpHasnPractise.get(id);
 	}
-
+*/
 	public void initUser() {
 
 		user = new User();
@@ -127,6 +131,8 @@ public class UserController {
 	public void entityChanged() {
 
 		listPractise = new ArrayList<>(selectedEntity.getPracticeList());
+		clearHashTwo();
+		initHashTwo(listPractise);
 		System.out.println("Changed");
 	}
 	
@@ -146,7 +152,7 @@ public class UserController {
 */	}
 	
 	public void createButtonClicked(){
-		user = new User();
+		//user = new User();
 		switch (operationType) {
 		case Create:
 		case Copy:

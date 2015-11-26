@@ -38,9 +38,11 @@ public class RoleService {
 	
 	public List<Role_Permission> getRoleList(){
 		
-		Collection<Role_Permission> col =  hashRole.values();
+		/*Collection<Role_Permission> col =  hashRole.values();
 		List<Role_Permission> list = new ArrayList(col);
-		return list;
+		return list;*/
+		
+		return service.findAll();
 	}
 	
 	public void save(Role_Permission entity)

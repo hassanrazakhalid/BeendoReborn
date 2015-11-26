@@ -10,6 +10,7 @@ import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Role_Permission;
 
 public class RootController {
 
@@ -18,6 +19,7 @@ public class RootController {
 	private HashMap<Integer, Payer> hashThree;
 	private HashMap<Integer, Provider> hashFour;
 	private HashMap<Integer, ProviderTransaction> hashTrans;
+	private HashMap<Integer, Role_Permission> hashRole;
 
 	public void initHashOne(List<CEntitiy> list) {
 
@@ -176,5 +178,35 @@ public class RootController {
 		return hashTrans.get(id);
 	}
 	
+	
+	//------------------- ROLES ------------------------
+	
+	public void initRoleHash(List<Role_Permission> list) {
+
+		hashRole = new HashMap<>();
+
+		updateRoleHash(list);
+	}
+	
+	public void updateRoleHash(List<Role_Permission> list) {
+
+		for (Role_Permission object : list) {
+
+			hashRole.put(object.getId(), object);
+		}
+	}
+	
+	public List<Role_Permission> getAllRoles() {
+
+		Collection<Role_Permission> col = hashRole.values();
+		List<Role_Permission> list = new ArrayList<Role_Permission>(col);
+		return list;
+	}
+
+
+	public Role_Permission getRoleById(Integer id) {
+
+		return hashRole.get(id);
+	}
 	
 }
