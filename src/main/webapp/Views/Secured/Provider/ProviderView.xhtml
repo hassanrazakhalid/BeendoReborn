@@ -17,11 +17,11 @@
 			<ui:define name="mainContent">
 				<h2>Provider Details</h2>
 				
-				<h:form>
+				<h:form rendered="#{sharedData.currentUser.role.canProviderAdd}">
 					<p:commandButton value="Create" update=":myForm"
 						action="#{providerController.clearData()}"
 								oncomplete="PF('Dlg1').show();"
-								rendered="#{sharedData.currentUser.role.canProviderAdd}" />
+								 />
 								
 					<br/>
 				</h:form>
@@ -45,14 +45,14 @@
 						<p:column headerText="Practices">
 							
 							<table>
-							<ui:repeat var="#{provider.practiceList.toArray()}" value="t">
+							<ui:repeat value="#{provider.practiceList.toArray()}" var="t">
 							<tr>
 								<td style="border: 0px;"><h:outputText value="#{t.name}" /> </td>
 							</tr>
 							</ui:repeat>
 							</table>
 							
-					        <!-- <p:selectOneMenu id="advanced"
+		<!-- 			         <p:selectOneMenu id="advanced"
 								 panelStyle="width:180px"
 								effect="fade" var="t" style="width:160px">
 								<f:selectItems value="#{provider.practiceList.toArray()}" var="practise"
@@ -62,7 +62,7 @@
 									<h:outputText value="#{t.name}" />
 								</p:column>
 								
-							</p:selectOneMenu> -->
+							</p:selectOneMenu>  -->
 							
 						</p:column>
 

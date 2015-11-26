@@ -16,6 +16,8 @@ import com.Beendo.Dao.ICRUD;
 import com.Beendo.Dao.IEntity;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Utils.Constants;
+import com.Beendo.Utils.SharedData;
 
 
 
@@ -40,12 +42,27 @@ public class EntityService {
 		
 	}*/
 	
-	public List<CEntitiy> getAllEntities(){
+	public List<CEntitiy> fetchAll()
+	{
+		return _service.findAll();
+	}
+	
+	
+	public List<CEntitiy> fetchAllEntitiesByUser(){
 		
 /*		Collection<CEntitiy> col =  hashEntities.values();
 		List<CEntitiy> list = new ArrayList(col);
 		return list;*/
-		return _service.findAll();
+		List<CEntitiy> resultList = null;
+		if(SharedData.getSharedInstace().shouldReturnFullList())
+			resultList = _service.findAll();
+		else
+		{
+			List<CEntitiy> tmpList = new ArrayList<CEntitiy>();
+			tmpList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
+			resultList = tmpList;
+		}
+		return resultList;
 //		return (List<CEntitiy>) hashEntities.values();
 		
 	}
@@ -66,11 +83,7 @@ public class EntityService {
 		_service.update(entity);
 	}
 	
-	public List<CEntitiy> findAll()
-	{
-		return _service.findAll();
-	}
-	
+
 	public static List<CEntitiy> isNameExist(List<CEntitiy> entities, String name){
 		
 		return filterData(entities, getNamePredicate(name));

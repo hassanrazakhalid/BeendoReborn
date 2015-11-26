@@ -37,7 +37,7 @@ public class EntityController extends RootController {
 	
 	public String viewEntity()
 	{
-		entities = entityService.getAllEntities();
+		entities = entityService.fetchAllEntitiesByUser();
 		initHashOne(entities);
 		return "EntityView";
 /*		HttpServletRequest request =(HttpServletRequest)	FacesContext.getCurrentInstance().getExternalContext().getRequest();

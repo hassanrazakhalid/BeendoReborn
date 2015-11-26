@@ -72,7 +72,7 @@ public class ReportsController extends RootController {
 	public String viewRepProvider()
 	{
 		cleanData();
-		providerList = providerService.findAll();
+		providerList = providerService.fetchAllByUser();
 		tmpHasnPractise.clear();
 		
 		for (Provider pro : providerList) {
@@ -89,7 +89,7 @@ public class ReportsController extends RootController {
 		practiceList = practiseService.fetchAll();
 		hashPractice.clear();
 		
-		List<Provider> provList = providerService.findAll();
+		List<Provider> provList = providerService.fetchAllByUser();
 		initHashFour(provList);
 		
 		for (Practice practice : practiceList) {
@@ -133,7 +133,7 @@ public class ReportsController extends RootController {
 	
 	private List<Provider> getProvidersFromPractice( )
 	{
-		List<Provider> provList = providerService.findAll();
+		List<Provider> provList = providerService.fetchAllByUser();
 		List<Provider> tmpProvider = new ArrayList<Provider>();
 		
 		for (Provider provider : provList) {

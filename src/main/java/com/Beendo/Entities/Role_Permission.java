@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.Beendo.Utils.Constants;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -52,7 +54,7 @@ public class Role_Permission  implements GrantedAuthority {
 //		return "ROLE_ADMIN";
 		String str = null;
 		if(isSuperAdmin())
-			str = "ROLE_SUPER_ADMIN";
+			str = "ROLE_"+Constants.ROLE_SUPER_ADMIN;
 		else
 			str = "ROLE_"+this.getName().toUpperCase();
 		return str;

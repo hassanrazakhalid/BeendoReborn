@@ -95,7 +95,16 @@ public class SharedData {
         return isOK;
 	}
 	
-
+	public boolean shouldReturnFullList(){
+		
+		boolean isOK = false;
+		if(SharedData.getSharedInstace().getCurrentUser().getRole().getName().equalsIgnoreCase(Constants.ROLE_SUPER_ADMIN))
+		{
+			isOK = true;
+		}
+		
+		return isOK;
+	}
 	
 	// Getters Annd Setters
 	

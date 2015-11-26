@@ -91,7 +91,7 @@ public class UserController extends RootController {
 	public void init() {
 
 		operationType = OperationType.Create;
-		listEntities = entityService.getAllEntities();
+		listEntities = entityService.fetchAllEntitiesByUser();
 		initHashOne(listEntities);
 
 		if (listEntities.size() > 0) {

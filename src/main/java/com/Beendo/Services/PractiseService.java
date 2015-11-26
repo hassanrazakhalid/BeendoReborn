@@ -1,5 +1,6 @@
 package com.Beendo.Services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.ICRUD;
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Utils.SharedData;
 
 @Service
 public class PractiseService {
@@ -22,6 +25,21 @@ public class PractiseService {
 	}
 	
 	public List<Practice> fetchAll(){
+		
+		return iPractise.findAll();
+	}
+	
+	public List<Practice> fetchAllByUser(){
+		
+		List<Practice> resultList = null;
+		if(SharedData.getSharedInstace().shouldReturnFullList())
+			resultList = iPractise.findAll();
+		else
+		{
+			List<Practice> tmpList = new ArrayList<Practice>();
+			tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
+			resultList = tmpList;
+		}
 		
 		return iPractise.findAll();
 	}
