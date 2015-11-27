@@ -37,11 +37,11 @@ public class PractiseService {
 		else
 		{
 			List<Practice> tmpList = new ArrayList<Practice>();
-			tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
+			tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getPractises());
 			resultList = tmpList;
 		}
 		
-		return iPractise.findAll();
+		return resultList;
 	}
 
 	public void update(Practice practise) {
