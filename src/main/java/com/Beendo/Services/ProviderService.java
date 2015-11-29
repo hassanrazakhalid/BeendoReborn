@@ -13,6 +13,8 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
+import com.Beendo.Entities.User;
+import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 @Service
@@ -67,6 +69,35 @@ public class ProviderService {
 		}
 		
 		return resultList;
+	}
+	
+	
+	public List<Provider> fetchAllByRole(){
+		
+		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
+		List<Provider> dataList = new ArrayList<>();
+		
+		if(SharedData.getSharedInstace().shouldReturnFullList())
+		{
+			dataList.addAll(fetchAll());
+		}
+		else
+		{
+			CEntitiy entity = SharedData.getSharedInstace().getCurrentUser().getEntity();
+			
+			List<Provider> tmpList = new ArrayList<Provider>();
+			List<Practice> practiseList = new ArrayList<Practice>();
+			practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
+			
+			for (Practice practice : practiseList) {
+			
+				tmpList.addAll(practice.getProviders());
+			}
+			
+			dataList = tmpList;
+		}
+		
+		return dataList;
 	}
 	
 	

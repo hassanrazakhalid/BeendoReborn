@@ -1,4 +1,4 @@
-package com.Beendo.Services;
+/*package com.Beendo.Services;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +24,7 @@ public class RoleService {
 	@Autowired
 	private IRole service;
 		
-/*//	@PostConstruct
+//	@PostConstruct
 	public void init(){
 		 
 		List<Role_Permission> list = service.findAll();
@@ -80,5 +80,6 @@ public class RoleService {
 
 		 return p -> p.getName().equalsIgnoreCase(name);
 	 }
-*/	
+	
 }
+*/

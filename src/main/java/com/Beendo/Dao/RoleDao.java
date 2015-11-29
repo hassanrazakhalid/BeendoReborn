@@ -58,7 +58,7 @@ public class RoleDao implements IRole {
 	@Override
 	public List<Permission> findAll() {
 		
-		return this.sessionFactory.getCurrentSession().createQuery("FROM Role_Permission").list();
+		return this.sessionFactory.getCurrentSession().createQuery("FROM Permission").list();
 	}
 
 	@Override

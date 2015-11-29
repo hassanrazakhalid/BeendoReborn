@@ -56,7 +56,7 @@ public class ProviderController extends RootController {
 	private OperationType opetationType;
 
 	public String view() {
-		providerList = providerService.fetchAllByUser();
+		providerList = providerService.fetchAllByRole(); //providerService.fetchAllByUser();
 		entityList = entityService.fetchAllByRole();
 		payerList = payerService.findAll();
 

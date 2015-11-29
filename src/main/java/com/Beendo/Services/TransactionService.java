@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.ICRUD;
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Utils.SharedData;
 
@@ -42,5 +44,26 @@ public class TransactionService {
 		
 		return tmpList;
 	}
+	
+	public List<ProviderTransaction> fetchAllByRole(){
+		
+		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
+		List<ProviderTransaction> dataList = new ArrayList<>();
+		
+		if(SharedData.getSharedInstace().shouldReturnFullList())
+		{
+			dataList.addAll(findAll());
+		}
+		else
+		{
+			List<ProviderTransaction> tmpList = new ArrayList<ProviderTransaction>();
+			tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getTransactionList());
+			
+			dataList = tmpList;
+		}
+		
+		return dataList;
+	}
+	
 	
 }

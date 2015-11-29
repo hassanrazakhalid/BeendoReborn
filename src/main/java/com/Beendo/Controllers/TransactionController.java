@@ -59,7 +59,8 @@ public class TransactionController extends RootController {
 	public String view()
 	{
 		//transactions = transactionService.findAll();
-		transactions = transactionService.findAllByUser();
+//		transactions = transactionService.findAllByUser();
+		transactions = transactionService.fetchAllByRole();
 		payerList = payerService.findAll();
 		practiceList = practiseService.fetchAll();
 		
