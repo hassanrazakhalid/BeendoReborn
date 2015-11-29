@@ -49,7 +49,7 @@ public class PractiseController extends RootController {
 
 	public String viewPractise() {
 
-		listEntities = entityService.fetchAllEntitiesByUser();
+		listEntities = entityService.fetchAllByRole();
 		listPractise = practiseService.fetchAllByRole();
 		
 		initHashOne(listEntities);

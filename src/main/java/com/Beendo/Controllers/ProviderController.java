@@ -57,7 +57,7 @@ public class ProviderController extends RootController {
 
 	public String view() {
 		providerList = providerService.fetchAllByUser();
-		entityList = entityService.fetchAllEntitiesByUser();
+		entityList = entityService.fetchAllByRole();
 		payerList = payerService.findAll();
 
 		if (!entityList.isEmpty()) {

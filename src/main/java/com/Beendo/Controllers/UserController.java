@@ -164,7 +164,7 @@ public class UserController extends RootController {
 	
 	private void reloadEntities(){
 		
-		listEntities = entityService.fetchAllEntitiesByUser();
+		listEntities = entityService.fetchAllByRole();
 		initHashOne(listEntities);
 	}
 	
@@ -186,7 +186,7 @@ public class UserController extends RootController {
 		initUser();
 		selectedPractises.clear();
 		
-		List<CEntitiy> tmpListEntity = entityService.fetchAllEntitiesByUser();
+		List<CEntitiy> tmpListEntity = entityService.fetchAllByRole();
 		if(tmpListEntity.size() > 0)
 		{ 
 			selectedEntity = tmpListEntity.get(0);

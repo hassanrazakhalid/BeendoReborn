@@ -17,6 +17,7 @@ import com.Beendo.Dao.IEntity;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Utils.Constants;
+import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 
@@ -48,7 +49,7 @@ public class EntityService {
 	}
 	
 	
-	public List<CEntitiy> fetchAllEntitiesByUser(){
+	public List<CEntitiy> fetchAllEntitiesByUse(){
 		
 /*		Collection<CEntitiy> col =  hashEntities.values();
 		List<CEntitiy> list = new ArrayList(col);
@@ -66,6 +67,27 @@ public class EntityService {
 //		return (List<CEntitiy>) hashEntities.values();
 		
 	}
+	
+	public List<CEntitiy> fetchAllByRole(){
+		
+		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
+		List<CEntitiy> entityList = new ArrayList<>();
+		
+		if(SharedData.getSharedInstace().shouldReturnFullList())
+		{
+			entityList.addAll(_service.findAll());
+		}
+		else
+		{
+			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
+			{
+				entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
+			}
+		}
+		
+		return entityList;
+	}
+
 
 /*	public CEntitiy getEntityById(Integer id)
 	{
