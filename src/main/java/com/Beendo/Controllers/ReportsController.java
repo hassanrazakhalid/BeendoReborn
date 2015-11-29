@@ -67,11 +67,11 @@ public class ReportsController extends RootController {
 
 	public String viewRepPractice() {
 		cleanData();
-		practiceList = practiseService.fetchAll();
+		practiceList = practiseService.fetchAllByRole();
 		hashPractice.clear();
 		// payerProvider = payerService.findAll();
 
-		List<Provider> provList = providerService.fetchAllByUser();
+		List<Provider> provList = providerService.fetchAllByRole();
 		initHashFour(provList);
 
 		for (Practice practice : practiceList) {
@@ -179,7 +179,8 @@ public class ReportsController extends RootController {
 		payerList = payerService.findAll();
 
 		initHashThree(payerList);
-		savedTransactions = transactionService.findAll();
+//		savedTransactions = transactionService.findAll();
+		savedTransactions = transactionService.fetchAllByRole();
 		return "ReportTransaction";
 	}
 
@@ -204,7 +205,7 @@ public class ReportsController extends RootController {
 
 	public String viewRepProvider() {
 		cleanData();
-		providerList = providerService.fetchAllByUser();
+		providerList = providerService.fetchAllByRole();
 		tmpHasnPractise.clear();
 
 		for (Provider pro : providerList) {
