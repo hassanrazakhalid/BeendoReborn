@@ -61,7 +61,8 @@ public class RoleController {
 				roles.add(role);
 				roleService.save(role);
 				clearData();
-				showMessage("Role has been saved");
+				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()"); //oncomplete="PF('Dlg1').hide();" 
+				//showMessage("Role has been saved");
 			}
 			else
 				showMessage("Role name already exists!");

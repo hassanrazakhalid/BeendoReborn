@@ -113,10 +113,11 @@
 				    
 				  <h:form id="myForm">
 				  
+				  	<p:messages id="msgs" />
 				  	<h:panelGrid columns="2" cellpadding="8">   
 				  	
 			            <h:outputText value="Role Name: " /> 
-			            <p:inputText value="#{roleController.role.name}" required="true" />
+			            <p:inputText id="RoleName" value="#{roleController.role.name}" required="true" />
 			            
 			            <h:outputText value="Can Provider Add: " /> 
 			            <p:selectBooleanCheckbox value="#{roleController.role.canProviderAdd}" />
@@ -141,8 +142,7 @@
 					<br />
 				  
 				  	<p:commandButton value="Save" action="#{roleController.saveInfo()}"
-				    		oncomplete="PF('Dlg1').hide();" 
-				    		 update="myForm, :mainForm" />
+				    		 update="myForm, msgs, :mainForm" />
 					
 				  </h:form>
 

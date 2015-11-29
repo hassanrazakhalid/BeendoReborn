@@ -85,6 +85,8 @@
 				    
 				  <h:form id="myForm">
 				  
+				  	<p:messages id="msgs" />
+				  
 				  	<h:panelGrid columns="2" cellpadding="8">  
 				  	 
 				  	 
@@ -97,7 +99,7 @@
 						
 						<p:selectOneMenu id="entities" value="#{providerController.currentEntity}"
 							panelStyle="width:180px" effect="fade"
-							converter="entityConverter"  
+							converter="entityConverter" required="true"
 							var="t" style="width:177px">
 							
 							<p:ajax listener="#{providerController.onEntityChange}" update="myPractices" />
@@ -113,7 +115,7 @@
 						
 						
 						<p:selectCheckboxMenu id="myPractices" value="#{providerController.selectedPractices}" label="Select Practices"
-				            filter="true" filterMatchMode="startsWith" style="width:177px" var="t"
+				            filter="true" filterMatchMode="startsWith" style="width:177px" var="t" required="true"
 				            converter="practiseConverter" panelStyle="width:250px">
 				            
 				            <f:selectItems value="#{providerController.practiceList}" var="practice"
@@ -127,7 +129,7 @@
 						
 						
 					  <p:selectCheckboxMenu value="#{providerController.selectedPayers}" label="Select Payers"
-				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
+				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t" required="true"
 				            converter="payerConverter" panelStyle="width:250px">
 				            
 				            <f:selectItems value="#{providerController.payerList}" var="payer"
@@ -140,8 +142,8 @@
 				        </p:selectCheckboxMenu> 
 						
 				  	 
-				  	 	<p:inputText value="#{providerController.provider.name}" placeholder="Provider Name" required="true" />
-			            <p:inputText value="#{providerController.provider.npiNum}" placeholder="Npi Number" required="true" /> 
+				  	 	<p:inputText id="ProviderName" value="#{providerController.provider.name}" placeholder="Provider Name" required="true" />
+			            <p:inputText id="NpiNumber" value="#{providerController.provider.npiNum}" placeholder="Npi Number" required="true" /> 
 			            
 			       
 			        </h:panelGrid>   
@@ -151,8 +153,7 @@
 					<br />
 				  
 				  	<p:commandButton value="Save" action="#{providerController.saveInfo()}"
-				    		oncomplete="PF('Dlg1').hide();" 
-				    		 update="myForm, :mainForm" />
+				    		 update="myForm, msgs, :mainForm" />
 					
 				  </h:form>
 

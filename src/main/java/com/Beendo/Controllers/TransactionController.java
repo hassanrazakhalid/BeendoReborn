@@ -96,7 +96,7 @@ public class TransactionController extends RootController {
 		{		
 			transactionService.update(transaction);
 			entityService.update(entity);
-			showMessage("Transaction has been updated");
+			//showMessage("Transaction has been updated");
 		}
 		else
 		{
@@ -104,8 +104,11 @@ public class TransactionController extends RootController {
 			transactions.add(transaction);
 			transactionService.save(transaction);
 			entityService.update(entity);
-			showMessage("Transaction has been saved");
+			//showMessage("Transaction has been saved");
 		}
+		
+		RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+		
 	}
 
 	

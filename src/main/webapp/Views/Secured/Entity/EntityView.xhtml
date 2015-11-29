@@ -105,6 +105,7 @@
 
 					<h:form id="addForm">
 										
+						<p:messages id="msgs" />
 						<h:panelGrid columns="2" cellpadding="5">
 						
 							<h:outputLabel for="EntityName" value="Entity Name:" />
@@ -115,7 +116,7 @@
 					
 						<p:commandButton value="Save"
 								action="#{entityController.createPressed()}"
-								oncomplete="PF('addDlg').hide();" update="addForm, :entityTable" />
+								update="addForm, msgs, :entityTable" />
 					
 						<!-- <div>
 							Entity Name:

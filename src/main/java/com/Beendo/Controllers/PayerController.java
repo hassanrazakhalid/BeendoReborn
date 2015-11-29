@@ -50,14 +50,16 @@ public class PayerController extends RootController {
 			if (result.size() <= 0) {
 				payers.add(payer);
 				payerService.save(payer);
-				showMessage("Payer has been saved");
+				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+				//showMessage("Payer has been saved");
 			} else
 				showMessage("Payer info already exists!");
 		}
 			break;
 		case Edit: {
 			payerService.update(payer);
-			showMessage("Payer has been updated");
+			RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+			//showMessage("Payer has been updated");
 		}
 			break;
 

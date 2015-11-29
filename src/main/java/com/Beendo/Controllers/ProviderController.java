@@ -20,6 +20,7 @@ import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Utils.OperationType;
+import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -136,11 +137,13 @@ public class ProviderController extends RootController {
 		case Create: {
 			List<Provider> result = providerService.isNameExist(providerList, provider.getName(), provider.getNpiNum());
 			if (result.size() <= 0) {
-				currentEntity.getProviderList().add(provider);
+				
+				//currentEntity.getProviderList().add(provider);
 				providerList.add(provider);
 				providerService.save(provider);
 				entityService.update(currentEntity);
-				showMessage("Provider has been saved");
+				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+				//showMessage("Provider has been saved");
 			} 
 			else
 				showMessage("Provider name or npi already exists!");
@@ -149,7 +152,8 @@ public class ProviderController extends RootController {
 		case Edit: {
 			providerService.update(provider);
 			entityService.update(currentEntity);
-			showMessage("Provider has been updated");
+			RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+			//showMessage("Provider has been updated");
 		}
 			break;
 

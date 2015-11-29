@@ -64,21 +64,25 @@ public class EntityController extends RootController {
 	
 	public void createPressed()
 	{
-//		if(!entity.getName().isEmpty())
-//			RequestContext.getCurrentInstance().execute("addDlg.hide()");
-//		else
-//			return;
+		/*if(!entity.getName().isEmpty())
+			RequestContext.getCurrentInstance().execute("addDlg.hide();"); //oncomplete="PF('addDlg').hide();" 
+		else
+			return;*/
 		
-//		List<CEntitiy> result =	entityService.isNameExist(entities, entity.getName());
-//		if(result.size() <= 0)
+		List<CEntitiy> result =	entityService.isNameExist(entities, entity.getName());
+		if(result.size() <= 0)
 		{
 			entities.add(entity);
 			entityService.save(entity);
-			showMessage("Entity has been saved");
+			//showMessage("Entity has been saved");
 			clearData();
+			RequestContext.getCurrentInstance().execute("PF('addDlg').hide()"); 
 		}
-//		else
-//			showMessage("Entity name already exists!");
+		else
+			showMessage("Entity name already exists!");
+		
+		
+		
 		//RequestContext.getCurrentInstance().closeDialog("createEntity");
 		//entity = new CEntitiy();
 	}

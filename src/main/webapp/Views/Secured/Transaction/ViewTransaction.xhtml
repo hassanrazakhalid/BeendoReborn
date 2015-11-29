@@ -72,12 +72,14 @@
 				    
 				  <h:form id="myForm">
 				  
+				  	<p:messages id="msgs" />
+				  
 				  	<h:panelGrid columns="4" cellpadding="8">  
 				  	
 				  		<p:outputLabel for="idPayer" value="Select Payer: " />
 				  		<p:selectOneMenu id="idPayer" value="#{transactionController.currentPayer}"
 							panelStyle="width:180px" effect="fade"  
-							converter="payerConverter"
+							converter="payerConverter" required="true"
 							var="t" style="width:177px">
 							
 							<f:selectItem itemLabel="Select" />
@@ -93,7 +95,7 @@
 						<p:outputLabel for="idPractice" value="Select Practices: " />
 						<p:selectOneMenu id="idPractice" value="#{transactionController.currentPractice}"
 							panelStyle="width:180px" effect="fade" 
-							converter="practiseConverter"
+							converter="practiseConverter" required="true"
 							var="t" style="width:177px" filter="true">
 							
 							<f:selectItems value="#{transactionController.practiceList}" var="entity"
@@ -120,14 +122,13 @@
 			        <h:panelGrid columns="2" cellpadding="16">
 			        	<p:outputLabel for="idComments" value="Comments: " />
 			            <p:inputText id="idComments" value="#{transactionController.transaction.comments}" 
-			            	placeholder="Comments" required="true" style="width:580px" /> 
+			            	placeholder="Comments" style="width:580px" /> 
 			        </h:panelGrid>   
 
 					<br />
 				  
 				  	<p:commandButton value="Save" action="#{transactionController.saveInfo()}"
-				    		oncomplete="PF('Dlg1').hide();" 
-				    		 update="myForm, :mainForm" />
+				    		 update="myForm, msgs, :mainForm" />
 					
 				  </h:form>
 

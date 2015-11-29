@@ -36,8 +36,8 @@ public class CEntitiy implements ICache<CEntitiy> {
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
 	private Set<Practice> practiceList = new HashSet<Practice>();
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="centity")
-	private Set<Provider> providerList = new HashSet<Provider>();
+	//@OneToMany(cascade=CascadeType.ALL, mappedBy="centity", fetch = FetchType.EAGER)
+	//private Set<Provider> providerList = new HashSet<Provider>();
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
 	private Set<ProviderTransaction> transactionList = new HashSet<ProviderTransaction>();

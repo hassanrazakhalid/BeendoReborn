@@ -83,19 +83,21 @@
 				    
 				  <h:form id="myForm">
 				  
+				  	<p:messages id="msgs" />
+				  
 				  	<h:panelGrid columns="2" cellpadding="8">  
 				  	 
-				  	 	<p:inputText value="#{payerController.payer.name}" placeholder="Payer Name" required="true" />
-			            <p:inputText value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" /> 
+				  	 	<p:inputText id="PayerName" value="#{payerController.payer.name}" placeholder="Payer Name" required="true" />
+			            <p:inputText id="CompanyName" value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" /> 
 			            
-			            <p:inputText value="#{payerController.payer.planName}" placeholder="Plan Name" required="true" />   			       
-			            <p:inputText value="#{payerController.payer.phoneNumber}" placeholder="Phone Number" required="true" /> 
+			            <p:inputText id="PlanName" value="#{payerController.payer.planName}" placeholder="Plan Name" required="true" />   			       
+			            <p:inputText id="PhoneNumber" value="#{payerController.payer.phoneNumber}" placeholder="Phone Number" required="true" /> 
 			            
-			            <p:inputText value="#{payerController.payer.street}" placeholder="Street" required="true" />   			          
-			            <p:inputText value="#{payerController.payer.city}" placeholder="City" required="true" /> 
+			            <p:inputText id="StreetField" value="#{payerController.payer.street}" placeholder="Street" required="true" />   			          
+			            <p:inputText id="CityField" value="#{payerController.payer.city}" placeholder="City" required="true" /> 
 			            
-			            <p:inputText value="#{payerController.payer.state}" placeholder="State" required="true" />
-			            <p:inputText value="#{payerController.payer.zip}" placeholder="Zip Code" required="true" />
+			            <p:inputText id="StateField" value="#{payerController.payer.state}" placeholder="State" required="true" />
+			            <p:inputText id="ZipField" value="#{payerController.payer.zip}" placeholder="Zip Code" required="true" />
 			        
 			        </h:panelGrid>   
 			        
@@ -120,8 +122,7 @@
 					<br />
 				  
 				  	<p:commandButton value="Save" action="#{payerController.saveInfo()}"
-				    		oncomplete="PF('Dlg1').hide();" 
-				    		 update="myForm, :mainForm" />
+				    		 update="myForm, msgs, :mainForm" />
 					
 				  </h:form>
 
