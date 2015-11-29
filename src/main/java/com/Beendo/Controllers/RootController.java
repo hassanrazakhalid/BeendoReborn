@@ -10,6 +10,7 @@ import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Utils.Role;
 import com.Beendo.Entities.Permission;
 
 public class RootController {
@@ -19,8 +20,10 @@ public class RootController {
 	private HashMap<Integer, Payer> hashThree;
 	private HashMap<Integer, Provider> hashFour;
 	private HashMap<Integer, ProviderTransaction> hashTrans;
-	private HashMap<Integer, Permission> hashRole;
+	private HashMap<Integer, Permission> hashPermission;
 
+	public List<String> listRoles = new ArrayList<>();
+	
 	public void initHashOne(List<CEntitiy> list) {
 
 		hashOne = new HashMap<>();
@@ -111,9 +114,9 @@ public class RootController {
 
 		return hashThree.get(id);
 	}
-	
+
 	// Provider ------- Hash
-	
+
 	public void initHashFour(List<Provider> list) {
 
 		hashFour = new HashMap<>();
@@ -144,16 +147,16 @@ public class RootController {
 
 		return hashFour.get(id);
 	}
-	
-	//------------------------- TRANSACTION HASH ------------------------
-	
+
+	// ------------------------- TRANSACTION HASH ------------------------
+
 	public void initHash(List<ProviderTransaction> list) {
 
 		hashTrans = new HashMap<>();
 
 		updateHash(list);
 	}
-	
+
 	public void updateHash(List<ProviderTransaction> list) {
 
 		for (ProviderTransaction object : list) {
@@ -161,7 +164,7 @@ public class RootController {
 			hashTrans.put(object.getId(), object);
 		}
 	}
-	
+
 	public List<ProviderTransaction> getAllHash() {
 
 		Collection<ProviderTransaction> col = hashTrans.values();
@@ -177,36 +180,42 @@ public class RootController {
 
 		return hashTrans.get(id);
 	}
-	
-	
-	//------------------- ROLES ------------------------
-	
+
+	// ------------------- ROLES ------------------------
+
 	public void initPermissionHash(List<Permission> list) {
 
-		hashRole = new HashMap<>();
+		hashPermission = new HashMap<>();
 
 		updatePermissionHash(list);
 	}
-	
+
 	public void updatePermissionHash(List<Permission> list) {
 
 		for (Permission object : list) {
 
-			hashRole.put(object.getId(), object);
+			hashPermission.put(object.getId(), object);
 		}
 	}
-	
+
 	public List<Permission> getAllPermission() {
 
-		Collection<Permission> col = hashRole.values();
+		Collection<Permission> col = hashPermission.values();
 		List<Permission> list = new ArrayList<Permission>(col);
 		return list;
 	}
 
-
 	public Permission getPermissionById(Integer id) {
 
-		return hashRole.get(id);
+		return hashPermission.get(id);
 	}
-	
+
+	public void reloadRolesList() {
+
+		for (Role role : Role.values()) {
+
+			listRoles.add(role.toString());
+			// do what you want
+		}
+	}
 }

@@ -68,7 +68,7 @@ public class UserController extends RootController {
 	private List<CEntitiy> listEntities = new ArrayList<>();
 	private List<Practice> listPractise = new ArrayList<>();
 	
-	private List<String> listRoles = new ArrayList<>();
+	
 	
 	private List<User> listUsers = new ArrayList<User>();
 	// Security Code
@@ -82,20 +82,11 @@ public class UserController extends RootController {
 
 		shouldshowEntity = false;
 		shouldshowPractise = false;
-		initRolesList();
+		reloadRolesList();
 		operationType = OperationType.Create;
 		initUserList();
 		reloadEntities();
 		return "UserView";
-	}
-	
-	private void initRolesList(){
-		
-		for (Role role : Role.values()) {
-			
-			listRoles.add(role.toString());
-			  // do what you want
-			}
 	}
 
 	public void initUserList(){
@@ -195,7 +186,7 @@ public class UserController extends RootController {
 		
 		List<CEntitiy> tmpListEntity = entityService.fetchAllEntitiesByUser();
 		if(tmpListEntity.size() > 0)
-		{
+		{ 
 			selectedEntity = tmpListEntity.get(0);
 		}
 		selectedPermission = new Permission();
@@ -252,7 +243,6 @@ public class UserController extends RootController {
 			
 			RequestContext.getCurrentInstance().execute("PF('userCreateDialog').hide()");
 		}
-
 	}
 	
 	public void editButtonClicked(User sender){
