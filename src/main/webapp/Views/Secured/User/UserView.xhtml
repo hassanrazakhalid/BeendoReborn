@@ -113,7 +113,7 @@
 						<p:selectOneMenu id="roleList"
 							value="#{userController.user.roleName}" var="t"
 							style="width:160px">
-							<f:selectItem itemLabel="Select" itemValue="" />
+							<f:selectItem itemLabel="Select" itemValue="#{userController.user.roleName}" />
 							<f:selectItems value="#{userController.listRoles}" var="role"
 								itemValue="#{role}" />
 							<p:ajax event="change" execute="@this"
