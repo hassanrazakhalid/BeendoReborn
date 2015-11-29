@@ -22,7 +22,7 @@
 					<h:panelGrid columns="3" cellpadding="0">  
 					
 						<!-- <p:outputLabel for="idPayers" value="Select Payer: " /> -->
-						<p:selectOneMenu id="idPayers" value="#{reportsController.currentPayer}"
+						<!-- <p:selectOneMenu id="idPayers" value="#{reportsController.currentPayer}"
 								panelStyle="width:180px" effect="fade" converter="payerConverter" 
 								var="t" style="width:177px">
 						
@@ -33,7 +33,20 @@
 								<p:column>
 									<h:outputText value="#{t.name}" />
 								</p:column>
-							</p:selectOneMenu>
+							</p:selectOneMenu> -->
+							
+							<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayers}" label="Select Payers"
+				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
+				            converter="payerConverter" panelStyle="width:250px">
+				            
+				            <f:selectItems value="#{reportsController.payerList}" var="payer"
+								itemLabel="#{payer.name}" itemValue="#{payer}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+				            
+				        </p:selectCheckboxMenu>
 					
 						<p:commandButton value="Search" update=":frmMain"
 							action="#{reportsController.getData()}" />

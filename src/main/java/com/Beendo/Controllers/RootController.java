@@ -81,14 +81,14 @@ public class RootController {
 	}
 	// --------Payer Hash -------------------------------
 
-	public void initHashThree(List<Payer> list) {
+	public void initHashThree(Collection<Payer> list) {
 
 		hashThree = new HashMap<>();
 
 		updateHashThree(list);
 	}
 
-	public void updateHashThree(List<Payer> list) {
+	public void updateHashThree(Collection<Payer> list) {
 
 		for (Payer object : list) {
 

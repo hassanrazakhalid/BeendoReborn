@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,6 +27,8 @@ public class ProviderTransaction {
 	private String transactionDate;
 	private String comments;
 	
+	@ManyToOne
+	private CEntitiy entity;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	private Payer payer = new Payer();

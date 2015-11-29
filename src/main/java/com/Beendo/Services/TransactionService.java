@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.ICRUD;
 import com.Beendo.Entities.Payer;
+import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Utils.SharedData;
 
 @Service
 public class TransactionService {
@@ -31,6 +33,14 @@ public class TransactionService {
 	public List<ProviderTransaction> findAll()
 	{
 		return service.findAll();
+	}
+	
+	public List<ProviderTransaction> findAllByUser()
+	{
+		List<ProviderTransaction> tmpList = new ArrayList<ProviderTransaction>();
+		tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getTransactionList());
+		
+		return tmpList;
 	}
 	
 }

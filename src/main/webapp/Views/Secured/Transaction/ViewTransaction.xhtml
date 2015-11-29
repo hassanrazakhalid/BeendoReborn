@@ -115,9 +115,12 @@
 				  		<p:outputLabel for="idDate" value="Current Date: " />
 				  	 	<p:inputText id="idDate" value="#{transactionController.transaction.transactionDate}" required="true" /> 
 			            
-			            <p:outputLabel for="idComments" value="Comments: " />
-			            <p:inputText id="idComments" value="#{transactionController.transaction.comments}" placeholder="Comments" required="true" /> 
-			       
+			        </h:panelGrid>
+			        
+			        <h:panelGrid columns="2" cellpadding="16">
+			        	<p:outputLabel for="idComments" value="Comments: " />
+			            <p:inputText id="idComments" value="#{transactionController.transaction.comments}" 
+			            	placeholder="Comments" required="true" style="width:580px" /> 
 			        </h:panelGrid>   
 
 					<br />

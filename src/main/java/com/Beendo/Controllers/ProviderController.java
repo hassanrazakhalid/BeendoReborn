@@ -131,19 +131,24 @@ public class ProviderController extends RootController {
 		}
 		
 		provider.setCentity(currentEntity);
+		
 		switch (this.opetationType) {
 		case Create: {
 			List<Provider> result = providerService.isNameExist(providerList, provider.getName(), provider.getNpiNum());
 			if (result.size() <= 0) {
+				currentEntity.getProviderList().add(provider);
 				providerList.add(provider);
 				providerService.save(provider);
+				entityService.update(currentEntity);
 				showMessage("Provider has been saved");
-			} else
+			} 
+			else
 				showMessage("Provider name or npi already exists!");
 		}
 			break;
 		case Edit: {
 			providerService.update(provider);
+			entityService.update(currentEntity);
 			showMessage("Provider has been updated");
 		}
 			break;

@@ -12,12 +12,15 @@ import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.TransactionService;
+import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +39,9 @@ public class TransactionController extends RootController {
 	@Autowired
 	private PractiseService practiseService;
 	
+	@Autowired
+	private EntityService entityService;
+	
 	private ProviderTransaction transaction = new ProviderTransaction();
 	private List<ProviderTransaction> transactions;
 	private Boolean isEditMode;
@@ -52,7 +58,8 @@ public class TransactionController extends RootController {
 	
 	public String view()
 	{
-		transactions = transactionService.findAll();
+		//transactions = transactionService.findAll();
+		transactions = transactionService.findAllByUser();
 		payerList = payerService.findAll();
 		practiceList = practiseService.fetchAll();
 		
@@ -81,15 +88,22 @@ public class TransactionController extends RootController {
 	{
 		transaction.setPayer(currentPayer);
 		transaction.setPractice(currentPractice);
+		
+		CEntitiy entity = SharedData.getSharedInstace().getCurrentUser().getEntity();
+		transaction.setEntity(entity);
+		
 		if(isEditMode)
-		{
+		{		
 			transactionService.update(transaction);
+			entityService.update(entity);
 			showMessage("Transaction has been updated");
 		}
 		else
 		{
+			entity.getTransactionList().add(transaction);
 			transactions.add(transaction);
 			transactionService.save(transaction);
+			entityService.update(entity);
 			showMessage("Transaction has been saved");
 		}
 	}
@@ -101,7 +115,7 @@ public class TransactionController extends RootController {
 		currentPractice = null;
 		transaction = new ProviderTransaction();
 		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 		Date date = new Date();
 		
 		transaction.setTransactionDate(dateFormat.format(date));

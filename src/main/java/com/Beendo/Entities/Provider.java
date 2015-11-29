@@ -1,6 +1,7 @@
 package com.Beendo.Entities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -32,11 +34,11 @@ public class Provider {
 	private String npiNum;
 	
 	
-	@OneToOne()
-	private CEntitiy centity = new CEntitiy();
+	@ManyToOne
+	private CEntitiy centity;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Payer> payerList = new ArrayList<Payer>();
+	private Collection<Payer> payerList = new HashSet<Payer>();
 	
 	@ManyToMany(fetch = FetchType.EAGER,mappedBy="providers")
 	private Set<Practice> practiceList = new HashSet<Practice>();

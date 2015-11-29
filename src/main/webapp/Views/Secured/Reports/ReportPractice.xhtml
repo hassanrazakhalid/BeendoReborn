@@ -23,7 +23,7 @@
 					
 					
 						<!-- <p:outputLabel for="idPractices" value="Select Practice: " /> -->
-						<p:selectOneMenu id="idPractices" value="#{reportsController.currentPractice}"
+						<!-- <p:selectOneMenu id="idPractices" value="#{reportsController.currentPractice}"
 								panelStyle="width:180px" effect="fade" converter="practiseConverter"
 								var="t" style="width:177px">
 								
@@ -36,10 +36,26 @@
 								<p:column>
 									<h:outputText value="#{t.name}" />
 								</p:column>
-							</p:selectOneMenu>
+							</p:selectOneMenu> -->
+							
+						<p:selectCheckboxMenu id="idPractices" value="#{reportsController.selectedPracticeList}" label="Select Practices"
+				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
+				            converter="practiseConverter" panelStyle="width:250px">
+				            
+				            <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" />
+				            
+				            <f:selectItems value="#{reportsController.practiceList}" var="entity"
+									itemLabel="#{entity.name}" itemValue="#{entity}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+				            
+				        </p:selectCheckboxMenu>
+							
 					
 						<!-- <h:outputLabel  value="Select Provider: " /> -->
-						<p:selectOneMenu id="idProviders" value="#{reportsController.currentProvider}"
+						<!-- <p:selectOneMenu id="idProviders" value="#{reportsController.currentProvider}"
 								panelStyle="width:180px" effect="fade" converter="providerConverter"
 								var="t" style="width:177px">
 								
@@ -52,15 +68,31 @@
 								<p:column>
 									<h:outputText value="#{t.name}" />
 								</p:column>
-							</p:selectOneMenu>
+							</p:selectOneMenu> -->
+							
+							
+						<p:selectCheckboxMenu id="idProviders" value="#{reportsController.selectedProviderList}" label="Select Providers"
+				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
+				            converter="providerConverter" panelStyle="width:250px">
+				            
+				            <p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" />
+				            
+				            <f:selectItems value="#{reportsController.providerList}" var="entity"
+									itemLabel="#{entity.name}" itemValue="#{entity}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+				            
+				        </p:selectCheckboxMenu>
 							
 							
 						<!-- <h:outputLabel  value="Select Payer: " /> -->
-						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.payerProvider}" label="Select Payers"
+						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerList}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="payerConverter" panelStyle="width:250px">
 				            
-				            <f:selectItems value="#{reportsController.currentProvider.payerList}" var="payer"
+				            <f:selectItems value="#{reportsController.payerList}" var="payer"
 								itemLabel="#{payer.name}" itemValue="#{payer}"  />
 
 							<p:column>
@@ -85,7 +117,7 @@
 				        
 					
 						<p:commandButton value="Search" update=":frmMain"
-							action="#{reportsController.getPayerData()}" />
+							actionListener="#{reportsController.searchPayerData}" />
 						<br />
 						
 					</h:panelGrid>

@@ -48,16 +48,21 @@ public class ProviderService {
 			resultList = service.findAll();
 		else
 		{
+			CEntitiy entity = SharedData.getSharedInstace().getCurrentUser().getEntity();
+			//resultList = SharedData.getSharedInstace().getCurrentUser().getEntity().getProviderList();
+			
 			List<Provider> tmpList = new ArrayList<Provider>();
-			
-			List<Practice> practiseList = new ArrayList<Practice>();
-			practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
-			
-			for (Practice practice : practiseList) {
-			
-				tmpList.addAll(practice.getProviders());
-			}
+			tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getProviderList());
 			resultList = tmpList;
+//			
+//			List<Practice> practiseList = new ArrayList<Practice>();
+//			practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
+//			
+//			for (Practice practice : practiseList) {
+//			
+//				tmpList.addAll(practice.getProviders());
+//			}
+//			resultList = tmpList;
 		}
 		
 		return resultList;
