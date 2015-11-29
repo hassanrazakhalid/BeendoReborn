@@ -87,6 +87,7 @@ public class UserController extends RootController {
 		operationType = OperationType.Create;
 		initUserList();
 		reloadEntities();
+		reloadPractises();
 		return "UserView";
 	}
 
@@ -254,7 +255,7 @@ public class UserController extends RootController {
 
 //		listPractise = getSelectedPractices(sender);
 		updatePractiseList(sender);
-		updateSelectedRole(sender);
+		updateSelectedPermission(sender);
 		updateSelectedEntity(sender);
 		user = sender;
 		updateFlags();
@@ -329,7 +330,7 @@ for (Practice practic : listSelected) {
 		}
 	}
 
-	private void updateSelectedRole(User user){
+	private void updateSelectedPermission(User user){
 		
 		selectedPermission = user.getPermission();
 	}
