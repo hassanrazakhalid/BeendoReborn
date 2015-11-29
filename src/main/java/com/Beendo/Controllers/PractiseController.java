@@ -60,7 +60,7 @@ public class PractiseController extends RootController {
 
 	public boolean isSingleItemInEntityList(){
 		
-		if(listEntities.size() <= 1)
+		if(listEntities.size() == 1)
 		{
 			return true;
 		}
@@ -76,6 +76,14 @@ public class PractiseController extends RootController {
 		}
 		else
 			return false;
+	}
+	
+	public String getFirstEntityName(){
+		
+		if(listEntities.isEmpty())
+			return "";
+		else
+			return listEntities.get(0).getName();
 	}
 	
 	/*

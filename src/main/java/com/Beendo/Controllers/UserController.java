@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.print.attribute.standard.Severity;
 
 import org.primefaces.context.RequestContext;
@@ -24,13 +25,14 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.Role_Permission;
+import com.Beendo.Entities.Permission;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
-import com.Beendo.Services.RoleService;
+import com.Beendo.Services.PermissionService;
 import com.Beendo.Services.UserService;
 import com.Beendo.Utils.OperationType;
+import com.Beendo.Utils.Role;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -47,24 +49,26 @@ public class UserController extends RootController {
 	@Autowired
 	private EntityService entityService;
 	@Autowired
-	private RoleService roleService;
+	private PermissionService roleService;
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	private PractiseService practiseService;
 
-	private User user = new User();
+	private User user;
 
 	private CEntitiy selectedEntity;
 	private ArrayList<Practice> selectedPractises =  new ArrayList<>();
-	private Role_Permission selectedRole;
+	private Permission selectedPermission;
 	
-	private HashMap<Integer, Practice> tmpHasnPractise = new HashMap<Integer, Practice>();
+	private boolean shouldshowEntity;
+	private boolean shouldshowPractise;
 
 	private List<CEntitiy> listEntities = new ArrayList<>();
 	private List<Practice> listPractise = new ArrayList<>();
-	private List<Role_Permission> listRoles;
+	
+	private List<String> listRoles = new ArrayList<>();
 	
 	private List<User> listUsers = new ArrayList<User>();
 	// Security Code
@@ -76,9 +80,22 @@ public class UserController extends RootController {
 	
 	public String showUserMainView() {
 
-		init();
+		shouldshowEntity = false;
+		shouldshowPractise = false;
+		initRolesList();
+		operationType = OperationType.Create;
 		initUserList();
+		reloadEntities();
 		return "UserView";
+	}
+	
+	private void initRolesList(){
+		
+		for (Role role : Role.values()) {
+			
+			listRoles.add(role.toString());
+			  // do what you want
+			}
 	}
 
 	public void initUserList(){
@@ -92,35 +109,6 @@ public class UserController extends RootController {
 		listUsers = tmpList;
 	}
 	
-	public void init() {
-
-		operationType = OperationType.Create;
-		listEntities = entityService.fetchAllEntitiesByUser();
-		initHashOne(listEntities);
-
-		if (listEntities.size() > 0) {
-			CEntitiy entity = listEntities.get(0);
-			if (entity.getPracticeList().size() > 0)
-			{
-				listPractise = new ArrayList<Practice>(entity.getPracticeList());
-				initHashTwo(listPractise);
-				/*for (Practice practice : listPractise) {
-					
-					tmpHasnPractise.put(practice.getId(), practice);
-				}*/
-			}
-
-		}
-		listRoles = roleService.getRoleList();
-		initRoleHash(listRoles);
-		
-	}
-	
-	/*public Practice getPractiseById(Integer id){
-		
-		return tmpHasnPractise.get(id);
-	}
-*/
 	public void initUser() {
 
 		user = new User();
@@ -141,25 +129,68 @@ public class UserController extends RootController {
 		System.out.println("Changed");
 	}
 	
-	public void addUserToSelectedPractise(){
+	public void roleChanged(){
 		
-//		Collection<CEntitiy> col =  hashEntities.values();
-//		List<CEntitiy> list = new ArrayList(col);
-		
-	/*	for (Object obj : selectedPractises) {
-
-			Practice practise = (Practice)obj;
-			user.setPractise(practise);
-			practise.getUsers().add(user);
-			System.out.println("asdsad");
-			
+		updateFlags();
+		if(user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) //just show entity
+		{
+			reloadEntities();
 		}
-*/	}
+		else if(user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+		{
+			reloadEntities();
+			reloadPractises();
+		}
+		else 
+		{
+			listEntities.clear();
+			listPractise.clear();
+			// Hide Enrity + practise by default
+			// clear the varavles as well	
+		}
+	}
+	
+	private void updateFlags(){
+		
+		if(user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) //just show entity
+		{
+			shouldshowEntity = true;
+			shouldshowPractise = false;
+		}
+		else if(user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+		{
+			shouldshowEntity = true;
+			shouldshowPractise = true;
+		}
+		else 
+		{
+			shouldshowEntity = false;
+			shouldshowPractise = false;
+		}
+	}
+	
+	private void reloadEntities(){
+		
+		listEntities = entityService.fetchAllEntitiesByUser();
+		initHashOne(listEntities);
+	}
+	
+	private void reloadPractises(){
+		
+		if (listEntities.size() > 0) {
+			CEntitiy entity = listEntities.get(0);
+			if (entity.getPracticeList().size() > 0)
+			{
+				listPractise = new ArrayList<Practice>(entity.getPracticeList());
+				initHashTwo(listPractise);
+			}
+		}
+	}
 	
 	public void createButtonClicked(){
 		
 		operationType = OperationType.Create;
-		user = new User();
+		initUser();
 		selectedPractises.clear();
 		
 		List<CEntitiy> tmpListEntity = entityService.fetchAllEntitiesByUser();
@@ -167,11 +198,12 @@ public class UserController extends RootController {
 		{
 			selectedEntity = tmpListEntity.get(0);
 		}
-		List<Role_Permission> tmpRoles = getAllRoles();
-		if(tmpRoles.size() > 0)
+		selectedPermission = new Permission();
+	/*	List<Permission> tmpPermissions = getAllPermission();
+		if(tmpPermissions.size() > 0)
 		{
-			selectedRole = tmpRoles.get(0);
-		}
+			selectedPermission = tmpPermissions.get(0);
+		}*/
 	}
 	
 	private boolean isUserInfoValid(){
@@ -193,15 +225,17 @@ public class UserController extends RootController {
 		{
 			user.setEntity(selectedEntity);
 			user.setPractises(new HashSet<>(selectedPractises));
-			user.setRole(selectedRole);
+			user.setPermission(selectedPermission);
 			
 			switch (operationType) {
 			case Create:
 			case Copy:
 			{
 
+				selectedEntity.getUsers().add(user);
 //				addUserToSelectedPractise();
-				userService.save(user);
+//				userService.save(user);
+				entityService.update(selectedEntity);
 				listUsers.add(user);
 				initUser();
 			}
@@ -216,7 +250,7 @@ public class UserController extends RootController {
 				break;
 			}
 			
-//			RequestContext.getCurrentInstance().execute("PF('userCreateDialog').hide()");
+			RequestContext.getCurrentInstance().execute("PF('userCreateDialog').hide()");
 		}
 
 	}
@@ -232,6 +266,7 @@ public class UserController extends RootController {
 		updateSelectedRole(sender);
 		updateSelectedEntity(sender);
 		user = sender;
+		updateFlags();
 		return;
 /*		List<Practice> list = 		practiseService.fetchAll();
 		listPractise =  new ArrayList<Practice>();
@@ -305,7 +340,7 @@ for (Practice practic : listSelected) {
 
 	private void updateSelectedRole(User user){
 		
-		selectedRole = getRoleById(user.getRole().getId());
+		selectedPermission = user.getPermission();
 	}
 	
 	private void updateSelectedEntity(User user){

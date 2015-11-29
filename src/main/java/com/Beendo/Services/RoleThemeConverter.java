@@ -15,7 +15,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.Beendo.Controllers.RootController;
 import com.Beendo.Entities.CEntitiy;
-import com.Beendo.Entities.Role_Permission;
+import com.Beendo.Entities.Permission;
 import com.Beendo.Utils.SharedData;
 
 @Controller
@@ -33,9 +33,9 @@ public class RoleThemeConverter implements Converter {
                         .getContext());
 		 return ctx;
 	}
-	private RoleService getRoleService(){
+	private PermissionService getRoleService(){
 		
-		RoleService roleService = (RoleService) getSpringContext().getBean("roleService");
+		PermissionService roleService = (PermissionService) getSpringContext().getBean("roleService");
 		return roleService;
 	}
 	
@@ -47,7 +47,7 @@ public class RoleThemeConverter implements Converter {
             	
             	//Role_Permission role = getRoleService().getEntityById(Integer.parseInt(value));
             	RootController userController = (RootController)getSpringContext().getBean("userController");
-            	Role_Permission role = userController.getRoleById(Integer.parseInt(value));
+            	Permission role = userController.getRoleById(Integer.parseInt(value));
             	return role;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
@@ -63,7 +63,7 @@ public class RoleThemeConverter implements Converter {
 		// TODO Auto-generated method stub
 		if(value != null)
 		{
-			Role_Permission entity = (Role_Permission)value;
+			Permission entity = (Permission)value;
 			String index = String.valueOf(entity.getId()) ;
 			return index;
 		}

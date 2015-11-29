@@ -20,7 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.Beendo.Entities.Role_Permission;
+import com.Beendo.Entities.Permission;
 import com.Beendo.Utils.SharedData;
 
 

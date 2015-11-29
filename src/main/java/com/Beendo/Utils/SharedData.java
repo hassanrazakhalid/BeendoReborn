@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.Beendo.Entities.Practice;
-import com.Beendo.Entities.Role_Permission;
+import com.Beendo.Entities.Permission;
 import com.Beendo.Entities.User;
 
 
@@ -36,7 +36,6 @@ public class SharedData {
 	
     private List<Practice> listPractise;
     
-
     private Authentication authentication;
     
     private User currentUser;
@@ -98,7 +97,8 @@ public class SharedData {
 	public boolean shouldReturnFullList(){
 		
 		boolean isOK = false;
-		if(SharedData.getSharedInstace().getCurrentUser().getRole().getName().equalsIgnoreCase(Constants.ROLE_SUPER_ADMIN))
+		if(SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString()) ||
+				SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString())	)
 		{
 			isOK = true;
 		}

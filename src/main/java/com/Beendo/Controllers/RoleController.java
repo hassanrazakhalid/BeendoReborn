@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
-import com.Beendo.Entities.Role_Permission;
-import com.Beendo.Services.RoleService;
+import com.Beendo.Entities.Permission;
+import com.Beendo.Services.PermissionService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,10 +21,10 @@ import lombok.Setter;
 public class RoleController {
 
 	@Autowired
-	private RoleService roleService;
+	private PermissionService roleService;
 	
-	private Role_Permission role = new Role_Permission();
-	private List<Role_Permission> roles;
+	private Permission role = new Permission();
+	private List<Permission> roles;
 	private Boolean isEditMode;
 	
 	public String view()
@@ -33,29 +33,29 @@ public class RoleController {
 		return "RoleView";
 	}
 	
-	public void updateClicked(Role_Permission _role)
+	public void updateClicked(Permission _role)
 	{
 		role = _role;
 		isEditMode = true;
 	}
 	
-	public void copyClicked(Role_Permission _role)
+	public void copyClicked(Permission _role)
 	{
-		Role_Permission rol = Role_Permission.copy(_role);
+		Permission rol = Permission.copy(_role);
 		role = rol;
 		isEditMode = false;
 	}
 	
 	public void saveInfo()
 	{
-		if(isEditMode)
+/*		if(isEditMode)
 		{
 			roleService.update(role);
 			showMessage("Role has been updated");
 		}
 		else
 		{
-			List<Role_Permission> result =	roleService.isNameExist(roles, role.getName());
+			List<Permission> result =	roleService.isNameExist(roles, role.getName());
 			if(result.size() <= 0)
 			{
 				roles.add(role);
@@ -66,12 +66,12 @@ public class RoleController {
 			}
 			else
 				showMessage("Role name already exists!");
-		}
+		}*/
 	}
 	
 	public void clearData()
 	{
-		role = new Role_Permission();
+		role = new Permission();
 		isEditMode = false;
 	}
 	

@@ -99,7 +99,7 @@
 						<p:outputLabel for="entity" value="Entity: "
 							rendered="#{practiseController.isSingleItemInEntityList()}" />
 						<p:outputLabel id="entity"
-							value="#{practiseController.listPractise.get(0).getName()}"
+							value="#{practiseController.getFirstEntityName()}"
 							rendered="#{practiseController.isSingleItemInEntityList()}" />
 
 						<p:outputLabel for="entities" value="Entity: "

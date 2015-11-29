@@ -15,13 +15,13 @@
 
 		<ui:define name="mainContent">
 
-			<h:form rendered="#{sharedData.currentUser.canCreateUser}">
+			<!-- 	<h:form rendered="#{sharedData.currentUser.canCreateUser}"> -->
 
-				<p:commandButton action="#{userController.createButtonClicked()}"
-					value="Create User" update=":userForm"
-					oncomplete="PF('userCreateDialog').show()" />
-				<br />
-			</h:form>
+			<p:commandButton action="#{userController.createButtonClicked()}"
+				value="Create User" update=":userForm"
+				oncomplete="PF('userCreateDialog').show()" />
+			<br />
+			<!-- 	</h:form> -->
 
 			<h:form id="userTable">
 				<p:dataTable value="${userController.listUsers}" var="user">
@@ -36,7 +36,7 @@
 					#{user.password}
 					</p:column>
 					<p:column headerText="Role">
-					#{user.role.name}
+					#{user.roleName}
 					</p:column>
 					<p:column headerText="Entity">
 					#{user.entity.name}
@@ -84,31 +84,50 @@
 				widgetVar="userCreateDialog">
 
 				<h:form id="userForm">
-				<p:messages id="msgs" showDetail="true" />
+					<p:messages id="msgs" showDetail="true" />
 					<p:panelGrid id="panelGrid" columns="2">
 
 						<p:outputLabel for="tfName" value="Name:" />
-						<p:inputText id="tfName" value="#{userController.user.name}"></p:inputText>
-					
+						<p:inputText id="tfName" value="#{userController.user.name}">
+							<f:ajax render="result" />
+						</p:inputText>
+
 						<p:outputLabel for="tfUsername" value="UserName:" />
 						<p:inputText id="tfUsername"
-							value="#{userController.user.appUserName}"></p:inputText>
+							value="#{userController.user.appUserName}">
+							<f:ajax render="result" />
+						</p:inputText>
 
 						<p:outputLabel for="tfPassword" value="Password:" />
 						<p:inputText id="tfPassword"
-							value="#{userController.user.password}"></p:inputText>
+							value="#{userController.user.password}">
+							<f:ajax render="result" />
+						</p:inputText>
 
 						<p:outputLabel for="tfEmail" value="Email:" />
-						<p:inputText id="tfEmail" value="#{userController.user.email}"></p:inputText>
+						<p:inputText id="tfEmail" value="#{userController.user.email}">
+							<f:ajax render="result" />
+						</p:inputText>
 
-						<p:outputLabel for="listEntity" value="Select Entity:" />
+						<p:outputLabel for="roleList" value="Select Role:" />
+						<p:selectOneMenu id="roleList"
+							value="#{userController.user.roleName}" var="t"
+							style="width:160px">
+							<f:selectItem itemLabel="Select" itemValue="" />
+							<f:selectItems value="#{userController.listRoles}" var="role"
+								itemValue="#{role}" />
+							<p:ajax event="change" execute="@this"
+								listener="#{userController.roleChanged()}" update=":userForm"></p:ajax>
+						</p:selectOneMenu>
 
-
+						<p:outputLabel for="listEntity" value="Select Entity:"
+							rendered="#{userController.shouldshowEntity}" />
 						<p:selectOneMenu id="listEntity"
 							value="#{userController.selectedEntity}"
 							converter="entityConverter" panelStyle="width:180px"
 							effect="fade" var="t" style="width:160px" filter="true"
-							filterMatchMode="startsWith">
+							filterMatchMode="startsWith"
+							rendered="#{userController.shouldshowEntity}">
 
 							<f:selectItems value="#{userController.listEntities}"
 								var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
@@ -121,11 +140,13 @@
 							</p:column>
 						</p:selectOneMenu>
 
-						<p:outputLabel for="listPractiseID" value="Select Practise:" />
+						<p:outputLabel for="listPractiseID" value="Select Practise:"
+							rendered="#{userController.shouldshowPractise}" />
 						<p:selectCheckboxMenu id="listPractiseID"
 							value="#{userController.selectedPractises}"
 							label="Select Practices" style="width:177px"
-							panelStyle="width:250px" converter="practiseConverter">
+							panelStyle="width:250px" converter="practiseConverter"
+							rendered="#{userController.shouldshowPractise}">
 
 							<f:selectItems value="#{userController.listPractise}"
 								var="practice" itemLabel="#{practice.name}"
@@ -133,34 +154,58 @@
 
 						</p:selectCheckboxMenu>
 
-						<p:outputLabel for="listRoles" value="Select Role:" />
-						<p:selectOneMenu id="listRoles"
-							value="#{userController.selectedRole}" panelStyle="width:180px"
-							converter="roleConverter" effect="fade" var="t"
-							style="width:160px">
+						<h:panelGrid columns="2" cellpadding="8">
 
-							<f:selectItems value="#{userController.listRoles}" var="role"
-								itemLabel="#{role.name}" itemValue="#{role}" />
+							<h:outputText value="Can Provider Add: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.user.permission.canProviderAdd}" />
 
-							<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column>
-						</p:selectOneMenu>
+							<h:outputText value="Can Provider Edit: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.user.permission.canProviderEdit}" />
 
-						<h:outputText value="Can Create User: " />
-						<p:selectBooleanCheckbox
-							value="#{userController.user.canCreateUser}" />
-						<h:outputText value="Send Email: " />
-						<p:selectBooleanCheckbox value="#{userController.sendEmail}" />
+						</h:panelGrid>
 
+						<h:panelGrid columns="2" cellpadding="8">
+
+							<h:outputText value="Can Payer Add: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.user.permission.canPayerAdd}" />
+
+
+
+							<h:outputText value="Can Payer Edit: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.user.permission.canPayerEdit}" />
+
+						</h:panelGrid>
+
+
+						<!-- <p:column style="width: 100%"> -->
+						<h:panelGrid columns="2" cellpadding="8">
+
+							<h:outputText value="Can Payer transaction Add: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.user.permission.canPayerTransactionAdd}" />
+
+							<h:outputText value="Can Payer transaction Edit: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.user.permission.canPayerTransactionEdit}" />
+						</h:panelGrid>
+						<!-- </p:column> -->
+
+						<h:panelGrid columns="2" cellpadding="8">
+							<h:outputText value="Send Email: " />
+							<p:selectBooleanCheckbox value="#{userController.sendEmail}" />
+
+						</h:panelGrid>
 					</p:panelGrid>
 
 					<br />
 					<p:commandButton value="Save"
 						actionListener="#{userController.saveButtonClicked}"
-						update=":userTable,userForm"
-						 />
-						 <!-- oncomplete="PF('userCreateDialog').hide()" -->
+						update=":userTable,userForm" />
+					<!-- oncomplete="PF('userCreateDialog').hide()" -->
 				</h:form>
 			</p:dialog>
 

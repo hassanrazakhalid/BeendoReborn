@@ -31,7 +31,6 @@ public class CEntitiy implements ICache<CEntitiy> {
 	@GeneratedValue
 	private Integer id;
 	private String name;
-
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
 	private Set<Practice> practiceList = new HashSet<Practice>();
@@ -41,17 +40,10 @@ public class CEntitiy implements ICache<CEntitiy> {
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
 	private Set<ProviderTransaction> transactionList = new HashSet<ProviderTransaction>();
-	//private List<ProviderTransaction> transactionList = new ArrayList<ProviderTransaction>();
+
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
+	private Set<User> users = new HashSet<User>();
 	
-	/*@ManyToMany
-	private List<Provider> providerList = new ArrayList<Provider>();*/
-
-	/*@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return String.valueOf(getId());
-	}*/
-
 	@Override
 	public Integer getCacheId(){
 		

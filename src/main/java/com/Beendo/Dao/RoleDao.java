@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.Beendo.Entities.Role_Permission;
+import com.Beendo.Entities.Permission;
 
 @Repository
 public class RoleDao implements IRole {
@@ -18,14 +18,14 @@ public class RoleDao implements IRole {
 	
 	@Override
 	@Transactional
-	public void save(Role_Permission entity) {
+	public void save(Permission entity) {
 		
 		this.sessionFactory.getCurrentSession().save(entity);
 	}
 
 	@Transactional
 	@Override
-	public void update(Role_Permission entity) {
+	public void update(Permission entity) {
 		
 		this.sessionFactory.getCurrentSession().update(entity);
 	}
@@ -37,13 +37,13 @@ public class RoleDao implements IRole {
 	}
 
 	@Override
-	public Role_Permission findById(Integer id) {
+	public Permission findById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void delete(Role_Permission entity) {
+	public void delete(Permission entity) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -56,7 +56,7 @@ public class RoleDao implements IRole {
 
 	@Transactional
 	@Override
-	public List<Role_Permission> findAll() {
+	public List<Permission> findAll() {
 		
 		return this.sessionFactory.getCurrentSession().createQuery("FROM Role_Permission").list();
 	}

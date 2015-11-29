@@ -1,42 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/security
-	 http://www.springframework.org/schema/security/spring-security-4.0.xsd
-		http://www.springframework.org/schema/beans
-		 http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 
 
-<!-- Enable method level Spring Security by annotations  -->
-     <global-method-security pre-post-annotations="enabled" />  
-
-	<http auto-config="true" use-expressions="true">
+	<!-- Enable method level Spring Security by annotations -->
+	<global-method-security pre-post-annotations="enabled"
+	 />
+<!-- jsr250-annotations="enabled" access-decision-manager-ref="accessDecisionManager" -->
+	
+	<!-- access-decision-manager-ref="accessDecisionManager" -->
+	<http auto-config="true" use-expressions="true"
+		 >
 		<csrf disabled="true" />
-		<intercept-url pattern="/javax.faces.resource/**" access="permitAll"/>
-		<intercept-url pattern="/Views/Unsecured/Login/*" access="permitAll"/>
-		 <intercept-url pattern="/Views/Unsecured/**" access="permitAll"/>
-		 <!-- <intercept-url pattern="/Views/**" access="permitAll"/> -->
-		
-		<intercept-url pattern="/Views/Secured/Dashboard/*" access="permitAll" />
-		
-		<intercept-url pattern="/Views/Secured/User/*" access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER_ADMIN')" />
-		<intercept-url pattern="/Views/Secured/User/**" access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER_ADMIN')" />
-		
-  
-        <!-- Define login page for Spring Security -->      
-        <form-login login-page="/Views/Unsecured/Login/index.xhtml"/>
-		<logout invalidate-session="true" delete-cookies="true" logout-url="/Views/Unsecured/logout.xhtml" />
+		<intercept-url pattern="/javax.faces.resource/**"
+			access="permitAll" />
+		<intercept-url pattern="/Views/Unsecured/Login/*"
+			access="permitAll" />
+		<intercept-url pattern="/Views/Unsecured/**" access="permitAll" />
+		<!-- <intercept-url pattern="/Views/**" access="permitAll"/> -->
+
+		<intercept-url pattern="/Views/Secured/Dashboard/*"
+			access="isAuthenticated()" />
+
+		<intercept-url pattern="/Views/Secured/User/*"
+			access="isAuthenticated()" />
+		<intercept-url pattern="/Views/Secured/User/**"
+			access="isAuthenticated()" />
+<!-- "hasAnyRole('ROLE_ADMIN','ROLE_USER')" -->
+
+		<!-- Define login page for Spring Security -->
+		<form-login login-page="/Views/Unsecured/Login/index.xhtml" />
+		<logout invalidate-session="true" delete-cookies="true"
+			logout-url="/Views/Unsecured/logout.xhtml" />
 	</http>
 
 	<authentication-manager id="authenticationManager">
-		<authentication-provider user-service-ref="userService">  
-            <password-encoder hash="plaintext">  
-        </password-encoder></authentication-provider>  
-	</authentication-manager> 
+		<authentication-provider user-service-ref="userService">
+			<password-encoder hash="plaintext">
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
 
- <!-- Inject authentication Manager to our LoginBean -->
-    <!-- <beans:bean id="loginBean" name="loginBean" class="managedController.LoginBean" scope="prototype">
-        <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
-    </beans:bean> -->
+
+<!-- 	<beans:bean id="roleHierarchy"
+		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+		<beans:property name="hierarchy">
+			<beans:value>
+				ROLE_ADMIN > ROLE_USER
+				ROLE_USER > ROLE_GUEST
+			</beans:value>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="roleVoter" class="com.Beendo.Security.HierarchicalJsr250Voter">
+		<beans:constructor-arg ref="roleHierarchy" />
+	</beans:bean>
+
+	<beans:bean id="accessDecisionManager"
+		class="org.springframework.security.access.vote.UnanimousBased">
+		<beans:constructor-arg ref="roleVoter" />
+		<beans:property name="decisionVoters">
+			<beans:list>
+				<beans:bean class="org.springframework.security.access.vote.RoleVoter" />
+				<beans:bean class="com.Beendo.Security.CustomAccessDecisionManager" />
+			</beans:list>
+		</beans:property>
+	</beans:bean> -->
+
 </beans:beans>

@@ -1,7 +1,7 @@
 package com.Beendo.Dao;
 
-import com.Beendo.Entities.Role_Permission;
+import com.Beendo.Entities.Permission;
 
-public interface IRole extends ICRUD <Role_Permission, Integer> {
+public interface IRole extends ICRUD <Permission, Integer> {
 
 }

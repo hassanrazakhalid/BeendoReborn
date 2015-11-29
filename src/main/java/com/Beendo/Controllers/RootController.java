@@ -10,7 +10,7 @@ import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
-import com.Beendo.Entities.Role_Permission;
+import com.Beendo.Entities.Permission;
 
 public class RootController {
 
@@ -19,7 +19,7 @@ public class RootController {
 	private HashMap<Integer, Payer> hashThree;
 	private HashMap<Integer, Provider> hashFour;
 	private HashMap<Integer, ProviderTransaction> hashTrans;
-	private HashMap<Integer, Role_Permission> hashRole;
+	private HashMap<Integer, Permission> hashRole;
 
 	public void initHashOne(List<CEntitiy> list) {
 
@@ -181,30 +181,30 @@ public class RootController {
 	
 	//------------------- ROLES ------------------------
 	
-	public void initRoleHash(List<Role_Permission> list) {
+	public void initPermissionHash(List<Permission> list) {
 
 		hashRole = new HashMap<>();
 
-		updateRoleHash(list);
+		updatePermissionHash(list);
 	}
 	
-	public void updateRoleHash(List<Role_Permission> list) {
+	public void updatePermissionHash(List<Permission> list) {
 
-		for (Role_Permission object : list) {
+		for (Permission object : list) {
 
 			hashRole.put(object.getId(), object);
 		}
 	}
 	
-	public List<Role_Permission> getAllRoles() {
+	public List<Permission> getAllPermission() {
 
-		Collection<Role_Permission> col = hashRole.values();
-		List<Role_Permission> list = new ArrayList<Role_Permission>(col);
+		Collection<Permission> col = hashRole.values();
+		List<Permission> list = new ArrayList<Permission>(col);
 		return list;
 	}
 
 
-	public Role_Permission getRoleById(Integer id) {
+	public Permission getPermissionById(Integer id) {
 
 		return hashRole.get(id);
 	}
