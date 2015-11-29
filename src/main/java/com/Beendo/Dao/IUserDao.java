@@ -14,6 +14,8 @@ public interface IUserDao extends ICRUD <User, Integer> {
 	public User isUserValid(String email, String password);
 	public User finsUserByUserName(String email);
 	
+	public List<User> findUserOtherRoot();
+	
 	
 //	public UserDetails loadUserByUsername(String username);
 }

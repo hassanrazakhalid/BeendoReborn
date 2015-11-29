@@ -17,7 +17,7 @@
 
 			<!-- 	<h:form rendered="#{sharedData.currentUser.canCreateUser}"> -->
 			<h:form>
-			<p:commandButton action="#{userController.createButtonClicked()}"
+			<p:commandButton actionListener="#{userController.createButtonClicked}"
 				value="Create User" update=":userForm"
 				oncomplete="PF('userCreateDialog').show()" />
 				</h:form>
@@ -82,10 +82,10 @@
 			</h:form>
 
 			<p:dialog id="userDialog" header="Create User" modal="true"
-				widgetVar="userCreateDialog">
+				widgetVar="userCreateDialog" width="500">
 
 				<h:form id="userForm">
-					<p:messages id="msgs" showDetail="true" />
+					<!-- <p:messages id="msgs" showDetail="true" /> -->
 					<p:panelGrid id="panelGrid" columns="2">
 
 						<p:outputLabel for="tfName" value="Name:" />
@@ -114,7 +114,8 @@
 						<p:selectOneMenu id="roleList"
 							value="#{userController.user.roleName}" var="t"
 							style="width:160px">
-							<f:selectItem itemLabel="Select" itemValue="#{userController.user.roleName}" />
+							<f:selectItem itemLabel="Select"
+								itemValue="#{userController.user.roleName}" />
 							<f:selectItems value="#{userController.listRoles}" var="role"
 								itemValue="#{role}" />
 							<p:ajax event="change" execute="@this"
@@ -155,46 +156,49 @@
 
 						</p:selectCheckboxMenu>
 
-						<h:panelGrid columns="2" cellpadding="8">
+							<h:panelGrid columns="2" cellpadding="8"
+							rendered="#{userController.shouldshowPermission}">
 
-							<h:outputText value="Can Provider Add: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.user.permission.canProviderAdd}" />
+								<h:outputText value="Can Provider Add: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.user.permission.canProviderAdd}" />
 
-							<h:outputText value="Can Provider Edit: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.user.permission.canProviderEdit}" />
+								<h:outputText value="Can Provider Edit: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.user.permission.canProviderEdit}" />
 
-						</h:panelGrid>
+							</h:panelGrid>
 
-						<h:panelGrid columns="2" cellpadding="8">
+							<h:panelGrid columns="2" cellpadding="8"
+							rendered="#{userController.shouldshowPermission}">
 
-							<h:outputText value="Can Payer Add: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.user.permission.canPayerAdd}" />
-
-
-
-							<h:outputText value="Can Payer Edit: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.user.permission.canPayerEdit}" />
-
-						</h:panelGrid>
+								<h:outputText value="Can Payer Add: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.user.permission.canPayerAdd}" />
 
 
-						<!-- <p:column style="width: 100%"> -->
-						<h:panelGrid columns="2" cellpadding="8">
 
-							<h:outputText value="Can Payer transaction Add: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.user.permission.canPayerTransactionAdd}" />
+								<h:outputText value="Can Payer Edit: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.user.permission.canPayerEdit}" />
 
-							<h:outputText value="Can Payer transaction Edit: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.user.permission.canPayerTransactionEdit}" />
-						</h:panelGrid>
-						<!-- </p:column> -->
+							</h:panelGrid>
 
+
+							<!-- <p:column style="width: 100%"> -->
+							<h:panelGrid columns="2" cellpadding="8"
+							rendered="#{userController.shouldshowPermission}">
+
+								<h:outputText value="Can Payer transaction Add: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.user.permission.canPayerTransactionAdd}" />
+
+								<h:outputText value="Can Payer transaction Edit: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.user.permission.canPayerTransactionEdit}" />
+							</h:panelGrid>
+							<!-- </p:column> -->
+						
 						<h:panelGrid columns="2" cellpadding="8">
 							<h:outputText value="Send Email: " />
 							<p:selectBooleanCheckbox value="#{userController.sendEmail}" />

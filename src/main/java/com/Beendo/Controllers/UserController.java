@@ -65,6 +65,7 @@ public class UserController extends RootController {
 	
 	private boolean shouldshowEntity;
 	private boolean shouldshowPractise;
+	private boolean shouldshowPermission;
 
 	private List<CEntitiy> listEntities = new ArrayList<>();
 	private List<Practice> listPractise = new ArrayList<>();
@@ -83,6 +84,8 @@ public class UserController extends RootController {
 
 		shouldshowEntity = false;
 		shouldshowPractise = false;
+		shouldshowPermission = false;
+		
 		listRoles = reloadRolesList();
 		operationType = OperationType.Create;
 		initUserList();
@@ -111,6 +114,7 @@ public class UserController extends RootController {
 
 		operationType = OperationType.Create;
 		initUser();
+		updateFlags();
 	}
 
 	public void entityChanged() {
@@ -149,16 +153,19 @@ public class UserController extends RootController {
 		{
 			shouldshowEntity = true;
 			shouldshowPractise = false;
+			shouldshowPermission = false;
 		}
 		else if(user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
 		{
 			shouldshowEntity = true;
 			shouldshowPractise = true;
+			shouldshowPermission = true;
 		}
 		else 
 		{
 			shouldshowEntity = false;
 			shouldshowPractise = false;
+			shouldshowPermission = false;
 		}
 	}
 	

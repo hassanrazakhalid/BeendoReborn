@@ -36,19 +36,38 @@ public class UserService implements UserDetailsService {
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
 		List<User> userList = new ArrayList<>();
 		
-		if(SharedData.getSharedInstace().shouldReturnFullList())
+		if(userRole.equalsIgnoreCase(Role.ROOT_ADMIN.toString()))
 		{
 			userList.addAll(iUserDao.findAll());
+			userList = removeSelf(userList);
 		}
-		else
+		else if(userRole.equalsIgnoreCase(Role.ROOT_USER.toString()))
 		{
-			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
-			{
+			
+			userList.addAll(iUserDao.findUserOtherRoot());
+		}
+		else if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
+		{
 				userList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getUsers());
-			}
+				userList = removeSelf(userList);
 		}
 		
 		return userList;
+	}
+	
+	private List<User> removeSelf(List<User> list){
+		
+		for(int i=0; i < list.size(); i++)
+		{
+			User tmpUser = list.get(i);
+			if(tmpUser.getId().compareTo(SharedData.getSharedInstace().getCurrentUser().getId()) == 0)
+			{
+				list.remove(i);
+				break;
+			}
+		}
+		
+		return list;
 	}
 	
 	public User isUserValid(String appUserName, String password){
