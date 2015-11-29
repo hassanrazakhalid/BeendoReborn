@@ -1,5 +1,6 @@
 package com.Beendo.Services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.IUserDao;
 import com.Beendo.Entities.User;
+import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 @Service
@@ -29,9 +31,24 @@ public class UserService implements UserDetailsService {
 		return iUserDao.findAll();
 	}
 	
-	public List<User> fetchAllByEntity(){
+	public List<User> fetchAllByRole(){
 		
-		return iUserDao.findAll();
+		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
+		List<User> userList = new ArrayList<>();
+		
+		if(SharedData.getSharedInstace().shouldReturnFullList())
+		{
+			userList.addAll(iUserDao.findAll());
+		}
+		else
+		{
+			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
+			{
+				userList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getUsers());
+			}
+		}
+		
+		return userList;
 	}
 	
 	public User isUserValid(String appUserName, String password){

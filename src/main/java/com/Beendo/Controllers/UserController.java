@@ -43,7 +43,8 @@ import lombok.Setter;
 public class UserController extends RootController {
 	
 	private OperationType operationType;
-	
+	public List<String> listRoles = new ArrayList<>();
+
 	private Boolean sendEmail;
 	
 	@Autowired
@@ -82,7 +83,7 @@ public class UserController extends RootController {
 
 		shouldshowEntity = false;
 		shouldshowPractise = false;
-		reloadRolesList();
+		listRoles = reloadRolesList();
 		operationType = OperationType.Create;
 		initUserList();
 		reloadEntities();
@@ -91,7 +92,7 @@ public class UserController extends RootController {
 
 	public void initUserList(){
 		
-		List<User> tmpList = userService.fetchAll();
+		List<User> tmpList = userService.fetchAllByRole();
 		
 		for (User user : tmpList) {
 			

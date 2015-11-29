@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.IRole;
 import com.Beendo.Entities.CEntitiy;
-import com.Beendo.Entities.Role_Permission;
+import com.Beendo.Entities.Permission;
 
 @Service
 public class RoleService {
 
-	private HashMap<Integer, Role_Permission> hashRole = new HashMap<>();;
+	private HashMap<Integer, Permission> hashRole = new HashMap<>();;
 	
 	@Autowired
 	private IRole service;

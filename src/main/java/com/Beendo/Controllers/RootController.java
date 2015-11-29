@@ -11,6 +11,7 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Utils.Role;
+import com.Beendo.Utils.SharedData;
 import com.Beendo.Entities.Permission;
 
 public class RootController {
@@ -21,8 +22,6 @@ public class RootController {
 	private HashMap<Integer, Provider> hashFour;
 	private HashMap<Integer, ProviderTransaction> hashTrans;
 	private HashMap<Integer, Permission> hashPermission;
-
-	public List<String> listRoles = new ArrayList<>();
 	
 	public void initHashOne(List<CEntitiy> list) {
 
@@ -210,12 +209,35 @@ public class RootController {
 		return hashPermission.get(id);
 	}
 
-	public void reloadRolesList() {
+	
+	public List<String> reloadRolesList() {
 
-		for (Role role : Role.values()) {
+		List<String> listRoles = new ArrayList<>();
+		if(!listRoles.isEmpty())
+			return listRoles;
+		else
+		{
+			String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
+			
+			if(userRole.equalsIgnoreCase(Role.ROOT_ADMIN.toString()))
+			{
+					listRoles.add(Role.ROOT_USER.toString());
+					listRoles.add(Role.ENTITY_ADMIN.toString());
+					listRoles.add(Role.ENTITY_USER.toString());		
+			}
+			
+			if(userRole.equalsIgnoreCase(Role.ROOT_USER.toString())) //add all except
+			{
+					listRoles.add(Role.ENTITY_ADMIN.toString());
+					listRoles.add(Role.ENTITY_USER.toString());		
+			}
+			
+			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) //add all except
+			{
+					listRoles.add(Role.ENTITY_USER.toString());		
+			}		
 
-			listRoles.add(role.toString());
-			// do what you want
+			return listRoles;
 		}
 	}
 }
