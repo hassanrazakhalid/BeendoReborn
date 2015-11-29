@@ -21,9 +21,12 @@ public class DatabaseConfiguration {
 		
 		BasicDataSource basicDataSource = new BasicDataSource();
 		basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3306/janjua_TestDB");
-		basicDataSource.setUsername("root");
-		basicDataSource.setPassword("sa123");		
+//		basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3306/janjua_TestDb");
+//		basicDataSource.setUsername("janjua_Admin");
+//		basicDataSource.setPassword(")th*@(i_IW43");
+		basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3307/janjua_TestDb");
+		basicDataSource.setUsername("admin");
+		basicDataSource.setPassword("admin");
 		return basicDataSource;
 	}
 	
