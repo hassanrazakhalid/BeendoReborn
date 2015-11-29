@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.Beendo.Dao.ICRUD;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.User;
+import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 @Service
@@ -43,6 +45,31 @@ public class PractiseService {
 		
 		return resultList;
 	}
+	
+	public List<Practice> fetchAllByRole(){
+		
+		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
+		List<Practice> practiseList = new ArrayList<>();
+		
+		if(SharedData.getSharedInstace().shouldReturnFullList())
+		{
+			practiseList.addAll(iPractise.findAll());
+		}
+		else
+		{
+			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
+			{
+				practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
+			}
+			else if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			{
+				practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getPractises());
+			}
+		}
+		
+		return practiseList;
+	}
+
 
 	public void update(Practice practise) {
 		// TODO Auto-generated method stub
