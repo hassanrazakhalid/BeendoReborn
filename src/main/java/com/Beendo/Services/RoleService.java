@@ -24,7 +24,7 @@ public class RoleService {
 	@Autowired
 	private IRole service;
 		
-//	@PostConstruct
+/*//	@PostConstruct
 	public void init(){
 		 
 		List<Role_Permission> list = service.findAll();
@@ -38,9 +38,9 @@ public class RoleService {
 	
 	public List<Role_Permission> getRoleList(){
 		
-		/*Collection<Role_Permission> col =  hashRole.values();
+		Collection<Role_Permission> col =  hashRole.values();
 		List<Role_Permission> list = new ArrayList(col);
-		return list;*/
+		return list;
 		
 		return service.findAll();
 	}
@@ -80,5 +80,5 @@ public class RoleService {
 
 		 return p -> p.getName().equalsIgnoreCase(name);
 	 }
-	
+*/	
 }

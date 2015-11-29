@@ -47,8 +47,8 @@ public class RoleThemeConverter implements Converter {
             	
             	//Role_Permission role = getRoleService().getEntityById(Integer.parseInt(value));
             	RootController userController = (RootController)getSpringContext().getBean("userController");
-            	Permission role = userController.getRoleById(Integer.parseInt(value));
-            	return role;
+//            	Permission role = userController.getRoleById(Integer.parseInt(value));
+            	return null;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
             }

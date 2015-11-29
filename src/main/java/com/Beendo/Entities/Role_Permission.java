@@ -17,8 +17,8 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "ROLE_PERMISSION")
-public class Role_Permission  implements GrantedAuthority {
-
+public class Role_Permission {
+//	  implements GrantedAuthority
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -48,7 +48,7 @@ public class Role_Permission  implements GrantedAuthority {
 		
 	}
 
-	@Override
+/*	@Override
 	public String getAuthority() {
 		// TODO Auto-generated method stub
 //		return "ROLE_ADMIN";
@@ -59,7 +59,7 @@ public class Role_Permission  implements GrantedAuthority {
 			str = "ROLE_"+this.getName().toUpperCase();
 		return str;
 	}
-	
+*/	
 	private boolean isSuperAdmin(){
 		
 		if(this.user.getAppUserName().equalsIgnoreCase("SuperAdmin") &&
