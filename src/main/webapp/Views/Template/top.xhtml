@@ -40,7 +40,8 @@
 
 				<p:menuitem value="Entity" action="#{entityController.viewEntity()}" icon="ui-icon-contact" rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER,ENTITY_ADMIN')}" />
 
-				<p:menuitem value="Payer" action="#{payerController.view()}" icon="ui-icon-user-1" />
+				<p:menuitem value="Payer" action="#{payerController.view()}" icon="ui-icon-user-1"
+				rendered="#{payerController.shouldShowPayerLink()}" />
 
 				<!-- <p:menuitem value="Role" action="#{roleController.view()}" icon="ui-icon-user-1" rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" /> -->
 

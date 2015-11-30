@@ -12,6 +12,8 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Utils.OperationType;
+import com.Beendo.Utils.Role;
+import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -78,5 +80,16 @@ public class PayerController extends RootController {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Payer", msg);
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
+	
+	public boolean shouldShowPayerLink(){
+		
+		boolean isOK = true;
+	
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) ||
+			SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())		)
+			isOK = false;
+		
+		return isOK;
+	} 
 
 }
