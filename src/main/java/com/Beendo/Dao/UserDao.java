@@ -103,9 +103,9 @@ public class UserDao implements IUserDao {
 		// TODO Auto-generated method stub
 		
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM User U where U.roleName != :arg1 AND U.roleName != arg2");
-		query.setParameter("arg1", Role.ENTITY_ADMIN.toString());
-		query.setParameter("arg1", Role.ENTITY_USER.toString());
+		Query query = session.createQuery("FROM User U where U.roleName  not in ( :arg1, :arg2)");
+		query.setParameter("arg1", Role.ROOT_ADMIN.toString());
+		query.setParameter("arg2", Role.ROOT_USER.toString());
 		
 		List<User> result = query.list();
 		return result;	
