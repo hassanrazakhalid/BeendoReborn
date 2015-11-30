@@ -74,6 +74,8 @@ public class RootController {
 	}
 
 	public void clearHashTwo() {
+		
+		if(hashTwo != null)
 		hashTwo.clear();
 	}
 

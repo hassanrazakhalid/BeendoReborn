@@ -20,112 +20,102 @@ import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
-
-
 @Service
 public class EntityService {
 
 	@Autowired
 	private IEntity _service;
-	
-//	private List<CEntitiy> listEntities;
-/*	private HashMap<Integer, CEntitiy> hashEntities = new HashMap<Integer, CEntitiy>();
-	
-	@PostConstruct
-	private void init(){
-		
-	List<CEntitiy>	listEntities = this.findAll();
-		for(int i=0; i < listEntities.size(); i++)
-		{
-			CEntitiy entity = listEntities.get(i);
-			hashEntities.put(entity.getId(), entity);
-		}
-		
-	}*/
-	
-	public List<CEntitiy> fetchAll()
-	{
+
+	// private List<CEntitiy> listEntities;
+	/*
+	 * private HashMap<Integer, CEntitiy> hashEntities = new HashMap<Integer,
+	 * CEntitiy>();
+	 * 
+	 * @PostConstruct private void init(){
+	 * 
+	 * List<CEntitiy> listEntities = this.findAll(); for(int i=0; i <
+	 * listEntities.size(); i++) { CEntitiy entity = listEntities.get(i);
+	 * hashEntities.put(entity.getId(), entity); }
+	 * 
+	 * }
+	 */
+
+	public List<CEntitiy> fetchAll() {
 		return _service.findAll();
 	}
-	
-	
-	public List<CEntitiy> fetchAllEntitiesByUse(){
-		
-/*		Collection<CEntitiy> col =  hashEntities.values();
-		List<CEntitiy> list = new ArrayList(col);
-		return list;*/
+
+	public List<CEntitiy> fetchAllEntitiesByUse() {
+
+		/*
+		 * Collection<CEntitiy> col = hashEntities.values(); List<CEntitiy> list
+		 * = new ArrayList(col); return list;
+		 */
 		List<CEntitiy> resultList = null;
-		if(SharedData.getSharedInstace().shouldReturnFullList())
+		if (SharedData.getSharedInstace().shouldReturnFullList())
 			resultList = _service.findAll();
-		else
-		{
+		else {
 			List<CEntitiy> tmpList = new ArrayList<CEntitiy>();
 			tmpList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
 			resultList = tmpList;
 		}
 		return resultList;
-//		return (List<CEntitiy>) hashEntities.values();
-		
+		// return (List<CEntitiy>) hashEntities.values();
+
 	}
-	
-	public List<CEntitiy> fetchAllByRole(){
-		
+
+	public List<CEntitiy> fetchAllByRole() {
+
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
 		List<CEntitiy> entityList = new ArrayList<>();
-		
-		if(SharedData.getSharedInstace().shouldReturnFullList())
-		{
+
+		if (SharedData.getSharedInstace().shouldReturnFullList()) {
 			entityList.addAll(_service.findAll());
-		}
-		else
-		{
-			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
-			{
+		} else {
+			if (userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
 				entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
 			}
+			else if (userRole.equalsIgnoreCase(Role.ENTITY_USER.toString())) {
+				if (SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderAdd())
+					entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
+			}
 		}
-		
+
 		return entityList;
 	}
 
-
-/*	public CEntitiy getEntityById(Integer id)
-	{
-		return hashEntities.get(id);
-	}
-*/	
-	public void save(CEntitiy entity)
-	{
+	/*
+	 * public CEntitiy getEntityById(Integer id) { return hashEntities.get(id);
+	 * }
+	 */
+	public void save(CEntitiy entity) {
 		_service.save(entity);
-//		hashEntities.put(entity.getId(), entity);
+		// hashEntities.put(entity.getId(), entity);
 	}
-	
-	public void update(CEntitiy entity)
-	{
+
+	public void update(CEntitiy entity) {
 		_service.update(entity);
 	}
-	
 
-	public static List<CEntitiy> isNameExist(List<CEntitiy> entities, String name){
-		
+	public static List<CEntitiy> isNameExist(List<CEntitiy> entities, String name) {
+
 		return filterData(entities, getNamePredicate(name));
 	}
-	
-	private static List<CEntitiy> filterData (List<CEntitiy> list, Predicate<CEntitiy> predicate) {
-		
+
+	private static List<CEntitiy> filterData(List<CEntitiy> list, Predicate<CEntitiy> predicate) {
+
 		List<CEntitiy> result = null;
 		try {
-			result =	list.stream().filter( predicate ).collect(Collectors.<CEntitiy>toList());
+			result = list.stream().filter(predicate).collect(Collectors.<CEntitiy> toList());
 		} catch (Exception e) {
 			System.out.println(e);
 			// TODO: handle exception
 		}
-        return result;
-    }
-	
-	private static Predicate<CEntitiy> getNamePredicate(String name){
+		return result;
+	}
 
-		 return p -> p.getName().equalsIgnoreCase(name);
-	 }
-	
+	private static Predicate<CEntitiy> getNamePredicate(String name) {
+
+		return p -> p.getName().equalsIgnoreCase(name);
+	}
+
 }

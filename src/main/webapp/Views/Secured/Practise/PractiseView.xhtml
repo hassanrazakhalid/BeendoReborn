@@ -17,7 +17,7 @@
 		<ui:define name="mainContent">
 			<!-- <h2>Practise Details</h2> -->
 
-			<h:form>
+			<h:form rendered="#{practiseController.canCreatePracise()}">
 				<p:commandButton value="Create Practise"
 					action="#{practiseController.createClicked()}" resetValues="true"
 					oncomplete="PF('dlg2').show()" update=":createForm">
@@ -50,7 +50,7 @@
 					</table>
 				</p:column>
 
-				<p:column headerText="Operation">
+				<p:column headerText="Operation" rendered="#{practiseController.canEditPracise()}">
 					<h:form>
 						<p:commandButton value="edit"
 							action="#{practiseController.updateClicked(practise)}"

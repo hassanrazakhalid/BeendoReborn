@@ -21,6 +21,7 @@ import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Utils.CustomArrayList;
 import com.Beendo.Utils.OperationType;
+import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
@@ -56,6 +57,26 @@ public class PractiseController extends RootController {
 		initHashTwo(listPractise);
 		// return "Practise/PractiseView?faces-redirect=true";
 		return "PractiseView";
+	}
+	
+	public boolean canEditPracise(){
+	
+		boolean isOK = true;
+	
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			isOK = false;
+		
+		return isOK;
+	}
+	
+	public boolean canCreatePracise(){
+		
+		boolean isOK = true;
+	
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			isOK = false;
+		
+		return isOK;
 	}
 
 	public boolean isSingleItemInEntityList(){

@@ -33,6 +33,7 @@ import com.Beendo.Services.PermissionService;
 import com.Beendo.Services.UserService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
+import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -225,6 +226,11 @@ public class UserController extends RootController {
 		{
 			user.setEntity(selectedEntity);
 			user.setPractises(new HashSet<>(selectedPractises));
+			
+			if(!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			{
+				selectedPermission.selectAllPermissions();
+			}
 			user.setPermission(selectedPermission);
 			
 			switch (operationType) {
@@ -252,6 +258,17 @@ public class UserController extends RootController {
 			
 			RequestContext.getCurrentInstance().execute("PF('userCreateDialog').hide()");
 		}
+	}
+	
+	public boolean shouldShowCreateUser(){
+		
+		boolean isOK = true;
+		
+		if(SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			isOK = false;
+		
+		return isOK;
+		
 	}
 	
 	public void editButtonClicked(User sender){

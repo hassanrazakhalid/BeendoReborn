@@ -16,7 +16,7 @@
 		<ui:define name="mainContent">
 
 			<!-- 	<h:form rendered="#{sharedData.currentUser.canCreateUser}"> -->
-			<h:form>
+			<h:form rendered="#{userController.shouldShowCreateUser()}">
 			<p:commandButton actionListener="#{userController.createButtonClicked}"
 				value="Create User" update=":userForm"
 				oncomplete="PF('userCreateDialog').show()" />
@@ -159,43 +159,27 @@
 							<h:panelGrid columns="2" cellpadding="8"
 							rendered="#{userController.shouldshowPermission}">
 
-								<h:outputText value="Can Provider Add: " />
+								<h:outputText value="Can Add Provider: " />
 								<p:selectBooleanCheckbox
-									value="#{userController.user.permission.canProviderAdd}" />
+									value="#{userController.selectedPermission.canProviderAdd}" />
 
-								<h:outputText value="Can Provider Edit: " />
+								<h:outputText value="Can Edit Provider: " />
 								<p:selectBooleanCheckbox
-									value="#{userController.user.permission.canProviderEdit}" />
+									value="#{userController.selectedPermission.canProviderEdit}" />
 
 							</h:panelGrid>
-
-							<h:panelGrid columns="2" cellpadding="8"
-							rendered="#{userController.shouldshowPermission}">
-
-								<h:outputText value="Can Payer Add: " />
-								<p:selectBooleanCheckbox
-									value="#{userController.user.permission.canPayerAdd}" />
-
-
-
-								<h:outputText value="Can Payer Edit: " />
-								<p:selectBooleanCheckbox
-									value="#{userController.user.permission.canPayerEdit}" />
-
-							</h:panelGrid>
-
 
 							<!-- <p:column style="width: 100%"> -->
 							<h:panelGrid columns="2" cellpadding="8"
 							rendered="#{userController.shouldshowPermission}">
 
-								<h:outputText value="Can Payer transaction Add: " />
+								<h:outputText value="Can Payer add transaction: " />
 								<p:selectBooleanCheckbox
-									value="#{userController.user.permission.canPayerTransactionAdd}" />
+									value="#{userController.selectedPermission.canPayerTransactionAdd}" />
 
-								<h:outputText value="Can Payer transaction Edit: " />
+								<h:outputText value="Can Payer Edit transaction: " />
 								<p:selectBooleanCheckbox
-									value="#{userController.user.permission.canPayerTransactionEdit}" />
+									value="#{userController.selectedPermission.canPayerTransactionEdit}" />
 							</h:panelGrid>
 							<!-- </p:column> -->
 						

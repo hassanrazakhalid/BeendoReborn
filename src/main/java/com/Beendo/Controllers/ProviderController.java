@@ -20,6 +20,7 @@ import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Utils.OperationType;
+import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
@@ -120,6 +121,28 @@ public class ProviderController extends RootController {
 			}
 		}
 		return list;
+	}
+	
+	public boolean canEditProvider(){
+		
+		boolean isOK = true;
+	
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderEdit())
+			isOK = false;
+		
+		return isOK;
+	}
+	
+	public boolean canCreateProvider(){
+		
+		boolean isOK = true;
+	
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderAdd())
+			isOK = false;
+		
+		return isOK;
 	}
 
 	public void saveInfo() {

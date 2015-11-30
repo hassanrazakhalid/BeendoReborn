@@ -33,7 +33,7 @@
 				
 					<p:menuitem value="User" icon="ui-icon-user-1"
 							action="#{userController.showUserMainView()}"
-							 />
+							rendered="#{userController.shouldShowCreateUser()}"  />
 
 					<p:menuitem value="Practice" icon="ui-icon-gear"
 						action="#{practiseController.viewPractise()}" />

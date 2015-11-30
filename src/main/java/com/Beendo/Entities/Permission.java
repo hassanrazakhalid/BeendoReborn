@@ -25,8 +25,6 @@ public class Permission   {
 	private Integer id;
 	private boolean canProviderAdd;
 	private boolean canProviderEdit;
-	private boolean canPayerAdd;
-	private boolean canPayerEdit;
 	private boolean canPayerTransactionAdd;
 	private boolean canPayerTransactionEdit;
 	
@@ -36,8 +34,6 @@ public class Permission   {
 	public static Permission copy(Permission sender){
 		
 		Permission rol = new Permission();
-		rol.setCanPayerAdd(sender.isCanPayerAdd());
-		rol.setCanPayerEdit(sender.isCanPayerEdit());
 		rol.setCanProviderAdd(sender.isCanProviderAdd());
 		rol.setCanProviderEdit(sender.isCanProviderEdit());
 		rol.setCanPayerTransactionAdd(sender.isCanPayerTransactionAdd());
@@ -48,6 +44,14 @@ public class Permission   {
 		
 	}
 
+	public void selectAllPermissions(){
+		
+		this.setCanProviderAdd(true);
+		this.setCanProviderEdit(true);
+		this.setCanPayerTransactionAdd(true);
+		this.setCanPayerTransactionAdd(true);
+	}
+	
 /*	@Override
 	public String getAuthority() {
 		// TODO Auto-generated method stub
