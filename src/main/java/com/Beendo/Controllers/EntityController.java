@@ -19,7 +19,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.UserService;
-
+import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -64,6 +64,7 @@ public class EntityController extends RootController {
 	
 	public void createPressed()
 	{
+		
 		/*if(!entity.getName().isEmpty())
 			RequestContext.getCurrentInstance().execute("addDlg.hide();"); //oncomplete="PF('addDlg').hide();" 
 		else
@@ -92,7 +93,7 @@ public class EntityController extends RootController {
 	{
 		entityService.update(entity);
 		//RequestContext.getCurrentInstance().closeDialog("editEntity");
-		showMessage("Entity has been updated");
+		//showMessage("Entity has been updated");
 		clearData();
 		
 	}

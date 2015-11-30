@@ -6,15 +6,20 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 
 <h:head>
-
 </h:head>
 
 <h:body>
 	<ui:composition>
 
-		<div>
+		<!-- <div>
 			<h:graphicImage value="/Images/Sypore_Logo.jpg" width="130" />
-		</div>
+		</div> -->
+		
+		<p:panelGrid columns="3" layout="grid">            
+		    <h:graphicImage value="/Images/Sypore_Logo.jpg" width="130" />
+		    <h:outputText value="Beendoo" style="font-size: 30px; font-weight: bold;" /> 
+		    <h:outputText value="#{sharedData.getFullName()}" style="float:right; margin-top:10px;" /> 
+		</p:panelGrid>
 
 		<h:form>
 			<!-- <p:growl id="messages" /> -->

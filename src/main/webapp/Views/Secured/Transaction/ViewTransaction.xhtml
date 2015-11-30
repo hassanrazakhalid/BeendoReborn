@@ -17,7 +17,7 @@
 			<ui:define name="mainContent">
 				<h2>Transaction Details</h2>
 				
-				<h:form rendered="#{sharedData.currentUser.permission.canPayerTransactionAdd}">
+				<h:form rendered="#{transactionController.canCreate()}">
 					<p:commandButton value="Create" update=":myForm"
 						action="#{transactionController.clearData()}"
 								oncomplete="PF('Dlg1').show();"
@@ -53,7 +53,7 @@
 						
 						<p:column headerText="Edit"
 						 width="80"
-						 rendered="#{sharedData.currentUser.permission.canPayerTransactionEdit}"
+						 rendered="#{transactionController.canEdit()}"
 						 >
 							<p:commandButton icon="ui-icon-pencil" update=":myForm"
 								oncomplete="PF('Dlg1').show();" 

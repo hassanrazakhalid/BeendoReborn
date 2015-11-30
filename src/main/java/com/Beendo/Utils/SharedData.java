@@ -54,6 +54,12 @@ public class SharedData {
         	instance = this;
         this.init();
     }
+    
+    public String getFullName()
+    {
+    	String nam = getCurrentUser().getName() + " in " + getCurrentUser().getEntity().getName();
+    	return nam;
+    }
 
     public static SharedData getSharedInstace() {
 

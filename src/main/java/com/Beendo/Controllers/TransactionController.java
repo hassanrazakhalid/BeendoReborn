@@ -20,6 +20,7 @@ import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.TransactionService;
+import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
@@ -131,5 +132,28 @@ public class TransactionController extends RootController {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Transaction", msg);     
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
+	
+	
+	public boolean canEdit(){
+		
+		boolean isOK = true;
+	
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanPayerTransactionEdit())
+			isOK = false;
+		
+		return isOK;
+	}
+	
+	public boolean canCreate(){
+		
+		boolean isOK = true;
+	
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanPayerTransactionAdd())
+			isOK = false;
+		
+		return isOK;
+	}
 	
 }
