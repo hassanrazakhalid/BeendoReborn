@@ -11,11 +11,11 @@
 
 <h:body>
 	<ui:composition>
-	
+
 		<div>
 			<h:graphicImage value="/Images/Sypore_Logo.jpg" width="130" />
 		</div>
-	
+
 		<h:form>
 			<!-- <p:growl id="messages" /> -->
 
@@ -30,36 +30,46 @@
 					<p:menuitem value="Quit" url="#" />
 				</p:submenu> -->
 
-				
+
+				<sec:authorize
+					access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')">
 					<p:menuitem value="User" icon="ui-icon-user-1"
-							action="#{userController.showUserMainView()}"
-							rendered="#{userController.shouldShowCreateUser()}"  />
+						action="#{userController.showUserMainView()}" />
+				</sec:authorize>
+				<!-- rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER,ROLE_ENTITY_ADMIN')}"  -->
+				<!-- rendered="#{userController.shouldShowCreateUser()}" -->
+				<p:menuitem value="Practice" icon="ui-icon-gear"
+					action="#{practiseController.viewPractise()}" />
 
-					<p:menuitem value="Practice" icon="ui-icon-gear"
-						action="#{practiseController.viewPractise()}" />
+				<p:menuitem value="Entity" action="#{entityController.viewEntity()}"
+					icon="ui-icon-contact"
+					rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" />
 
-				<p:menuitem value="Entity" action="#{entityController.viewEntity()}" icon="ui-icon-contact" rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER,ENTITY_ADMIN')}" />
-
-				<p:menuitem value="Payer" action="#{payerController.view()}" icon="ui-icon-user-1"
-				rendered="#{payerController.shouldShowPayerLink()}" />
+				<p:menuitem value="Payer" action="#{payerController.view()}"
+					icon="ui-icon-user-1"
+					rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" />
 
 				<!-- <p:menuitem value="Role" action="#{roleController.view()}" icon="ui-icon-user-1" rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" /> -->
 
-				<p:menuitem value="Provider" action="#{providerController.view()}" icon="ui-icon-user-1" />
+				<p:menuitem value="Provider" action="#{providerController.view()}"
+					icon="ui-icon-user-1" />
 
-				<p:menuitem value="Transaction" action="#{transactionController.view()}" icon="ui-icon-user-1" />
-				
+				<p:menuitem value="Transaction"
+					action="#{transactionController.view()}" icon="ui-icon-user-1" />
+
 				<p:submenu label="Reports">
-					<p:menuitem value="Transaction Report" action="#{reportsController.viewRepTransac()}" />
-					<p:menuitem value="Provider Report" action="#{reportsController.viewRepProvider()}" />
-					<p:menuitem value="Practice Report" action="#{reportsController.viewRepPractice()}" />
+					<p:menuitem value="Transaction Report"
+						action="#{reportsController.viewRepTransac()}" />
+					<p:menuitem value="Provider Report"
+						action="#{reportsController.viewRepProvider()}" />
+					<p:menuitem value="Practice Report"
+						action="#{reportsController.viewRepPractice()}" />
 				</p:submenu>
 
 				<f:facet name="options">
 					<!-- <p:inputText style="margin-right:10px" placeholder="Search"/> -->
 					<p:commandButton value="Logout"
-					action="#{loginController.logout()}"
-						icon="ui-icon-extlink" />
+						action="#{loginController.logout()}" icon="ui-icon-extlink" />
 				</f:facet>
 			</p:menubar>
 		</h:form>

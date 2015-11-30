@@ -6,13 +6,11 @@
 
 
 	<!-- Enable method level Spring Security by annotations -->
-	<global-method-security pre-post-annotations="enabled"
-	 />
-<!-- jsr250-annotations="enabled" access-decision-manager-ref="accessDecisionManager" -->
-	
+	<global-method-security pre-post-annotations="enabled" />
+	<!-- jsr250-annotations="enabled" access-decision-manager-ref="accessDecisionManager" -->
+
 	<!-- access-decision-manager-ref="accessDecisionManager" -->
-	<http auto-config="true" use-expressions="true"
-		 >
+	<http auto-config="true" use-expressions="true">
 		<csrf disabled="true" />
 		<intercept-url pattern="/javax.faces.resource/**"
 			access="permitAll" />
@@ -24,11 +22,15 @@
 		<intercept-url pattern="/Views/Secured/Dashboard/*"
 			access="isAuthenticated()" />
 
+		<intercept-url pattern="/Views/Secured/Entity/*"
+			access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')" />
+		<intercept-url pattern="/Views/Secured/Payer/*"
+			access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')" />
 		<intercept-url pattern="/Views/Secured/User/*"
-			access="isAuthenticated()" />
-		<intercept-url pattern="/Views/Secured/User/**"
-			access="isAuthenticated()" />
-<!-- "hasAnyRole('ROLE_ADMIN','ROLE_USER')" -->
+			access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')" />
+		<!-- <intercept-url pattern="/Views/Secured/User/**" access="hasAnyRole('ROLE_ROOT_ADMIN', 
+			'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')" /> -->
+		<!-- "hasAnyRole('ROLE_ADMIN','ROLE_USER')" -->
 
 		<!-- Define login page for Spring Security -->
 		<form-login login-page="/Views/Unsecured/Login/index.xhtml" />
@@ -44,29 +46,15 @@
 	</authentication-manager>
 
 
-<!-- 	<beans:bean id="roleHierarchy"
-		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
-		<beans:property name="hierarchy">
-			<beans:value>
-				ROLE_ADMIN > ROLE_USER
-				ROLE_USER > ROLE_GUEST
-			</beans:value>
-		</beans:property>
-	</beans:bean>
-
-	<beans:bean id="roleVoter" class="com.Beendo.Security.HierarchicalJsr250Voter">
-		<beans:constructor-arg ref="roleHierarchy" />
-	</beans:bean>
-
-	<beans:bean id="accessDecisionManager"
-		class="org.springframework.security.access.vote.UnanimousBased">
-		<beans:constructor-arg ref="roleVoter" />
-		<beans:property name="decisionVoters">
-			<beans:list>
-				<beans:bean class="org.springframework.security.access.vote.RoleVoter" />
-				<beans:bean class="com.Beendo.Security.CustomAccessDecisionManager" />
-			</beans:list>
-		</beans:property>
-	</beans:bean> -->
+	<!-- <beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl"> 
+		<beans:property name="hierarchy"> <beans:value> ROLE_ADMIN > ROLE_USER ROLE_USER 
+		> ROLE_GUEST </beans:value> </beans:property> </beans:bean> <beans:bean id="roleVoter" 
+		class="com.Beendo.Security.HierarchicalJsr250Voter"> <beans:constructor-arg 
+		ref="roleHierarchy" /> </beans:bean> <beans:bean id="accessDecisionManager" 
+		class="org.springframework.security.access.vote.UnanimousBased"> <beans:constructor-arg 
+		ref="roleVoter" /> <beans:property name="decisionVoters"> <beans:list> <beans:bean 
+		class="org.springframework.security.access.vote.RoleVoter" /> <beans:bean 
+		class="com.Beendo.Security.CustomAccessDecisionManager" /> </beans:list> 
+		</beans:property> </beans:bean> -->
 
 </beans:beans>
