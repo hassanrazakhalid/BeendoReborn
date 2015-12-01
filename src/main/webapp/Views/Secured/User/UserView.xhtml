@@ -27,7 +27,7 @@
 			<h:form id="userTable">
 				<p:dataTable value="${userController.listUsers}" var="user">
 
-					<p:column headerText="Name">
+					<p:column headerText="Username">
 					#{user.appUserName}
 					</p:column>
 					<p:column headerText="Email">
@@ -85,7 +85,8 @@
 				widgetVar="userCreateDialog" width="500">
 
 				<h:form id="userForm">
-					<!-- <p:messages id="msgs" showDetail="true" /> -->
+				<!-- showDetail="true"  -->
+					 <p:messages id="msgs"/> 
 					<p:panelGrid id="panelGrid" columns="2">
 
 						<p:outputLabel for="tfName" value="Name:" />

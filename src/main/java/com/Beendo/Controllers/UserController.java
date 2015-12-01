@@ -111,13 +111,6 @@ public class UserController extends RootController {
 		user = new User();
 	}
 
-	public void createUserClicked() {
-
-		operationType = OperationType.Create;
-		initUser();
-		updateFlags();
-	}
-
 	public void entityChanged() {
 
 		listPractise.clear();
@@ -148,6 +141,13 @@ public class UserController extends RootController {
 		}
 	}
 	
+	private void resetDefaultFlags(){
+		
+		shouldshowEntity = false;
+		shouldshowPractise = false;
+		shouldshowPermission = false;
+	}
+	
 	private void updateFlags(){
 		
 		if(user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) //just show entity
@@ -164,9 +164,7 @@ public class UserController extends RootController {
 		}
 		else 
 		{
-			shouldshowEntity = false;
-			shouldshowPractise = false;
-			shouldshowPermission = false;
+			resetDefaultFlags();
 		}
 	}
 	
@@ -200,6 +198,7 @@ public class UserController extends RootController {
 			selectedEntity = tmpListEntity.get(0);
 		}
 		selectedPermission = new Permission();
+		resetDefaultFlags();
 	/*	List<Permission> tmpPermissions = getAllPermission();
 		if(tmpPermissions.size() > 0)
 		{
@@ -209,19 +208,39 @@ public class UserController extends RootController {
 	
 	private boolean isUserInfoValid(){
 		
-		boolean isOK = true;
+		String error = null;
 		
 		if(user.getUsername().length() <= 0)
 		{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Username", "Username cannot be empty"));
-			isOK = false;
+			return false;
+		}
+		else if(user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
+		{
+			 error = userService.isEntityAdminExist(selectedEntity.getId());
+			if(error != null)
+			{
+					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							error, null);
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return false;
+			}
 		}
 		
-		return isOK;
+		error = userService.isUsernameExist(user.getAppUserName());
+		if(error != null)
+		{
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						error, null);
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return false;
+		}
+		
+		return true;
 	}
 	
 	public void saveButtonClicked(ActionEvent event){
-		
+	
 		if(isUserInfoValid())
 		{
 			user.setEntity(selectedEntity);
@@ -237,13 +256,16 @@ public class UserController extends RootController {
 			case Create:
 			case Copy:
 			{
-
 				selectedEntity.getUsers().add(user);
 //				addUserToSelectedPractise();
 //				userService.save(user);
-				entityService.update(selectedEntity);
-				listUsers.add(user);
-				initUser();
+
+				{
+					entityService.update(selectedEntity);
+					listUsers.add(user);
+					initUser();
+				}
+				
 			}
 				break;
 			case Edit:

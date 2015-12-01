@@ -2,8 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:sec="http://www.springframework.org/security/tags">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
 <h:head>
 </h:head>
 
@@ -19,7 +19,8 @@
 			<ui:define name="mainContent">
 				<h2>Entity Details</h2>
 
-				<h:form rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}">
+				<h:form
+					rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}">
 					<p:commandButton value="Create" update=":addForm"
 						action="#{entityController.clearData()}"
 						oncomplete="PF('addDlg').show();" />
@@ -35,21 +36,20 @@
 							#{entity.name}
 						</p:column>
 
-					   <p:column headerText="Practise">
+						<p:column headerText="Practise">
 
-							<p:selectOneMenu id="advanced"
-								 panelStyle="width:180px"
-								effect="fade" var="t" style="width:160px">
-								<f:selectItems value="#{entity.practiceList}" var="practise"
-									itemLabel="#{practise.name}" itemValue="#{practise}" />
+							<table>
+								<ui:repeat value="#{entity.practiceList.toArray()}" var="t">
 
-								<p:column>
-									<h:outputText value="#{t.name}" />
-								</p:column>
-								
-							</p:selectOneMenu>
+									<tr>
+										<td style="border: 0px;"><h:outputText value="#{t.name}" />
+										</td>
 
-						</p:column> 
+									</tr>
+								</ui:repeat>
+							</table>
+
+						</p:column>
 
 						<p:column headerText="Edit" width="80">
 							<p:commandButton icon="ui-icon-pencil" update=":editForm"
@@ -68,20 +68,21 @@
 					widgetVar="editDlg" minHeight="40">
 
 					<h:form id="editForm">
-					
-						
+
+
 						<h:panelGrid columns="2" cellpadding="5">
-						
+
 							<p:outputLabel for="entityName" value="Entity Name:" />
-							<p:inputText id="entityName" value="#{entityController.entity.name}" />
-						
+							<p:inputText id="entityName"
+								value="#{entityController.entity.name}" />
+
 						</h:panelGrid>
-						
+
 						<p:commandButton value="Save"
-								action="#{entityController.editPressed()}"
-								oncomplete="PF('editDlg').hide();"
-								update="editForm, :entityTable" />
-					
+							action="#{entityController.editPressed()}"
+							oncomplete="PF('editDlg').hide();"
+							update="editForm, :entityTable" />
+
 						<!-- <div>
 							Entity Name:
 							<p:inputText value="#{entityController.entity.name}" />
@@ -105,20 +106,21 @@
 					modal="true" minHeight="40">
 
 					<h:form id="addForm">
-										
+
 						<p:messages id="msgs" />
 						<h:panelGrid columns="2" cellpadding="5">
-						
+
 							<h:outputLabel for="EntityName" value="Entity Name:" />
-							<p:inputText id="EntityName" value="#{entityController.entity.name}"
-								 required="true" label="EntityName" />
-						
+							<p:inputText id="EntityName"
+								value="#{entityController.entity.name}" required="true"
+								label="EntityName" />
+
 						</h:panelGrid>
-					
+
 						<p:commandButton value="Save"
-								action="#{entityController.createPressed()}"
-								update="addForm, msgs, :entityTable" />
-					
+							action="#{entityController.createPressed()}"
+							update="addForm, msgs, :entityTable" />
+
 						<!-- <div>
 							Entity Name:
 							<p:inputText value="#{entityController.entity.name}" />

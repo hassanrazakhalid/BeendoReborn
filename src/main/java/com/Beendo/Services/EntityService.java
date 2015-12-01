@@ -69,7 +69,7 @@ public class EntityService {
 		List<CEntitiy> entityList = new ArrayList<>();
 
 		if (SharedData.getSharedInstace().shouldReturnFullList()) {
-			entityList.addAll(_service.findAll());
+			entityList.addAll(_service.fetchAllExcept(1));
 		} else {
 			if (userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
 				entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());

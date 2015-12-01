@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -67,5 +69,16 @@ public class EntityDao implements IEntity {
 	public void deleteAll() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Transactional
+	@Override
+	public List<CEntitiy> fetchAllExcept(Integer id) {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM CEntitiy E where E.id != :id");
+		query.setParameter("id", id);
+		List<CEntitiy> result = query.list();
+		return result;
 	}
 }

@@ -1,8 +1,10 @@
 package com.Beendo.Dao;
 
+import java.util.List;
+
 import com.Beendo.Entities.CEntitiy;
-import com.Beendo.Entities.Practice;
 
 public interface IEntity extends ICRUD <CEntitiy, Integer> {
 
+	public List<CEntitiy> fetchAllExcept(Integer id);
 }

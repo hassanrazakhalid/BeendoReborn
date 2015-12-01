@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.IUserDao;
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.User;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
@@ -44,7 +45,7 @@ public class UserService implements UserDetailsService {
 		else if(userRole.equalsIgnoreCase(Role.ROOT_USER.toString()))
 		{
 			
-			userList.addAll(iUserDao.findUserOtherRoot());
+			userList.addAll(iUserDao.findUserOtherThanRoot());
 		}
 		else if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
 		{
@@ -93,7 +94,16 @@ public class UserService implements UserDetailsService {
 //		User user =	iUserDao.finsUserByUserName(username);
 		User user =	SharedData.getSharedInstace().getCurrentUser();
 		return user;
-	}	
+	}
 	// Security Methods
+
+	public String isEntityAdminExist(Integer id){
+		
+		return iUserDao.isEntityAdminExist(id);
+	} 	
 	
+	public String isUsernameExist(String userName){
+		
+		return iUserDao.isUsernameExist(userName);
+	}
 }
