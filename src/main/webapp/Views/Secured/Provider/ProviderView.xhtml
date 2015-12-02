@@ -90,18 +90,16 @@
 				  
 				  	<h:panelGrid columns="2" cellpadding="8">  
 				  	 
-				  	 
-				  	 	<!-- <p:selectOneMenu id="entities"
-							value="#{providerController.currentEntity}" style="width:177px">
-							<f:selectItem itemLabel="Select Entity" itemValue=""
-								noSelectionOption="true" />
-							<f:selectItems value="#{providerController.entityList}" />
-						</p:selectOneMenu> -->
+						<p:outputLabel id="entity"
+							value="#{providerController.getFirstEntityName()}"
+							rendered="#{providerController.isSingleItemInEntityList()}" />
+							
 						
 						<p:selectOneMenu id="entities" value="#{providerController.currentEntity}"
 							panelStyle="width:180px" effect="fade"
 							converter="entityConverter" required="true"
-							var="t" style="width:177px">
+							var="t" style="width:177px"
+							rendered="#{!providerController.isSingleItemInEntityList()}">
 							
 							<p:ajax listener="#{providerController.onEntityChange}" update="myPractices" />
 							

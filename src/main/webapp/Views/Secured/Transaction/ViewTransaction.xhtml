@@ -173,8 +173,11 @@
 			        
 			        <h:panelGrid columns="2" cellpadding="16">
 			        	<p:outputLabel for="idComments" value="Comments: " />
-			            <p:inputText id="idComments" value="#{transactionController.transaction.comments}" 
-			            	placeholder="Comments" style="width:580px" /> 
+			        	<p:inputTextarea id="idComments" rows="6" cols="100"
+			        	 value="#{transactionController.transaction.comments}"
+			        	 placeholder="Comments" />
+			            <!-- <p:inputText id="idComments" value="#{transactionController.transaction.comments}" 
+			            	placeholder="Comments" style="width:580px" /> --> 
 			        </h:panelGrid>   
 
 					<br />

@@ -5,14 +5,16 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 
 @Repository
-public class ProviderDao implements ICRUD<Provider, Integer> {
+public class ProviderDao implements IProvider {
 
 	
 	@Autowired
@@ -74,6 +76,21 @@ public class ProviderDao implements ICRUD<Provider, Integer> {
 	public void deleteAll() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Transactional
+	@Override
+	public String isNameExist(String name) {
+		// TODO Auto-generated method stub
+		String error = null;
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM Provider P where P.name = :name ");
+		query.setParameter("name", name);
+		List<Practice> result = query.list();
+		if(result.size() > 0)
+			error = "Provider name or npi already exists!";
+		return error;
 	}
 
 }

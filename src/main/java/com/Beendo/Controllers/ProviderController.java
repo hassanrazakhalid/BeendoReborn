@@ -71,6 +71,24 @@ public class ProviderController extends RootController {
 
 		return "ProviderView";
 	}
+	
+	public String getFirstEntityName(){
+		
+		if(entityList.isEmpty())
+			return "No Entity Exist";
+		else
+			return entityList.get(0).getName();
+	}
+	
+	public boolean isSingleItemInEntityList(){
+		
+		if(entityList.size() <= 1)
+		{
+			return true;
+		}
+		else
+			return false;
+	}
 
 	public void updateClicked(Provider _provider) {
 		
@@ -145,44 +163,64 @@ public class ProviderController extends RootController {
 		return isOK;
 	}
 
+	public boolean isInfoValid(){
+		
+		boolean isOK = true;
+		
+		String error = providerService.isNameExist(provider.getName());
+		if(error != null)
+		{
+			isOK = false;
+			showMessage(error);
+		}
+		
+		return isOK;
+	}
+	
 	public void saveInfo() {
 		
-		provider.setPayerList(selectedPayers);
-		provider.setPracticeList(new HashSet<>(selectedPractices));
-		for (Practice practise : selectedPractices) {
+		if(isInfoValid())
+		{
+			if(currentEntity == null && entityList.size() == 1)
+			{
+				currentEntity = entityList.get(0);
+			}	
+			
+			provider.setPayerList(selectedPayers);
+			provider.setPracticeList(new HashSet<>(selectedPractices));
+			for (Practice practise : selectedPractices) {
 
-			practise.getProviders().add(provider);
-		}
-		
-		provider.setCentity(currentEntity);
-		
-		switch (this.opetationType) {
-		case Create: {
-			List<Provider> result = providerService.isNameExist(providerList, provider.getName(), provider.getNpiNum());
-			if (result.size() <= 0) {
-				
-				//currentEntity.getProviderList().add(provider);
-				providerList.add(provider);
-				providerService.save(provider);
+				practise.getProviders().add(provider);
+			}
+			
+			provider.setCentity(currentEntity);
+			
+			switch (this.opetationType) {
+			case Create: {
+				{
+					
+					//currentEntity.getProviderList().add(provider);
+					providerList.add(provider);
+					providerService.save(provider);
+					entityService.update(currentEntity);
+					RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+					//showMessage("Provider has been saved");
+				} 
+			}
+				break;
+			case Edit: {
+				providerService.update(provider);
 				entityService.update(currentEntity);
 				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-				//showMessage("Provider has been saved");
-			} 
-			else
-				showMessage("Provider name or npi already exists!");
-		}
-			break;
-		case Edit: {
-			providerService.update(provider);
-			entityService.update(currentEntity);
-			RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-			//showMessage("Provider has been updated");
-		}
-			break;
+				//showMessage("Provider has been updated");
+			}
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
 		}
+
 	}
 
 	public void clearData() {
@@ -206,7 +244,7 @@ public class ProviderController extends RootController {
 
 	public void showMessage(String msg) {
 
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Provider", msg);
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Provider", msg);
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
 

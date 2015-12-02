@@ -103,13 +103,13 @@
 							rendered="#{practiseController.isSingleItemInEntityList()}" />
 
 						<p:outputLabel for="entities" value="Entity: "
-							rendered="#{practiseController.isMoreItemsInEntityList()}" />
+							rendered="#{!practiseController.isSingleItemInEntityList()}" />
 						<p:selectOneMenu id="entities"
 							value="#{practiseController.currentEntity}"
 							converter="entityConverter" panelStyle="width:180px"
 							effect="fade" var="t" style="width:160px" filter="true"
 							filterMatchMode="startsWith"
-							rendered="#{practiseController.isMoreItemsInEntityList()}">
+							rendered="#{!practiseController.isSingleItemInEntityList()}">
 
 							<f:selectItems value="#{practiseController.listEntities}"
 								var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />

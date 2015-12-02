@@ -81,7 +81,7 @@ public class PractiseController extends RootController {
 
 	public boolean isSingleItemInEntityList(){
 		
-		if(listEntities.size() == 1)
+		if(listEntities.size() <= 1)
 		{
 			return true;
 		}
@@ -89,7 +89,7 @@ public class PractiseController extends RootController {
 			return false;
 	}
 	
-	public boolean isMoreItemsInEntityList(){
+/*	public boolean isMoreItemsInEntityList(){
 		
 		if(!isSingleItemInEntityList())
 		{
@@ -97,12 +97,12 @@ public class PractiseController extends RootController {
 		}
 		else
 			return false;
-	}
+	}*/
 	
 	public String getFirstEntityName(){
 		
 		if(listEntities.isEmpty())
-			return "";
+			return "Create Entity first";
 		else
 			return listEntities.get(0).getName();
 	}
@@ -160,7 +160,7 @@ public class PractiseController extends RootController {
 				Set<Practice> set = new HashSet<Practice>();
 				set.add(practise);
 				
-				if(listEntities.size() <= 1)
+				if(listEntities.size() == 1)
 					currentEntity = listEntities.get(0);
 				currentEntity.setPracticeList(set);
 				practise.setEntity(currentEntity);

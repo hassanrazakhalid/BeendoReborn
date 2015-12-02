@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.ICRUD;
+import com.Beendo.Dao.IProvider;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
@@ -21,7 +22,7 @@ import com.Beendo.Utils.SharedData;
 public class ProviderService {
 
 	@Autowired
-	private ICRUD<Provider, Integer> service;
+	private IProvider service;
 	
 	public void save(Provider entity)
 	{
@@ -100,8 +101,12 @@ public class ProviderService {
 		return dataList;
 	}
 	
+	public String isNameExist(String name){
+		
+		return service.isNameExist(name);
+	}
 	
-	public static List<Provider> isNameExist(List<Provider> entities, String name, String npi){
+/*	public static List<Provider> isNameExist(List<Provider> entities, String name, String npi){
 		
 		return filterData(entities, getNamePredicate(name, npi));
 	}
@@ -125,6 +130,6 @@ public class ProviderService {
 	private static Predicate<Provider> getNamePredicate(String name, String npi){
 
 		 return p -> p.getName().equalsIgnoreCase(name) && p.getName().equalsIgnoreCase(npi);
-	 }
+	 }*/
 	
 }

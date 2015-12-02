@@ -14,12 +14,34 @@
         </ui:define>
 
 		<ui:define name="mainContent">
+<script type="text/javascript">
+
+function createClicked(args,dialogName){
+
+	$("[id='#{btnCreate}']").prop("disabled", true);
+/* 	console.log('Button cliecked');
+	console.log(args);
+	PF(dialogName).disabled = 'true';
+ */	
+}
+
+</script>
+
 
 			<!-- 	<h:form rendered="#{sharedData.currentUser.canCreateUser}"> -->
 			<h:form rendered="#{userController.shouldShowCreateUser()}">
 			<p:commandButton actionListener="#{userController.createButtonClicked}"
 				value="Create User" update=":userForm"
-				oncomplete="PF('userCreateDialog').show()" />
+				id="btnCreate"
+				widgetVar="btnCreate"
+				oncomplete="PF('userCreateDialog').show()"
+				/>
+				
+				<!-- <p:commandButton 
+				value="Create User" update="btnCreate"
+				oncomplete="PF('btnCreate').disable()"
+				/> -->
+				 
 				</h:form>
 			<br />
 			<!-- 	</h:form> -->
@@ -192,9 +214,11 @@
 					</p:panelGrid>
 
 					<br />
-					<p:commandButton value="Save"
+					<p:commandButton id="btnSave" value="Save"
 						actionListener="#{userController.saveButtonClicked}"
-						update=":userTable,userForm" />
+						widgetVar="btnSave"
+						update=":userTable,userForm,btnSave"
+						oncomplete="PF('btnSave').enable()" />
 					<!-- oncomplete="PF('userCreateDialog').hide()" -->
 				</h:form>
 			</p:dialog>
