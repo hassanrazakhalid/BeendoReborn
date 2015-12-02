@@ -15,10 +15,12 @@ import org.springframework.stereotype.Controller;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
+import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
@@ -43,16 +45,25 @@ public class TransactionController extends RootController {
 	@Autowired
 	private EntityService entityService;
 	
+	@Autowired
+	private ProviderService providerService;
+	
 	private ProviderTransaction transaction = new ProviderTransaction();
 	private List<ProviderTransaction> transactions;
 	private Boolean isEditMode;
 	
 	
 	private Payer currentPayer;
-	private Practice currentPractice;
+	private Practice currentPractice = new Practice();
+	private Provider currentProvider = new Provider();
 	
 	private List<Practice> practiceList;
 	private List<Payer> payerList;
+	private List<Provider> providerList;
+	
+	
+	private String currentRadio;
+	private Boolean canPracticeShow = true;
 	
 	
 	//private HashMap<Integer, Practice> _hash = new HashMap<Integer, Practice>();
@@ -63,10 +74,14 @@ public class TransactionController extends RootController {
 //		transactions = transactionService.findAllByUser();
 		transactions = transactionService.fetchAllByRole();
 		payerList = payerService.findAll();
-		practiceList = practiseService.fetchAll();
+		practiceList = practiseService.fetchAllByRole();
+		providerList = providerService.fetchAllByRole();
 		
 		initHashTwo(practiceList);
 		initHashThree(payerList);
+		initHashFour(providerList);
+		
+		currentRadio = "rbPractice";
 		
 		/*for (Practice practice : practiceList) {
 			
@@ -89,7 +104,11 @@ public class TransactionController extends RootController {
 	public void saveInfo()
 	{
 		transaction.setPayer(currentPayer);
-		transaction.setPractice(currentPractice);
+		
+		if(canPracticeShow)
+			transaction.setPractice(currentPractice);
+		else
+			transaction.setProvider(currentProvider);
 		
 		CEntitiy entity = SharedData.getSharedInstace().getCurrentUser().getEntity();
 		transaction.setEntity(entity);
@@ -132,6 +151,15 @@ public class TransactionController extends RootController {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Transaction", msg);     
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
+	
+	public void onSelectionChange()
+	{
+		if(currentRadio.equals("rbPractice"))
+			canPracticeShow = true;
+		else
+			canPracticeShow = false;
+		
+	}
 	
 	
 	public boolean canEdit(){

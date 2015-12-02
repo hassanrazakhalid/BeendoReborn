@@ -90,9 +90,9 @@ public class SharedData {
         } catch (AuthenticationException e) {
             e.printStackTrace();
             isOK = "incorrect";
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Login Failed",
-    				"Wrong Credincials");
-    		RequestContext.getCurrentInstance().showMessageInDialog(message);
+//            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Login Failed",
+//    				"Wrong Credincials");
+//    		RequestContext.getCurrentInstance().showMessageInDialog(message);
         }
 		
 //	Collection roles =	 SecurityContextHolder.getContext().getAuthentication().getAuthorities();

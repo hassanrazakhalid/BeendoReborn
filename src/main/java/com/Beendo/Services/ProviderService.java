@@ -107,7 +107,19 @@ public class ProviderService {
 	}
 	
 	private static List<Provider> filterData (List<Provider> list, Predicate<Provider> predicate) {
-        return list.stream().filter( predicate ).collect(Collectors.<Provider>toList());
+		
+		List<Provider> lst = new ArrayList();
+		
+		try
+		{
+			lst = list.stream().filter( predicate ).collect(Collectors.<Provider>toList());
+		}
+		catch(Exception ex)
+		{}
+		finally
+		{
+			return lst;
+		}
     }
 	
 	private static Predicate<Provider> getNamePredicate(String name, String npi){

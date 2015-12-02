@@ -27,7 +27,7 @@ public class Practice {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
-	private String name;
+	private String name;	
 	
 	@ManyToOne
 	private CEntitiy entity;

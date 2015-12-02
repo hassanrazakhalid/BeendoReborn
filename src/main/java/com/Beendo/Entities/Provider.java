@@ -32,8 +32,7 @@ public class Provider {
 	private Integer id;
 	private String name;
 	private String npiNum;
-	
-	
+ 	
 	@ManyToOne
 	private CEntitiy centity;
 	

@@ -38,6 +38,10 @@
 						<p:column headerText="Practice Name">
 							#{transaction.practice.name}
 						</p:column>
+						
+						<p:column headerText="Provider Name">
+							#{transaction.provider.name}
+						</p:column>
 
 						<p:column headerText="Date">
 							#{transaction.transactionDate}
@@ -49,6 +53,10 @@
 						
 						<p:column headerText="Comments">
 							#{transaction.comments}
+						</p:column>
+						
+						<p:column headerText="Status">
+							#{transaction.parStatus}
 						</p:column>
 						
 						<p:column headerText="Edit"
@@ -73,6 +81,52 @@
 				  <h:form id="myForm">
 				  
 				  	<p:messages id="msgs" />
+				  	
+				  	<h:panelGrid columns="4" cellpadding="8"> 
+				  	
+					   <p:selectOneRadio id="currentRadio" value="#{transactionController.currentRadio}">
+				            <f:selectItem itemLabel="Practice" itemValue="rbPractice" />
+				            <f:selectItem itemLabel="Provider" itemValue="rbProvider" />
+				            
+				            <p:ajax event="change" listener="#{transactionController.onSelectionChange}" update=":myForm" /> 
+				            
+				        </p:selectOneRadio> 
+						
+						<!-- <p:outputLabel for="idPractice" value="Select Practices: " />  -->
+						
+						<p:selectOneMenu id="idPractice" value="#{transactionController.currentPractice}"
+							panelStyle="width:180px" effect="fade" rendered="#{transactionController.canPracticeShow}"
+							converter="practiseConverter" required="true"
+							var="t" style="width:177px">
+							
+							<f:selectItem itemLabel="Select Practice" />
+							
+							<f:selectItems value="#{transactionController.practiceList}" var="entity"
+								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
+						
+						<p:selectOneMenu id="idProvider" value="#{transactionController.currentProvider}"
+							panelStyle="width:180px" effect="fade" rendered="#{!transactionController.canPracticeShow}"
+							converter="providerConverter" required="true"
+							var="t" style="width:177px">
+							
+							<f:selectItem itemLabel="Select Provider" />
+							
+							<f:selectItems value="#{transactionController.providerList}" var="entity"
+								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+						</p:selectOneMenu>
+				  	
+				  	</h:panelGrid>
+				  	
+				  	<br />
 				  
 				  	<h:panelGrid columns="4" cellpadding="8">  
 				  	
@@ -92,20 +146,6 @@
 						</p:selectOneMenu>
 						
 						
-						<p:outputLabel for="idPractice" value="Select Practices: " />
-						<p:selectOneMenu id="idPractice" value="#{transactionController.currentPractice}"
-							panelStyle="width:180px" effect="fade" 
-							converter="practiseConverter" required="true"
-							var="t" style="width:177px" filter="true">
-							
-							<f:selectItems value="#{transactionController.practiceList}" var="entity"
-								itemLabel="#{entity.name}" itemValue="#{entity}"  />
-
-							<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column>
-						</p:selectOneMenu>
-						
 						<p:outputLabel for="idType" value="Transaction Type: " />
 						<p:selectOneMenu id="idType" value="#{transactionController.transaction.transactionType}" style="width:177px">
 				            <f:selectItem itemLabel="Application Process" itemValue="Application Process" />
@@ -116,6 +156,18 @@
 				  	
 				  		<p:outputLabel for="idDate" value="Current Date: " />
 				  	 	<p:inputText id="idDate" value="#{transactionController.transaction.transactionDate}" required="true" /> 
+			            
+			            <h:outputLabel for="name" value="Select Status:" />
+			        	<p:selectOneMenu value="#{transactionController.transaction.parStatus}" style="width:175px">
+			        		<f:selectItem itemLabel="Non-Par" itemValue="Non-Par" />
+				            <f:selectItem itemLabel="PAR" itemValue="PAR" />				            
+				            <f:selectItem itemLabel="Application Package Complete" itemValue="Application Package Complete" />
+				            <f:selectItem itemLabel="Application Filed" itemValue="Application Filed" />
+				            <f:selectItem itemLabel="Application Accepted" itemValue="Application Accepted" />
+				            <f:selectItem itemLabel="Application Rejected" itemValue="Application Rejected" />
+				            <f:selectItem itemLabel="Effective Date Assigned" itemValue="Effective Date Assigned" />
+				            <f:selectItem itemLabel="Letter Received" itemValue="Letter Received" />
+				        </p:selectOneMenu> 
 			            
 			        </h:panelGrid>
 			        

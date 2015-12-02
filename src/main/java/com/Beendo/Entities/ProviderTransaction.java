@@ -26,6 +26,7 @@ public class ProviderTransaction {
 	private String transactionType;
 	private String transactionDate;
 	private String comments;
+	private String parStatus;
 	
 	@ManyToOne
 	private CEntitiy entity;
@@ -33,7 +34,10 @@ public class ProviderTransaction {
 	@OneToOne(fetch = FetchType.EAGER)
 	private Payer payer = new Payer();
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
 	private Practice practice = new Practice();
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+	private Provider provider = new Provider();
 	
 }

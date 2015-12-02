@@ -65,6 +65,12 @@ public class ProviderThemeConverter implements Converter {
 	            	provider = userController.getProviderById(id);	            	
             	}
             	
+            	else if(viewId.contains("ViewTransaction.xhtml"))
+            	{        		
+	            	RootController userController = (RootController) getSpringContext().getBean("transactionController");
+	            	provider = userController.getProviderById(id);	            	
+            	}
+            	
             	return provider;
             } catch(NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
