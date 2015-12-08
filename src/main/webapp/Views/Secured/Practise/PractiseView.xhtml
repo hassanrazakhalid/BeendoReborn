@@ -50,7 +50,8 @@
 					</table>
 				</p:column>
 
-				<p:column headerText="Operation" rendered="#{practiseController.canEditPracise()}">
+				<p:column headerText="Operation"
+					rendered="#{practiseController.canEditPracise()}">
 					<h:form>
 						<p:commandButton value="edit"
 							action="#{practiseController.updateClicked(practise)}"
@@ -82,7 +83,7 @@
 				height="250">
 
 				<h:form id="createForm">
-					<p:messages id="msgs" showDetail="true" />
+					<p:messages id="msgs" />
 					<h:panelGrid columns="3" cellpadding="5">
 
 						<p:outputLabel for="practiseName" value="Practise Name:" />
@@ -90,7 +91,7 @@
 							required="true" value="#{practiseController.practise.name}">
 							<!-- <f:validateLength minimum="5" /> -->
 							<p:ajax event="keyup" update="msgs,iconAlertName"></p:ajax>
-							<f:validator validatorId="custom.PractiseValidator" />
+							<!-- <f:validator validatorId="custom.PractiseValidator" /> -->
 						</p:inputText>
 						<p:message for="practiseName" display="icon" id="iconAlertName" />
 						<!-- <h:panelGroup> -->
@@ -105,18 +106,19 @@
 						<p:outputLabel for="entities" value="Entity: "
 							rendered="#{!practiseController.isSingleItemInEntityList()}" />
 						<p:selectOneMenu id="entities"
-							value="#{practiseController.currentEntity}"
-							converter="entityConverter" panelStyle="width:180px"
-							effect="fade" var="t" style="width:160px" filter="true"
+							value="#{practiseController.entityId}" panelStyle="width:180px"
+							effect="fade" style="width:160px" filter="true"
 							filterMatchMode="startsWith"
 							rendered="#{!practiseController.isSingleItemInEntityList()}">
 
-							<f:selectItems value="#{practiseController.listEntities}"
-								var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+							<!--  <f:selectItem itemLabel="Choose entity" itemValue="#{null}" /> --> 
+								
+								<f:selectItems value="#{practiseController.listEntities}"
+								var="entity" itemLabel="#{entity.name}" itemValue="#{entity.id}" />
 
-							<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column>
+							<!-- <p:column>
+								 <h:outputText value="#{t}" />
+							</p:column> -->
 						</p:selectOneMenu>
 
 						<!-- <p:selectOneMenu id="entities"

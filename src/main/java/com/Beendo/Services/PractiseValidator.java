@@ -48,7 +48,7 @@ public class PractiseValidator implements Validator, ClientValidator {
 		 
 		 if(strVal.length() > 0) {
 			 
-			List<Practice> result = PractiseService.isNameExist(list, strVal);
+			List<Practice> result = null;/// PractiseService.isNameExist(list, strVal);
 			 
 /*			 FacesContext context = FacesContext.getCurrentInstance();
 */

@@ -35,6 +35,7 @@ public class PractiseController extends RootController {
 	private OperationType operationType;
 
 	private String entityName;
+	private Integer entityId;
 	private List<CEntitiy> listEntities;
 	private List<Practice> listPractise;
 
@@ -52,84 +53,54 @@ public class PractiseController extends RootController {
 
 		listEntities = entityService.fetchAllByRole();
 		listPractise = practiseService.fetchAllByRole();
-		
+
 		initHashOne(listEntities);
 		initHashTwo(listPractise);
 		// return "Practise/PractiseView?faces-redirect=true";
 		return "PractiseView";
 	}
-	
-	public boolean canEditPracise(){
-	
+
+	public boolean canEditPracise() {
+
 		boolean isOK = true;
-	
+
 		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
 			isOK = false;
-		
-		return isOK;
-	}
-	
-	public boolean canCreatePracise(){
-		
-		boolean isOK = true;
-	
-		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
-			isOK = false;
-		
+
 		return isOK;
 	}
 
-	public boolean isSingleItemInEntityList(){
-		
-		if(listEntities.size() <= 1)
-		{
+	public boolean canCreatePracise() {
+
+		boolean isOK = true;
+
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			isOK = false;
+
+		return isOK;
+	}
+
+	public boolean isSingleItemInEntityList() {
+
+		if (listEntities.size() <= 1) {
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
-	
-/*	public boolean isMoreItemsInEntityList(){
-		
-		if(!isSingleItemInEntityList())
-		{
-			return true;
-		}
-		else
-			return false;
-	}*/
-	
-	public String getFirstEntityName(){
-		
-		if(listEntities.isEmpty())
+
+	/*
+	 * public boolean isMoreItemsInEntityList(){
+	 * 
+	 * if(!isSingleItemInEntityList()) { return true; } else return false; }
+	 */
+
+	public String getFirstEntityName() {
+
+		if (listEntities.isEmpty())
 			return "Create Entity first";
 		else
 			return listEntities.get(0).getName();
 	}
-	
-	/*
-	 * public void showCreatePractiseView(ActionEvent event) { Map<String,
-	 * Object> options = new HashMap<String, Object>(); options.put("resizable",
-	 * false); options.put("modal", true);
-	 * 
-	 * 
-	 * 
-	 * RequestContext.getCurrentInstance().openDialog("Practise/createPractise",
-	 * options, null); // return "EntityView"; }
-	 */
-
-	/*
-	 * public void onDialogReturn(SelectEvent event) {
-	 * 
-	 * Object rating = event.getObject();
-	 * 
-	 * FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-	 * "You rated the book with " + rating, null);
-	 * 
-	 * FacesContext.getCurrentInstance().addMessage(null, message);
-	 * 
-	 * }
-	 */
 
 	public void initNewPractise() {
 
@@ -145,53 +116,70 @@ public class PractiseController extends RootController {
 	public void updateClicked(Practice sender) {
 
 		practise = sender;
-		
-		
-		
+
 		this.operationType = OperationType.Edit;
+	}
+
+	private boolean shouldSavePractise() {
+
+		boolean isOK = true;
+
+		String error = practiseService.checkDuplicateUsername(practise.getName());// practiseService.isNameExist(listPractise,
+																					// practise.getName());
+		if (error != null) {
+
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,error,null));
+			isOK = false;
+		}
+
+		return isOK;
 	}
 
 	public void createEditLogic(ActionEvent event) {
 
-		try {
-			
-			if(listEntities.size() > 0)
-			{
-				Set<Practice> set = new HashSet<Practice>();
-				set.add(practise);
-				
-				if(listEntities.size() == 1)
-					currentEntity = listEntities.get(0);
-				currentEntity.setPracticeList(set);
-				practise.setEntity(currentEntity);
-				
-				switch (operationType) {
-				case Create: {
-					List<Practice> result = practiseService.isNameExist(listPractise, practise.getName());
-					if (result.size() <= 0) {
-						
-						// practiseService.save(practise);
-						entityService.update(currentEntity);
-						listPractise.add(practise);
-						initNewPractise();
-					}
-				}
-					break;
-				case Edit: {
+		if (shouldSavePractise()) {
 
-					practiseService.update(practise);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Saved Sucessfully"));
+			try {
+				if (listEntities.size() > 0) {
+					Set<Practice> set = new HashSet<Practice>();
+					set.add(practise);
+
+					if (listEntities.size() == 1)
+						currentEntity = listEntities.get(0);
+					else
+						currentEntity = getEntityById(entityId);
+					currentEntity.setPracticeList(set);
+					practise.setEntity(currentEntity);
+
+					switch (operationType) {
+					case Create: {
+
+						{
+
+							// practiseService.save(practise);
+							entityService.update(currentEntity);
+							listPractise.add(practise);
+							initNewPractise();
+						}
+					}
+						break;
+					case Edit: {
+
+						practiseService.update(practise);
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Saved Sucessfully"));
+					}
+						break;
+					default:
+						break;
+					}
+					RequestContext.getCurrentInstance().execute("PF('dlg2').hide()");
 				}
-					break;
-				default:
-					break;
-				}
-				RequestContext.getCurrentInstance().execute("PF('dlg2').hide()");	
-			}			
-		} catch (Exception e) {
-			
-			System.out.println(e);
+			} catch (Exception e) {
+
+				System.out.println(e);
+			}
 		}
+
 	}
 
 	public void remove(Practice sender) {

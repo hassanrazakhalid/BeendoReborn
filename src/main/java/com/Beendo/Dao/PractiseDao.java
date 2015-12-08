@@ -4,14 +4,17 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.Beendo.Entities.Practice;
+import com.Beendo.Services.IPractise;
 
 @Repository
-public class PractiseDao implements ICRUD<Practice, Integer> {
+public class PractiseDao implements IPractise {
 
 	
 	@Autowired
@@ -69,4 +72,17 @@ public class PractiseDao implements ICRUD<Practice, Integer> {
 		
 	}
 
+	@Transactional
+	@Override
+	public String checkDuplicateUsername(String name){
+		
+		String error = null;
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Practice P where P.name = :name");
+		query.setParameter("name", name);
+		
+		List<Practice> result = query.list();
+		if(result.size() > 0)
+			error =  "Practise already exist with duplcate name";
+		return error;
+	}
 }

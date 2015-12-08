@@ -19,7 +19,7 @@ import com.Beendo.Utils.SharedData;
 public class PractiseService {
 
 	@Autowired
-	private ICRUD<Practice, Integer> iPractise;
+	private IPractise iPractise;
 	
 	public void save(Practice user){
 		
@@ -76,19 +76,24 @@ public class PractiseService {
 		iPractise.update(practise);
 	}
 
-	public static List<Practice> isNameExist(List<Practice> practises,String name){
+	public String checkDuplicateUsername(String name){
+		
+		return iPractise.checkDuplicateUsername(name);
+	}
+	
+/*	public static List<Practice> isNameExist(List<Practice> practises,String name){
 		
 		return filterEmployees(practises, getUserNamePredicate(name));
-	}
+	}*/
 	
 	private static List<Practice> filterEmployees (List<Practice> practiseList, Predicate<Practice> predicate) {
         return practiseList.stream().filter( predicate ).collect(Collectors.<Practice>toList());
     }
 	
-	private static Predicate<Practice> getUserNamePredicate(String name){
+/*	private static Predicate<Practice> getUserNamePredicate(String name){
 
 		 return p -> p.getName().equalsIgnoreCase(name);
-	 }
+	 }*/
 
 	public void remove(Practice sender) {
 		// TODO Auto-generated method stub
