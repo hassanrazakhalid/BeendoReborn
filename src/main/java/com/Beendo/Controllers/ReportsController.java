@@ -2,7 +2,9 @@ package com.Beendo.Controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,10 +123,18 @@ public class ReportsController extends RootController {
 
 		providerList.clear();
 
+		Set<Provider> spayer = new HashSet<Provider>();
+		
 		for (Practice practice : selectedPracticeList) {
+			spayer.addAll(practice.getProviders());
+		}
+		
+		providerList = new ArrayList(spayer);
+		
+		/*for (Practice practice : selectedPracticeList) {
 
 			providerList.addAll(practice.getProviders());
-		}
+		}*/
 
 		// providerList = getProvidersFromPractice();
 
@@ -165,23 +175,52 @@ public class ReportsController extends RootController {
 						payerProvider.addAll(selectedPayerList);
 					}
 				} else {
+					
+					Set<Payer> spayer = new HashSet<Payer>();
+					
 					for (Provider pro : selectedProviderList) {
-						payerProvider.addAll(pro.getPayerList());
+						spayer.addAll(pro.getPayerList());
 					}
+					
+					payerProvider = new ArrayList(spayer);
+					
+					/*for (Provider pro : selectedProviderList) {
+						payerProvider.addAll(pro.getPayerList());
+					}*/
 				}
 			} else {
+				
+				Set<Payer> spayer = new HashSet<Payer>();
+				
 				for (Provider pro : providerList) {
-					payerProvider.addAll(pro.getPayerList());
+					spayer.addAll(pro.getPayerList());
 				}
+				
+				payerProvider = new ArrayList(spayer);
+				
+				/*for (Provider pro : providerList) {
+					payerProvider.addAll(pro.getPayerList());
+				}*/
 			}
 		}
 		else
 		{
+			
+			Set<Payer> spayer = new HashSet<Payer>();
+			
 			for (Practice practice : practiceList) {
+				for (Provider prov : practice.getProviders()) {
+					spayer.addAll(prov.getPayerList());
+				}
+			}
+			
+			payerProvider = new ArrayList(spayer);
+			
+			/*for (Practice practice : practiceList) {
 				for (Provider prov : practice.getProviders()) {
 					payerProvider.addAll(prov.getPayerList());
 				}
-			}
+			}*/
 		}
 
 	}
@@ -236,9 +275,14 @@ public class ReportsController extends RootController {
 		// payerProvider = currentProvider.getPayerList();
 
 		payerList.clear();
+		Set<Payer> spayer = new HashSet<Payer>();
+		
 		for (Provider pro : selectedProviderList) {
-			payerList.addAll(pro.getPayerList());
+			//payerList.addAll(pro.getPayerList());
+			spayer.addAll(pro.getPayerList());
 		}
+		
+		payerList = new ArrayList(spayer);
 
 		hashPayer.clear();
 
@@ -247,6 +291,9 @@ public class ReportsController extends RootController {
 		// hashPayer.put(pro.getId(), pro);
 		// }
 
+		
+		
+		
 		for (Payer pro : payerList) {
 
 			hashPayer.put(pro.getId(), pro);
@@ -300,14 +347,32 @@ public class ReportsController extends RootController {
 					payerProvider.addAll(selectedPayerList);
 				}
 			} else {
+				
+				Set<Payer> spayer = new HashSet<Payer>();
+				
 				for (Provider pro : selectedProviderList) {
-					payerProvider.addAll(pro.getPayerList());
+					spayer.addAll(pro.getPayerList());
 				}
+				
+				payerProvider = new ArrayList(spayer);
+				
+				/*for (Provider pro : selectedProviderList) {
+					payerProvider.addAll(pro.getPayerList());
+				}*/
 			}
 		} else {
+			
+			Set<Payer> spayer = new HashSet<Payer>();
+			
 			for (Provider pro : providerList) {
-				payerProvider.addAll(pro.getPayerList());
+				spayer.addAll(pro.getPayerList());
 			}
+			
+			payerProvider = new ArrayList(spayer);
+			
+			/*for (Provider pro : providerList) {
+				payerProvider.addAll(pro.getPayerList());
+			}*/
 		}
 
 	}
