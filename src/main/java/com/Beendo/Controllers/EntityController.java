@@ -19,6 +19,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.UserService;
+import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
@@ -32,8 +33,12 @@ public class EntityController extends RootController {
 	@Autowired
 	private EntityService entityService;
 
+	private String entityName;
+	
 	private CEntitiy entity = new CEntitiy();
 	private List<CEntitiy> entities;
+	
+	private OperationType operation;
 	
 	public String viewEntity()
 	{
@@ -62,50 +67,77 @@ public class EntityController extends RootController {
 //        RequestContext.getCurrentInstance().openDialog("editEntity", options, null);
 //	}
 	
+	public void editButtonPressed(CEntitiy sender){
+		
+		entityName = sender.getName();
+		entity = sender;
+		operation = OperationType.Edit;
+	}
+	
+	public boolean isEntityInfoValid(){
+		
+		boolean isOK = true;
+		if(entityName.equalsIgnoreCase(entity.getName()))
+			return isOK;
+		
+		String error =	entityService.isUsernameExist(entityName);
+		if(error != null)
+		{
+			showMessage(error);
+			isOK = false;
+		}
+		return isOK;
+	}
+	
 	public void createPressed()
 	{
+		clearData();
+		operation =  OperationType.Create;
+	}
+	
+	public void saveButtonPressed(){
 		
 		/*if(!entity.getName().isEmpty())
-			RequestContext.getCurrentInstance().execute("addDlg.hide();"); //oncomplete="PF('addDlg').hide();" 
-		else
-			return;*/
-		
-		List<CEntitiy> result =	entityService.isNameExist(entities, entity.getName());
-		if(result.size() <= 0)
+		RequestContext.getCurrentInstance().execute("addDlg.hide();"); //oncomplete="PF('addDlg').hide();" 
+	else
+		return;*/
+	
+	if(isEntityInfoValid())
+	{
+		entity.setName(entityName);
+		switch (operation) {
+		case Create:
 		{
 			entities.add(entity);
 			entityService.save(entity);
-			//showMessage("Entity has been saved");
-			clearData();
-			RequestContext.getCurrentInstance().execute("PF('addDlg').hide()"); 
 		}
-		else
-			showMessage("Entity name already exists!");
+			break;
+		case Edit:
+		{
+			entityService.update(entity);
+		}
+		break;
+		default:
+			break;
+		}
 		
-		
-		
-		//RequestContext.getCurrentInstance().closeDialog("createEntity");
-		//entity = new CEntitiy();
-	}
-	
-	
-	public void editPressed()
-	{
-		entityService.update(entity);
-		//RequestContext.getCurrentInstance().closeDialog("editEntity");
-		//showMessage("Entity has been updated");
+		//showMessage("Entity has been saved");
 		clearData();
-		
+		RequestContext.getCurrentInstance().execute("PF('addDlg').hide()"); 
+	}
+	//RequestContext.getCurrentInstance().closeDialog("createEntity");
+	//entity = new CEntitiy();
 	}
 	
 	public void clearData()
 	{
 		entity = new CEntitiy();
+		entityName = "";
 	}
 	
 	public void showMessage(String msg) {
 		
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entity", msg);     
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Entity", msg);     
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
 	

@@ -73,6 +73,7 @@ public class User implements UserDetails {
 
 		String roleStr = this.getRoleName();
 
+//		SimpleGrantedAuthority simpleRole = new SimpleGrantedAuthority(roleStr);
 		SimpleGrantedAuthority simpleRole = new SimpleGrantedAuthority("ROLE_"+roleStr);
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 //		authorities.add(new SimpleGrantedAuthority("ROLE_QA"));

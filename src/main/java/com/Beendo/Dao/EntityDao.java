@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.User;
 
 @Repository
 public class EntityDao implements IEntity {
@@ -80,5 +81,24 @@ public class EntityDao implements IEntity {
 		query.setParameter("id", id);
 		List<CEntitiy> result = query.list();
 		return result;
+	}
+	
+	@Transactional
+	@Override
+	public String isEntitynameExist(String name){
+		
+		String error = null;
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM User U WHERE U.name = :name");
+		
+		query.setParameter("name", name);
+		
+		List<User> result = query.list();
+		if(result.size() > 0)// means OK
+		{
+			error = "Entity name already exists!";
+		}
+		return error;
 	}
 }

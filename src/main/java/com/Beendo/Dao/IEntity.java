@@ -7,4 +7,5 @@ import com.Beendo.Entities.CEntitiy;
 public interface IEntity extends ICRUD <CEntitiy, Integer> {
 
 	public List<CEntitiy> fetchAllExcept(Integer id);
+	public String isEntitynameExist(String userName);
 }

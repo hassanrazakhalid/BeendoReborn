@@ -227,34 +227,52 @@ public class UserController extends RootController {
 
 	public void saveButtonClicked(ActionEvent event) {
 
-		RequestContext.getCurrentInstance().execute(
-				  "PF('btnSave').disable()"); 
-	/*	Object obj = event.getSource();
-		Object obj1 = event.getComponent();*/
-		
-		  if(isUserInfoValid()) { user.setEntity(selectedEntity);
-		  user.setPractises(new HashSet<>(selectedPractises));
-		  
-		  if(!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
-		  { selectedPermission.selectAllPermissions(); }
-		  user.setPermission(selectedPermission);
-		  
-		  switch (operationType) { case Create: case Copy: {
-		  selectedEntity.getUsers().add(user); // addUserToSelectedPractise();
-		  // userService.save(user);
-		  
-		  { entityService.update(selectedEntity); listUsers.add(user);
-		  initUser(); }
-		  
-		  } break; case Edit: { userService.update(user); } break;
-		  
-		  default: break; }
-		  
-		  
-		  
-		  RequestContext.getCurrentInstance().execute(
-		  "PF('userCreateDialog').hide()");
-		  } 
+//		RequestContext.getCurrentInstance().execute("PF('btnSave').disable()");
+		/*
+		 * Object obj = event.getSource(); Object obj1 = event.getComponent();
+		 */
+
+		if (isUserInfoValid()) {
+			
+			if(user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString()) ||
+			   user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString()))
+			{
+				user.setEntity(null);
+			}
+			else
+				user.setEntity(selectedEntity);
+			user.setPractises(new HashSet<>(selectedPractises));
+
+			if (!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
+				selectedPermission.selectAllPermissions();
+			}
+			user.setPermission(selectedPermission);
+
+			switch (operationType) {
+			case Create:
+			case Copy: {
+				selectedEntity.getUsers().add(user); // addUserToSelectedPractise();
+				// userService.save(user);
+
+				{
+					entityService.update(selectedEntity);
+					listUsers.add(user);
+					initUser();
+				}
+
+			}
+				break;
+			case Edit: {
+				userService.update(user);
+			}
+				break;
+
+			default:
+				break;
+			}
+
+			RequestContext.getCurrentInstance().execute("PF('userCreateDialog').hide()");
+		}
 	}
 
 	public boolean shouldShowCreateUser() {

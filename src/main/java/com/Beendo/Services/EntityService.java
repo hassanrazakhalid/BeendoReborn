@@ -95,11 +95,16 @@ public class EntityService {
 	public void update(CEntitiy entity) {
 		_service.update(entity);
 	}
+	
+	public String isUsernameExist(String name){
+		
+		return _service.isEntitynameExist(name);
+	}
 
-	public static List<CEntitiy> isNameExist(List<CEntitiy> entities, String name) {
+/*	public static List<CEntitiy> isNameExist(List<CEntitiy> entities, String name) {
 
 		return filterData(entities, getNamePredicate(name));
-	}
+	}*/
 
 	private static List<CEntitiy> filterData(List<CEntitiy> list, Predicate<CEntitiy> predicate) {
 

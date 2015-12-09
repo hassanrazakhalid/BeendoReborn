@@ -22,7 +22,7 @@
 				<h:form
 					rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}">
 					<p:commandButton value="Create" update=":addForm"
-						action="#{entityController.clearData()}"
+						actionListener="#{entityController.createPressed()}"
 						oncomplete="PF('addDlg').show();" />
 
 					<br />
@@ -52,53 +52,14 @@
 						</p:column>
 
 						<p:column headerText="Edit" width="80">
-							<p:commandButton icon="ui-icon-pencil" update=":editForm"
-								oncomplete="PF('editDlg').show();"
-								action="#{entityController.setEntity(entity)}" />
+							<p:commandButton icon="ui-icon-pencil" update=":addForm"
+								oncomplete="PF('addDlg').show();"
+								actionListener="#{entityController.editButtonPressed(entity)}" />
 						</p:column>
 
 					</p:dataTable>
 
 				</h:form>
-
-
-				<!-- EDIT ENTITY -->
-
-				<p:dialog header="Edit" modal="true" position="top"
-					widgetVar="editDlg" minHeight="40">
-
-					<h:form id="editForm">
-
-
-						<h:panelGrid columns="2" cellpadding="5">
-
-							<p:outputLabel for="entityName" value="Entity Name:" />
-							<p:inputText id="entityName"
-								value="#{entityController.entity.name}" />
-
-						</h:panelGrid>
-
-						<p:commandButton value="Save"
-							action="#{entityController.editPressed()}"
-							oncomplete="PF('editDlg').hide();"
-							update="editForm, :entityTable" />
-
-						<!-- <div>
-							Entity Name:
-							<p:inputText value="#{entityController.entity.name}" />
-
-							<br />
-							<br />
-							<p:commandButton value="Save"
-								action="#{entityController.editPressed()}"
-								oncomplete="PF('editDlg').hide();"
-								update="editForm, :entityTable" />
-
-						</div> -->
-					</h:form>
-
-				</p:dialog>
-
 
 				<!-- CREATE ENTITY -->
 
@@ -112,13 +73,13 @@
 
 							<h:outputLabel for="EntityName" value="Entity Name:" />
 							<p:inputText id="EntityName"
-								value="#{entityController.entity.name}" required="true"
+								value="#{entityController.entityName}" required="true"
 								label="EntityName" />
 
 						</h:panelGrid>
 
 						<p:commandButton value="Save"
-							action="#{entityController.createPressed()}"
+							actionListener="#{entityController.saveButtonPressed()}"
 							update="addForm, msgs, :entityTable" />
 
 						<!-- <div>
