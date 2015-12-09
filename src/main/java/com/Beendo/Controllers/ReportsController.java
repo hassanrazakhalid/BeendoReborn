@@ -234,6 +234,9 @@ public class ReportsController extends RootController {
 		initHashThree(payerList);
 //		savedTransactions = transactionService.findAll();
 		savedTransactions = transactionService.fetchAllByRole();
+		
+		transactions = savedTransactions;
+		
 		return "ReportTransaction";
 	}
 

@@ -132,7 +132,7 @@
 				            converter="payerConverter" panelStyle="width:250px">
 				            
 				            <f:selectItems value="#{providerController.payerList}" var="payer"
-								itemLabel="#{payer.name}" itemValue="#{payer}"  />
+								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer}"  />
 
 							<p:column>
 								<h:outputText value="#{t.name}" />

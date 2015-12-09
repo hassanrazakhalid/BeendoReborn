@@ -34,9 +34,9 @@
 							#{payer.name}
 						</p:column>
 
-						<p:column headerText="Company Name">
+						<!-- <p:column headerText="Company Name">
 							#{payer.companyName}
-						</p:column>
+						</p:column> -->
 						
 						<p:column headerText="Plan Name">
 							#{payer.planName}
@@ -87,7 +87,7 @@
 				  	<h:panelGrid columns="2" cellpadding="8">  
 				  	 
 				  	 	<p:inputText id="PayerName" value="#{payerController.payer.name}" placeholder="Payer Name" required="true" />
-			            <p:inputText id="CompanyName" value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" /> 
+			            <!-- <p:inputText id="CompanyName" value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" />  -->
 			            
 			            <p:inputText id="PlanName" value="#{payerController.payer.planName}" placeholder="Plan Name" required="true" />   			       
 			            <p:inputText id="PhoneNumber" value="#{payerController.payer.phoneNumber}" placeholder="Phone Number" required="true" /> 

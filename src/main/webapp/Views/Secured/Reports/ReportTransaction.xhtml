@@ -20,21 +20,7 @@
 				<h:form>
 					
 					<h:panelGrid columns="3" cellpadding="0">  
-					
-						<!-- <p:outputLabel for="idPayers" value="Select Payer: " /> -->
-						<!-- <p:selectOneMenu id="idPayers" value="#{reportsController.currentPayer}"
-								panelStyle="width:180px" effect="fade" converter="payerConverter" 
-								var="t" style="width:177px">
 						
-								<f:selectItem itemLabel="Select Payer" />		
-								<f:selectItems value="#{reportsController.payerList}" var="entity"
-									itemLabel="#{entity.name}" itemValue="#{entity}"  />
-	
-								<p:column>
-									<h:outputText value="#{t.name}" />
-								</p:column>
-							</p:selectOneMenu> -->
-							
 							<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayers}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="payerConverter" panelStyle="width:250px">
@@ -60,15 +46,15 @@
 
 					<p:dataTable value="#{reportsController.transactions}" var="transaction" >
 
-						<p:column headerText="Payer Name">
+						<p:column headerText="Payer Name" filterMatchMode="contains" filterBy="#{transaction.payer.name}">
 							#{transaction.payer.name}
 						</p:column>
 						
-						<p:column headerText="Practice Name">
+						<p:column headerText="Practice Name" filterMatchMode="contains" filterBy="#{transaction.practice.name}">
 							#{transaction.practice.name}
 						</p:column>
 						
-						<p:column headerText="Provider Name">
+						<p:column headerText="Provider Name" filterMatchMode="contains" filterBy="#{transaction.provider.name}">
 							#{transaction.provider.name}
 						</p:column>
 
