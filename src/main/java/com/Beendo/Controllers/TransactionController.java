@@ -162,6 +162,13 @@ public class TransactionController extends RootController {
 	}
 	
 	
+	public void onProviderChange()
+	{
+		payerList.clear();
+		payerList.addAll(currentProvider.getPayerList());
+	}
+	
+	
 	public boolean canEdit(){
 		
 		boolean isOK = true;

@@ -118,6 +118,8 @@
 							
 							<f:selectItems value="#{transactionController.providerList}" var="entity"
 								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+								
+							<p:ajax event="change" listener="#{transactionController.onProviderChange}" update="idPayer" /> 
 
 							<p:column>
 								<h:outputText value="#{t.name}" />

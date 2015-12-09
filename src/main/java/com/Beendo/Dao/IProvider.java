@@ -5,5 +5,5 @@ import com.Beendo.Entities.Provider;
 public interface IProvider extends ICRUD<Provider, Integer> {
 	
 
-	public String isNameExist(String name);
+	public String isNameExist(String name, String npi);
 }

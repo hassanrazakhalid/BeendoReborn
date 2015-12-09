@@ -60,6 +60,7 @@ public class ProviderController extends RootController {
 		providerList = providerService.fetchAllByRole(); //providerService.fetchAllByUser();
 		entityList = entityService.fetchAllByRole();
 		payerList = payerService.findAll();
+		practiceList = new ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 
 		if (!entityList.isEmpty()) {
 			setCurrentEntity(entityList.get(0));
@@ -68,6 +69,7 @@ public class ProviderController extends RootController {
 		initHashOne(entityList);
 		initHashFour(providerList);
 		initHashThree(payerList);
+		initHashTwo(practiceList);
 
 		return "ProviderView";
 	}
@@ -119,7 +121,10 @@ public class ProviderController extends RootController {
 		
 		for (Practice prac : _provider.getPracticeList()) {
 			
-			list.add(getPractiseById(prac.getId()));
+			Practice tprac = getPractiseById(prac.getId());
+			
+			if(tprac != null)
+				list.add(tprac);
 		}
 		
 		mlist.addAll(list);
@@ -167,7 +172,7 @@ public class ProviderController extends RootController {
 		
 		boolean isOK = true;
 		
-		String error = providerService.isNameExist(provider.getName());
+		String error = providerService.isNameExist(provider.getName(), provider.getNpiNum());
 		if(error != null)
 		{
 			isOK = false;
@@ -179,8 +184,6 @@ public class ProviderController extends RootController {
 	
 	public void saveInfo() {
 		
-		if(isInfoValid())
-		{
 			if(currentEntity == null && entityList.size() == 1)
 			{
 				currentEntity = entityList.get(0);
@@ -200,17 +203,21 @@ public class ProviderController extends RootController {
 				{
 					
 					//currentEntity.getProviderList().add(provider);
-					providerList.add(provider);
-					providerService.save(provider);
-					entityService.update(currentEntity);
-					RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-					//showMessage("Provider has been saved");
+					
+					if(isInfoValid())
+					{
+						providerList.add(provider);
+						providerService.save(provider);
+						//entityService.update(currentEntity);
+						RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+						//showMessage("Provider has been saved");
+					}
 				} 
 			}
 				break;
 			case Edit: {
 				providerService.update(provider);
-				entityService.update(currentEntity);
+				//entityService.update(currentEntity);
 				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
 				//showMessage("Provider has been updated");
 			}
@@ -219,7 +226,6 @@ public class ProviderController extends RootController {
 			default:
 				break;
 			}
-		}
 
 	}
 
@@ -232,8 +238,8 @@ public class ProviderController extends RootController {
 
 	public void onEntityChange() {
 		provider.setCentity(currentEntity);
-		practiceList = new ArrayList<>(currentEntity.getPracticeList());
-		initHashTwo(practiceList);
+		//practiceList = new ArrayList<>(currentEntity.getPracticeList());
+		//initHashTwo(practiceList);
 		/*
 		 * for (Practice practice : practiceList) {
 		 * 

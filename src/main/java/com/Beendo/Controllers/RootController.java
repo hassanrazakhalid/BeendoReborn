@@ -81,7 +81,9 @@ public class RootController {
 
 	public Practice getPractiseById(Integer id) {
 
-		return hashTwo.get(id);
+		if(hashTwo.containsKey(id))
+			return hashTwo.get(id);
+		else return null;
 	}
 	// --------Payer Hash -------------------------------
 
