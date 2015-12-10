@@ -82,6 +82,7 @@ public class TransactionController extends RootController {
 		initHashFour(providerList);
 		
 		currentRadio = "rbPractice";
+		canPracticeShow = true;
 		
 		/*for (Practice practice : practiceList) {
 			
