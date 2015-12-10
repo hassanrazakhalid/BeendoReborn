@@ -32,7 +32,7 @@
 				    <p:dataTable value="#{transactionController.transactions}" var="transaction" >
 
 						<p:column headerText="Payer Name">
-							#{transaction.payer.name}
+							#{transaction.payer.name} #{transaction.payer.planName}
 						</p:column>
 						
 						<p:column headerText="Practice Name">
@@ -140,10 +140,10 @@
 							
 							<f:selectItem itemLabel="Select" />
 							<f:selectItems value="#{transactionController.payerList}" var="entity"
-								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+								itemLabel="#{entity.name} #{entity.planName}" itemValue="#{entity}"  />
 
 							<p:column>
-								<h:outputText value="#{t.name}" />
+								<h:outputText value="#{t.name} #{t.planName}" />
 							</p:column>
 						</p:selectOneMenu>
 						
