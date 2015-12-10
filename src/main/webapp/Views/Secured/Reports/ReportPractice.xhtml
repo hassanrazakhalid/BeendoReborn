@@ -93,7 +93,7 @@
 				            converter="payerConverter" panelStyle="width:250px">
 				            
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
-								itemLabel="#{payer.name}" itemValue="#{payer}"  />
+								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer}"  />
 
 							<p:column>
 								<h:outputText value="#{t.name}" />
@@ -126,41 +126,26 @@
 
 				<h:form id="frmMain">
 
-					  <p:dataTable value="#{reportsController.payerProvider}" var="payer" >
+					  <p:dataTable value="#{reportsController.transactions}" var="transaction" >
+
+						<p:column headerText="Practice Name">
+							#{transaction.practice.name}
+						</p:column>
 
 						<p:column headerText="Payer Name">
-							#{payer.name}
+							#{transaction.payer.name} #{transaction.payer.planName}
 						</p:column>
 
-						<!-- <p:column headerText="Company Name">
-							#{payer.companyName}
+						<!-- <p:column headerText="Provider Name">
+							#{transaction.provider.name}
 						</p:column> -->
-						
-						<p:column headerText="Plan Name">
-							#{payer.planName}
+
+						<p:column headerText="Status">
+							#{transaction.parStatus}
 						</p:column>
-						
-						<!-- <p:column headerText="Phone Number">
-							#{payer.phoneNumber}
-						</p:column>
-						
-						<p:column headerText="Street">
-							#{payer.street}
-						</p:column>
-						
-						<p:column headerText="City">
-							#{payer.city}
-						</p:column>
-						
-						<p:column headerText="State">
-							#{payer.state}
-						</p:column>
-						
-						<p:column headerText="ZipCode">
-							#{payer.zip}
-						</p:column> -->
 		
-					</p:dataTable>  
+					</p:dataTable>
+					   
 
 				</h:form>
 
