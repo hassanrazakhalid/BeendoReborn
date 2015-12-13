@@ -99,6 +99,8 @@
 							converter="practiseConverter" required="true"
 							var="t" style="width:177px">
 							
+							<p:ajax event="change" listener="#{transactionController.onPracticeChange}" update="idPayer" /> 
+							
 							<f:selectItem itemLabel="Select Practice" />
 							
 							<f:selectItems value="#{transactionController.practiceList}" var="entity"

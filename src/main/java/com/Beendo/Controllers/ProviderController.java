@@ -18,6 +18,7 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
+import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
@@ -39,6 +40,9 @@ public class ProviderController extends RootController {
 
 	@Autowired
 	private EntityService entityService;
+	
+	@Autowired
+	private PractiseService practiseService;
 
 	private String entityName;
 
@@ -60,8 +64,9 @@ public class ProviderController extends RootController {
 		providerList = providerService.fetchAllByRole(); //providerService.fetchAllByUser();
 		entityList = entityService.fetchAllByRole();
 		payerList = payerService.findAll();
-		practiceList = new ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
+		practiceList = practiseService.fetchAllByRole();// new ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 
+		
 		if (!entityList.isEmpty()) {
 			setCurrentEntity(entityList.get(0));
 			onEntityChange();
@@ -196,6 +201,8 @@ public class ProviderController extends RootController {
 				practise.getProviders().add(provider);
 			}
 			
+			currentEntity.setPracticeList(provider.getPracticeList());
+			
 			provider.setCentity(currentEntity);
 			
 			switch (this.opetationType) {
@@ -208,7 +215,7 @@ public class ProviderController extends RootController {
 					{
 						providerList.add(provider);
 						providerService.save(provider);
-						//entityService.update(currentEntity);
+						entityService.update(currentEntity);
 						RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
 						//showMessage("Provider has been saved");
 					}
@@ -217,7 +224,7 @@ public class ProviderController extends RootController {
 				break;
 			case Edit: {
 				providerService.update(provider);
-				//entityService.update(currentEntity);
+				entityService.update(currentEntity);
 				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
 				//showMessage("Provider has been updated");
 			}

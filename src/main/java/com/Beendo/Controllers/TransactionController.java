@@ -2,9 +2,12 @@ package com.Beendo.Controllers;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 
@@ -80,6 +83,8 @@ public class TransactionController extends RootController {
 		initHashTwo(practiceList);
 		initHashThree(payerList);
 		initHashFour(providerList);
+		
+		payerList.clear();
 		
 		currentRadio = "rbPractice";
 		canPracticeShow = true;
@@ -167,6 +172,19 @@ public class TransactionController extends RootController {
 	{
 		payerList.clear();
 		payerList.addAll(currentProvider.getPayerList());
+	}
+	
+	public void onPracticeChange()
+	{
+		Set<Payer> spayer = new HashSet<Payer>();
+		
+		for (Provider pro : currentPractice.getProviders()) {
+			
+			spayer.addAll(pro.getPayerList());
+		}
+		
+		payerList = new ArrayList(spayer);
+		
 	}
 	
 	

@@ -48,7 +48,8 @@ public class PayerService {
 	
 	private static Predicate<Payer> getNamePredicate(String name, String planName, String city, String state, String zip, String street){
 
-		 return p -> p.getName().equalsIgnoreCase(name) && p.getPlanName().equalsIgnoreCase(planName) && p.getCity().equalsIgnoreCase(city) && p.getState().equalsIgnoreCase(state) && p.getZip().equalsIgnoreCase(zip) && p.getStreet().equalsIgnoreCase(street);
+		return p -> p.getName().equalsIgnoreCase(name) && p.getPlanName().equalsIgnoreCase(planName);
+		 //return p -> p.getName().equalsIgnoreCase(name) && p.getPlanName().equalsIgnoreCase(planName) && p.getCity().equalsIgnoreCase(city) && p.getState().equalsIgnoreCase(state) && p.getZip().equalsIgnoreCase(zip) && p.getStreet().equalsIgnoreCase(street);
 	 }
 	
 }
