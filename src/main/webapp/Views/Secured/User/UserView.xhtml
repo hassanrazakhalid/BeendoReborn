@@ -108,6 +108,7 @@ function createClicked(args,dialogName){
 
 				<h:form id="userForm">
 				<!-- showDetail="true"  -->
+				<p:blockUI block="userForm" trigger="btnSave" />
 					 <p:messages id="msgs"/> 
 					<p:panelGrid id="panelGrid" columns="2">
 
@@ -218,7 +219,7 @@ function createClicked(args,dialogName){
 						actionListener="#{userController.saveButtonClicked}"
 						widgetVar="btnSave"
 						update=":userTable,userForm,btnSave"
-						oncomplete="PF('btnSave').enable()" />
+						 />
 					<!-- oncomplete="PF('userCreateDialog').hide()" -->
 				</h:form>
 			</p:dialog>

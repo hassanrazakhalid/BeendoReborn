@@ -1,14 +1,10 @@
 package com.Beendo.Controllers;
 
-import java.util.List;
+import javax.faces.application.FacesMessage;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.User;
@@ -51,10 +47,22 @@ public class LoginController {
 
 		User user = userService.isUserValid(userName, password);
 
-		SharedData sharedData = SharedData.getSharedInstace();
+		if(user ==  null)
+		{
+//			RequestContext.getCurrentInstance().execute("PF('growl').show('error')");
+			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong username or password", null));
+			return null;
+		}
+		else
+			
+		{
+			SharedData sharedData = SharedData.getSharedInstace();
 
-		sharedData.setCurrentUser(user);
-		return sharedData.checkForSecurity(userName, password);
+			sharedData.setCurrentUser(user);
+			return sharedData.checkForSecurity(userName, password);
+		}
+		
+
 
 		/*		List auth = (List) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 

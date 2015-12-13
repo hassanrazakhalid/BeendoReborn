@@ -78,7 +78,7 @@ public class User implements UserDetails {
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 //		authorities.add(new SimpleGrantedAuthority("ROLE_QA"));
 //		return authorities;
-		
+		 
 //		Collection<Role_Permission> roleList = new ArrayList<Role_Permission>();
 		authorities.add(simpleRole);
 		return authorities;

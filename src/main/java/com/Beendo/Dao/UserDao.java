@@ -144,7 +144,7 @@ public class UserDao implements IUserDao {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("FROM User U WHERE U.appUserName = :userName");
 		
-		query.setParameter("userName", userName);
+		query.setParameter("userName", userName.toLowerCase());
 		
 		List<User> result = query.list();
 		if(result.size() > 0)// means OK

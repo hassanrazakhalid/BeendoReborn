@@ -90,7 +90,7 @@ public class EntityDao implements IEntity {
 		String error = null;
 		
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM User U WHERE U.name = :name");
+		Query query = session.createQuery("FROM CEntitiy U WHERE U.name = :name");
 		
 		query.setParameter("name", name);
 		

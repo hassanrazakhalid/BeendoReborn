@@ -88,6 +88,7 @@ public class EntityService {
 	 * }
 	 */
 	public void save(CEntitiy entity) {
+//		entity.setName(entity.getName().toLowerCase());
 		_service.save(entity);
 		// hashEntities.put(entity.getId(), entity);
 	}

@@ -41,11 +41,12 @@
 		<p:commandButton value="save" action="#{loginController.loginPressed()}"
 		 />
 	</h:form> -->
-
+<p:growl widgetVar="growl" showDetail="true" />
 	<div class="container" id="cont">
 	
 		<div class="col-md-10 col-md-offset-4">
 			<h:form class="form-signin">	
+			<h:messages />
 		        <h2 class="form-signin-heading">Please sign in</h2>
 		        
 		        <div class="row">
