@@ -41,10 +41,14 @@ public class EntityDao implements IEntity {
 		
 	}
 
+	@Transactional
 	@Override
 	public CEntitiy findById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		CEntitiy entity = (CEntitiy)session.get(CEntitiy.class, id);
+		return entity;
 	}
 
 	@Override

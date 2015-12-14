@@ -104,11 +104,11 @@ function createClicked(args,dialogName){
 			</h:form>
 
 			<p:dialog id="userDialog" header="Create User" modal="true"
-				widgetVar="userCreateDialog" width="500">
+				widgetVar="userCreateDialog" position="center,center" onShow="myStyle();" >
 
 				<h:form id="userForm">
 				<!-- showDetail="true"  -->
-				<p:blockUI block="userForm" trigger="btnSave" />
+				<p:blockUI block="userDialog" trigger="btnSave" />
 					 <p:messages id="msgs"/> 
 					<p:panelGrid id="panelGrid" columns="2">
 
@@ -223,7 +223,14 @@ function createClicked(args,dialogName){
 					<!-- oncomplete="PF('userCreateDialog').hide()" -->
 				</h:form>
 			</p:dialog>
-
+		<script>
+		function myStyle(){
+			//$('#userDialog').css('position','absolute');
+		}
+		</script>
+		<style>
+		#userDialog{position:absolute !important;}
+		</style>
 		</ui:define>
 	</ui:composition>
 
