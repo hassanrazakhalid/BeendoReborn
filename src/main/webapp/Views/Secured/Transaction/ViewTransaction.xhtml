@@ -40,7 +40,7 @@
 						</p:column>
 						
 						<p:column headerText="Provider Name">
-							#{transaction.provider.name}
+							#{transaction.provider.firstName} #{transaction.provider.lastName}
 						</p:column>
 
 						<p:column headerText="Date">
@@ -119,12 +119,12 @@
 							<f:selectItem itemLabel="Select Provider" />
 							
 							<f:selectItems value="#{transactionController.providerList}" var="entity"
-								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+								itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity}"  />
 								
 							<p:ajax event="change" listener="#{transactionController.onProviderChange}" update="idPayer" /> 
 
 							<p:column>
-								<h:outputText value="#{t.name}" />
+								<h:outputText value="#{t.firstName} #{t.lastName}" />
 							</p:column>
 						</p:selectOneMenu>
 				  	

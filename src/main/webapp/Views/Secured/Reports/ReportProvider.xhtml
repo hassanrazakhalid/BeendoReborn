@@ -45,10 +45,10 @@
 				            <p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" />
 				            
 				            <f:selectItems value="#{reportsController.providerList}" var="entity"
-									itemLabel="#{entity.name}" itemValue="#{entity}"  />
+									itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity}"  />
 
 							<p:column>
-								<h:outputText value="#{t.name}" />
+								<h:outputText value="#{t.firstName} #{t.lastName}" />
 							</p:column>
 				            
 				        </p:selectCheckboxMenu>

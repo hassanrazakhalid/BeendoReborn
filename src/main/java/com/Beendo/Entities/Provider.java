@@ -30,7 +30,8 @@ public class Provider {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String npiNum;
  	
 	@ManyToOne

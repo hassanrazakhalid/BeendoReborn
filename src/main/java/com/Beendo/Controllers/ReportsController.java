@@ -374,8 +374,8 @@ public class ReportsController extends RootController {
 		else
 		{
 			transactions = providerTransactions.stream()
-					.filter(f -> (f.getProvider().getName() != null))
-					.collect(Collectors.toList());
+					.filter(f -> (f.getProvider().getFirstName() != null))
+					.collect(Collectors.toList());;
 		}
 		
 		/*if (selectedProviderList.size() > 0) {
