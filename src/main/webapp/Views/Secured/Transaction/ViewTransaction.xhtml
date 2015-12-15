@@ -135,7 +135,7 @@
 				  	<h:panelGrid columns="4" cellpadding="8">  
 				  	
 				  		<p:outputLabel for="idPayer" value="Select Payer: " />
-				  		<p:selectCheckboxMenu id="idPayer" value="#{transactionController.selectedPayers}"
+				  		<!-- <p:selectCheckboxMenu id="idPayer" value="#{transactionController.selectedPayers}"
 				            filter="false" filterMatchMode="startsWith" style="width:177px"  var="t" required="true"
 				            converter="payerConverter" panelStyle="width:250px">
 				            
@@ -146,8 +146,8 @@
 								<h:outputText value="#{t.name}" />
 							</p:column>
 				            
-				        </p:selectCheckboxMenu>  
-				  		<!-- <p:selectOneMenu id="idPayer" value="#{transactionController.currentPayer}"
+				        </p:selectCheckboxMenu> -->  
+				  		<p:selectOneMenu id="idPayer" value="#{transactionController.currentPayer}"
 							panelStyle="width:180px" effect="fade"  
 							converter="payerConverter" required="true"
 							var="t" style="width:177px">
@@ -159,7 +159,7 @@
 							<p:column>
 								<h:outputText value="#{t.name} #{t.planName}" />
 							</p:column>
-						</p:selectOneMenu> -->
+						</p:selectOneMenu>
 						
 						
 						<p:outputLabel for="idType" value="Transaction Type: " />
