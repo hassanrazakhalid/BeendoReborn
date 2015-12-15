@@ -127,6 +127,7 @@ function createClicked(args,dialogName){
 
 						<p:outputLabel for="tfPassword" value="Password:" />
 						<p:inputText id="tfPassword"
+						type="password"
 							value="#{userController.user.password}" required="true" >
 							<f:ajax render="result" />
 						</p:inputText>
