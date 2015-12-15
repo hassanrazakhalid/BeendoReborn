@@ -44,6 +44,9 @@ public class PractiseThemeConverter implements Converter {
 		if(value != null && value.trim().length() > 0) {
             try {
             	
+            	if(value.equals("Select Practice"))
+            		return null;
+            	
             	String viewId = context.getViewRoot().getViewId();
             	Practice practise = null;
             	Integer id = Integer.parseInt(value);

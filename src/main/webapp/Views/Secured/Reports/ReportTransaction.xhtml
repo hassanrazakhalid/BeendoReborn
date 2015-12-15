@@ -54,8 +54,8 @@
 							#{transaction.practice.name}
 						</p:column>
 						
-						<p:column headerText="Provider Name" filterMatchMode="contains" filterBy="#{transaction.provider.name}">
-							#{transaction.provider.name}
+						<p:column headerText="Provider Name" filterMatchMode="contains" filterBy="#{transaction.provider.firstName}">
+							#{transaction.provider.firstName} #{transaction.provider.lastName}
 						</p:column>
 
 						<p:column headerText="Date">

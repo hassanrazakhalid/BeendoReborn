@@ -37,8 +37,8 @@ public class Provider {
 	@ManyToOne
 	private CEntitiy centity;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Collection<Payer> payerList = new HashSet<Payer>();
+	/*@ManyToMany(fetch = FetchType.EAGER)
+	private Collection<Payer> payerList = new HashSet<Payer>();*/
 	
 	@ManyToMany(fetch = FetchType.EAGER,mappedBy="providers")
 	private Set<Practice> practiceList = new HashSet<Practice>();

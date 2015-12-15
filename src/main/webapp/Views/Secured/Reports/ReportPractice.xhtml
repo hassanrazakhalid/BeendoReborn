@@ -23,11 +23,11 @@
 					
 					
 						<!-- <p:outputLabel for="idPractices" value="Select Practice: " /> -->
-						<!-- <p:selectOneMenu id="idPractices" value="#{reportsController.currentPractice}"
+						 <p:selectOneMenu id="idPractices" value="#{reportsController.currentPractice}"
 								panelStyle="width:180px" effect="fade" converter="practiseConverter"
 								var="t" style="width:177px">
 								
-								 <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" />
+								 <!-- <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" /> -->
 								 
 								 <f:selectItem itemLabel="Select Practice" />
 								<f:selectItems value="#{reportsController.practiceList}" var="entity"
@@ -36,9 +36,9 @@
 								<p:column>
 									<h:outputText value="#{t.name}" />
 								</p:column>
-							</p:selectOneMenu> -->
+							</p:selectOneMenu> 
 							
-						<p:selectCheckboxMenu id="idPractices" value="#{reportsController.selectedPracticeList}" label="Select Practices"
+						<!-- <p:selectCheckboxMenu id="idPractices" value="#{reportsController.selectedPracticeList}" label="Select Practices"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="practiseConverter" panelStyle="width:250px">
 				            
@@ -51,7 +51,7 @@
 								<h:outputText value="#{t.name}" />
 							</p:column>
 				            
-				        </p:selectCheckboxMenu>
+				        </p:selectCheckboxMenu> -->
 							
 					
 						<!-- <h:outputLabel  value="Select Provider: " /> -->
@@ -71,7 +71,7 @@
 							</p:selectOneMenu> -->
 							
 							
-						<p:selectCheckboxMenu id="idProviders" value="#{reportsController.selectedProviderList}" label="Select Providers"
+						<!-- <p:selectCheckboxMenu id="idProviders" value="#{reportsController.selectedProviderList}" label="Select Providers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="providerConverter" panelStyle="width:250px">
 				            
@@ -84,7 +84,7 @@
 								<h:outputText value="#{t.firstName} #{t.lastName}" />
 							</p:column>
 				            
-				        </p:selectCheckboxMenu>
+				        </p:selectCheckboxMenu> -->
 							
 							
 						<!-- <h:outputLabel  value="Select Payer: " /> -->

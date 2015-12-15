@@ -99,7 +99,7 @@
 							converter="practiseConverter" required="true"
 							var="t" style="width:177px">
 							
-							<p:ajax event="change" listener="#{transactionController.onPracticeChange}" update="idPayer" /> 
+							<!-- <p:ajax event="change" listener="#{transactionController.onPracticeChange}" update="idPayer" />  -->
 							
 							<f:selectItem itemLabel="Select Practice" />
 							
@@ -121,7 +121,7 @@
 							<f:selectItems value="#{transactionController.providerList}" var="entity"
 								itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity}"  />
 								
-							<p:ajax event="change" listener="#{transactionController.onProviderChange}" update="idPayer" /> 
+							<!-- <p:ajax event="change" listener="#{transactionController.onProviderChange}" update="idPayer" />  -->
 
 							<p:column>
 								<h:outputText value="#{t.firstName} #{t.lastName}" />
@@ -135,7 +135,19 @@
 				  	<h:panelGrid columns="4" cellpadding="8">  
 				  	
 				  		<p:outputLabel for="idPayer" value="Select Payer: " />
-				  		<p:selectOneMenu id="idPayer" value="#{transactionController.currentPayer}"
+				  		<p:selectCheckboxMenu id="idPayer" value="#{transactionController.selectedPayers}"
+				            filter="false" filterMatchMode="startsWith" style="width:177px"  var="t" required="true"
+				            converter="payerConverter" panelStyle="width:250px">
+				            
+				            <f:selectItems value="#{transactionController.payerList}" var="payer"
+								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer}"  />
+
+							<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column>
+				            
+				        </p:selectCheckboxMenu>  
+				  		<!-- <p:selectOneMenu id="idPayer" value="#{transactionController.currentPayer}"
 							panelStyle="width:180px" effect="fade"  
 							converter="payerConverter" required="true"
 							var="t" style="width:177px">
@@ -147,7 +159,7 @@
 							<p:column>
 								<h:outputText value="#{t.name} #{t.planName}" />
 							</p:column>
-						</p:selectOneMenu>
+						</p:selectOneMenu> -->
 						
 						
 						<p:outputLabel for="idType" value="Transaction Type: " />
@@ -161,8 +173,8 @@
 				  		<p:outputLabel for="idDate" value="Current Date: " />
 				  	 	<p:inputText id="idDate" value="#{transactionController.transaction.transactionDate}" required="true" /> 
 			            
-			            <h:outputLabel for="name" value="Select Status:" />
-			        	<p:selectOneMenu value="#{transactionController.transaction.parStatus}" style="width:175px">
+			            <h:outputLabel for="vname" value="Select Status:" />
+			        	<p:selectOneMenu id="vname" value="#{transactionController.transaction.parStatus}" style="width:175px">
 			        		<f:selectItem itemLabel="Non-Par" itemValue="Non-Par" />
 				            <f:selectItem itemLabel="PAR" itemValue="PAR" />				            
 				            <f:selectItem itemLabel="Application Package Complete" itemValue="Application Package Complete" />

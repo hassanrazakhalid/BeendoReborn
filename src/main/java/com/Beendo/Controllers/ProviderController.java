@@ -99,7 +99,7 @@ public class ProviderController extends RootController {
 
 	public void updateClicked(Provider _provider) {
 		
-		selectedPayers = getSelectedPayers(_provider);
+		//selectedPayers = getSelectedPayers(_provider);
 		selectedPractices = getSelectedPractices(_provider);
 		provider = _provider;
 		//practiceList = new ArrayList<>(provider.getCentity().getPracticeList());
@@ -107,7 +107,7 @@ public class ProviderController extends RootController {
 		this.opetationType = OperationType.Edit;
 	}
 	
-	private List<Payer> getSelectedPayers(Provider _provider)
+	/*private List<Payer> getSelectedPayers(Provider _provider)
 	{
 		List<Payer> list = new ArrayList();
 		
@@ -117,7 +117,7 @@ public class ProviderController extends RootController {
 		}
 		
 		return list;
-	}
+	}*/
 	
 	private List<Practice> getSelectedPractices(Provider _provider)
 	{
@@ -194,7 +194,7 @@ public class ProviderController extends RootController {
 				currentEntity = entityList.get(0);
 			}	
 			
-			provider.setPayerList(selectedPayers);
+			//provider.setPayerList(selectedPayers);
 			provider.setPracticeList(new HashSet<>(selectedPractices));
 			for (Practice practise : selectedPractices) {
 

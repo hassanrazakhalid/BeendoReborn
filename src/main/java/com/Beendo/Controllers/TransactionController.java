@@ -63,7 +63,7 @@ public class TransactionController extends RootController {
 	private List<Practice> practiceList;
 	private List<Payer> payerList;
 	private List<Provider> providerList;
-	
+	private List<Payer> selectedPayers;
 	
 	private String currentRadio;
 	private Boolean canPracticeShow = true;
@@ -84,7 +84,7 @@ public class TransactionController extends RootController {
 		initHashThree(payerList);
 		initHashFour(providerList);
 		
-		payerList.clear();
+		//payerList.clear();
 		
 		currentRadio = "rbPractice";
 		canPracticeShow = true;
@@ -168,13 +168,13 @@ public class TransactionController extends RootController {
 	}
 	
 	
-	public void onProviderChange()
+	/*public void onProviderChange()
 	{
 		payerList.clear();
 		payerList.addAll(currentProvider.getPayerList());
-	}
+	}*/
 	
-	public void onPracticeChange()
+	/*public void onPracticeChange()
 	{
 		Set<Payer> spayer = new HashSet<Payer>();
 		
@@ -185,7 +185,9 @@ public class TransactionController extends RootController {
 		
 		payerList = new ArrayList(spayer);
 		
-	}
+		initHashThree(payerList);
+		
+	}*/
 	
 	
 	public boolean canEdit(){

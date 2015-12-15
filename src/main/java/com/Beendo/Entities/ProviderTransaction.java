@@ -1,12 +1,15 @@
 package com.Beendo.Entities;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,6 +36,8 @@ public class ProviderTransaction {
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	private Payer payer = new Payer();
+	/*@ManyToMany(fetch = FetchType.EAGER)
+	private Set<Payer> payer = new HashSet<Payer>();*/
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
 	private Practice practice = new Practice();

@@ -73,7 +73,7 @@ public class ReportsController extends RootController {
 		cleanData();
 		practiceList = practiseService.fetchAllByRole();
 		hashPractice.clear();
-		// payerProvider = payerService.findAll();
+		payerList = payerService.findAll();
 
 		List<Provider> provList = providerService.fetchAllByRole();
 		practiceTransactions = transactionService.fetchAllByRole();
@@ -82,6 +82,15 @@ public class ReportsController extends RootController {
 		for (Practice practice : practiceList) {
 
 			hashPractice.put(practice.getId(), practice);
+		}
+		
+		initHashThree(payerList);		
+		tmpHasnPractise.clear();
+		hashPayer.clear();
+		
+		for (Payer pro : payerList) {
+
+			hashPayer.put(pro.getId(), pro);
 		}
 
 		// providerList = providerService.findAll();
@@ -150,10 +159,14 @@ public class ReportsController extends RootController {
 
 		payerProvider.clear();
 
-		if (selectedPracticeList.size() > 0)
+		if (currentPractice != null)
 		{
-			transactions = practiceTransactions.stream()
+			/*transactions = practiceTransactions.stream()
 					.filter(f -> selectedPracticeList.stream().filter(p -> p.getId() == f.getPractice().getId()).count() > 0)
+					.collect(Collectors.toList());*/
+			
+			transactions = practiceTransactions.stream()
+					.filter(f -> (f.getPractice().getId() == currentPractice.getId()))
 					.collect(Collectors.toList());
 			
 			if (selectedPayerList.size() > 0)
@@ -179,78 +192,7 @@ public class ReportsController extends RootController {
 					.collect(Collectors.toList());
 		}
 		
-		/*if (selectedPracticeList.size() > 0) {
-			if (selectedProviderList.size() > 0) {
-				if (selectedPayerList.size() > 0) {
-
-					if (currentPayerStatus != "") {
-						
-						for (Payer payer : selectedPayerList) {						
-							
-							for (ProviderTransaction providerTransaction : practiceTransactions) {
-								
-								if(payer.getId() == providerTransaction.getPayer().getId() && providerTransaction.getPractice().getName() != null && currentPayerStatus.equals(providerTransaction.getParStatus()))
-									payerProvider.add(providerTransaction.getPayer());
-							}
-							
-						}
-						
-						for (Payer payer : selectedPayerList) {
-
-							if (payer.getPar().equals(currentPayerStatus))
-								payerProvider.add(payer);
-						}
-					} else {
-						payerProvider.addAll(selectedPayerList);
-					}
-				} else {
-					
-					Set<Payer> spayer = new HashSet<Payer>();
-					
-					for (Provider pro : selectedProviderList) {
-						spayer.addAll(pro.getPayerList());
-					}
-					
-					payerProvider = new ArrayList(spayer);
-					
-					for (Provider pro : selectedProviderList) {
-						payerProvider.addAll(pro.getPayerList());
-					}
-				}
-			} else {
-				
-				Set<Payer> spayer = new HashSet<Payer>();
-				
-				for (Provider pro : providerList) {
-					spayer.addAll(pro.getPayerList());
-				}
-				
-				payerProvider = new ArrayList(spayer);
-				
-				for (Provider pro : providerList) {
-					payerProvider.addAll(pro.getPayerList());
-				}
-			}
-		}
-		else
-		{
-			
-			Set<Payer> spayer = new HashSet<Payer>();
-			
-			for (Practice practice : practiceList) {
-				for (Provider prov : practice.getProviders()) {
-					spayer.addAll(prov.getPayerList());
-				}
-			}
-			
-			payerProvider = new ArrayList(spayer);
-			
-			for (Practice practice : practiceList) {
-				for (Provider prov : practice.getProviders()) {
-					payerProvider.addAll(prov.getPayerList());
-				}
-			}
-		}*/
+		
 
 	}
 
@@ -291,6 +233,10 @@ public class ReportsController extends RootController {
 	public String viewRepProvider() {
 		cleanData();
 		providerList = providerService.fetchAllByRole();
+		payerList = payerService.findAll();
+		
+		initHashThree(payerList);
+		
 		tmpHasnPractise.clear();
 		providerTransactions = transactionService.fetchAllByRole();
 
@@ -298,11 +244,18 @@ public class ReportsController extends RootController {
 
 			tmpHasnPractise.put(pro.getId(), pro);
 		}
+		
+		hashPayer.clear();
+		
+		for (Payer pro : payerList) {
+
+			hashPayer.put(pro.getId(), pro);
+		}
 
 		return "ReportProvider";
 	}
 
-	public void onEntityChange() {
+	/*public void onEntityChange() {
 		// currentProvider.setCentity(currentEntity);
 		// payerProvider = currentProvider.getPayerList();
 
@@ -334,7 +287,7 @@ public class ReportsController extends RootController {
 		initHashThree(payerList);
 		// initHashThree(currentProvider.getPayerList());
 
-	}
+	}*/
 
 	public void getPayerData() {
 
@@ -349,10 +302,14 @@ public class ReportsController extends RootController {
 //		List<Payer> pay = selectedPayerList.stream()
 //				.filter(f -> (providerTransactions.stream().filter(p -> p.getPayer().getId() == f.getId())).count() > 0 ).collect(Collectors.toList());
 		
-		if (selectedProviderList.size() > 0)
+		if (currentProvider != null)
 		{
+			/*transactions = providerTransactions.stream()
+					.filter(f -> selectedProviderList.stream().filter(p -> p.getId() == currentProvider.getId()).count() > 0)
+					.collect(Collectors.toList());*/
+			
 			transactions = providerTransactions.stream()
-					.filter(f -> selectedProviderList.stream().filter(p -> p.getId() == f.getProvider().getId()).count() > 0)
+					.filter(f -> (f.getProvider().getId() == currentProvider.getId()))
 					.collect(Collectors.toList());
 			
 			if (selectedPayerList.size() > 0)
@@ -373,68 +330,13 @@ public class ReportsController extends RootController {
 		}
 		else
 		{
+			
 			transactions = providerTransactions.stream()
 					.filter(f -> (f.getProvider().getFirstName() != null))
-					.collect(Collectors.toList());;
+					.collect(Collectors.toList());
 		}
 		
-		/*if (selectedProviderList.size() > 0) {
-			if (selectedPayerList.size() > 0) {
-
-				if (currentPayerStatus != "") {
-					
-					for (Payer payer : selectedPayerList) {						
-					
-						for (ProviderTransaction providerTransaction : providerTransactions) {
-							
-							if(payer.getId() == providerTransaction.getPayer().getId() && providerTransaction.getProvider().getName() != null && currentPayerStatus.equals(providerTransaction.getParStatus()))
-								payerProvider.add(providerTransaction.getPayer());
-						}
-						
-						for (ProviderTransaction providerTransaction : transac) {
-							
-							if(payer.getId() == providerTransaction.getPayer().getId())
-								payerProvider.add(providerTransaction.getPayer());
-						}
-					}
-					
-					for (Payer payer : selectedPayerList) {
-
-						if (payer.getPar().equals(currentPayerStatus))
-							payerProvider.add(payer);
-					}
-					
-				} else {
-					payerProvider.addAll(selectedPayerList);
-				}
-			} else {
-				
-				Set<Payer> spayer = new HashSet<Payer>();
-				
-				for (Provider pro : selectedProviderList) {
-					spayer.addAll(pro.getPayerList());
-				}
-				
-				payerProvider = new ArrayList(spayer);
-				
-				for (Provider pro : selectedProviderList) {
-					payerProvider.addAll(pro.getPayerList());
-				}
-			}
-		} else {
-			
-			Set<Payer> spayer = new HashSet<Payer>();
-			
-			for (Provider pro : providerList) {
-				spayer.addAll(pro.getPayerList());
-			}
-			
-			payerProvider = new ArrayList(spayer);
-			
-			for (Provider pro : providerList) {
-				payerProvider.addAll(pro.getPayerList());
-			}
-		}*/
+		
 
 	}
 

@@ -43,6 +43,9 @@ public class ProviderThemeConverter implements Converter {
 		if(value != null && value.trim().length() > 0) {
             try {
             	
+            	if(value.equals("Select Provider"))
+            		return null;
+            	
             	String viewId = context.getViewRoot().getViewId();
             	Integer id = Integer.parseInt(value);
             	Provider provider = null;
