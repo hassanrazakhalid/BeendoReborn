@@ -119,20 +119,24 @@ public class TransactionController extends RootController {
 		CEntitiy entity = SharedData.getSharedInstace().getCurrentUser().getEntity();
 		transaction.setEntity(entity);
 		
-		if(isEditMode)
-		{		
-			transactionService.update(transaction);
-			entityService.update(entity);
-			//showMessage("Transaction has been updated");
-		}
-		else
+		try
 		{
-			entity.getTransactionList().add(transaction);
-			transactions.add(transaction);
-			transactionService.save(transaction);
-			entityService.update(entity);
-			//showMessage("Transaction has been saved");
+			if(isEditMode)
+			{		
+				transactionService.update(transaction);
+				entityService.update(entity);
+				//showMessage("Transaction has been updated");
+			}
+			else
+			{
+				entity.getTransactionList().add(transaction);
+				transactions.add(transaction);
+				transactionService.save(transaction);
+				entityService.update(entity);
+				//showMessage("Transaction has been saved");
+			}
 		}
+		catch(Exception ex){}
 		
 		RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
 		
