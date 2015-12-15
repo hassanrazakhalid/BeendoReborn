@@ -99,9 +99,15 @@ public class TransactionController extends RootController {
 	
 	public void updateClicked(ProviderTransaction _transaction)
 	{
-		//currentPayer = _transaction.getPayer();
-		//currentPractice = _transaction.getPractice();
-		currentPayer = getPayerById(_transaction.getPayer().getId());
+		//currentPayer = getPayerById(_transaction.getPayer().getId());
+		List<Payer> prlist = new ArrayList();
+		
+		for (Payer payer : _transaction.getPayerList()) {
+			
+			prlist.add(getPayerById(payer.getId()));
+		}
+		
+		selectedPayers = prlist;
 		currentPractice = getPractiseById(_transaction.getPractice().getId());
 		transaction = _transaction;
 		isEditMode = true;
@@ -109,7 +115,9 @@ public class TransactionController extends RootController {
 	
 	public void saveInfo()
 	{
-		transaction.setPayer(currentPayer);
+		//transaction.setPayer(currentPayer);
+		Set<Payer> payers = new HashSet<Payer>(selectedPayers);
+		transaction.setPayerList(payers);
 		
 		if(canPracticeShow)
 			transaction.setPractice(currentPractice);
@@ -147,6 +155,7 @@ public class TransactionController extends RootController {
 	{	
 		currentPayer = null;
 		currentPractice = null;
+		selectedPayers = new ArrayList();
 		transaction = new ProviderTransaction();
 		
 		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
