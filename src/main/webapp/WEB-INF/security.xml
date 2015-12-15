@@ -19,11 +19,11 @@
 		<intercept-url pattern="/Views/Unsecured/Login/*"
 			access="permitAll" />
 		<intercept-url pattern="/Views/Unsecured/**" access="permitAll" />
-		<intercept-url pattern="/Views/**" access="permitAll" />
-		<intercept-url pattern="/Views/Secured/Dashboard/*"
-			access="isAuthenticated()" />
+		<!-- <intercept-url pattern="/Views/**" access="permitAll" /> -->
+		<!-- <intercept-url pattern="/Views/Secured/**"
+			access="isAuthenticated()" /> -->
 		<intercept-url pattern="/Views/Secured/Entity/*"
-			access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')" />
+			access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER')" />
 		<intercept-url pattern="/Views/Secured/Payer/*"
 			access="hasAnyRole('ROLE_ROOT_ADMIN', 
 		'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')" />
@@ -37,6 +37,12 @@
 
 	</http>
 
+	<authentication-manager id="authenticationManager">
+		<authentication-provider user-service-ref="userService">
+			<password-encoder hash="plaintext">
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
 	<!-- <beans:bean id="myAuthFilter"
 		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
 		<beans:property name="sessionAuthenticationStrategy"
@@ -56,14 +62,14 @@
 		</beans:bean> -->
 
 
-	<beans:bean id="filterSecurityInterceptor"
+<!-- 	<beans:bean id="filterSecurityInterceptor"
 		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
 		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
 		<beans:property name="accessDecisionManager" ref="accessDecisionManager"></beans:property>
 		<beans:property name="securityMetadataSource" ref="metaDataSource"></beans:property>
 		<beans:property name="validateConfigAttributes" value="true" />
 	</beans:bean>
-	<!-- End -->
+	End
 
 	<beans:bean id="basicAuthenticationFilter"
 		class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
@@ -80,20 +86,13 @@
 
 	<beans:bean id="configAttributeImpl" class="com.Beendo.Security.ConfigAttributeImpl"
 		scope="prototype" />
-	<!-- <beans:bean id="customInterceptFilter" class="com.Beendo.Security.CustomFilterSecurityInterceptor"></beans:bean> -->
-	<authentication-manager id="authenticationManager">
-		<authentication-provider user-service-ref="userService">
-			<password-encoder hash="plaintext">
-			</password-encoder>
-		</authentication-provider>
-	</authentication-manager>
+	<beans:bean id="customInterceptFilter" class="com.Beendo.Security.CustomFilterSecurityInterceptor"></beans:bean>
+
 
 	<beans:bean id="roleVoter" class="com.Beendo.Security.HierarchicalJsr250Voter">
 		<beans:constructor-arg>
 			<beans:ref bean="customRoleHierarchy" />
 		</beans:constructor-arg>
-		<!-- <beans:property name="hierarchy"> <beans:value> ROLE_ADMIN > ROLE_USER 
-			ROLE_USER > ROLE_GUEST </beans:value> </beans:property> -->
 	</beans:bean>
 
 	<beans:bean id="customRoleHierarchy" class="com.Beendo.Security.CustomRoleHierachy"></beans:bean>
@@ -110,6 +109,6 @@
 			</beans:list>
 		</beans:constructor-arg>
 
-	</beans:bean>
+	</beans:bean> -->
 
 </beans:beans>
