@@ -237,9 +237,8 @@ public class UserController extends RootController {
 			if(user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString()) ||
 			   user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString()))
 			{
-				user.setEntity(entityService.fetchById(1));
+				selectedEntity = entityService.fetchById(1); 
 			}
-			else
 				user.setEntity(selectedEntity);
 			user.setPractises(new HashSet<>(selectedPractises));
 
