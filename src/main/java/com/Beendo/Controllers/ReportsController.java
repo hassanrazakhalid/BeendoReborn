@@ -169,11 +169,13 @@ public class ReportsController extends RootController {
 					.filter(f -> (f.getPractice().getId() == currentPractice.getId()))
 					.collect(Collectors.toList());
 			//************************************************************************************************************************
-			/*if (selectedPayerList.size() > 0)
+			if (selectedPayerList.size() > 0)
 			{
-				transactions = transactions.stream()
+				/*transactions = transactions.stream()
 						.filter(f -> selectedPayerList.stream().filter(p -> p.getId() == f.getPayer().getId()).count() > 0)
-						.collect(Collectors.toList());
+						.collect(Collectors.toList());*/
+				
+				transactions = new ArrayList(getMatchedData(transactions, selectedPayerList));
 				
 				if(!currentPayerStatus.isEmpty())
 				{
@@ -182,7 +184,7 @@ public class ReportsController extends RootController {
 							.collect(Collectors.toList());
 				}
 				
-			}*/
+			}
 			
 		}
 		else
@@ -210,16 +212,42 @@ public class ReportsController extends RootController {
 		
 		return "ReportTransaction";
 	}
-	//************************************************************************************************************************
+	
+	Set<ProviderTransaction> getMatchedData(List<ProviderTransaction> tmpTransactions, List<Payer> tmpSelectedPayers)
+	{
+		Set<ProviderTransaction> setTrans = new HashSet<ProviderTransaction>();
+		
+		for (ProviderTransaction ptran : tmpTransactions) {
+			
+			for (Payer tpayer : ptran.getPayerList()) {
+				
+				for (Payer spayer : tmpSelectedPayers) {
+					
+					if(spayer.getId() == tpayer.getId())
+						setTrans.add(ptran);
+				}
+				
+			}
+			
+		}
+		
+		return setTrans;
+		
+	}
+
 	// submit clicked
 	public void getData() {
-		/*if (selectedPayers.size() > 0)
-			transactions = savedTransactions.stream()
-					.filter(f -> f.getPayerList().stream()
-							.filter(p -> ))
-					.collect(Collectors.toList());
+		if (selectedPayers.size() > 0)
+		{
+			
+			transactions = new ArrayList(getMatchedData(savedTransactions, selectedPayers));
+			
+			/*transactions = savedTransactions.stream()
+					.filter(f -> selectedPayers.stream().filter(p -> p.getId() == f.getPayer().getId()).count() > 0)
+					.collect(Collectors.toList());*/
+		}
 		else
-			transactions = savedTransactions;*/
+			transactions = savedTransactions;
 
 		//.filter(f -> selectedPayers.stream().filter(p -> p.getId() == f.getPayer().getId()).count() > 0)
 		// List<ProviderTransaction> tlist = savedTransactions.stream().filter(f
@@ -314,11 +342,13 @@ public class ReportsController extends RootController {
 					.filter(f -> (f.getProvider().getId() == currentProvider.getId()))
 					.collect(Collectors.toList());
 			//************************************************************************************************************************
-			/*if (selectedPayerList.size() > 0)
+			if (selectedPayerList.size() > 0)
 			{
-				transactions = transactions.stream()
+				/*transactions = transactions.stream()
 						.filter(f -> selectedPayerList.stream().filter(p -> p.getId() == f.getPayer().getId()).count() > 0)
-						.collect(Collectors.toList());
+						.collect(Collectors.toList());*/
+				
+				transactions = new ArrayList(getMatchedData(transactions, selectedPayerList));
 				
 				if(!currentPayerStatus.isEmpty())
 				{
@@ -327,7 +357,7 @@ public class ReportsController extends RootController {
 							.collect(Collectors.toList());
 				}
 				
-			}*/
+			}
 			
 		}
 		else

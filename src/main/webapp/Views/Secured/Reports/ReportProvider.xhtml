@@ -98,7 +98,19 @@
 						</p:column>
 
 						<p:column headerText="Payer Name">
-							#{transaction.payer.name} #{transaction.payer.planName}
+							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
+							
+							<table>
+								<ui:repeat value="#{transaction.payerList.toArray()}" var="t">
+
+									<tr>
+										<td style="border: 0px;"><h:outputText value="#{t.name} #{t.planName}" />
+										</td>
+
+									</tr>
+								</ui:repeat>
+							</table>
+							
 						</p:column>
 						
 						<!-- <p:column headerText="Practice Name">
