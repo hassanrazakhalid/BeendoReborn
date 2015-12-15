@@ -107,6 +107,7 @@ function createClicked(args,dialogName){
 				widgetVar="userCreateDialog" position="center,center" onShow="myStyle();" >
 
 				<h:form id="userForm">
+
 				<!-- showDetail="true"  -->
 				<p:blockUI block="userDialog" trigger="btnSave" />
 					 <p:messages id="msgs"/> 
@@ -114,18 +115,19 @@ function createClicked(args,dialogName){
 
 						<p:outputLabel for="tfName" value="Name:" />
 						<p:inputText id="tfName" value="#{userController.user.name}">
+						<f:validateRegex pattern="[a-zA-Z]*"  />
 							<f:ajax render="result" />
 						</p:inputText>
 
 						<p:outputLabel for="tfUsername" value="UserName:" />
 						<p:inputText id="tfUsername"
-							value="#{userController.user.appUserName}">
+							value="#{userController.user.appUserName}" required="true">
 							<f:ajax render="result" />
 						</p:inputText>
 
 						<p:outputLabel for="tfPassword" value="Password:" />
 						<p:inputText id="tfPassword"
-							value="#{userController.user.password}">
+							value="#{userController.user.password}" required="true" >
 							<f:ajax render="result" />
 						</p:inputText>
 
@@ -218,7 +220,9 @@ function createClicked(args,dialogName){
 					<p:commandButton id="btnSave" value="Save"
 						actionListener="#{userController.saveButtonClicked}"
 						widgetVar="btnSave"
-						update=":userTable,userForm,btnSave,:userDialog"
+						update=":userTable,userForm,:userDialog"
+						validateClient="true"
+						ajax="false"
 						 />
 					<!-- oncomplete="PF('userCreateDialog').hide()" -->
 				</h:form>
