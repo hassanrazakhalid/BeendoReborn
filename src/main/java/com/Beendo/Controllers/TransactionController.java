@@ -120,9 +120,15 @@ public class TransactionController extends RootController {
 		transaction.setPayerList(payers);
 		
 		if(canPracticeShow)
+		{
 			transaction.setPractice(currentPractice);
+			transaction.setProvider(null);
+		}
 		else
+		{
 			transaction.setProvider(currentProvider);
+			transaction.setPractice(null);
+		}
 		
 		CEntitiy entity = SharedData.getSharedInstace().getCurrentUser().getEntity();
 		transaction.setEntity(entity);

@@ -38,7 +38,7 @@ public class ProviderTransaction {
 	/*@OneToOne(fetch = FetchType.EAGER)
 	private Payer payer = new Payer();*/
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
 	private Set<Payer> payerList = new HashSet<Payer>();
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
