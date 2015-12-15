@@ -166,7 +166,7 @@ public class ReportsController extends RootController {
 					.collect(Collectors.toList());*/
 			
 			transactions = practiceTransactions.stream()
-					.filter(f -> (f.getPractice().getId() == currentPractice.getId()))
+					.filter(f -> (f.getPractice() != null && f.getPractice().getId() == currentPractice.getId()))
 					.collect(Collectors.toList());
 			//************************************************************************************************************************
 			if (selectedPayerList.size() > 0)
@@ -190,11 +190,11 @@ public class ReportsController extends RootController {
 		else
 		{
 			transactions = practiceTransactions.stream()
-					.filter(f -> (f.getPractice().getName() != null))
+					.filter(f -> (f.getPractice() != null))
 					.collect(Collectors.toList());
 		}
 		
-		
+		//.filter(f -> (f.getPractice().getName() != null))
 
 	}
 
@@ -339,7 +339,7 @@ public class ReportsController extends RootController {
 					.collect(Collectors.toList());*/
 			
 			transactions = providerTransactions.stream()
-					.filter(f -> (f.getProvider().getId() == currentProvider.getId()))
+					.filter(f -> (f.getProvider() != null && f.getProvider().getId() == currentProvider.getId()))
 					.collect(Collectors.toList());
 			//************************************************************************************************************************
 			if (selectedPayerList.size() > 0)
@@ -364,11 +364,11 @@ public class ReportsController extends RootController {
 		{
 			
 			transactions = providerTransactions.stream()
-					.filter(f -> (f.getProvider().getFirstName() != null))
+					.filter(f -> (f.getProvider() != null))
 					.collect(Collectors.toList());
 		}
 		
-		
+		//.filter(f -> (f.getProvider().getFirstName() != null))
 
 	}
 
