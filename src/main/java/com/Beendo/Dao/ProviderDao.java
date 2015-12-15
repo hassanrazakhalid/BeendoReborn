@@ -80,13 +80,14 @@ public class ProviderDao implements IProvider {
 
 	@Transactional
 	@Override
-	public String isNameExist(String name, String npi) {
+	public String isNameExist(String name, String lname, String npi) {
 		// TODO Auto-generated method stub
 		String error = null;
 		
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM Provider P where P.firstName = :name and P.npiNum = :npi ");
+		Query query = session.createQuery("FROM Provider P where P.firstName = :name and P.npiNum = :npi and P.lastName = :lsname ");
 		query.setParameter("name", name);
+		query.setParameter("lsname", lname);
 		query.setParameter("npi", npi);
 		List<Practice> result = query.list();
 		if(result.size() > 0)

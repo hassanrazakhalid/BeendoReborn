@@ -101,9 +101,9 @@ public class ProviderService {
 		return dataList;
 	}
 	
-	public String isNameExist(String name, String npi){
+	public String isNameExist(String name, String lname, String npi){
 		
-		return service.isNameExist(name, npi);
+		return service.isNameExist(name, lname, npi);
 	}
 	
 /*	public static List<Provider> isNameExist(List<Provider> entities, String name, String npi){

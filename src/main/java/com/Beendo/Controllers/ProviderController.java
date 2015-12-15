@@ -177,7 +177,7 @@ public class ProviderController extends RootController {
 		
 		boolean isOK = true;
 		
-		String error = providerService.isNameExist(provider.getFirstName(), provider.getNpiNum());
+		String error = providerService.isNameExist(provider.getFirstName(), provider.getLastName(), provider.getNpiNum());
 		if(error != null)
 		{
 			isOK = false;
