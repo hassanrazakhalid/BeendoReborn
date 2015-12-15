@@ -85,7 +85,7 @@ public class ProviderDao implements IProvider {
 		String error = null;
 		
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM Provider P where P.firstName = :name or P.npiNum = :npi ");
+		Query query = session.createQuery("FROM Provider P where P.firstName = :name and P.npiNum = :npi ");
 		query.setParameter("name", name);
 		query.setParameter("npi", npi);
 		List<Practice> result = query.list();
