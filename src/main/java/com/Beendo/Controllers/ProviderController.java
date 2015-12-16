@@ -245,6 +245,7 @@ public class ProviderController extends RootController {
 
 	public void onEntityChange() {
 		provider.setCentity(currentEntity);
+		practiceList = new ArrayList(currentEntity.getPracticeList());
 		//practiceList = new ArrayList<>(currentEntity.getPracticeList());
 		//initHashTwo(practiceList);
 		/*
