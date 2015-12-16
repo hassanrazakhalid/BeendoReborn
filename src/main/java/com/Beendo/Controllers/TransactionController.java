@@ -108,7 +108,20 @@ public class TransactionController extends RootController {
 		}
 		
 		selectedPayers = prlist;
-		currentPractice = getPractiseById(_transaction.getPractice().getId());
+		
+		if(_transaction.getPractice() != null)
+		{
+			currentPractice = getPractiseById(_transaction.getPractice().getId());
+			currentRadio = "rbPractice";
+			canPracticeShow = true;
+		}
+		else
+		{
+			currentProvider = getProviderById(_transaction.getProvider().getId());
+			currentRadio = "rbProvider";
+			canPracticeShow = false;
+		}
+		
 		transaction = _transaction;
 		isEditMode = true;
 	}
@@ -159,6 +172,7 @@ public class TransactionController extends RootController {
 	
 	public void clearData()
 	{	
+		currentProvider = null;
 		currentPayer = null;
 		currentPractice = null;
 		selectedPayers = new ArrayList();
