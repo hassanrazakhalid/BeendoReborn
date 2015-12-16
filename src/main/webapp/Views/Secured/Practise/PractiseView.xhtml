@@ -42,8 +42,8 @@
 						<ui:repeat value="#{practise.providers.toArray()}" var="t">
 
 							<tr>
-								<td style="border: 0px;"><h:outputText value="#{t.firstName} #{t.lastName}" />
-								</td>
+								<td style="border: 0px;"><h:outputText
+										value="#{t.firstName} #{t.lastName}" /></td>
 
 							</tr>
 						</ui:repeat>
@@ -79,8 +79,8 @@
 
 			<!-- Create and Update Code -->
 
-			<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true"
-				height="250">
+			<p:dialog id="practiseDialog" header="Modal Dialog" widgetVar="dlg2"
+				modal="true" height="250">
 
 				<h:form id="createForm">
 					<p:messages id="msgs" />
@@ -111,9 +111,9 @@
 							filterMatchMode="startsWith"
 							rendered="#{!practiseController.isSingleItemInEntityList()}">
 
-							<!--  <f:selectItem itemLabel="Choose entity" itemValue="#{null}" /> --> 
-								
-								<f:selectItems value="#{practiseController.listEntities}"
+							<!--  <f:selectItem itemLabel="Choose entity" itemValue="#{null}" /> -->
+
+							<f:selectItems value="#{practiseController.listEntities}"
 								var="entity" itemLabel="#{entity.name}" itemValue="#{entity.id}" />
 
 							<!-- <p:column>
@@ -135,13 +135,21 @@
 
 					<p:commandButton value="Submit" validateClient="true"
 						actionListener="#{practiseController.createEditLogic}"
-						update=":practiseTable, createForm" icon="ui-icon-check" />
-
-					<!-- oncomplete="handleDialogSubmit(args,'dlg2')" -->
-					<!--  </p:panel> -->
+						update=":practiseTable, createForm" icon="ui-icon-check"
+						onclick="PF('block').show()" oncomplete="PF('block').hide()" />
 				</h:form>
-
 			</p:dialog>
+
+			<p:blockUI block="practiseDialog" widgetVar="block">
+            LOADING<br />
+				<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
+			</p:blockUI>
+
+			<style>
+#practiseDialog {
+	position: absolute !important;
+}
+</style>
 			<script type="text/javascript">
     function handleDialogSubmit(args, dialogName) {
 

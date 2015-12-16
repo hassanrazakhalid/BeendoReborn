@@ -47,6 +47,7 @@ public class UserController extends RootController {
 	public List<String> listRoles = new ArrayList<>();
 
 	private Boolean sendEmail;
+	private String userName;
 
 	@Autowired
 	private EntityService entityService;
@@ -183,6 +184,7 @@ public class UserController extends RootController {
 
 		operationType = OperationType.Create;
 		initUser();
+		userName = "";
 		selectedPractises.clear();
 
 		List<CEntitiy> tmpListEntity = entityService.fetchAllByRole();
@@ -202,7 +204,7 @@ public class UserController extends RootController {
 
 		String error = null;
 
-		if (user.getUsername().length() <= 0) {
+		if (getUserName().length() <= 0) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Username", "Username cannot be empty"));
 			return false;
@@ -215,7 +217,19 @@ public class UserController extends RootController {
 			}
 		}
 
-		error = userService.isUsernameExist(user.getAppUserName());
+//		if(operationType == OperationType.Edit)
+//		{
+//			if()
+//		}
+		if(userName.equalsIgnoreCase(user.getAppUserName()) )
+		{
+			error = null;
+		}
+		else
+		{
+			error = userService.isUsernameExist(getUserName());
+		}
+		
 		if (error != null) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, null);
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -233,6 +247,8 @@ public class UserController extends RootController {
 		 */
 
 		if (isUserInfoValid()) {
+			
+			user.setAppUserName(getUserName());
 			
 			if(user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString()) ||
 			   user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString()))
@@ -292,6 +308,8 @@ public class UserController extends RootController {
 		// Set<Practice> practises = sender.getPractises();
 
 		// listPractise = getSelectedPractices(sender);
+		
+		this.setUserName(sender.getAppUserName());
 		updatePractiseList(sender);
 		updateSelectedPermission(sender);
 		updateSelectedEntity(sender);

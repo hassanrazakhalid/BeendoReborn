@@ -24,8 +24,8 @@ public class DatabaseConfiguration {
 //		basicDataSource.setUrl("jdbc:mysql://162.144.198.59:3306/janjua_TestDb");
 
 //		basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3306/janjua_TestDb");		
-//		basicDataSource.setUsername("janjua_Admin");
-//		basicDataSource.setPassword(")th*@(i_IW43");
+//		basicDataSource.setUsername("janjua_admin");
+//		basicDataSource.setPassword("7kcvfRSMJ4qP");
 		basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3307/janjua_TestDb");
 		basicDataSource.setUsername("admin");
 		basicDataSource.setPassword("admin");

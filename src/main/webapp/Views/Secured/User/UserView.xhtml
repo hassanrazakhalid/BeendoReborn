@@ -14,7 +14,7 @@
         </ui:define>
 
 		<ui:define name="mainContent">
-<script type="text/javascript">
+			<script type="text/javascript">
 
 function createClicked(args,dialogName){
 
@@ -30,19 +30,17 @@ function createClicked(args,dialogName){
 
 			<!-- 	<h:form rendered="#{sharedData.currentUser.canCreateUser}"> -->
 			<h:form rendered="#{userController.shouldShowCreateUser()}">
-			<p:commandButton actionListener="#{userController.createButtonClicked}"
-				value="Create User" update=":userForm"
-				id="btnCreate"
-				widgetVar="btnCreate"
-				oncomplete="PF('userCreateDialog').show()"
-				/>
-				
+				<p:commandButton
+					actionListener="#{userController.createButtonClicked}"
+					value="Create User" update=":userForm" id="btnCreate"
+					widgetVar="btnCreate" oncomplete="PF('userCreateDialog').show()" />
+
 				<!-- <p:commandButton 
 				value="Create User" update="btnCreate"
 				oncomplete="PF('btnCreate').disable()"
 				/> -->
-				 
-				</h:form>
+
+			</h:form>
 			<br />
 			<!-- 	</h:form> -->
 
@@ -104,31 +102,31 @@ function createClicked(args,dialogName){
 			</h:form>
 
 			<p:dialog id="userDialog" header="Create User" modal="true"
-				widgetVar="userCreateDialog" position="center,center" onShow="myStyle();" >
+				widgetVar="userCreateDialog" position="center,center"
+				onShow="myStyle();">
 
 				<h:form id="userForm">
 
-				<!-- showDetail="true"  -->
-				<p:blockUI block="userDialog" trigger="btnSave" />
-					 <p:messages id="msgs"/> 
+					<!-- showDetail="true"  -->
+					<p:blockUI block=":userDialog" trigger="btnSave" />
+					<p:messages id="msgs" />
 					<p:panelGrid id="panelGrid" columns="2">
 
 						<p:outputLabel for="tfName" value="Name:" />
 						<p:inputText id="tfName" value="#{userController.user.name}">
-						<f:validateRegex pattern="[a-zA-Z]*"  />
+							<f:validateRegex pattern="[a-zA-Z]*" />
 							<f:ajax render="result" />
 						</p:inputText>
 
 						<p:outputLabel for="tfUsername" value="UserName:" />
-						<p:inputText id="tfUsername"
-							value="#{userController.user.appUserName}" required="true">
+						<p:inputText id="tfUsername" value="#{userController.userName}"
+							required="true">
 							<f:ajax render="result" />
 						</p:inputText>
 
 						<p:outputLabel for="tfPassword" value="Password:" />
-						<p:inputText id="tfPassword"
-						type="password"
-							value="#{userController.user.password}" required="true" >
+						<p:inputText id="tfPassword" type="password"
+							value="#{userController.user.password}" required="true">
 							<f:ajax render="result" />
 						</p:inputText>
 
@@ -183,33 +181,33 @@ function createClicked(args,dialogName){
 
 						</p:selectCheckboxMenu>
 
-							<h:panelGrid columns="2" cellpadding="8"
+						<h:panelGrid columns="2" cellpadding="8"
 							rendered="#{userController.shouldshowPermission}">
 
-								<h:outputText value="Can Add Provider: " />
-								<p:selectBooleanCheckbox
-									value="#{userController.selectedPermission.canProviderAdd}" />
+							<h:outputText value="Can Add Provider: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.selectedPermission.canProviderAdd}" />
 
-								<h:outputText value="Can Edit Provider: " />
-								<p:selectBooleanCheckbox
-									value="#{userController.selectedPermission.canProviderEdit}" />
+							<h:outputText value="Can Edit Provider: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.selectedPermission.canProviderEdit}" />
 
-							</h:panelGrid>
+						</h:panelGrid>
 
-							<!-- <p:column style="width: 100%"> -->
-							<h:panelGrid columns="2" cellpadding="8"
+						<!-- <p:column style="width: 100%"> -->
+						<h:panelGrid columns="2" cellpadding="8"
 							rendered="#{userController.shouldshowPermission}">
 
-								<h:outputText value="Can Payer add transaction: " />
-								<p:selectBooleanCheckbox
-									value="#{userController.selectedPermission.canPayerTransactionAdd}" />
+							<h:outputText value="Can Payer add transaction: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.selectedPermission.canPayerTransactionAdd}" />
 
-								<h:outputText value="Can Payer Edit transaction: " />
-								<p:selectBooleanCheckbox
-									value="#{userController.selectedPermission.canPayerTransactionEdit}" />
-							</h:panelGrid>
-							<!-- </p:column> -->
-						
+							<h:outputText value="Can Payer Edit transaction: " />
+							<p:selectBooleanCheckbox
+								value="#{userController.selectedPermission.canPayerTransactionEdit}" />
+						</h:panelGrid>
+						<!-- </p:column> -->
+
 						<h:panelGrid columns="2" cellpadding="8">
 							<h:outputText value="Send Email: " />
 							<p:selectBooleanCheckbox value="#{userController.sendEmail}" />
@@ -220,22 +218,29 @@ function createClicked(args,dialogName){
 					<br />
 					<p:commandButton id="btnSave" value="Save"
 						actionListener="#{userController.saveButtonClicked}"
-						widgetVar="btnSave"
-						update=":userTable,userForm,:userDialog"
-						validateClient="true"
-						ajax="false"
-						 />
-					<!-- oncomplete="PF('userCreateDialog').hide()" -->
+						widgetVar="btnSave" update=":userTable,userForm,:userDialog"
+						validateClient="true" ajax="false"
+						onclick="PF('block').show()"
+						oncomplete="PF('block').hide()"
+							 />
 				</h:form>
 			</p:dialog>
-		<script>
+
+			<p:blockUI block="userDialog" widgetVar="block">
+            LOADING<br />
+				 <p:graphicImage value="/Images/loading.gif" width="75" height="75" />
+			</p:blockUI>
+			
+			<script>
 		function myStyle(){
 			//$('#userDialog').css('position','absolute');
 		}
 		</script>
-		<style>
-		#userDialog{position:absolute !important;}
-		</style>
+			<style>
+#userDialog {
+	position: absolute !important;
+}
+</style>
 		</ui:define>
 	</ui:composition>
 

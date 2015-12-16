@@ -45,7 +45,7 @@
 	<div class="container" id="cont">
 	
 		<div class="col-md-10 col-md-offset-4">
-			<h:form class="form-signin">	
+			<h:form id="formLogin" class="form-signin">	
 			<h:messages />
 		        <h2 class="form-signin-heading">Please sign in</h2>
 		        
@@ -64,10 +64,16 @@
 		            </div>
 		        </div>
 		        
-		        <p:commandButton value="Sign in" action="#{loginController.loginPressed()}"
-		        	class="btn btn-default btn-primary custom" />
+		        <p:commandButton id="btnLogin" value="Sign in" action="#{loginController.loginPressed()}"
+		        	class="btn btn-default btn-primary custom"
+		        	onclick="PF('block').show()"
+		        	oncomplete="PF('block').show()" />
 		      </h:form>
-	      
+		      
+	      			<p:blockUI block="formLogin:btnLogin" widgetVar="block">
+            LOADING<br />
+				 <p:graphicImage value="/Images/loading.gif" width="25" height="25" />
+			</p:blockUI>
 	      </div>
 	      
       </div>
