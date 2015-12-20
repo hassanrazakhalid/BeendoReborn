@@ -33,7 +33,8 @@ function createClicked(args,dialogName){
 				<p:commandButton
 					actionListener="#{userController.createButtonClicked}"
 					value="Create User" update=":userForm" id="btnCreate"
-					widgetVar="btnCreate" oncomplete="PF('userCreateDialog').show()" />
+					widgetVar="btnCreate" oncomplete="PF('userCreateDialog').show()"
+					resetValues="true" />
 
 				<!-- <p:commandButton 
 				value="Create User" update="btnCreate"
@@ -115,24 +116,24 @@ function createClicked(args,dialogName){
 						<p:outputLabel for="tfName" value="Name:" />
 						<p:inputText id="tfName" value="#{userController.user.name}">
 							<f:validateRegex pattern="[a-zA-Z]*" />
-							<f:ajax render="result" />
+							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
 
 						<p:outputLabel for="tfUsername" value="UserName:" />
 						<p:inputText id="tfUsername" value="#{userController.userName}"
 							required="true">
-							<f:ajax render="result" />
+							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
 
 						<p:outputLabel for="tfPassword" value="Password:" />
 						<p:inputText id="tfPassword" type="password"
 							value="#{userController.user.password}" required="true">
-							<f:ajax render="result" />
+							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
 
 						<p:outputLabel for="tfEmail" value="Email:" />
 						<p:inputText id="tfEmail" value="#{userController.user.email}">
-							<f:ajax render="result" />
+							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
 
 						<p:outputLabel for="roleList" value="Select Role:" />
@@ -143,43 +144,52 @@ function createClicked(args,dialogName){
 								itemValue="#{userController.user.roleName}" />
 							<f:selectItems value="#{userController.listRoles}" var="role"
 								itemValue="#{role}" />
-							<p:ajax event="change" execute="@this"
-								listener="#{userController.roleChanged()}" update=":userForm"></p:ajax>
+							<!-- :userForm, -->
+							<p:ajax event="change" execute="@form"
+								listener="#{userController.roleChanged()}" update="groupEntity,groupPractice"></p:ajax>
 						</p:selectOneMenu>
 
-						<p:outputLabel for="listEntity" value="Select Entity:"
-							rendered="#{userController.shouldshowEntity}" />
-						<p:selectOneMenu id="listEntity"
-							value="#{userController.selectedEntity}"
-							converter="entityConverter" panelStyle="width:180px"
-							effect="fade" var="t" style="width:160px" filter="true"
-							filterMatchMode="startsWith"
-							rendered="#{userController.shouldshowEntity}">
+						<h:panelGroup id="groupEntity">
+							<p:outputLabel for="listEntity" value="Select Entity:"
+								id="lbListEntity" rendered="#{userController.shouldshowEntity}" />
+							<p:selectOneMenu id="listEntity"
+								value="#{userController.selectedEntityId}"
+								 panelStyle="width:180px"
+								effect="fade" style="width:160px" filter="true"
+								filterMatchMode="startsWith"
+								rendered="#{userController.shouldshowEntity}">
 
-							<f:selectItems value="#{userController.listEntities}"
-								var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
-							<p:ajax event="change" execute="@this"
-								listener="#{userController.entityChanged()}"
-								update="listPractiseID"></p:ajax>
+<!-- var="t" converter="entityConverter" -->
 
-							<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column>
-						</p:selectOneMenu>
+								<f:selectItems value="#{userController.listEntities}"
+									var="entity" itemLabel="#{entity.name}" itemValue="#{entity.id}" />
+								<p:ajax event="change" execute="@this"
+									listener="#{userController.entityChanged()}"
+									update="listPractiseID"></p:ajax>
 
-						<p:outputLabel for="listPractiseID" value="Select Practise:"
-							rendered="#{userController.shouldshowPractise}" />
-						<p:selectCheckboxMenu id="listPractiseID"
-							value="#{userController.selectedPractises}"
-							label="Select Practices" style="width:177px"
-							panelStyle="width:250px" converter="practiseConverter"
-							rendered="#{userController.shouldshowPractise}">
+								<!-- <p:column>
+									<h:outputText value="#{t.name}" />
+								</p:column> -->
+							</p:selectOneMenu>
+						</h:panelGroup>
 
-							<f:selectItems value="#{userController.listPractise}"
-								var="practice" itemLabel="#{practice.name}"
-								itemValue="#{practice}" />
+						<h:panelGroup id="groupPractice">
+							<p:outputLabel for="listPractiseID" value="Select Practise:"
+								rendered="#{userController.shouldshowPractise}" />
+							<p:selectCheckboxMenu id="listPractiseID"
+								
+								label="Select Practices" style="width:177px"
+								panelStyle="width:250px" 
+								rendered="#{userController.shouldshowPractise}">
 
-						</p:selectCheckboxMenu>
+<!-- converter="practiseConverter" -->
+
+								<f:selectItems value="#{userController.listPractise}"
+									var="practice" itemLabel="#{practice.name}"
+									itemValue="#{practice.id}" />
+
+							</p:selectCheckboxMenu>
+						</h:panelGroup>
 
 						<h:panelGrid columns="2" cellpadding="8"
 							rendered="#{userController.shouldshowPermission}">
@@ -219,18 +229,17 @@ function createClicked(args,dialogName){
 					<p:commandButton id="btnSave" value="Save"
 						actionListener="#{userController.saveButtonClicked}"
 						widgetVar="btnSave" update=":userTable,userForm,:userDialog"
-						validateClient="true" ajax="false"
-						onclick="PF('block').show()"
-						oncomplete="PF('block').hide()"
-							 />
+						validateClient="true" ajax="false" />
+						 <!-- onclick="PF('block').show()"
+						oncomplete="PF('block').hide()" -->
 				</h:form>
 			</p:dialog>
 
 			<p:blockUI block="userDialog" widgetVar="block">
             LOADING<br />
-				 <p:graphicImage value="/Images/loading.gif" width="75" height="75" />
+				<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
 			</p:blockUI>
-			
+
 			<script>
 		function myStyle(){
 			//$('#userDialog').css('position','absolute');
