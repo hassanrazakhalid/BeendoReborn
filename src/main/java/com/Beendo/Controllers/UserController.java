@@ -127,9 +127,9 @@ public class UserController extends RootController {
 																				// show
 																				// entity
 		{
-			reloadEntities();
+//			reloadEntities();
 		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
-			reloadEntities();
+//			reloadEntities();
 			reloadPractises();
 		} else {
 			listEntities.clear();
@@ -188,7 +188,8 @@ public class UserController extends RootController {
 		userName = "";
 		selectedPractises.clear();
 
-		List<CEntitiy> tmpListEntity = entityService.fetchAllByRole();
+		List<CEntitiy> tmpListEntity = listEntities;
+//		List<CEntitiy> tmpListEntity = entityService.fetchAllByRole();
 		if (tmpListEntity.size() > 0) {
 			selectedEntity = tmpListEntity.get(0);
 		}
@@ -210,12 +211,14 @@ public class UserController extends RootController {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Username", "Username cannot be empty"));
 			isOK = false;
+			return isOK;
 		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
 			error = userService.isEntityAdminExist(selectedEntity.getId());
 			if (error != null) {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, null);
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				isOK = false;
+				return isOK;
 			}
 		}
 
@@ -234,7 +237,7 @@ public class UserController extends RootController {
 			isOK = false;
 		}
 
-		RequestContext.getCurrentInstance().execute("PF('block')");
+		/*RequestContext.getCurrentInstance().execute("PF('block').hide()");*/
 		return isOK;
 	}
 
@@ -242,7 +245,7 @@ public class UserController extends RootController {
 
 		for (int i = 0; i < tmpSelectedPractises.size(); i++) {
 			String selectedIndex = tmpSelectedPractises.get(i);
-			user.getPractises().add(getPractiseById(Integer.getInteger(selectedIndex)));
+			user.getPractises().add(getPractiseById(Integer.parseInt(selectedIndex)));
 //			user.setPractises(new HashSet<>(selectedPractises));
 		}		
 	}
@@ -320,9 +323,10 @@ public class UserController extends RootController {
 		// listPractise = getSelectedPractices(sender);
 		
 		this.setUserName(sender.getAppUserName());
+		updateSelectedEntity(sender);
 		updatePractiseList(sender);
 		updateSelectedPermission(sender);
-		updateSelectedEntity(sender);
+		
 		user = sender;
 		updateFlags();
 		return;
@@ -390,6 +394,8 @@ public class UserController extends RootController {
 
 			selectedPractises.add(String.valueOf(practise.getId()));
 		}
+		listPractise.clear();
+		listPractise.addAll(selectedEntity.getPracticeList());
 	}
 
 	private void updateSelectedPermission(User user) {

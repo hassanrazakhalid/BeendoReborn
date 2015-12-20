@@ -109,7 +109,7 @@ function createClicked(args,dialogName){
 				<h:form id="userForm">
 
 					<!-- showDetail="true"  -->
-					<p:blockUI block=":userDialog" trigger="btnSave" />
+					<p:blockUI block=":userForm" trigger="btnSave" />
 					<p:messages id="msgs" />
 					<p:panelGrid id="panelGrid" columns="2">
 
@@ -178,6 +178,7 @@ function createClicked(args,dialogName){
 								rendered="#{userController.shouldshowPractise}" />
 							<p:selectCheckboxMenu id="listPractiseID"
 								
+								value="#{userController.selectedPractises}"
 								label="Select Practices" style="width:177px"
 								panelStyle="width:250px" 
 								rendered="#{userController.shouldshowPractise}">
@@ -228,10 +229,12 @@ function createClicked(args,dialogName){
 					<br />
 					<p:commandButton id="btnSave" value="Save"
 						actionListener="#{userController.saveButtonClicked}"
-						widgetVar="btnSave" update=":userTable,userForm,:userDialog"
-						validateClient="true" ajax="false" />
-						 <!-- onclick="PF('block').show()"
-						oncomplete="PF('block').hide()" -->
+						widgetVar="btnSave" update=":userTable,userForm"
+						validateClient="true"
+						
+						onerror="PF('block').hide()"
+						oncomplete="PF('block').hide()"  />
+						 <!-- onclick="PF('block').show()" , ajax="false , ,:userDialog" -->
 				</h:form>
 			</p:dialog>
 
