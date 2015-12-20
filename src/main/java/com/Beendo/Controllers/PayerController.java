@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
+import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Services.PayerService;
+import com.Beendo.Services.TransactionService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
@@ -25,13 +27,19 @@ public class PayerController extends RootController {
 
 	@Autowired
 	private PayerService payerService;
+	
+	@Autowired
+	private TransactionService transactionService;
 
 	private Payer payer = new Payer();
 	private List<Payer> payers;
 	private OperationType operationType;
+	
+	private List<ProviderTransaction> transactions;
 
 	public String view() {
 		payers = payerService.findAll();
+		transactions = transactionService.fetchAllByRole();
 
 		initHashThree(payers);
 		return "PayerView";
@@ -70,6 +78,34 @@ public class PayerController extends RootController {
 		}
 	}
 
+	
+	public void removeClicked(Payer _payer) {
+		
+		try
+		{
+			payers.remove(_payer);
+			
+			for (ProviderTransaction providerTransaction : transactions) {
+				
+				for (Payer pay : providerTransaction.getPayerList()) {
+					
+					if(pay.getId() == _payer.getId())
+					{
+						providerTransaction.getPayerList().remove(pay);
+						transactionService.update(providerTransaction);
+					}
+				}			
+				
+			}
+			
+			payerService.delete(_payer);
+			
+		}
+		catch(Exception ex)
+		{}
+	}
+	
+	
 	public void clearData() {
 		payer = new Payer();
 		operationType = OperationType.Create;

@@ -42,10 +42,11 @@ public class PayerDao implements ICRUD<Payer, Integer> {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public void delete(Payer entity) {
-		// TODO Auto-generated method stub
 		
+		this.sessionFactory.getCurrentSession().delete(entity);
 	}
 
 	@Override

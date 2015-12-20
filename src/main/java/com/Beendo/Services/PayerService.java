@@ -32,6 +32,11 @@ public class PayerService {
 		service.update(entity);
 	}
 	
+	public void delete(Payer entity)
+	{
+		service.delete(entity);
+	}
+	
 	public List<Payer> findAll()
 	{
 		return service.findAll();
