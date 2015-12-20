@@ -61,8 +61,9 @@ public class UserController extends RootController {
 
 	private User user;
 
+	private String selectedEntityId;
 	private CEntitiy selectedEntity;
-	private ArrayList<Practice> selectedPractises = new ArrayList<>();
+	private List<String> selectedPractises = new ArrayList<>();
 	private Permission selectedPermission;
 
 	private boolean shouldshowEntity;
@@ -203,24 +204,21 @@ public class UserController extends RootController {
 	private boolean isUserInfoValid() {
 
 		String error = null;
+		boolean isOK = true;
 
 		if (getUserName().length() <= 0) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Username", "Username cannot be empty"));
-			return false;
+			isOK = false;
 		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
 			error = userService.isEntityAdminExist(selectedEntity.getId());
 			if (error != null) {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, null);
 				FacesContext.getCurrentInstance().addMessage(null, message);
-				return false;
+				isOK = false;
 			}
 		}
 
-//		if(operationType == OperationType.Edit)
-//		{
-//			if()
-//		}
 		if(userName.equalsIgnoreCase(user.getAppUserName()) )
 		{
 			error = null;
@@ -233,12 +231,22 @@ public class UserController extends RootController {
 		if (error != null) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, null);
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			return false;
+			isOK = false;
 		}
 
-		return true;
+		RequestContext.getCurrentInstance().execute("PF('block')");
+		return isOK;
 	}
 
+	public void popoulatePracticesByIds(List<String> tmpSelectedPractises){
+
+		for (int i = 0; i < tmpSelectedPractises.size(); i++) {
+			String selectedIndex = tmpSelectedPractises.get(i);
+			user.getPractises().add(getPractiseById(Integer.getInteger(selectedIndex)));
+//			user.setPractises(new HashSet<>(selectedPractises));
+		}		
+	}
+	
 	public void saveButtonClicked(ActionEvent event) {
 
 //		RequestContext.getCurrentInstance().execute("PF('btnSave').disable()");
@@ -256,7 +264,9 @@ public class UserController extends RootController {
 				selectedEntity = entityService.fetchById(1); 
 			}
 				user.setEntity(selectedEntity);
-			user.setPractises(new HashSet<>(selectedPractises));
+				
+				user.getPractises().clear();
+				popoulatePracticesByIds(selectedPractises);
 
 			if (!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 				selectedPermission.selectAllPermissions();
@@ -378,7 +388,7 @@ public class UserController extends RootController {
 		selectedPractises.clear();
 		for (Practice practise : user.getPractises()) {
 
-			selectedPractises.add(getPractiseById(practise.getId()));
+			selectedPractises.add(String.valueOf(practise.getId()));
 		}
 	}
 
