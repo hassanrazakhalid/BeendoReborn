@@ -82,13 +82,13 @@ function createClicked(args,dialogName){
 							actionListener="#{userController.editButtonClicked(user)}"
 							oncomplete="PF('userCreateDialog').show()" update=":userForm" />
 
-						<!-- <p:commandButton value="remove"
-								action="#{userController.remove(user)}"
-								update=":userTable" resetValues="true">
+						 <p:commandButton value="remove"
+								action="#{userController.deleteUserClicked(user)}"
+								update=":userTable">
 
 								<p:confirm header="Confirmation" message="Are you sure?"
 									icon="ui-icon-alert" />
-							</p:commandButton> -->
+							</p:commandButton>
 
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 							<p:commandButton value="Yes" type="button"

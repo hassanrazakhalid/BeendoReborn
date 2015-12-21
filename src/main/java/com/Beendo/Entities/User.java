@@ -53,7 +53,7 @@ public class User implements UserDetails {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private CEntitiy entity;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,CascadeType.DETACH}, fetch = FetchType.EAGER)
 	private Set<Practice> practises = new HashSet<>(0);
 
 	public static User copy(User sender) {

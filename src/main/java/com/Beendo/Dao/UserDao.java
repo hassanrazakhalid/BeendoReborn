@@ -61,12 +61,15 @@ public class UserDao implements IUserDao {
 	@Transactional
 	public void save(User entity) {
 		// TODO Auto-generated method stub
-		this.sessionFactory.getCurrentSession().save(entity);
+		this.sessionFactory.getCurrentSession().persist(entity);
+//		this.sessionFactory.getCurrentSession().save(entity);
 	}
 
 	@Transactional
 	public void update(User entity) {
-		this.sessionFactory.getCurrentSession().update(entity);
+		
+		this.sessionFactory.getCurrentSession().merge(entity);
+//		this.sessionFactory.getCurrentSession().update(entity);
 	}
 
 	public User findById(Integer id) {

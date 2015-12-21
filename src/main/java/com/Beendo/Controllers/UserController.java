@@ -414,7 +414,7 @@ public class UserController extends RootController {
 		user = User.copy(sender);
 	}
 
-	public void remove(User sender) {
+	public void deleteUserClicked(User sender) {
 
 		userService.remove(sender);
 		listUsers.remove(sender);
