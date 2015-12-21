@@ -18,7 +18,7 @@
 			<!-- <h2>Practise Details</h2> -->
 
 			<h:form rendered="#{practiseController.canCreatePracise()}">
-				<p:commandButton value="Create Practise"
+				<p:commandButton value="Create Practice"
 					action="#{practiseController.createClicked()}" resetValues="true"
 					oncomplete="PF('dlg2').show()" update=":createForm">
 				</p:commandButton>
@@ -79,15 +79,15 @@
 
 			<!-- Create and Update Code -->
 
-			<p:dialog id="practiseDialog" header="Modal Dialog" widgetVar="dlg2"
+			<p:dialog id="practiseDialog" header="Create Practice" widgetVar="dlg2"
 				modal="true" height="250">
 
 				<h:form id="createForm">
 					<p:messages id="msgs" />
 					<h:panelGrid columns="3" cellpadding="5">
 
-						<p:outputLabel for="practiseName" value="Practise Name:" />
-						<p:inputText id="practiseName" label="Practise Name"
+						<p:outputLabel for="practiseName" value="Practice Name:" />
+						<p:inputText id="practiseName" label="Practice Name"
 							required="true" value="#{practiseController.practise.name}">
 							<!-- <f:validateLength minimum="5" /> -->
 							<p:ajax event="keyup" update="msgs,iconAlertName"></p:ajax>

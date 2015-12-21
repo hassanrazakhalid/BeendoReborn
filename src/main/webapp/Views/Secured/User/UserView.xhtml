@@ -63,7 +63,7 @@ function createClicked(args,dialogName){
 					<p:column headerText="Entity">
 					#{user.entity.name}
 					</p:column>
-					<p:column headerText="Practise">
+					<p:column headerText="Practice">
 						<table>
 							<ui:repeat value="#{user.practises.toArray()}" var="t">
 
@@ -174,7 +174,7 @@ function createClicked(args,dialogName){
 						</h:panelGroup>
 
 						<h:panelGroup id="groupPractice">
-							<p:outputLabel for="listPractiseID" value="Select Practise:"
+							<p:outputLabel for="listPractiseID" value="Select Practice:"
 								rendered="#{userController.shouldshowPractise}" />
 							<p:selectCheckboxMenu id="listPractiseID"
 								
