@@ -34,6 +34,11 @@ public class ProviderService {
 		service.update(entity);
 	}
 	
+	public void delete(Provider entity)
+	{
+		service.delete(entity);
+	}
+	
 	public Provider findById(Integer id)
 	{
 		return service.findById(id);

@@ -53,10 +53,11 @@ public class ProviderDao implements IProvider {
 		return (Provider)this.sessionFactory.getCurrentSession().get(Provider.class, id);
 	}
 
+	@Transactional
 	@Override
 	public void delete(Provider entity) {
-		// TODO Auto-generated method stub
 		
+		this.sessionFactory.getCurrentSession().delete(entity);	
 	}
 
 	@Override

@@ -16,10 +16,12 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
+import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
+import com.Beendo.Services.TransactionService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
@@ -43,6 +45,10 @@ public class ProviderController extends RootController {
 	
 	@Autowired
 	private PractiseService practiseService;
+	
+	@Autowired
+	private TransactionService transactionService;
+	private List<ProviderTransaction> transactions;
 
 	private String entityName;
 
@@ -66,6 +72,7 @@ public class ProviderController extends RootController {
 		payerList = payerService.findAll();
 		practiceList = practiseService.fetchAllByRole();// new ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 
+		transactions = transactionService.fetchAllByRole();
 		
 		if (!entityList.isEmpty()) {
 			setCurrentEntity(entityList.get(0));
@@ -236,6 +243,47 @@ public class ProviderController extends RootController {
 
 	}
 
+	
+	public void removeClicked(Provider prov) {
+		
+		try
+		{
+						
+			for (ProviderTransaction providerTransaction : transactions) {
+				
+				if(providerTransaction.getProvider() != null && prov.getId() == providerTransaction.getProvider().getId())
+				{
+					providerTransaction.setProvider(null);
+					transactionService.update(providerTransaction);
+				}			
+				
+			}
+			
+			//currentEntity.setPracticeList(provider.getPracticeList());			
+			//prov.setCentity(currentEntity);
+			
+			for (Practice prac : prov.getPracticeList()) {
+				
+				prov.getPracticeList().remove(prac);
+			}
+			
+			int sz = prov.getPracticeList().size();
+			
+			currentEntity.setPracticeList(prov.getPracticeList());
+			prov.setCentity(currentEntity);
+			
+			providerService.update(prov);
+			entityService.update(currentEntity);
+			providerService.delete(prov);
+			providerList.remove(prov);
+			entityService.update(currentEntity);
+			
+		}
+		catch(Exception ex)
+		{}
+	}
+	
+	
 	public void clearData() {
 		selectedPayers = null;
 		selectedPractices = null;

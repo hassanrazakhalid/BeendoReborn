@@ -72,6 +72,21 @@
 							<p:commandButton icon="ui-icon-pencil" update=":myForm"
 								oncomplete="PF('Dlg1').show();" 
 								 action="#{providerController.updateClicked(provider)}" />
+								 
+						<p:commandButton icon="ui-icon-close" update=":mainForm" 
+								resetValues="true" action="#{providerController.removeClicked(provider)}">
+	
+								<p:confirm header="Confirmation" message="Are you sure?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+	
+							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+								<p:commandButton value="Yes" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="No" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+								 
 						</p:column>
 		
 					</p:dataTable>
