@@ -32,7 +32,7 @@ public class Practice {
 	@ManyToOne
 	private CEntitiy entity;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade={CascadeType.REMOVE,CascadeType.REFRESH})
 	@JoinTable(name="PRACTISE_PROVIDER",
 	joinColumns=@JoinColumn(name="PRACTISE_ID"),
 	inverseJoinColumns=@JoinColumn(name="PROVIDER_ID")

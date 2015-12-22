@@ -82,13 +82,13 @@ function createClicked(args,dialogName){
 							actionListener="#{userController.editButtonClicked(user)}"
 							oncomplete="PF('userCreateDialog').show()" update=":userForm" />
 
-						 <p:commandButton value="remove"
-								action="#{userController.deleteUserClicked(user)}"
-								update=":userTable">
+						<p:commandButton value="remove"
+							action="#{userController.deleteUserClicked(user)}"
+							update=":userTable">
 
-								<p:confirm header="Confirmation" message="Are you sure?"
-									icon="ui-icon-alert" />
-							</p:commandButton>
+							<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
 
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 							<p:commandButton value="Yes" type="button"
@@ -146,7 +146,8 @@ function createClicked(args,dialogName){
 								itemValue="#{role}" />
 							<!-- :userForm, -->
 							<p:ajax event="change" execute="@form"
-								listener="#{userController.roleChanged()}" update="groupEntity,groupPractice"></p:ajax>
+								listener="#{userController.roleChanged()}"
+								update="groupEntity,groupPractice,gridPermission"></p:ajax>
 						</p:selectOneMenu>
 
 						<h:panelGroup id="groupEntity">
@@ -154,15 +155,15 @@ function createClicked(args,dialogName){
 								id="lbListEntity" rendered="#{userController.shouldshowEntity}" />
 							<p:selectOneMenu id="listEntity"
 								value="#{userController.selectedEntityId}"
-								 panelStyle="width:180px"
-								effect="fade" style="width:160px" filter="true"
-								filterMatchMode="startsWith"
+								panelStyle="width:180px" effect="fade" style="width:160px"
+								filter="true" filterMatchMode="startsWith"
 								rendered="#{userController.shouldshowEntity}">
 
-<!-- var="t" converter="entityConverter" -->
+								<!-- var="t" converter="entityConverter" -->
 
 								<f:selectItems value="#{userController.listEntities}"
-									var="entity" itemLabel="#{entity.name}" itemValue="#{entity.id}" />
+									var="entity" itemLabel="#{entity.name}"
+									itemValue="#{entity.id}" />
 								<p:ajax event="change" execute="@this"
 									listener="#{userController.entityChanged()}"
 									update="listPractiseID"></p:ajax>
@@ -177,13 +178,12 @@ function createClicked(args,dialogName){
 							<p:outputLabel for="listPractiseID" value="Select Practice:"
 								rendered="#{userController.shouldshowPractise}" />
 							<p:selectCheckboxMenu id="listPractiseID"
-								
 								value="#{userController.selectedPractises}"
 								label="Select Practices" style="width:177px"
-								panelStyle="width:250px" 
+								panelStyle="width:250px"
 								rendered="#{userController.shouldshowPractise}">
 
-<!-- converter="practiseConverter" -->
+								<!-- converter="practiseConverter" -->
 
 								<f:selectItems value="#{userController.listPractise}"
 									var="practice" itemLabel="#{practice.name}"
@@ -192,30 +192,29 @@ function createClicked(args,dialogName){
 							</p:selectCheckboxMenu>
 						</h:panelGroup>
 
-						<h:panelGrid columns="2" cellpadding="8"
-							rendered="#{userController.shouldshowPermission}">
+						<h:panelGrid id="gridPermission" cellpadding="8"
+							>
 
-							<h:outputText value="Can Add Provider: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.selectedPermission.canProviderAdd}" />
+							<h:panelGrid columns="2" cellpadding="8"
+								rendered="#{userController.shouldshowPermission}">
+								<h:outputText value="Can Add Provider: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.selectedPermission.canProviderAdd}" />
 
-							<h:outputText value="Can Edit Provider: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.selectedPermission.canProviderEdit}" />
+								<h:outputText value="Can Edit Provider: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.selectedPermission.canProviderEdit}" />
 
-						</h:panelGrid>
 
-						<!-- <p:column style="width: 100%"> -->
-						<h:panelGrid columns="2" cellpadding="8"
-							rendered="#{userController.shouldshowPermission}">
+								<h:outputText value="Can Payer add transaction: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.selectedPermission.canPayerTransactionAdd}" />
 
-							<h:outputText value="Can Payer add transaction: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.selectedPermission.canPayerTransactionAdd}" />
+								<h:outputText value="Can Payer Edit transaction: " />
+								<p:selectBooleanCheckbox
+									value="#{userController.selectedPermission.canPayerTransactionEdit}" />
 
-							<h:outputText value="Can Payer Edit transaction: " />
-							<p:selectBooleanCheckbox
-								value="#{userController.selectedPermission.canPayerTransactionEdit}" />
+							</h:panelGrid>
 						</h:panelGrid>
 						<!-- </p:column> -->
 
@@ -230,11 +229,9 @@ function createClicked(args,dialogName){
 					<p:commandButton id="btnSave" value="Save"
 						actionListener="#{userController.saveButtonClicked}"
 						widgetVar="btnSave" update=":userTable,userForm"
-						validateClient="true"
-						
-						onerror="PF('block').hide()"
-						oncomplete="PF('block').hide()"  />
-						 <!-- onclick="PF('block').show()" , ajax="false , ,:userDialog" -->
+						validateClient="true" onerror="PF('block').hide()"
+						oncomplete="PF('block').hide()" />
+					<!-- onclick="PF('block').show()" , ajax="false , ,:userDialog" -->
 				</h:form>
 			</p:dialog>
 

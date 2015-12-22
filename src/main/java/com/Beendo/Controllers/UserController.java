@@ -62,7 +62,7 @@ public class UserController extends RootController {
 	private User user;
 
 	private String selectedEntityId;
-	private CEntitiy selectedEntity;
+	// private CEntitiy selectedEntity;
 	private List<String> selectedPractises = new ArrayList<>();
 	private Permission selectedPermission;
 
@@ -111,10 +111,17 @@ public class UserController extends RootController {
 		user = new User();
 	}
 
+	private CEntitiy getSelectedEntity() {
+
+		CEntitiy selectedEntity = getEntityById(Integer.valueOf(selectedEntityId));
+		return selectedEntity;
+	}
+
 	public void entityChanged() {
 
 		listPractise.clear();
-		listPractise.addAll(selectedEntity.getPracticeList());
+
+		listPractise.addAll(getSelectedEntity().getPracticeList());
 		clearHashTwo();
 		initHashTwo(listPractise);
 		System.out.println("Changed");
@@ -127,9 +134,9 @@ public class UserController extends RootController {
 																				// show
 																				// entity
 		{
-//			reloadEntities();
+			// reloadEntities();
 		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
-//			reloadEntities();
+			// reloadEntities();
 			reloadPractises();
 		} else {
 			listEntities.clear();
@@ -189,9 +196,9 @@ public class UserController extends RootController {
 		selectedPractises.clear();
 
 		List<CEntitiy> tmpListEntity = listEntities;
-//		List<CEntitiy> tmpListEntity = entityService.fetchAllByRole();
+		// List<CEntitiy> tmpListEntity = entityService.fetchAllByRole();
 		if (tmpListEntity.size() > 0) {
-			selectedEntity = tmpListEntity.get(0);
+			// selectedEntity = tmpListEntity.get(0);
 		}
 		selectedPermission = new Permission();
 		resetDefaultFlags();
@@ -207,69 +214,83 @@ public class UserController extends RootController {
 		String error = null;
 		boolean isOK = true;
 
-		if (getUserName().length() <= 0) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Username", "Username cannot be empty"));
-			isOK = false;
-			return isOK;
-		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
-			error = userService.isEntityAdminExist(selectedEntity.getId());
-			if (error != null) {
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, null);
-				FacesContext.getCurrentInstance().addMessage(null, message);
-				isOK = false;
-				return isOK;
+		CEntitiy selectedEntity = getEntityById(Integer.valueOf(selectedEntityId));
+
+		if (operationType == OperationType.Edit) {
+			if (!getUserName().equalsIgnoreCase(user.getAppUserName())) {
+
+				error = userService.isUsernameExist(getUserName());
+			}
+			if (error == null) {
+				if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))// Check// for// 1// admin
+				{
+
+					if (selectedEntity.getId().compareTo(user.getEntity().getId()) != 0) {
+						error = userService.isEntityAdminExist(selectedEntity.getId());
+					}
+				}
+
+			}
+
+		} else {
+			error = userService.isUsernameExist(getUserName());
+			if (error == null) {
+				if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
+					error = userService.isEntityAdminExist(selectedEntity.getId());
+				}
 			}
 		}
 
-		if(userName.equalsIgnoreCase(user.getAppUserName()) )
-		{
-			error = null;
-		}
-		else
-		{
-			error = userService.isUsernameExist(getUserName());
-		}
-		
+		// if(userName.equalsIgnoreCase(user.getAppUserName()) )
+		// {
+		// error = null;
+		// }
+		// else
+		// {
+		// error = userService.isUsernameExist(getUserName());
+		// }
+
 		if (error != null) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, null);
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			isOK = false;
 		}
 
-		/*RequestContext.getCurrentInstance().execute("PF('block').hide()");*/
+		/* RequestContext.getCurrentInstance().execute("PF('block').hide()"); */
 		return isOK;
 	}
 
-	public void popoulatePracticesByIds(List<String> tmpSelectedPractises){
+	public void popoulatePracticesByIds(List<String> tmpSelectedPractises) {
 
 		for (int i = 0; i < tmpSelectedPractises.size(); i++) {
 			String selectedIndex = tmpSelectedPractises.get(i);
 			user.getPractises().add(getPractiseById(Integer.parseInt(selectedIndex)));
-//			user.setPractises(new HashSet<>(selectedPractises));
-		}		
+			// user.setPractises(new HashSet<>(selectedPractises));
+		}
 	}
-	
+
 	public void saveButtonClicked(ActionEvent event) {
 
-//		RequestContext.getCurrentInstance().execute("PF('btnSave').disable()");
+		// RequestContext.getCurrentInstance().execute("PF('btnSave').disable()");
 		/*
 		 * Object obj = event.getSource(); Object obj1 = event.getComponent();
 		 */
 
 		if (isUserInfoValid()) {
-			
+
+			CEntitiy selectedEntity = null;
+
 			user.setAppUserName(getUserName());
-			
-			if(user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString()) ||
-			   user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString()))
-			{
-				selectedEntity = entityService.fetchById(1); 
-			}
-				user.setEntity(selectedEntity);
-				
-				user.getPractises().clear();
-				popoulatePracticesByIds(selectedPractises);
+
+			if (user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString())
+					|| user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString())) {
+				selectedEntity = entityService.fetchById(1);
+			} else
+				selectedEntity = getSelectedEntity();
+			user.setEntity(selectedEntity);
+
+			user.getPractises().clear();
+			popoulatePracticesByIds(selectedPractises);
 
 			if (!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 				selectedPermission.selectAllPermissions();
@@ -321,12 +342,12 @@ public class UserController extends RootController {
 		// Set<Practice> practises = sender.getPractises();
 
 		// listPractise = getSelectedPractices(sender);
-		
+
 		this.setUserName(sender.getAppUserName());
 		updateSelectedEntity(sender);
 		updatePractiseList(sender);
 		updateSelectedPermission(sender);
-		
+
 		user = sender;
 		updateFlags();
 		return;
@@ -395,7 +416,7 @@ public class UserController extends RootController {
 			selectedPractises.add(String.valueOf(practise.getId()));
 		}
 		listPractise.clear();
-		listPractise.addAll(selectedEntity.getPracticeList());
+		listPractise.addAll(getSelectedEntity().getPracticeList());
 	}
 
 	private void updateSelectedPermission(User user) {
@@ -405,7 +426,8 @@ public class UserController extends RootController {
 
 	private void updateSelectedEntity(User user) {
 
-		selectedEntity = getEntityById(user.getEntity().getId());
+		selectedEntityId = String.valueOf(user.getEntity().getId());
+		// selectedEntity = getEntityById(user.getEntity().getId());
 	}
 
 	public void copyButtonClicked(User sender) {
