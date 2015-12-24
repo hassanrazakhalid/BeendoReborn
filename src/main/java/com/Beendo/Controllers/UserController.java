@@ -410,13 +410,16 @@ public class UserController extends RootController {
 		 * listPractise = new ArrayList<Practice>(tmpHashMap.values());
 		 */
 
-		selectedPractises.clear();
-		for (Practice practise : user.getPractises()) {
+		if(user.getEntity().getId().compareTo(1) != 0)
+		{
+			selectedPractises.clear();
+			for (Practice practise : user.getPractises()) {
 
-			selectedPractises.add(String.valueOf(practise.getId()));
+				selectedPractises.add(String.valueOf(practise.getId()));
+			}
+			listPractise.clear();
+			listPractise.addAll(getSelectedEntity().getPracticeList());			
 		}
-		listPractise.clear();
-		listPractise.addAll(getSelectedEntity().getPracticeList());
 	}
 
 	private void updateSelectedPermission(User user) {

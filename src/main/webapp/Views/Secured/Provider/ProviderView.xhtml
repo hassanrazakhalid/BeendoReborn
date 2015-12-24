@@ -161,10 +161,14 @@
 			             placeholder="Npi Number"
 			             maxlength="10"
 			             label="NPI"
-			              required="true">
+			              required="true"
 			            
-			            <f:convertNumber integerOnly="true"/>
-			            <f:validateLength maximum="10" minimum="10" />
+			              >
+			             <!--  validator="npiValidator" -->
+			             <f:validateLength maximum="10" minimum="10" />
+			            <f:validateRegex pattern="[0-9]*" />
+			            <!-- <f:convertNumber integerOnly="true"/> -->
+			            
 			             </p:inputText> 
 			            <p:inputText value="#{providerController.provider.firstName}"
 			             placeholder="First Name"
