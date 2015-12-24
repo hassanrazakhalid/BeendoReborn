@@ -2,16 +2,14 @@ package com.Beendo.Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Beendo.Dao.ICRUD;
-import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
-import com.Beendo.Entities.User;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
@@ -98,6 +96,11 @@ public class PractiseService {
 	public void remove(Practice sender) {
 		// TODO Auto-generated method stub
 		iPractise.delete(sender);
+	}
+	
+	public void updatePractiseList(Set<Practice>list){
+		
+		iPractise.updatePractiseList(list);
 	}
 	
 	// GET practise ID From List

@@ -244,14 +244,14 @@ public class ProviderController extends RootController {
 	}
 
 	
-	public void removeClicked(Provider prov) {
+	public void removeClicked(Provider provider) {
 		
 		try
 		{
 						
 			for (ProviderTransaction providerTransaction : transactions) {
 				
-				if(providerTransaction.getProvider() != null && prov.getId() == providerTransaction.getProvider().getId())
+				if(providerTransaction.getProvider() != null && provider.getId() == providerTransaction.getProvider().getId())
 				{
 					providerTransaction.setProvider(null);
 					transactionService.update(providerTransaction);
@@ -262,20 +262,28 @@ public class ProviderController extends RootController {
 			//currentEntity.setPracticeList(provider.getPracticeList());			
 			//prov.setCentity(currentEntity);
 			
-			for (Practice prac : prov.getPracticeList()) {
+//			prov.getPracticeList().clear();
+			Set<Practice> practiceList = provider.getPracticeList();
+			for (Practice practise : practiceList) {
 				
-				prov.getPracticeList().remove(prac);
+				practise.getProviders().remove(provider);
+//				provider.getPracticeList().remove(practise);
+				
+//				practiseService.update(practise);
 			}
 			
-			int sz = prov.getPracticeList().size();
+			practiseService.updatePractiseList(practiceList);
 			
-			currentEntity.setPracticeList(prov.getPracticeList());
-			prov.setCentity(currentEntity);
+			int sz = provider.getPracticeList().size();
 			
-			providerService.update(prov);
+			currentEntity.setPracticeList(provider.getPracticeList());
+			provider.setCentity(currentEntity);
+			
+//			providerService.update(provider);
 			entityService.update(currentEntity);
-			providerService.delete(prov);
-			providerList.remove(prov);
+			providerService.delete(provider);
+			
+			providerList.remove(provider);
 			entityService.update(currentEntity);
 			
 		}

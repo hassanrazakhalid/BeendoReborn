@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,11 +34,13 @@ public class Practice {
 	@ManyToOne
 	private CEntitiy entity;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade={CascadeType.REMOVE,CascadeType.REFRESH})
+//	, cascade={CascadeType.REMOVE,CascadeType.REFRESH}
+	@ManyToMany(fetch = FetchType.EAGER,cascade={CascadeType.REMOVE})
 	@JoinTable(name="PRACTISE_PROVIDER",
 	joinColumns=@JoinColumn(name="PRACTISE_ID"),
 	inverseJoinColumns=@JoinColumn(name="PROVIDER_ID")
 	)
+//	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private Set<Provider> providers = new HashSet<Provider>();
 
 }

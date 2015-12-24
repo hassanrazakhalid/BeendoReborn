@@ -1,5 +1,6 @@
 package com.Beendo.Entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,8 +26,12 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "Entities")
-public class CEntitiy implements ICache<CEntitiy> {
+public class CEntitiy implements ICache<CEntitiy>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private Integer id;

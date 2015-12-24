@@ -1,11 +1,11 @@
 package com.Beendo.Dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -84,5 +84,15 @@ public class PractiseDao implements IPractise {
 		if(result.size() > 0)
 			error =  "Practise already exist with duplcate name";
 		return error;
+	}
+	
+	@Transactional
+	@Override
+	public void updatePractiseList(Set<Practice>list){
+		 
+		for (Practice practice : list) {
+			
+			this.sessionFactory.getCurrentSession().update(practice);
+		}
 	}
 }
