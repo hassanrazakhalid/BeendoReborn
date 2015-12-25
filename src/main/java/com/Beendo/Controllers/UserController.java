@@ -134,12 +134,13 @@ public class UserController extends RootController {
 																				// show
 																				// entity
 		{
-			// reloadEntities();
+//			 reloadEntities();
 		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 			// reloadEntities();
 			reloadPractises();
 		} else {
-			listEntities.clear();
+			
+//			listEntities.clear();
 			listPractise.clear();
 			// Hide Enrity + practise by default
 			// clear the varavles as well
@@ -214,6 +215,8 @@ public class UserController extends RootController {
 		String error = null;
 		boolean isOK = true;
 
+		if(selectedEntityId == null)
+			selectedEntityId = "1";
 		CEntitiy selectedEntity = getEntityById(Integer.valueOf(selectedEntityId));
 
 		if (operationType == OperationType.Edit) {
@@ -270,11 +273,6 @@ public class UserController extends RootController {
 	}
 
 	public void saveButtonClicked(ActionEvent event) {
-
-		// RequestContext.getCurrentInstance().execute("PF('btnSave').disable()");
-		/*
-		 * Object obj = event.getSource(); Object obj1 = event.getComponent();
-		 */
 
 		if (isUserInfoValid()) {
 

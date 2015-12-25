@@ -40,6 +40,8 @@ public class PractiseController extends RootController {
 	private List<Practice> listPractise;
 
 	private CEntitiy currentEntity;
+	
+	private String practiceName;
 
 	@Autowired
 	private PractiseService practiseService;
@@ -115,6 +117,7 @@ public class PractiseController extends RootController {
 
 	public void updateClicked(Practice sender) {
 
+		practiceName = sender.getName();
 		practise = sender;
 
 		this.operationType = OperationType.Edit;
@@ -123,9 +126,21 @@ public class PractiseController extends RootController {
 	private boolean shouldSavePractise() {
 
 		boolean isOK = true;
-
-		String error = practiseService.checkDuplicateUsername(practise.getName());// practiseService.isNameExist(listPractise,
-																					// practise.getName());
+		String error = null;
+		
+		if(operationType == OperationType.Edit)
+		{
+			if(!practiceName.equalsIgnoreCase(practise.getName()))
+			{
+				error = practiseService.checkDuplicateUsername(practiceName);
+			}
+		}
+		else
+		{
+			error = practiseService.checkDuplicateUsername(practise.getName());
+		}
+		
+		
 		if (error != null) {
 
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,error,null));
@@ -140,6 +155,7 @@ public class PractiseController extends RootController {
 		if (shouldSavePractise()) {
 
 			try {
+				practise.setName(practiceName);
 				if (listEntities.size() > 0) {
 					Set<Practice> set = new HashSet<Practice>();
 					set.add(practise);

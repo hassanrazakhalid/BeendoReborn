@@ -30,8 +30,8 @@
 			<p:dataTable value="#{practiseController.listPractise}"
 				var="practise" id="practiseTable">
 
-				<p:column headerText="Practice Id">
-					#{practise.id}
+				<p:column headerText="Entity">
+					#{practise.entity.name}
 				</p:column>
 				<p:column headerText="Name">
 					#{practise.name}
@@ -88,7 +88,7 @@
 
 						<p:outputLabel for="practiseName" value="Practice Name:" />
 						<p:inputText id="practiseName" label="Practice Name"
-							required="true" value="#{practiseController.practise.name}">
+							required="true" value="#{practiseController.practiceName}">
 							<!-- <f:validateLength minimum="5" /> -->
 							<p:ajax event="keyup" update="msgs,iconAlertName"></p:ajax>
 							<!-- <f:validator validatorId="custom.PractiseValidator" /> -->

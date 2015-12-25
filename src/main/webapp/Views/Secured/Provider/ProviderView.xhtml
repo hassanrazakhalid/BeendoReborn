@@ -4,6 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
+
 </h:head>
 
 <h:body>
@@ -162,11 +163,10 @@
 			             maxlength="10"
 			             label="NPI"
 			              required="true"
-			            
+			            validatorMessage="NPI should only digits and length 10"
 			              >
 			             <!--  validator="npiValidator" -->
-			             <f:validateLength maximum="10" minimum="10" />
-			            <f:validateRegex pattern="[0-9]*" />
+			            <f:validateRegex for="NpiNumber" pattern="[0-9]{10}" />
 			            <!-- <f:convertNumber integerOnly="true"/> -->
 			            
 			             </p:inputText> 
@@ -186,7 +186,10 @@
 
 					<br />
 				  
-				  	<p:commandButton value="Save" action="#{providerController.saveInfo()}"
+				  	<p:commandButton value="Save"
+				  	 ajax="false"
+				  	 validateClient="true"
+				  	  actionListener="#{providerController.saveInfo}"
 				    		 update="myForm, msgs, :mainForm" />
 					
 				  </h:form>
@@ -194,8 +197,16 @@
 				</p:dialog>
 				
 				
-				
-				
+<!-- 				<script type="text/javascript">
+$(document).ready(function(){
+	console.log('aaa');
+	
+	function blurJquery(){
+		console.log('aaaass');
+		//console.log($('#myForm\\:NpiNumber').val());
+		}
+});
+</script> -->
 			</ui:define>
 		</ui:composition>
 	</h:body>

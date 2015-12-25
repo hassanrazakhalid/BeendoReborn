@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +195,7 @@ public class ProviderController extends RootController {
 		return isOK;
 	}
 	
-	public void saveInfo() {
+	public void saveInfo(ActionEvent event) {
 		
 			if(currentEntity == null && entityList.size() == 1)
 			{
