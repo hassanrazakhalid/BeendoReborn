@@ -113,6 +113,8 @@ public class UserController extends RootController {
 
 	private CEntitiy getSelectedEntity() {
 
+/*		if(selectedEntityId == null)
+			selectedEntityId = "1";*/
 		CEntitiy selectedEntity = getEntityById(Integer.valueOf(selectedEntityId));
 		return selectedEntity;
 	}
@@ -181,7 +183,12 @@ public class UserController extends RootController {
 	private void reloadPractises() {
 
 		if (listEntities.size() > 0) {
-			CEntitiy entity = listEntities.get(0);
+			
+			CEntitiy entity = null;
+			if(selectedEntityId == null)
+				entity = listEntities.get(0);
+			else 
+			 entity = getSelectedEntity();
 			if (entity.getPracticeList().size() > 0) {
 				listPractise = new ArrayList<Practice>(entity.getPracticeList());
 				initHashTwo(listPractise);
@@ -271,7 +278,7 @@ public class UserController extends RootController {
 			// user.setPractises(new HashSet<>(selectedPractises));
 		}
 	}
-
+ 
 	public void saveButtonClicked(ActionEvent event) {
 
 		if (isUserInfoValid()) {
@@ -285,6 +292,7 @@ public class UserController extends RootController {
 				selectedEntity = entityService.fetchById(1);
 			} else
 				selectedEntity = getSelectedEntity();
+			int x = selectedEntity.getUsers().size();
 			user.setEntity(selectedEntity);
 
 			user.getPractises().clear();
@@ -439,7 +447,22 @@ public class UserController extends RootController {
 
 	public void deleteUserClicked(User sender) {
 
+		CEntitiy entity = getEntityById(sender.getEntity().getId());
+		int x = entity.getUsers().size();
+	   entity.removeUserById(sender.getId());
+	    x = entity.getUsers().size();
+	   entityService.update(entity);
 		userService.remove(sender);
 		listUsers.remove(sender);
+	}
+	
+	public CEntitiy getEntityById(Integer id) {
+
+		for (CEntitiy cEntitiy : listEntities) {
+
+			if(cEntitiy.getId().compareTo(id) == 0)
+				return cEntitiy;
+		}
+		return null;
 	}
 }

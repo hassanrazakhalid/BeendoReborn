@@ -61,4 +61,16 @@ public class CEntitiy implements ICache<CEntitiy>, Serializable {
 		return null;
 	}
 
+	public void removeUserById(Integer id){
+		
+		for (User user : users) {
+			
+			if(user.getId().compareTo(id) == 0)
+			{
+				users.remove(user);
+				return ;
+			}
+		}
+	}
+	
 }
