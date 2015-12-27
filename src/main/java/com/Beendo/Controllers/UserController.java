@@ -90,6 +90,12 @@ public class UserController extends RootController {
 		operationType = OperationType.Create;
 		initUserList();
 		reloadEntities();
+		
+		if(listEntities.size() > 0){
+			
+			selectedEntityId = listEntities.get(0).getId().toString();
+		}
+		
 		reloadPractises();
 		return "UserView";
 	}

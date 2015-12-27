@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.User;
 
 @Repository
@@ -56,6 +57,17 @@ public class EntityDao implements IEntity {
 	public void delete(CEntitiy entity) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
+		
+		entity.getPracticeList().clear();
+		
+		Query	query = session.createQuery("DELETE Practice P WHERE P.entity.id = :id");
+		query.setParameter("id", entity.getId());
+		System.out.println(query.executeUpdate());
+		
+	    query = session.createQuery("DELETE Provider P WHERE P.centity.id = :id");
+		query.setParameter("id", entity.getId());
+		System.out.println(query.executeUpdate());
+		
 		session.delete(entity);
 	}
 

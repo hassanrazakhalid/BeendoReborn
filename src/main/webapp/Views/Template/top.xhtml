@@ -38,29 +38,29 @@
 
 				<sec:authorize
 					access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')">
-					<p:menuitem value="User" icon="ui-icon-user-1"
+					<p:menuitem value="User" 
 						action="#{userController.showUserMainView()}" />
 				</sec:authorize>
 				<!-- rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER,ROLE_ENTITY_ADMIN')}"  -->
 				<!-- rendered="#{userController.shouldShowCreateUser()}" -->
-				<p:menuitem value="Practice" icon="ui-icon-gear"
+				<p:menuitem value="Practice"
 					action="#{practiseController.viewPractise()}" />
 
 				<p:menuitem value="Entity" action="#{entityController.viewEntity()}"
-					icon="ui-icon-contact"
+					
 					rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" />
 
 				<p:menuitem value="Payer" action="#{payerController.view()}"
-					icon="ui-icon-user-1"
+					
 					rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" />
 
 				<!-- <p:menuitem value="Role" action="#{roleController.view()}" icon="ui-icon-user-1" rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" /> -->
 
 				<p:menuitem value="Provider" action="#{providerController.view()}"
-					icon="ui-icon-user-1" />
+					/>
 
 				<p:menuitem value="Transaction"
-					action="#{transactionController.view()}" icon="ui-icon-user-1" />
+					action="#{transactionController.view()}"/>
 
 				<p:submenu label="Reports">
 					<p:menuitem value="Transaction Report"
