@@ -229,18 +229,20 @@ function createClicked(args,dialogName){
 					<br />
 					<p:commandButton id="btnSave" value="Save"
 						actionListener="#{userController.saveButtonClicked}"
-						widgetVar="btnSave" update=":userTable,userForm"
-						validateClient="true" onerror="PF('block').hide()"
-						oncomplete="PF('block').hide()" process="@this,userForm"
-						onclick="PF('block').show()" />
+						widgetVar="btnSave" update=":userTable,msgs"
+						validateClient="true"
+						 process="@this,userForm"
+						 />
 					<!-- onclick="PF('block').show()" , ajax="false , ,:userDialog" -->
-				</h:form>
-			</p:dialog>
-
-			<p:blockUI block="userDialog" widgetVar="block">
+				
+				<p:blockUI trigger="userForm:btnSave" block="userDialog" widgetVar="block">
             LOADING<br />
 				<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
 			</p:blockUI>
+				</h:form>
+			</p:dialog>
+
+			
 
 			<script>
 		function myStyle(){
