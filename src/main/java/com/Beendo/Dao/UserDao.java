@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -156,4 +157,11 @@ public class UserDao implements IUserDao {
 		}
 		return error;
 	}
+	
+/*	public List<User> getList(int page){
+		
+		
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
+		criteria.add(criterion)
+	}*/
 }

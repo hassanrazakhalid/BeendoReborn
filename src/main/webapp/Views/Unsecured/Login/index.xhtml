@@ -41,7 +41,7 @@
 		<p:commandButton value="save" action="#{loginController.loginPressed()}"
 		 />
 	</h:form> -->
-<p:growl widgetVar="growl" showDetail="true" />
+<!-- <p:growl widgetVar="growl" showDetail="true" /> -->
 	<div class="container" id="cont">
 	
 		<div class="col-md-10 col-md-offset-4">
@@ -66,8 +66,8 @@
 		        
 		        <p:commandButton id="btnLogin" value="Sign in" action="#{loginController.loginPressed()}"
 		        	class="btn btn-default btn-primary custom"
-		        	onclick="PF('block').show()"
-		        	oncomplete="PF('block').show()" />
+		        	process="@this,formLogin"
+		        	/>
 		      </h:form>
 		      
 	      			<p:blockUI block="formLogin:btnLogin" widgetVar="block">

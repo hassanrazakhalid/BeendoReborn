@@ -129,6 +129,12 @@ public class EntityController extends RootController {
 	//entity = new CEntitiy();
 	}
 	
+	public void deleteEntityClicked(CEntitiy sender){
+		
+		entities.remove(sender);
+		entityService.delete(sender);
+	}
+	
 	public void clearData()
 	{
 		entity = new CEntitiy();

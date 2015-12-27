@@ -97,6 +97,11 @@ public class EntityService {
 		_service.update(entity);
 	}
 	
+	public void delete(CEntitiy entity){
+		
+		_service.delete(entity);
+	}
+	
 	public String isUsernameExist(String name){
 		
 		return _service.isEntitynameExist(name);

@@ -55,6 +55,15 @@
 							<p:commandButton icon="ui-icon-pencil" update=":addForm"
 								oncomplete="PF('addDlg').show();"
 								actionListener="#{entityController.editButtonPressed(entity)}" />
+
+							<p:commandButton value="remove"
+								actionListener="#{entityController.deleteEntityClicked(entity)}"
+								update=":entityTable">
+
+								<p:confirm header="Confirmation" message="Are you sure?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+
 						</p:column>
 
 					</p:dataTable>
@@ -64,12 +73,10 @@
 				<!-- CREATE ENTITY -->
 
 				<p:dialog fitViewport="true" id="addDlg" header="Add"
-					widgetVar="addDlg" position="center" modal="true" minHeight="40"
-					
-					>
+					widgetVar="addDlg" position="center" modal="true" minHeight="40">
 
 					<h:form id="addForm">
-						 <p:blockUI block="addForm" trigger="btnSave" />
+						<p:blockUI block="addForm" trigger="btnSave" />
 						<p:messages id="msgs" />
 						<h:panelGrid columns="2" cellpadding="5">
 

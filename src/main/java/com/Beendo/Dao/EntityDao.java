@@ -51,10 +51,12 @@ public class EntityDao implements IEntity {
 		return entity;
 	}
 
+	@Transactional
 	@Override
 	public void delete(CEntitiy entity) {
 		// TODO Auto-generated method stub
-		
+		Session session = this.sessionFactory.getCurrentSession();
+		session.delete(entity);
 	}
 
 	@Override
