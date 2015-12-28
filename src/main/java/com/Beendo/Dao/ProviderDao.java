@@ -89,7 +89,7 @@ public class ProviderDao implements IProvider {
 		Query query = session.createQuery("FROM Provider P where P.firstName = :name and P.npiNum = :npi and P.lastName = :lsname ");
 		query.setParameter("name", name);
 		query.setParameter("lsname", lname);
-		query.setParameter("npi", npi);
+		query.setParameter("npi", npi); 
 		List<Practice> result = query.list();
 		if(result.size() > 0)
 			error = "Provider name or npi already exists!";

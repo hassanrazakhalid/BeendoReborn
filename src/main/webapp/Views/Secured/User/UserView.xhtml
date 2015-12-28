@@ -32,7 +32,7 @@ function createClicked(args,dialogName){
 			<h:form rendered="#{userController.shouldShowCreateUser()}">
 				<p:commandButton
 					actionListener="#{userController.createButtonClicked}"
-					value="Create User" update=":userForm" id="btnCreate"
+					value="Create User" update=":userDialog" id="btnCreate"
 					widgetVar="btnCreate" oncomplete="PF('userCreateDialog').show()"
 					resetValues="true" />
 
