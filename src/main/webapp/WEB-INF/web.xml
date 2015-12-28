@@ -75,5 +75,5 @@
 		<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
 		<param-value>true</param-value>
 	</context-param>
-
+	
 </web-app>

@@ -1,83 +1,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
+<style>
+.c{
+width:25%;
+margin: 0 auto;
 
+}
+form ul{
+display:none;
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-	<style>
-		.custom {
-    		width: 285px !important;
-		}
-		
-		#cont
-		{
-			padding-top: 140px;
-		}
-		
-		body { background: #eee !important; } 
-
-		
-	</style>
-
 </h:head>
 
 <h:body>
 
-	<!-- <h:form id="loginForm">
-	<p:messages />
-		<p:focus />
-		<p:panelGrid columns="2">
-		Username:
-		<p:inputText value="#{loginController.userName}" />
-		
-		Password:
-		<p:inputText value="#{loginController.password}" />
-		</p:panelGrid>
-		<p:commandButton value="save" action="#{loginController.loginPressed()}"
-		 />
-	</h:form> -->
-<!-- <p:growl widgetVar="growl" showDetail="true" /> -->
-	<div class="container" id="cont">
-	
-		<div class="col-md-10 col-md-offset-4">
-			<h:form id="formLogin" class="form-signin">	
-			<h:messages />
-		        <h2 class="form-signin-heading">Please sign in</h2>
-		        
-		        <div class="row">
-		            <div class="form-group col-lg-4">
-		            	<label for="inputEmail" class="sr-only">Email address</label>
-		        		<p:inputText value="#{loginController.userName}" class="form-control" placeholder="Username" />
-		            </div>
-		        </div>
-		        
-		        <div class="row">
-		            <div class="form-group col-lg-4">
-		            	<label  for="inputPassword" class="sr-only">Password</label>
-		        		<p:password id="inputPassword" class="form-control" placeholder="Password"
-		        			value="#{loginController.password}" required="true" />
-		            </div>
-		        </div>
-		        
-		        <p:commandButton id="btnLogin" value="Sign in" action="#{loginController.loginPressed()}"
-		        	class="btn btn-default btn-primary custom"
-		        	process="@this,formLogin"
-		        	/>
-		      </h:form>
-		      
-	      			<p:blockUI block="formLogin:btnLogin" widgetVar="block">
-            LOADING<br />
-				 <p:graphicImage value="/Images/loading.gif" width="25" height="25" />
-			</p:blockUI>
-	      </div>
-	      
-      </div>
 
+<p:growl widgetVar="growl" showDetail="false" sticky="true"  />
+<h2 class="c" style="text-align: center; margin:10% auto 2%;">SIGN IN</h2>
+			<b:well styleClass="c" >
+			<h:form class="form-signin">	
+			
+			<h:messages />
+		        
+		
+            <b:inputText value="#{loginController.userName}" placeholder="Username" label="Username" required="true" requiredMessage="Please Enter Username" >
+	            <f:facet   name="prepend"  >
+	                <b:icon name="glyphicon-user" />
+	            </f:facet>
+	        </b:inputText>
+            
+		 	<b:inputSecret  placeholder="Password" value="#{loginController.password}" label="Password" required="true" >
+	            <f:facet name="prepend" >
+	                <b:iconAwesome name="fa-key"/>
+	            </f:facet>
+	        </b:inputSecret>
+		        <b:commandButton   action="#{loginController.loginPressed()}" styleClass="c" value="Sign In"  />
+		      </h:form>
+
+</b:well>
 	<!-- <h1>#{loginController.getName()}</h1> -->
 
 </h:body>
