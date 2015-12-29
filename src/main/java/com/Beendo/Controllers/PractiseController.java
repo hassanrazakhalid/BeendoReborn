@@ -107,6 +107,7 @@ public class PractiseController extends RootController {
 	public void initNewPractise() {
 
 		practise = new Practice();
+		practiceName = "";
 	}
 
 	public void createClicked() {
@@ -137,7 +138,7 @@ public class PractiseController extends RootController {
 		}
 		else
 		{
-			error = practiseService.checkDuplicateUsername(practise.getName());
+			error = practiseService.checkDuplicateUsername(practiceName);
 		}
 		
 		
