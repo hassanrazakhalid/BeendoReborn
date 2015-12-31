@@ -201,16 +201,19 @@ public class ProviderController extends RootController {
 			{
 				currentEntity = entityList.get(0);
 			}	
-			
-			//provider.setPayerList(selectedPayers);
+		
 			provider.setPracticeList(new HashSet<>(selectedPractices));
 			for (Practice practise : selectedPractices) {
 
-				practise.getProviders().add(provider);
+				try
+				{
+					practise.getProviders().add(provider);
+					practiseService.update(practise);
+				}
+				catch(Exception ex){}
 			}
 			
-			currentEntity.setPracticeList(provider.getPracticeList());
-			
+			//currentEntity.setPracticeList(provider.getPracticeList());			
 			provider.setCentity(currentEntity);
 			
 			switch (this.opetationType) {
@@ -232,7 +235,7 @@ public class ProviderController extends RootController {
 				break;
 			case Edit: {
 				providerService.update(provider);
-				entityService.update(currentEntity);
+				//entityService.update(currentEntity);
 				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
 				//showMessage("Provider has been updated");
 			}
