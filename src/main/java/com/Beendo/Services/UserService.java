@@ -76,6 +76,12 @@ public class UserService implements UserDetailsService {
 		User user =	iUserDao.isUserValid(appUserName, password);
 		return user;
 	}
+	
+	public User isUserValid(String userName){
+		
+		User user =	iUserDao.isUserValid(userName);
+		return user;
+	}
 
 	public void update(User user) {
 		// TODO Auto-generated method stub
@@ -88,11 +94,12 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		
 //		User user =	iUserDao.finsUserByUserName(username);
-		User user =	SharedData.getSharedInstace().getCurrentUser();
+//		User user =	SharedData.getSharedInstace().getCurrentUser();
+		User user = isUserValid(userName);
 		return user;
 	}
 	// Security Methods
@@ -105,5 +112,10 @@ public class UserService implements UserDetailsService {
 	public String isUsernameExist(String userName){
 		
 		return iUserDao.isUsernameExist(userName);
+	}
+	
+	public String isEmailExist(String email){
+		
+		return iUserDao.isEmailExist(email);
 	}
 }

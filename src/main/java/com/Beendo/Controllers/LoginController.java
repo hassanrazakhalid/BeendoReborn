@@ -4,6 +4,7 @@ import javax.faces.application.FacesMessage;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 
@@ -45,24 +46,29 @@ public class LoginController {
 //		 userName = "pk1@hotmail.com";
 //		 password ="12434";
 
-		User user = userService.isUserValid(userName, password);
+//		User user = userService.isUserValid(userName, password);
 
-		if(user ==  null)
-		{
-//			RequestContext.getCurrentInstance().execute("PF('growl').show('error')");
-			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong username or password", null));
-			return null;
-		}
-		else
-			
+//		if(user ==  null)
+//		{
+////			RequestContext.getCurrentInstance().execute("PF('growl').show('error')");
+//			
+//		}
+//		else	
 		{
 			SharedData sharedData = SharedData.getSharedInstace();
 
-			sharedData.setCurrentUser(user);
-			return sharedData.checkForSecurity(userName, password);
+//			sharedData.setCurrentUser(user);
+			String result = sharedData.checkForSecurity(userName, password);
+			if(result.equalsIgnoreCase("incorrect"))
+			{
+				RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong username or password", null));
+				return null;
+			}
+			return result;
 		}
 		
 
+	
 
 		/*		List auth = (List) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 

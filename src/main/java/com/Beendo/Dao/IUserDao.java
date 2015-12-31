@@ -13,10 +13,12 @@ import com.Beendo.Entities.User;
 public interface IUserDao extends ICRUD <User, Integer> {
 
 	public User isUserValid(String email, String password);
+	public User isUserValid(String userName);
 	public User finsUserByUserName(String email);
 	
 	public List<User> findUserOtherThanRoot();
 	public String isUsernameExist(String userName);
+	public String isEmailExist(String email);
 	public String isEntityAdminExist(Integer entity);
 	
 //	public UserDetails loadUserByUsername(String username);

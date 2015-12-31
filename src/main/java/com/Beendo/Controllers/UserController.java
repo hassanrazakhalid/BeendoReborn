@@ -47,7 +47,8 @@ public class UserController extends RootController {
 	public List<String> listRoles = new ArrayList<>();
 
 	private Boolean sendEmail;
-	private String userName;
+	private String tmpUserName;
+	private String tmpEmail;
 
 	@Autowired
 	private EntityService entityService;
@@ -90,12 +91,12 @@ public class UserController extends RootController {
 		operationType = OperationType.Create;
 		initUserList();
 		reloadEntities();
-		
-		if(listEntities.size() > 0){
-			
+
+		if (listEntities.size() > 0) {
+
 			selectedEntityId = listEntities.get(0).getId().toString();
 		}
-		
+
 		reloadPractises();
 		return "UserView";
 	}
@@ -119,8 +120,9 @@ public class UserController extends RootController {
 
 	private CEntitiy getSelectedEntity() {
 
-/*		if(selectedEntityId == null)
-			selectedEntityId = "1";*/
+		/*
+		 * if(selectedEntityId == null) selectedEntityId = "1";
+		 */
 		CEntitiy selectedEntity = getEntityById(Integer.valueOf(selectedEntityId));
 		return selectedEntity;
 	}
@@ -142,13 +144,13 @@ public class UserController extends RootController {
 																				// show
 																				// entity
 		{
-//			 reloadEntities();
+			// reloadEntities();
 		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 			// reloadEntities();
 			reloadPractises();
 		} else {
-			
-//			listEntities.clear();
+
+			// listEntities.clear();
 			listPractise.clear();
 			// Hide Enrity + practise by default
 			// clear the varavles as well
@@ -189,12 +191,12 @@ public class UserController extends RootController {
 	private void reloadPractises() {
 
 		if (listEntities.size() > 0) {
-			
+
 			CEntitiy entity = null;
-			if(selectedEntityId == null)
+			if (selectedEntityId == null)
 				entity = listEntities.get(0);
-			else 
-			 entity = getSelectedEntity();
+			else
+				entity = getSelectedEntity();
 			if (entity.getPracticeList().size() > 0) {
 				listPractise = new ArrayList<Practice>(entity.getPracticeList());
 				initHashTwo(listPractise);
@@ -206,7 +208,8 @@ public class UserController extends RootController {
 
 		operationType = OperationType.Create;
 		initUser();
-		userName = "";
+		tmpUserName = "";
+		tmpEmail = "";
 		selectedPractises.clear();
 
 		List<CEntitiy> tmpListEntity = listEntities;
@@ -228,32 +231,37 @@ public class UserController extends RootController {
 		String error = null;
 		boolean isOK = true;
 
-		if(selectedEntityId == null)
+		if (selectedEntityId == null)
 			selectedEntityId = "1";
 		CEntitiy selectedEntity = getEntityById(Integer.valueOf(selectedEntityId));
 
 		if (operationType == OperationType.Edit) {
-			if (!getUserName().equalsIgnoreCase(user.getAppUserName())) {
+			if (!tmpUserName.equalsIgnoreCase(user.getAppUserName())) {
 
-				error = userService.isUsernameExist(getUserName());
+				error = userService.isUsernameExist(tmpUserName);
 			}
-			if (error == null) {
-				if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))// Check// for// 1// admin
-				{
-
-					if (selectedEntity.getId().compareTo(user.getEntity().getId()) != 0) {
-						error = userService.isEntityAdminExist(selectedEntity.getId());
-					}
-				}
-
+			if (error == null && !tmpEmail.equalsIgnoreCase(user.getEmail())) {
+				error = userService.isEmailExist(tmpEmail);
 			}
 
-		} else {
-			error = userService.isUsernameExist(getUserName());
-			if (error == null) {
-				if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
+			if (error == null && user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))// Check//
+																									// for//
+																									// 1//
+																									// admin
+			{
+
+				if (selectedEntity.getId().compareTo(user.getEntity().getId()) != 0) {
 					error = userService.isEntityAdminExist(selectedEntity.getId());
 				}
+			}
+		} else {
+			error = userService.isUsernameExist(tmpUserName);
+
+			if (error == null) {
+				error = userService.isEmailExist(tmpEmail);
+			}
+			if (error == null && user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
+				error = userService.isEntityAdminExist(selectedEntity.getId());
 			}
 		}
 
@@ -284,14 +292,15 @@ public class UserController extends RootController {
 			// user.setPractises(new HashSet<>(selectedPractises));
 		}
 	}
- 
+
 	public void saveButtonClicked(ActionEvent event) {
 
 		if (isUserInfoValid()) {
 
 			CEntitiy selectedEntity = null;
 
-			user.setAppUserName(getUserName());
+			user.setAppUserName(tmpUserName);
+			user.setEmail(tmpEmail);
 
 			if (user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString())
 					|| user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString())) {
@@ -355,82 +364,26 @@ public class UserController extends RootController {
 
 		// listPractise = getSelectedPractices(sender);
 
-		this.setUserName(sender.getAppUserName());
+		tmpUserName = sender.getAppUserName();
+		tmpEmail = sender.getEmail();
 		updateSelectedEntity(sender);
 		updatePractiseList(sender);
 		updateSelectedPermission(sender);
 
 		user = sender;
 		updateFlags();
-		return;
-		/*
-		 * List<Practice> list = practiseService.fetchAll(); listPractise = new
-		 * ArrayList<Practice>(); for (Practice practic : list) { Practice pr =
-		 * new Practice();
-		 * 
-		 * pr.setId(practic.getId()); pr.setName(practic.getName());
-		 * 
-		 * listPractise.add(pr); }
-		 * 
-		 * 
-		 * listPractise = list ;
-		 * 
-		 * List<Practice> listSelected = new ArrayList<Practice>(practises);
-		 * List<Practice> listSelectedFinal = new ArrayList<Practice>();
-		 * 
-		 * 
-		 * for (Practice pract : listPractise) { for (Practice practic :
-		 * listSelected) { if(pract.getId()==practic.getId()) {
-		 * listSelectedFinal.add(pract); }
-		 * 
-		 * 
-		 * }
-		 * 
-		 * 
-		 * selectedPrac = new Practice[listSelectedFinal.size()]; selectedPrac =
-		 * listSelectedFinal.toArray(selectedPrac);
-		 * 
-		 * 
-		 * // selectedPractises = new HashSet<>(0); // selectedPractises =
-		 * practises;
-		 * 
-		 * user = sender;
-		 */
-
 	}
-
-	/*
-	 * private List<Payer> getSelectedPayers(Provider _provider) { List<Payer>
-	 * list = new ArrayList();
-	 * 
-	 * for (Payer payer : _provider.getPayerList()) {
-	 * 
-	 * list.add(getPayerById(payer.getId())); }
-	 * 
-	 * return list; }
-	 */
 
 	private void updatePractiseList(User user) {
 
-		/*
-		 * HashMap<Integer, Practice> tmpHashMap = new HashMap<>();
-		 * 
-		 * for (Practice practise : getAllHashTwo()) {
-		 * 
-		 * tmpHashMap.put(practise.getId(), practise); }
-		 * 
-		 * listPractise = new ArrayList<Practice>(tmpHashMap.values());
-		 */
-
-		if(user.getEntity().getId().compareTo(1) != 0)
-		{
+		if (user.getEntity().getId().compareTo(1) != 0) {
 			selectedPractises.clear();
 			for (Practice practise : user.getPractises()) {
 
 				selectedPractises.add(String.valueOf(practise.getId()));
 			}
 			listPractise.clear();
-			listPractise.addAll(getSelectedEntity().getPracticeList());			
+			listPractise.addAll(getSelectedEntity().getPracticeList());
 		}
 	}
 
@@ -455,18 +408,18 @@ public class UserController extends RootController {
 
 		CEntitiy entity = getEntityById(sender.getEntity().getId());
 		int x = entity.getUsers().size();
-	   entity.removeUserById(sender.getId());
-	    x = entity.getUsers().size();
-	   entityService.update(entity);
+		entity.removeUserById(sender.getId());
+		x = entity.getUsers().size();
+		entityService.update(entity);
 		userService.remove(sender);
 		listUsers.remove(sender);
 	}
-	
+
 	public CEntitiy getEntityById(Integer id) {
 
 		for (CEntitiy cEntitiy : listEntities) {
 
-			if(cEntitiy.getId().compareTo(id) == 0)
+			if (cEntitiy.getId().compareTo(id) == 0)
 				return cEntitiy;
 		}
 		return null;

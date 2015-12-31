@@ -43,6 +43,23 @@ public class UserDao implements IUserDao {
 		return user;	
 	}
 	
+	@Override
+	@Transactional
+	public User isUserValid(String userName){
+		
+		User user = null;
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM User U where U.appUserName = :appUserName");
+		query.setParameter("appUserName", userName);
+		
+		List<User> result = query.list();
+		if(!result.isEmpty())
+			user = result.get(0);
+		
+		return user;
+	}
+	
 	@Transactional
 	public User finsUserByUserName(String email){
 		
@@ -156,6 +173,26 @@ public class UserDao implements IUserDao {
 			error = "Username already exist";
 		}
 		return error;
+	}
+	
+	@Transactional
+	@Override
+	public String isEmailExist(String email){
+		
+		String error = null;
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM User U WHERE U.email = :email");
+		
+		query.setParameter("email", email.toLowerCase());
+		
+		List<User> result = query.list();
+		if(result.size() > 0)// means OK
+		{
+			error = "Email already exist";
+		}
+		return error;
+		
 	}
 	
 /*	public List<User> getList(int page){

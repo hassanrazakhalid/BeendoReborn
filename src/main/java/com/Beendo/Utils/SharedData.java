@@ -38,7 +38,7 @@ public class SharedData {
     
     private Authentication authentication;
     
-    private User currentUser;
+//    private User currentUser;
     
     private void init(){
     	
@@ -121,10 +121,11 @@ public class SharedData {
 	}
 
 	public User getCurrentUser() {
-		return currentUser;
+		Object obj =	SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return (User)obj;
 	}
 
-	public void setCurrentUser(User currentUser) {
-		this.currentUser = currentUser;
-	}
+//	public void setCurrentUser(User currentUser) {
+//		this.currentUser = currentUser;
+//	}
 }

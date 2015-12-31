@@ -32,7 +32,7 @@ function createClicked(args,dialogName){
 			<h:form rendered="#{userController.shouldShowCreateUser()}">
 				<p:commandButton
 					actionListener="#{userController.createButtonClicked}"
-					value="Create User" update=":userDialog" id="btnCreate"
+					value="Create User" update=":userDialog userForm" id="btnCreate"
 					widgetVar="btnCreate" oncomplete="PF('userCreateDialog').show()"
 					resetValues="true" />
 
@@ -121,7 +121,7 @@ function createClicked(args,dialogName){
 						</p:inputText>
 
 						<p:outputLabel for="tfUsername" value="UserName:" />
-						<p:inputText id="tfUsername" value="#{userController.userName}"
+						<p:inputText id="tfUsername" value="#{userController.tmpUserName}"
 							required="true">
 							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
@@ -133,7 +133,7 @@ function createClicked(args,dialogName){
 						</p:inputText>
 
 						<p:outputLabel for="tfEmail" value="Email:" />
-						<p:inputText id="tfEmail" value="#{userController.user.email}">
+						<p:inputText id="tfEmail" value="#{userController.tmpEmail}">
 							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
 
