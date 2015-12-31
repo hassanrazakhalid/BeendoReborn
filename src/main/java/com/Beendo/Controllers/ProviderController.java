@@ -307,7 +307,7 @@ public class ProviderController extends RootController {
 		provider.setCentity(currentEntity);
 		practiceList = new ArrayList(currentEntity.getPracticeList());
 		//practiceList = new ArrayList<>(currentEntity.getPracticeList());
-		//initHashTwo(practiceList);
+		initHashTwo(practiceList);
 		/*
 		 * for (Practice practice : practiceList) {
 		 * 
