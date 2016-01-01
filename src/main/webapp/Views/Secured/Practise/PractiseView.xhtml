@@ -79,8 +79,8 @@
 
 			<!-- Create and Update Code -->
 
-			<p:dialog id="practiseDialog" header="Create Practice" widgetVar="dlg2"
-				modal="true" height="250">
+			<p:dialog id="practiseDialog" header="Create Practice"
+				widgetVar="dlg2" modal="true" height="250">
 
 				<h:form id="createForm">
 					<p:messages id="msgs" />
@@ -133,17 +133,20 @@
 
 					<p:separator />
 
-					<p:commandButton value="Submit" validateClient="true"
+					<p:commandButton id="btnSave" validateClient="true"
 						actionListener="#{practiseController.createEditLogic}"
-						update=":practiseTable, createForm" icon="ui-icon-check"
-						onclick="PF('block').show()" oncomplete="PF('block').hide()" />
+						update=":practiseTable, createForm" value="Save" />
+
+
+					<p:blockUI trigger="createForm:btnSave" block="practiseDialog"
+						widgetVar="block">
+            LOADING<br />
+						<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
+					</p:blockUI>
 				</h:form>
 			</p:dialog>
 
-			<p:blockUI block="practiseDialog" widgetVar="block">
-            LOADING<br />
-				<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
-			</p:blockUI>
+
 
 			<style>
 #practiseDialog {

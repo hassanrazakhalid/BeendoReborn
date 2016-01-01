@@ -1,49 +1,53 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-<style>
-.c{
-width:25%;
-margin: 0 auto;
-
+	<style>
+.c {
+	width: 25%;
+	margin: 0 auto;
 }
-form ul{
-display:none;
+
+form ul {
+	display: none;
 }
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </h:head>
 
 <h:body>
 
 
-<p:growl widgetVar="growl" showDetail="false" />
-<h2 class="c" style="text-align: center; margin:10% auto 2%;">SIGN IN</h2>
-			<b:well styleClass="c" >
-			<h:form class="form-signin">	
-			
-			<h:messages />
-		        
-		
-            <b:inputText value="#{loginController.userName}" placeholder="Username" label="Username" required="true" requiredMessage="Please Enter Username" >
-	            <f:facet   name="prepend"  >
-	                <b:icon name="glyphicon-user" />
-	            </f:facet>
-	        </b:inputText>
-            
-		 	<b:inputSecret  placeholder="Password" value="#{loginController.password}" label="Password" required="true" >
-	            <f:facet name="prepend" >
-	                <b:iconAwesome name="fa-key"/>
-	            </f:facet>
-	        </b:inputSecret>
-		        <b:commandButton   action="#{loginController.loginPressed()}" styleClass="c" value="Sign In"  />
-		      </h:form>
+	<p:growl widgetVar="growl" showDetail="false" />
+	<h2 class="c" style="text-align: center; margin: 10% auto 2%;">SIGN
+		IN</h2>
+	<b:well styleClass="c">
+		<h:form class="form-signin">
 
-</b:well>
+			<h:messages />
+
+
+			<b:inputText value="#{loginController.userName}"
+				placeholder="Username" label="Username" required="true"
+				requiredMessage="Please Enter Username">
+				<f:facet name="prepend">
+					<b:icon name="glyphicon-user" />
+				</f:facet>
+			</b:inputText>
+
+			<b:inputSecret placeholder="Password"
+				value="#{loginController.password}" label="Password" required="true">
+				<f:facet name="prepend">
+					<b:iconAwesome name="fa-key" />
+				</f:facet>
+			</b:inputSecret>
+			<b:commandButton action="#{loginController.loginPressed()}"
+				styleClass="c" value="Sign In" />
+		</h:form>
+
+	</b:well>
 	<!-- <h1>#{loginController.getName()}</h1> -->
 
 </h:body>

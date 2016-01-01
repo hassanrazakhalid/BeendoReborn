@@ -17,19 +17,19 @@
 
 			<ui:define name="mainContent">
 				<h2>Provider Details</h2>
-				
+
 				<h:form rendered="#{providerController.canCreateProvider()}">
 					<p:commandButton value="Create" update=":myForm"
 						action="#{providerController.clearData()}"
-								oncomplete="PF('Dlg1').show();"
-								 />
-								
-					<br/>
+						oncomplete="PF('Dlg1').show();" />
+
+					<br />
 				</h:form>
-				
-				 <h:form id="mainForm"> 
-    
-				    <p:dataTable value="#{providerController.providerList}" var="provider" >
+
+				<h:form id="mainForm">
+
+					<p:dataTable value="#{providerController.providerList}"
+						var="provider">
 
 						<p:column headerText="Provider Name">
 							#{provider.firstName} #{provider.lastName}
@@ -38,22 +38,23 @@
 						<p:column headerText="Npi Number">
 							#{provider.npiNum}
 						</p:column>
-						
+
 						<p:column headerText="Entity">
 							#{provider.centity.name}
 						</p:column>
-						
+
 						<p:column headerText="Practices">
-							
+
 							<table>
-							<ui:repeat value="#{provider.practiceList.toArray()}" var="t">
-							<tr>
-								<td style="border: 0px;"><h:outputText value="#{t.name}" /> </td>
-							</tr>
-							</ui:repeat>
+								<ui:repeat value="#{provider.practiceList.toArray()}" var="t">
+									<tr>
+										<td style="border: 0px;"><h:outputText value="#{t.name}" />
+										</td>
+									</tr>
+								</ui:repeat>
 							</table>
-							
-		<!-- 			         <p:selectOneMenu id="advanced"
+
+							<!-- 			         <p:selectOneMenu id="advanced"
 								 panelStyle="width:180px"
 								effect="fade" var="t" style="width:160px">
 								<f:selectItems value="#{provider.practiceList.toArray()}" var="practise"
@@ -64,86 +65,94 @@
 								</p:column>
 								
 							</p:selectOneMenu>  -->
-							
+
 						</p:column>
 
-						
+
 						<p:column headerText="Edit" width="80"
-						 rendered="#{providerController.canEditProvider()}">
+							rendered="#{providerController.canEditProvider()}">
 							<p:commandButton icon="ui-icon-pencil" update=":myForm"
-								oncomplete="PF('Dlg1').show();" 
-								 action="#{providerController.updateClicked(provider)}" />
-								 
-						<p:commandButton icon="ui-icon-close" update=":mainForm" 
-								resetValues="true" action="#{providerController.removeClicked(provider)}">
-	
+								oncomplete="PF('Dlg1').show();"
+								action="#{providerController.updateClicked(provider)}" />
+
+							<p:commandButton icon="ui-icon-close" update=":mainForm"
+								resetValues="true"
+								action="#{providerController.removeClicked(provider)}">
+
 								<p:confirm header="Confirmation" message="Are you sure?"
 									icon="ui-icon-alert" />
 							</p:commandButton>
-	
-							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
 								<p:commandButton value="Yes" type="button"
 									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 								<p:commandButton value="No" type="button"
 									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 							</p:confirmDialog>
-								 
+
 						</p:column>
-		
+
 					</p:dataTable>
-				    
-				 </h:form>
-				
-				
-				
+
+				</h:form>
+
+
+
 				<!-- ADD / EDIT DIALOG -->
-				
-				<p:dialog header="Provider"  modal="true" position="top" widgetVar="Dlg1" minHeight="40">
-				    
-				  <h:form id="myForm">
-				  
-				  	<p:messages id="msgs" />
-				  
-				  	<h:panelGrid columns="2" cellpadding="8">  
-				  	 
-						<p:outputLabel id="entity"
-							value="#{providerController.getFirstEntityName()}"
-							rendered="#{providerController.isSingleItemInEntityList()}" />
-							
-						
-						<p:selectOneMenu id="entities" value="#{providerController.currentEntity}"
-							panelStyle="width:180px" effect="fade"
-							converter="entityConverter" required="true"
-							var="t" style="width:177px"
-							rendered="#{!providerController.isSingleItemInEntityList()}">
-							
-							<p:ajax listener="#{providerController.onEntityChange}" update="myPractices" />
-							
-							<f:selectItem itemLabel="Select Entity" />
-							<f:selectItems value="#{providerController.entityList}" var="entity"
-								itemLabel="#{entity.name}" itemValue="#{entity}"  />
 
-							<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column>
-						</p:selectOneMenu>
-						
-						
-						<p:selectCheckboxMenu id="myPractices" value="#{providerController.selectedPractices}" label="Select Practices"
-				            filter="true" filterMatchMode="startsWith" style="width:177px" var="t"
-				            converter="practiseConverter" panelStyle="width:250px">
-				            
-				            <f:selectItems value="#{providerController.practiceList}" var="practice"
-								itemLabel="#{practice.name}" itemValue="#{practice}"  />
+				<p:dialog id="providerDialog" header="Provider" modal="true"
+					position="top" widgetVar="Dlg1" minHeight="40">
 
-							<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column>
-				            
-				        </p:selectCheckboxMenu>
-						
-						
-					  <!-- <p:selectCheckboxMenu value="#{providerController.selectedPayers}" label="Select Payers"
+					<h:form id="myForm">
+
+						<p:messages id="msgs" />
+
+						<h:panelGrid columns="2" cellpadding="8">
+
+							<p:outputLabel id="entity"
+								value="#{providerController.getFirstEntityName()}"
+								rendered="#{providerController.isSingleItemInEntityList()}" />
+
+
+							<p:selectOneMenu id="entities"
+								value="#{providerController.currentEntity}"
+								panelStyle="width:180px" effect="fade"
+								converter="entityConverter" required="true" var="t"
+								style="width:177px"
+								rendered="#{!providerController.isSingleItemInEntityList()}">
+
+								<p:ajax listener="#{providerController.onEntityChange}"
+									update="myPractices" />
+
+								<f:selectItem itemLabel="Select Entity" />
+								<f:selectItems value="#{providerController.entityList}"
+									var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+
+								<p:column>
+									<h:outputText value="#{t.name}" />
+								</p:column>
+							</p:selectOneMenu>
+
+
+							<p:selectCheckboxMenu id="myPractices"
+								value="#{providerController.selectedPractices}"
+								label="Select Practices" filter="true"
+								filterMatchMode="startsWith" style="width:177px" var="t"
+								converter="practiseConverter" panelStyle="width:250px">
+
+								<f:selectItems value="#{providerController.practiceList}"
+									var="practice" itemLabel="#{practice.name}"
+									itemValue="#{practice}" />
+
+								<p:column>
+									<h:outputText value="#{t.name}" />
+								</p:column>
+
+							</p:selectCheckboxMenu>
+
+
+							<!-- <p:selectCheckboxMenu value="#{providerController.selectedPayers}" label="Select Payers"
 				            filter="false" filterMatchMode="startsWith" style="width:177px"  var="t" required="true"
 				            converter="payerConverter" panelStyle="width:250px">
 				            
@@ -155,58 +164,54 @@
 							</p:column>
 				            
 				        </p:selectCheckboxMenu>  -->
-						
-				  	 
-				  	 	
-			            <p:inputText id="NpiNumber" value="#{providerController.provider.npiNum}"
-			             placeholder="Npi Number"
-			             maxlength="10"
-			             label="NPI"
-			              required="true"
-			            validatorMessage="NPI should only digits and length 10"
-			              >
-			             <!--  validator="npiValidator" -->
-			            <f:validateRegex for="NpiNumber" pattern="[0-9]{10}" />
-			            <!-- <f:convertNumber integerOnly="true"/> -->
-			            
-			             </p:inputText> 
-			            <p:inputText value="#{providerController.provider.firstName}"
-			             placeholder="First Name"
-			             label="FirstName"
-			              required="true" />
-			            <p:inputText value="#{providerController.provider.lastName}"
-			             placeholder="Last Name"
-			             label="Last Name"
-			              required="true" />
-			            
-			       
-			        </h:panelGrid>   
-			        
-			        
 
-					<br />
-				  
-				  	<p:commandButton value="Save"
-				  	 ajax="false"
-				  	 validateClient="true"
-				  	  actionListener="#{providerController.saveInfo}"
-				    		 update="myForm, msgs, :mainForm" />
-					
-				  </h:form>
+
+
+							<p:inputText id="NpiNumber"
+								value="#{providerController.provider.npiNum}"
+								placeholder="Npi Number" maxlength="10" label="NPI"
+								required="true"
+								validatorMessage="NPI should only digits and length 10">
+								<!--  validator="npiValidator" -->
+								<f:validateRegex for="NpiNumber" pattern="[0-9]{10}" />
+								<!-- <f:convertNumber integerOnly="true"/> -->
+
+							</p:inputText>
+							<p:inputText value="#{providerController.provider.firstName}"
+								placeholder="First Name" label="FirstName" required="true" />
+							<p:inputText value="#{providerController.provider.lastName}"
+								placeholder="Last Name" label="Last Name" required="true" />
+
+
+						</h:panelGrid>
+
+
+
+						<br />
+
+						<p:commandButton id="btnSave"
+						 value="Save"
+							validateClient="true"
+							actionListener="#{providerController.saveInfo}"
+							update="msgs, :mainForm" />
+
+
+						<p:blockUI trigger="myForm:btnSave" block="providerDialog">
+            LOADING<br />
+							<p:graphicImage value="/Images/loading.gif" width="75"
+								height="75" />
+						</p:blockUI>
+					</h:form>
+
 
 				</p:dialog>
-				
-				
-<!-- 				<script type="text/javascript">
-$(document).ready(function(){
-	console.log('aaa');
-	
-	function blurJquery(){
-		console.log('aaaass');
-		//console.log($('#myForm\\:NpiNumber').val());
-		}
-});
-</script> -->
+
+
+	<style>
+#providerDialog {
+	position: absolute !important;
+}
+</style>
 			</ui:define>
 		</ui:composition>
 	</h:body>
