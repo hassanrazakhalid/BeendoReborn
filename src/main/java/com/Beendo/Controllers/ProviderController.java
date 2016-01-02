@@ -74,6 +74,7 @@ public class ProviderController extends RootController {
 		practiceList = practiseService.fetchAllByRole();// new ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 
 		transactions = transactionService.fetchAllByRole();
+		//initHashTwo(practiceList);
 		
 		if (!entityList.isEmpty()) {
 			setCurrentEntity(entityList.get(0));
@@ -108,11 +109,18 @@ public class ProviderController extends RootController {
 	public void updateClicked(Provider _provider) {
 		
 		//selectedPayers = getSelectedPayers(_provider);
+		
+		practiceList.clear();
+		practiceList.addAll(_provider.getCentity().getPracticeList());		
+		
+		initHashTwo(practiceList);
+		
 		selectedPractices = getSelectedPractices(_provider);
 		provider = _provider;
 		//practiceList = new ArrayList<>(provider.getCentity().getPracticeList());
 		// provider.setPracticeList(getSelectedList());
 		this.opetationType = OperationType.Edit;
+		setCurrentEntity(getEntityById(provider.getCentity().getId()));
 	}
 	
 	/*private List<Payer> getSelectedPayers(Provider _provider)
@@ -197,6 +205,10 @@ public class ProviderController extends RootController {
 	
 	public void saveInfo(ActionEvent event) {
 		
+		if(this.opetationType == opetationType.Create && !isInfoValid())
+			return;
+		
+		
 			if(currentEntity == null && entityList.size() == 1)
 			{
 				currentEntity = entityList.get(0);
@@ -213,7 +225,7 @@ public class ProviderController extends RootController {
 				catch(Exception ex){}
 			}
 			
-			//currentEntity.setPracticeList(provider.getPracticeList());			
+			currentEntity.setPracticeList(provider.getPracticeList());			
 			provider.setCentity(currentEntity);
 			
 			switch (this.opetationType) {
@@ -301,6 +313,10 @@ public class ProviderController extends RootController {
 		selectedPractices = null;
 		provider = new Provider();
 		this.opetationType = OperationType.Create;
+		currentEntity = entityList.get(0);
+		practiceList.clear();
+		practiceList.addAll(currentEntity.getPracticeList());
+		initHashTwo(practiceList);
 	}
 
 	public void onEntityChange() {
