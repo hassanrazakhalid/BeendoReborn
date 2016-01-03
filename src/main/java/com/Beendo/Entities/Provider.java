@@ -41,4 +41,9 @@ public class Provider {
 //	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private Set<Practice> practiceList = new HashSet<Practice>();
 	
+	public String getNameWithNPI(){
+		
+		return firstName+" " + lastName+ " " + npiNum;
+	}
+	
 }

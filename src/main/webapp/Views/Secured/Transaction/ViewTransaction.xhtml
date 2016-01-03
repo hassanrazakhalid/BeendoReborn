@@ -131,12 +131,13 @@
 							<f:selectItem itemLabel="Select Provider" />
 							
 							<f:selectItems value="#{transactionController.providerList}" var="entity"
-								itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity}"  />
+								itemLabel="#{entity.getNameWithNPI()}" itemValue="#{entity}"  />
 								
+								<!--  #{entity.lastName} -->
 							<!-- <p:ajax event="change" listener="#{transactionController.onProviderChange}" update="idPayer" />  -->
 
 							<p:column>
-								<h:outputText value="#{t.firstName} #{t.lastName}" />
+								<h:outputText value="#{t.getNameWithNPI()}" />
 							</p:column>
 						</p:selectOneMenu>
 				  	
