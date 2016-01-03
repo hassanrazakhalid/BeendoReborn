@@ -1,10 +1,12 @@
 package com.Beendo.Utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
@@ -122,7 +124,23 @@ public class SharedData {
 
 	public User getCurrentUser() {
 		Object obj =	SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return (User)obj;
+//		if(obj instanceof User)
+			return (User)obj;
+		
+//		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+//		try {
+////			context.getRequestContextPath() + 
+//			String s1 = context.getApplicationContextPath();
+//			String s2 = context.getRequestContextPath();
+//			String loginURL = context.getRequestContextPath() +"/Views/Unsecured/Login/index.xhtml";
+//			context.redirect(loginURL);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+//	 	return null;
+		
 	}
 
 //	public void setCurrentUser(User currentUser) {

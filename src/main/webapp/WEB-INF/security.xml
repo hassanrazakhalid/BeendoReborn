@@ -30,7 +30,8 @@
 		<intercept-url pattern="/Views/Secured/User/*"
 			access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')" />
 
-		<form-login login-page="/Views/Unsecured/Login/index.xhtml" />
+		<form-login  authentication-failure-url="/Views/Unsecured/Login/index.xhtml"
+		 login-page="/Views/Unsecured/Login/index.xhtml" />
 		<logout invalidate-session="true" delete-cookies="true"
 			logout-url="/Views/Unsecured/logout.xhtml" />
 		<session-management invalid-session-url="/Views/Unsecured/Login/index.xhtml" />

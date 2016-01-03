@@ -240,7 +240,9 @@ public class UserController extends RootController {
 
 				error = userService.isUsernameExist(tmpUserName);
 			}
-			if (error == null && !tmpEmail.equalsIgnoreCase(user.getEmail())) {
+			if (error == null &&
+				!tmpEmail.equalsIgnoreCase(user.getEmail()) &&
+				tmpEmail.length() > 0) {
 				error = userService.isEmailExist(tmpEmail);
 			}
 
@@ -257,7 +259,8 @@ public class UserController extends RootController {
 		} else {
 			error = userService.isUsernameExist(tmpUserName);
 
-			if (error == null) {
+			if (error == null &&
+				tmpEmail.length() > 0) {
 				error = userService.isEmailExist(tmpEmail);
 			}
 			if (error == null && user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {

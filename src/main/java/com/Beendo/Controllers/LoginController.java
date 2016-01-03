@@ -66,8 +66,6 @@ public class LoginController {
 			}
 			return result;
 		}
-		
-
 	
 
 		/*		List auth = (List) SecurityContextHolder.getContext().getAuthentication().getAuthorities();

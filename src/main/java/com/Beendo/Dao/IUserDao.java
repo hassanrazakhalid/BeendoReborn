@@ -21,5 +21,6 @@ public interface IUserDao extends ICRUD <User, Integer> {
 	public String isEmailExist(String email);
 	public String isEntityAdminExist(Integer entity);
 	
+	
 //	public UserDetails loadUserByUsername(String username);
 }

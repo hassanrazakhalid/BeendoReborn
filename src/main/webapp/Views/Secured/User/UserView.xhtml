@@ -140,7 +140,8 @@ function createClicked(args,dialogName){
 						<p:outputLabel for="roleList" value="Select Role:" />
 						<p:selectOneMenu id="roleList"
 							value="#{userController.user.roleName}" var="t"
-							style="width:160px">
+							style="width:160px"
+							required="true">
 							<f:selectItem itemLabel="Select"
 								itemValue="#{userController.user.roleName}" />
 							<f:selectItems value="#{userController.listRoles}" var="role"
@@ -196,7 +197,7 @@ function createClicked(args,dialogName){
 						<h:panelGrid id="gridPermission" cellpadding="8"
 							>
 
-							<h:panelGrid columns="2" cellpadding="8"
+							<h:panelGrid columns="2"  cellpadding="8"
 								rendered="#{userController.shouldshowPermission}">
 								<h:outputText value="Can Add Provider: " />
 								<p:selectBooleanCheckbox
@@ -251,6 +252,14 @@ function createClicked(args,dialogName){
 			<style>
 #userDialog {
 	position: absolute !important;
+}
+#userForm\:btnSave{
+margin: 0px 36% !important;
+width: 25%;
+}
+td {
+    color: #4F4F4F;
+    font-size: 0.875em;
 }
 </style>
 		</ui:define>

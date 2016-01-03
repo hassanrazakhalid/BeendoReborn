@@ -135,7 +135,7 @@
 
 					<p:commandButton id="btnSave" validateClient="true"
 						actionListener="#{practiseController.createEditLogic}"
-						update=":practiseTable, createForm" value="Save" />
+						update=":practiseTable, createForm,practiseDialog" value="Save" />
 
 
 					<p:blockUI trigger="createForm:btnSave" block="practiseDialog"
