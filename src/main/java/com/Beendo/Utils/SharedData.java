@@ -88,6 +88,9 @@ public class SharedData {
             Authentication request = new UsernamePasswordAuthenticationToken(userName, password);
             authentication = authenticationManager.authenticate(request);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            
+           
+            
             isOK = "correct";
         } catch (AuthenticationException e) {
             e.printStackTrace();
@@ -98,7 +101,7 @@ public class SharedData {
         }
 		
 //	Collection roles =	 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		
+		 Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return isOK;
 	}
 	

@@ -158,21 +158,22 @@ public class PractiseController extends RootController {
 			try {
 				practise.setName(practiceName);
 				if (listEntities.size() > 0) {
-					Set<Practice> set = new HashSet<Practice>();
-					set.add(practise);
+//					Set<Practice> set = new HashSet<Practice>();
+//					set.add(practise);
 
 					if (listEntities.size() == 1)
 						currentEntity = listEntities.get(0);
 					else
 						currentEntity = getEntityById(entityId);
-					currentEntity.setPracticeList(set);
+					
+//					currentEntity.setPracticeList(set);
 					practise.setEntity(currentEntity);
 
 					switch (operationType) {
 					case Create: {
 
 						{
-
+							currentEntity.getPracticeList().add(practise);
 							// practiseService.save(practise);
 							entityService.update(currentEntity);
 							listPractise.add(practise);

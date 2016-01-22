@@ -114,26 +114,26 @@ function createClicked(args,dialogName){
 					<p:panelGrid id="panelGrid" columns="2">
 
 						<p:outputLabel for="tfName" value="Name:" />
-						<p:inputText id="tfName" value="#{userController.user.name}" validatorMessage="Name can only contain alphabets">
+						<p:inputText autocomplete="off" id="tfName" value="#{userController.user.name}" validatorMessage="Name can only contain alphabets">
 							<f:validateRegex pattern="[a-zA-Z]*" />
 							
 							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
 
 						<p:outputLabel for="tfUsername" value="UserName:" />
-						<p:inputText id="tfUsername" value="#{userController.tmpUserName}"
+						<p:inputText autocomplete="off" id="tfUsername" value="#{userController.tmpUserName}"
 							required="true">
 							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
 
 						<p:outputLabel for="tfPassword" value="Password:" />
-						<p:inputText id="tfPassword" type="password"
+						<p:inputText autocomplete="off" id="tfPassword" type="password"
 							value="#{userController.user.password}" required="true">
 							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
 
 						<p:outputLabel for="tfEmail" value="Email:" />
-						<p:inputText id="tfEmail" value="#{userController.tmpEmail}">
+						<p:inputText autocomplete="off" id="tfEmail" value="#{userController.tmpEmail}">
 							<!-- <f:ajax render="result" /> -->
 						</p:inputText>
 

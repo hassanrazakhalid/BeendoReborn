@@ -410,10 +410,14 @@ public class UserController extends RootController {
 	public void deleteUserClicked(User sender) {
 
 		CEntitiy entity = getEntityById(sender.getEntity().getId());
-		int x = entity.getUsers().size();
-		entity.removeUserById(sender.getId());
-		x = entity.getUsers().size();
-		entityService.update(entity);
+		if(entity != null)
+		{
+			int x = entity.getUsers().size();
+			entity.removeUserById(sender.getId());
+			x = entity.getUsers().size();
+			entityService.update(entity);
+		}
+		
 		userService.remove(sender);
 		listUsers.remove(sender);
 	}
