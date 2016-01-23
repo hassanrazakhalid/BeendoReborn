@@ -6,6 +6,7 @@ import javax.faces.application.FacesMessage;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
+@Scope(value="session")
 public class PayerController extends RootController {
 
 	@Autowired

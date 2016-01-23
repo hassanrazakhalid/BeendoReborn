@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.Payer;
@@ -25,6 +26,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
+@Scope(value="session")
 public class ReportsController extends RootController {
 
 	@Autowired
