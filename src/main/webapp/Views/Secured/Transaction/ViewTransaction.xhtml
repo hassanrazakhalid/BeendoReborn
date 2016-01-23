@@ -109,6 +109,7 @@
 						<p:selectOneMenu id="idPractice" value="#{transactionController.currentPractice}"
 							panelStyle="width:180px" effect="fade" rendered="#{transactionController.canPracticeShow}"
 							converter="practiseConverter" required="true"
+							requiredMessage="Select atleast one practice"
 							var="t" style="width:177px">
 							
 							<!-- <p:ajax event="change" listener="#{transactionController.onPracticeChange}" update="idPayer" />  -->
@@ -126,6 +127,7 @@
 						<p:selectOneMenu id="idProvider" value="#{transactionController.currentProvider}"
 							panelStyle="width:180px" effect="fade" rendered="#{!transactionController.canPracticeShow}"
 							converter="providerConverter" required="true"
+							requiredMessage="Select atleast one provider"
 							var="t" style="width:177px">
 							
 							<f:selectItem itemLabel="Select Provider" />
@@ -149,6 +151,7 @@
 				  	
 				  		<p:outputLabel for="idPayer" value="Select Payer: " />
 				  	    <p:selectCheckboxMenu id="idPayer" value="#{transactionController.selectedPayers}"
+				  	    requiredMessage="Select atleast one payer"
 				            filter="false" filterMatchMode="startsWith" style="width:177px"  var="t" required="true"
 				            converter="payerConverter" panelStyle="width:250px">
 				            

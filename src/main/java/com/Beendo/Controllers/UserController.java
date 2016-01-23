@@ -14,6 +14,7 @@ import javax.print.attribute.standard.Severity;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,6 +42,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
+@Scope(value="session")
 public class UserController extends RootController {
 
 	private OperationType operationType;
@@ -82,6 +84,11 @@ public class UserController extends RootController {
 
 	// ---------------------- Methods
 
+	public UserController(){
+		
+		System.out.println("In constructor");
+	}
+	
 	public String showUserMainView() {
 
 		shouldshowEntity = false;
