@@ -50,7 +50,7 @@ public class User implements UserDetails {
 /*	@OneToOne(fetch = FetchType.EAGER)
 	private CEntitiy entity;
 */	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.REFRESH})
 	private CEntitiy entity;
 
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,CascadeType.DETACH}, fetch = FetchType.EAGER)

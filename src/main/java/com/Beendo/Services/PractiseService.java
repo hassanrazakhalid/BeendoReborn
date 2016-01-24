@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Beendo.Dao.IEntity;
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
@@ -18,6 +20,10 @@ public class PractiseService {
 
 	@Autowired
 	private IPractise iPractise;
+	
+	@Autowired
+	private IEntity iEntity;
+	
 	
 	public void save(Practice user){
 		
@@ -57,6 +63,8 @@ public class PractiseService {
 		{
 			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
 			{
+				CEntitiy entity = iEntity.refresh(SharedData.getSharedInstace().getCurrentUser().getEntity());
+				SharedData.getSharedInstace().getCurrentUser().setEntity(entity);
 				practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 			}
 			else if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()))

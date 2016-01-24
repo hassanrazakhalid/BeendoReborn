@@ -32,7 +32,7 @@ import lombok.Setter;
 @Setter
 @Controller
 @Scope(value="session")
-public class PractiseController extends RootController {
+public class PractiseController {
 
 	private OperationType operationType;
 
@@ -58,8 +58,8 @@ public class PractiseController extends RootController {
 		listEntities = entityService.fetchAllByRole();
 		listPractise = practiseService.fetchAllByRole();
 
-		initHashOne(listEntities);
-		initHashTwo(listPractise);
+//		initHashOne(listEntities);
+//		initHashTwo(listPractise);
 		// return "Practise/PractiseView?faces-redirect=true";
 		return "PractiseView";
 	}
@@ -202,11 +202,22 @@ public class PractiseController extends RootController {
 
 	}
 
+	private CEntitiy getEntityById(Integer entityId2) {
+		// TODO Auto-generated method stub
+		for (CEntitiy cEntitiy : listEntities) {
+			
+			if(cEntitiy.getId().compareTo(entityId2) == 0)
+			{
+				return cEntitiy;
+			}
+		}
+		return null;
+	}
+
 	public void remove(Practice sender) {
 
 		listPractise.remove(sender);
 		practiseService.remove(sender);
-
 	}
 
 	public void showMessage() {

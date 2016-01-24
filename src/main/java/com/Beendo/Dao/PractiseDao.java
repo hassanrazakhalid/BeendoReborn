@@ -5,8 +5,11 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -94,5 +97,11 @@ public class PractiseDao implements IPractise {
 			
 			this.sessionFactory.getCurrentSession().update(practice);
 		}
+	}
+
+	@Override
+	public Practice refresh(Practice sender) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -68,4 +68,10 @@ public class PayerDao implements ICRUD<Payer, Integer> {
 		
 	}
 
+	@Override
+	public Payer refresh(Payer sender) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -102,6 +102,11 @@ public class EntityService {
 		_service.delete(entity);
 	}
 	
+	public void refresh(CEntitiy sender){
+		
+		_service.refresh(sender);
+	}
+	
 	public String isUsernameExist(String name){
 		
 		return _service.isEntitynameExist(name);

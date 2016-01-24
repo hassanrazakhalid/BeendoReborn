@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.User;
 
 public interface ICRUD <T , Id extends Serializable> {
@@ -24,5 +25,7 @@ public interface ICRUD <T , Id extends Serializable> {
 	public List<T> findAll();
 	
 	public void deleteAll();
+	
+	public T refresh(T sender);
 
 }

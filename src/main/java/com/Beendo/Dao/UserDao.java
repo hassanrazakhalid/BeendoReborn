@@ -1,6 +1,7 @@
  package com.Beendo.Dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -8,10 +9,12 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Utils.Role;
@@ -194,7 +197,22 @@ public class UserDao implements IUserDao {
 		return error;
 		
 	}
+
+	@Override
+	public User refresh(User sender) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
+	@Override
+	public Set<Practice> findPracticesByUserId(Integer id) {
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(Practice.class);
+		Restrictions.ge("", value);
+		
+		return null;
+	}
 /*	public List<User> getList(int page){
 		
 		

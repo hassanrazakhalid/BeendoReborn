@@ -67,4 +67,10 @@ public class RoleDao implements IRole {
 		
 	}
 
+	@Override
+	public Permission refresh(Permission sender) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -3,7 +3,9 @@ package com.Beendo.Controllers;
 import javax.faces.application.FacesMessage;
 
 import org.primefaces.context.RequestContext;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-public class LoginController {
+public class LoginController implements DisposableBean {
 
 	private String userName;
 	private String password;
@@ -90,5 +92,11 @@ public class LoginController {
 
 		userService.save(user);
 
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		// TODO Auto-generated method stub
+//		System.out.println("Login bean destroyed");
 	}
 }

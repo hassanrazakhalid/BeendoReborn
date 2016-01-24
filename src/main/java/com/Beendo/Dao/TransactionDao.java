@@ -67,4 +67,10 @@ public class TransactionDao implements ICRUD<ProviderTransaction, Integer> {
 		
 	}
 
+	@Override
+	public ProviderTransaction refresh(ProviderTransaction sender) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

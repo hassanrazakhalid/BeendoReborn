@@ -97,4 +97,10 @@ public class ProviderDao implements IProvider {
 		return error;
 	}
 
+	@Override
+	public Provider refresh(Provider sender) {
+		// TODO Auto-generated method stub
+		return  null;
+	}
+
 }

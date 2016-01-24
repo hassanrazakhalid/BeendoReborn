@@ -127,13 +127,14 @@ public class SharedData {
 		SecurityContextHolder.clearContext();
 	
 		HttpSession session =  session();
-		session.invalidate();
+		if(session != null)
+			session.invalidate();
 		return "logout";
 	}
 
 	public static HttpSession session() {
 	    ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-	    return attr.getRequest().getSession(true); // true == allow create
+	    return attr.getRequest().getSession(false); // true == allow create
 	}
 	
 	public User getCurrentUser() {

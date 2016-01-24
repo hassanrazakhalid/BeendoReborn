@@ -47,7 +47,6 @@ public class EntityDao implements IEntity {
 	public CEntitiy findById(Integer id) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
-		
 		CEntitiy entity = (CEntitiy)session.get(CEntitiy.class, id);
 		return entity;
 	}
@@ -118,5 +117,18 @@ public class EntityDao implements IEntity {
 			error = "Entity name already exists!";
 		}
 		return error;
+	}
+	
+	@Transactional
+	@Override
+	public CEntitiy refresh(CEntitiy sender) {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		int count = sender.getPracticeList().size();
+		sender = (CEntitiy) session.get(CEntitiy.class, sender.getId());
+//		session.refresh(sender);
+		count = sender.getPracticeList().size();
+		System.out.println("");
+		return sender;
 	}
 }
