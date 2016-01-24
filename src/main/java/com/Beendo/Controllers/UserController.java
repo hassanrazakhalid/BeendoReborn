@@ -13,6 +13,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.print.attribute.standard.Severity;
 
 import org.primefaces.context.RequestContext;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,7 +45,7 @@ import lombok.Setter;
 @Getter
 @Controller
 @Scope(value="session")
-public class UserController extends RootController {
+public class UserController extends RootController implements DisposableBean, InitializingBean{
 
 	private OperationType operationType;
 	public List<String> listRoles = new ArrayList<>();
@@ -437,5 +439,17 @@ public class UserController extends RootController {
 				return cEntitiy;
 		}
 		return null;
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("user bean destryed");
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("Login bean created");
 	}
 }

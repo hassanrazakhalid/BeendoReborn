@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.Beendo.Entities.Practice;
@@ -122,9 +125,17 @@ public class SharedData {
 	public String logoutLogic(){
 		
 		SecurityContextHolder.clearContext();
+	
+		HttpSession session =  session();
+		session.invalidate();
 		return "logout";
 	}
 
+	public static HttpSession session() {
+	    ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+	    return attr.getRequest().getSession(true); // true == allow create
+	}
+	
 	public User getCurrentUser() {
 		Object obj =	SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		if(obj instanceof User)

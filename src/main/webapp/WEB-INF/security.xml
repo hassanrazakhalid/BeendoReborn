@@ -34,7 +34,7 @@
 		 login-page="/Views/Unsecured/Login/index.xhtml" />
 		<logout invalidate-session="true" delete-cookies="true"
 			logout-url="/Views/Unsecured/logout.xhtml" />
-		<session-management invalid-session-url="/Views/Unsecured/Login/index.xhtml" />
+		<session-management  invalid-session-url="/Views/Unsecured/Login/index.xhtml" />
 
 	</http>
 
