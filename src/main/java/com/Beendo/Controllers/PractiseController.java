@@ -31,7 +31,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Controller
-@Scope(value="session")
+@Scope(value = "session")
 public class PractiseController {
 
 	private OperationType operationType;
@@ -42,7 +42,7 @@ public class PractiseController {
 	private List<Practice> listPractise;
 
 	private CEntitiy currentEntity;
-	
+
 	private String practiceName;
 
 	@Autowired
@@ -53,13 +53,26 @@ public class PractiseController {
 
 	private Practice practise = new Practice();
 
-	public String viewPractise() {
+	public void onLoad() {
+		refreshAll();
+	}
 
+	private void refreshAll() {
 		listEntities = entityService.fetchAllByRole();
 		listPractise = practiseService.fetchAllByRole();
+		// return "Practise/PractiseView?faces-redirect=true";
+		// return "PractiseView";
+	}
 
-//		initHashOne(listEntities);
-//		initHashTwo(listPractise);
+	public String viewPractise() {
+
+		/*
+		 * listEntities = entityService.fetchAllByRole(); listPractise =
+		 * practiseService.fetchAllByRole();
+		 */
+
+		// initHashOne(listEntities);
+		// initHashTwo(listPractise);
 		// return "Practise/PractiseView?faces-redirect=true";
 		return "PractiseView";
 	}
@@ -130,23 +143,19 @@ public class PractiseController {
 
 		boolean isOK = true;
 		String error = null;
-		
-		if(operationType == OperationType.Edit)
-		{
-			if(!practiceName.equalsIgnoreCase(practise.getName()))
-			{
+
+		if (operationType == OperationType.Edit) {
+			if (!practiceName.equalsIgnoreCase(practise.getName())) {
 				error = practiseService.checkDuplicateUsername(practiceName);
 			}
-		}
-		else
-		{
+		} else {
 			error = practiseService.checkDuplicateUsername(practiceName);
 		}
-		
-		
+
 		if (error != null) {
 
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,error,null));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, error, null));
 			isOK = false;
 		}
 
@@ -160,15 +169,15 @@ public class PractiseController {
 			try {
 				practise.setName(practiceName);
 				if (listEntities.size() > 0) {
-//					Set<Practice> set = new HashSet<Practice>();
-//					set.add(practise);
+					// Set<Practice> set = new HashSet<Practice>();
+					// set.add(practise);
 
 					if (listEntities.size() == 1)
 						currentEntity = listEntities.get(0);
 					else
 						currentEntity = getEntityById(entityId);
-					
-//					currentEntity.setPracticeList(set);
+
+					// currentEntity.setPracticeList(set);
 					practise.setEntity(currentEntity);
 
 					switch (operationType) {
@@ -205,9 +214,8 @@ public class PractiseController {
 	private CEntitiy getEntityById(Integer entityId2) {
 		// TODO Auto-generated method stub
 		for (CEntitiy cEntitiy : listEntities) {
-			
-			if(cEntitiy.getId().compareTo(entityId2) == 0)
-			{
+
+			if (cEntitiy.getId().compareTo(entityId2) == 0) {
 				return cEntitiy;
 			}
 		}

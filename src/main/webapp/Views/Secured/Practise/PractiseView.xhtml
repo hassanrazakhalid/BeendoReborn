@@ -5,6 +5,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
+	<f:metadata>
+		<!--  <f:viewParam name="refreshAll" value="#{bean.practiseController}" />  -->
+		<f:viewAction action="#{practiseController.onLoad}" />
+	</f:metadata>
 </h:head>
 
 <h:body>
