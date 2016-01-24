@@ -149,7 +149,7 @@ public class SharedData {
 //			String loginURL = context.getRequestContextPath() +"/Views/Unsecured/Login/index.xhtml";
 //			context.redirect(loginURL);
 //		} catch (IOException e) {
-//			// TODO Auto-generated catch block
+//			// TODO Auto-generated caRtch block
 //			e.printStackTrace();
 //		}
 		

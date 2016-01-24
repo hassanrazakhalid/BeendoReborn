@@ -15,11 +15,12 @@ import org.springframework.stereotype.Service;
 import com.Beendo.Dao.ICRUD;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
-
+import org.springframework.beans.factory.annotation.Qualifier;
 @Service
 public class PayerService {
 
 	@Autowired
+	@Qualifier("payerDao")
 	private ICRUD<Payer, Integer> service;	
 	
 	public void save(Payer entity)

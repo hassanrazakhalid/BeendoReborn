@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.ICRUD;
@@ -19,6 +20,7 @@ import com.Beendo.Utils.SharedData;
 public class TransactionService {
 
 	@Autowired
+	@Qualifier("transactionDao")
 	private ICRUD<ProviderTransaction, Integer> service;
 	
 	
