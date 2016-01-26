@@ -25,5 +25,7 @@ public interface IUserDao extends ICRUD <User, Integer> {
 	
 	public List<Practice> findPracticesByUserId(Integer id);
 	
+	public List<User> findUsersByEntityId(Integer id);
+	
 //	public UserDetails loadUserByUsername(String username);
 }

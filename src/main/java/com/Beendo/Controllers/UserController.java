@@ -91,8 +91,8 @@ public class UserController extends RootController implements DisposableBean, In
 		System.out.println("In constructor");
 	}
 	
-	public String showUserMainView() {
-
+	public void onLoad(){
+		
 		shouldshowEntity = false;
 		shouldshowPractise = false;
 		shouldshowPermission = false;
@@ -107,6 +107,11 @@ public class UserController extends RootController implements DisposableBean, In
 		}
 
 		reloadPractises();
+	}
+	
+	public String showUserMainView() {
+
+
 		return "UserView";
 	}
 

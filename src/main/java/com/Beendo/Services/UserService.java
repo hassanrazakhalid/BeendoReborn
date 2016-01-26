@@ -51,7 +51,8 @@ public class UserService implements UserDetailsService {
 		}
 		else if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
 		{
-				userList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getUsers());
+			List<User> list = findUsersByEntityId(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
+				userList.addAll(list);
 				userList = removeSelf(userList);
 		}
 		
@@ -94,7 +95,11 @@ public class UserService implements UserDetailsService {
 		// TODO Auto-generated method stub
 		iUserDao.delete(sender);
 	}
-
+	public List<User> findUsersByEntityId(Integer id){
+		
+		return iUserDao.findUsersByEntityId(id);
+	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub

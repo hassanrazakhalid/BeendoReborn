@@ -235,4 +235,20 @@ public class UserDao implements IUserDao {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
 		criteria.add(criterion)
 	}*/
+
+	@Transactional
+	@Override
+	public List<User> findUsersByEntityId(Integer id) {
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		Query query  = session.createQuery("SELECT distinct E.users"
+				+ " FROM CEntitiy E"
+				+ " JOIN E.users U"
+				+ " WHERE U.entity.id =:id");
+		query.setParameter("id", id);
+		List<User> list = query.list();
+		
+		return list;
+	}
 }
