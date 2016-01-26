@@ -1,11 +1,6 @@
 package com.Beendo.Controllers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -14,13 +9,14 @@ import javax.faces.event.ActionEvent;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
-import com.Beendo.Utils.CustomArrayList;
+import com.Beendo.Services.ProviderService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
@@ -33,7 +29,7 @@ import lombok.Setter;
 @Controller
 @Scope(value = "session")
 public class PractiseController {
-
+	
 	private OperationType operationType;
 
 	private String entityName;
@@ -47,6 +43,9 @@ public class PractiseController {
 
 	@Autowired
 	private PractiseService practiseService;
+	
+	@Autowired
+	private ProviderService providerService;
 
 	@Autowired
 	private EntityService entityService;
@@ -224,14 +223,51 @@ public class PractiseController {
 
 	public void remove(Practice sender) {
 
-		listPractise.remove(sender);
-		practiseService.remove(sender);
+		
+		
+		try {
+		
+//			Set<Provider> providerList = sender.getProviders();
+//			for (Provider provider : providerList) {
+				
+//				provider.getPracticeList().remove(sender);
+//				provider.getPracticeList().remove(practise);
+//				
+//				practiseService.update(practise);
+//			}
+//			
+//			providerService.updateProviderList(providerList);
+			practiseService.remove(sender);
+			listPractise.remove(sender);
+			
+			
+		}
+		catch (DataIntegrityViolationException e){
+			
+			showMessage("Error","This practice is currently being used. Kindly unassign it before removing");
+		}
+		catch (Exception e) {
+			
+			System.out.println(e);
+			// TODO: handle exception
+		}
+	}
+	
+	Practice getPracticeById(Integer id){
+		
+		for (Practice practice : listPractise) {
+			
+			if(practice.getId().compareTo(id) == 0)
+				return practice;
+		}
+		
+		return null;
 	}
 
-	public void showMessage() {
+	public void showMessage(String heading,String msg) {
 
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "What we do in life",
-				"Echoes in eternity.");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error",
+				msg);
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
 }

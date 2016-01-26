@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
@@ -133,6 +134,16 @@ public class EntityController extends RootController {
 	
 	public void deleteEntityClicked(CEntitiy sender){
 		
+		try {
+			
+		}
+		catch(DataIntegrityViolationException e){
+			
+			showMessage("Kindly unassign all practices before removing");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
 		entities.remove(sender);
 		entityService.delete(sender);
 	}

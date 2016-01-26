@@ -2,6 +2,7 @@ package com.Beendo.Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -109,6 +110,11 @@ public class ProviderService {
 	public String isNameExist(String name, String lname, String npi){
 		
 		return service.isNameExist(name, lname, npi);
+	}
+	
+	public void updateProviderList(Set<Provider>list){
+		
+		service.updateProviderList(list);
 	}
 	
 /*	public static List<Provider> isNameExist(List<Provider> entities, String name, String npi){

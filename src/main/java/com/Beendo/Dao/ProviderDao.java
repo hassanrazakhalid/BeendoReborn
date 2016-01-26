@@ -1,6 +1,7 @@
 package com.Beendo.Dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -103,4 +104,13 @@ public class ProviderDao implements IProvider {
 		return  null;
 	}
 
+	@Transactional
+	@Override
+	public void updateProviderList(Set<Provider>list){
+		 
+		for (Provider practice : list) {
+			
+			this.sessionFactory.getCurrentSession().update(practice);
+		}
+	}
 }
