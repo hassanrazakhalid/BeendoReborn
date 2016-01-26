@@ -135,17 +135,18 @@ public class EntityController extends RootController {
 	public void deleteEntityClicked(CEntitiy sender){
 		
 		try {
-			entities.remove(sender);
 			entityService.delete(sender);
+			entities.remove(sender);
 		}
 		catch(DataIntegrityViolationException e){
 			
 			showMessage("Kindly unassign all practices before removing");
 		}
 		catch (Exception e) {
+			
+			showMessage("Kindly unassign all practices before removing");
 			// TODO: handle exception
 		}
-		
 	}
 	
 	public void clearData()
