@@ -81,13 +81,13 @@ function createClicked(args,dialogName){
 						</table>
 					</p:column>
 
-					<p:column headerText="Operation">
+					<p:column headerText="Operation" style="text-align:center">
 
-						<p:commandButton value="edit"
+						<p:commandButton icon="ui-icon-pencil"
 							actionListener="#{userController.editButtonClicked(user)}"
 							oncomplete="PF('userCreateDialog').show()" update=":userForm" />
 
-						<p:commandButton value="remove"
+						<p:commandButton icon="ui-icon-trash"
 							action="#{userController.deleteUserClicked(user)}"
 							update=":userTable">
 

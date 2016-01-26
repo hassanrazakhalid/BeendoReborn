@@ -51,12 +51,12 @@
 
 						</p:column>
 
-						<p:column headerText="Edit" width="80">
+						<p:column headerText="Edit" width="80" style="text-align:center">
 							<p:commandButton icon="ui-icon-pencil" update=":addForm"
 								oncomplete="PF('addDlg').show();"
 								actionListener="#{entityController.editButtonPressed(entity)}" />
 
-							<p:commandButton value="remove"
+							<p:commandButton icon="ui-icon-trash"
 								actionListener="#{entityController.deleteEntityClicked(entity)}"
 								update=":entityTable">
 

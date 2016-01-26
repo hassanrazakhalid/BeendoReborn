@@ -56,12 +56,12 @@
 
 				<p:column headerText="Operation"
 					rendered="#{practiseController.canEditPracise()}">
-					<h:form>
-						<p:commandButton value="edit"
+					<h:form style="text-align:center">
+						<p:commandButton icon="ui-icon-pencil"
 							action="#{practiseController.updateClicked(practise)}"
 							oncomplete="PF('dlg2').show()"
 							update=":createForm, :practiseTable" />
-						<p:commandButton value="remove"
+						<p:commandButton icon="ui-icon-trash"
 							action="#{practiseController.remove(practise)}"
 							update=":practiseTable" resetValues="true">
 
