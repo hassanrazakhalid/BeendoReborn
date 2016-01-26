@@ -135,7 +135,8 @@ public class EntityController extends RootController {
 	public void deleteEntityClicked(CEntitiy sender){
 		
 		try {
-			
+			entities.remove(sender);
+			entityService.delete(sender);
 		}
 		catch(DataIntegrityViolationException e){
 			
@@ -144,8 +145,7 @@ public class EntityController extends RootController {
 		catch (Exception e) {
 			// TODO: handle exception
 		}
-		entities.remove(sender);
-		entityService.delete(sender);
+		
 	}
 	
 	public void clearData()
