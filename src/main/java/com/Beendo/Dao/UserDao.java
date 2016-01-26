@@ -199,19 +199,35 @@ public class UserDao implements IUserDao {
 	}
 
 	@Override
+	@Transactional
 	public User refresh(User sender) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public Set<Practice> findPracticesByUserId(Integer id) {
 		
 		Session session = this.sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(Practice.class);
-		Restrictions.ge("", value);
+		session.refresh(sender);
+		return sender;
+	}
+	
+	@Transactional
+	@Override
+	public List<Practice> findPracticesByUserId(Integer id) {
 		
-		return null;
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query  = session.createQuery("SELECT U.practises FROM User U"
+				+ " JOIN U.practises P"
+				+ " WHERE U.id =:id");
+		query.setParameter("id", id);
+		
+		List<Practice> list = query.list();
+		
+//		for (Practice practice : list) {
+//			
+//			practice.getEntity();
+//		}
+		
+//		criteria.add(Restrictions.eq("practice.id", id));
+//		return criteria.list();
+		
+		return list;
 	}
 /*	public List<User> getList(int page){
 		

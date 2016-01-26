@@ -1,6 +1,7 @@
 package com.Beendo.Services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.IEntity;
+import com.Beendo.Dao.IUserDao;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Utils.Role;
@@ -24,6 +26,8 @@ public class PractiseService {
 	@Autowired
 	private IEntity iEntity;
 	
+	@Autowired
+	private IUserDao iUser;
 	
 	public void save(Practice user){
 		
@@ -69,6 +73,9 @@ public class PractiseService {
 			}
 			else if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()))
 			{
+				List<Practice> result = iUser.findPracticesByUserId(SharedData.getSharedInstace().getCurrentUser().getId());
+				Set<Practice> res = new HashSet<Practice>(result);
+				SharedData.getSharedInstace().getCurrentUser().setPractises(res);
 				practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getPractises());
 			}
 		}

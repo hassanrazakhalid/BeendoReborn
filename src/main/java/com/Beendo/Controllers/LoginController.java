@@ -40,6 +40,12 @@ public class LoginController implements DisposableBean {
 		return "Hello world123";
 	}
 
+	public void onLoad(){
+		
+		userName = "";
+		password = "";
+	}
+	
 	public String loginPressed() {
 
 //		userName = "admin";

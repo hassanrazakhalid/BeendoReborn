@@ -23,7 +23,7 @@ public interface IUserDao extends ICRUD <User, Integer> {
 	public String isEmailExist(String email);
 	public String isEntityAdminExist(Integer entity);
 	
-	public Set<Practice> findPracticesByUserId(Integer id);
+	public List<Practice> findPracticesByUserId(Integer id);
 	
 //	public UserDetails loadUserByUsername(String username);
 }

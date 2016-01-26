@@ -3,6 +3,11 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
+
+	<f:metadata>
+		<f:viewAction actionListener="#{loginController.onLoad()}" />
+	</f:metadata>
+
 	<style>
 .c {
 	width: 25%;

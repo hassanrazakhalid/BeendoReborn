@@ -40,6 +40,9 @@ public class Practice {
 	joinColumns=@JoinColumn(name="PRACTISE_ID"),
 	inverseJoinColumns=@JoinColumn(name="PROVIDER_ID")
 	)
+	
+	
+	
 //	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private Set<Provider> providers = new HashSet<Provider>();
 
