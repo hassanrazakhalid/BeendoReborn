@@ -161,7 +161,8 @@ public class UserController extends RootController implements DisposableBean, In
 			// reloadEntities();
 		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 			// reloadEntities();
-			if(user.getEntity().getId().compareTo(1) != 1)
+			if(user.getEntity() != null &&
+			   user.getEntity().getId().compareTo(1) != 1)
 			{
 				if(listEntities.size() > 0)
 					selectedEntityId = listEntities.get(0).getId().toString();
