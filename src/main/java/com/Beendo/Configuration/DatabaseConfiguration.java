@@ -22,12 +22,12 @@ public class DatabaseConfiguration {
 		basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
 //		basicDataSource.setUrl("jdbc:mysql://162.214.3.88:3306/janjua_TestDb");
 
-		basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3306/janjua_TestDb");		
-		basicDataSource.setUsername("janjua_admin");
-		basicDataSource.setPassword("7kcvfRSMJ4qP");
-//		basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3307/janjua_TestDb");
-//		basicDataSource.setUsername("admin");
-//		basicDataSource.setPassword("admin");
+//		basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3306/janjua_TestDb");		
+//		basicDataSource.setUsername("janjua_admin");
+//		basicDataSource.setPassword("7kcvfRSMJ4qP");
+		basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3307/janjua_TestDb");
+		basicDataSource.setUsername("admin");
+		basicDataSource.setPassword("admin");
 		return basicDataSource;
 	}
 	

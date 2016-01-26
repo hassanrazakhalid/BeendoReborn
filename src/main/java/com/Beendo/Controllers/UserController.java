@@ -161,7 +161,12 @@ public class UserController extends RootController implements DisposableBean, In
 			// reloadEntities();
 		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 			// reloadEntities();
-			reloadPractises();
+			if(user.getEntity().getId().compareTo(1) != 1)
+			{
+				if(listEntities.size() > 0)
+					selectedEntityId = listEntities.get(0).getId().toString();
+			}
+				reloadPractises();
 		} else {
 
 			// listEntities.clear();
@@ -211,7 +216,8 @@ public class UserController extends RootController implements DisposableBean, In
 				entity = listEntities.get(0);
 			else
 				entity = getSelectedEntity();
-			if (entity.getPracticeList().size() > 0) {
+			if (entity != null &&
+				entity.getPracticeList().size() > 0) {
 				listPractise = new ArrayList<Practice>(entity.getPracticeList());
 				initHashTwo(listPractise);
 			}
@@ -411,7 +417,7 @@ public class UserController extends RootController implements DisposableBean, In
 
 	private void updateSelectedEntity(User user) {
 
-		selectedEntityId = String.valueOf(user.getEntity().getId());
+			selectedEntityId = String.valueOf(user.getEntity().getId());
 		// selectedEntity = getEntityById(user.getEntity().getId());
 	}
 
