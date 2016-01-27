@@ -69,7 +69,8 @@ public class ProviderController extends RootController {
 	private CEntitiy currentEntity;
 	private OperationType opetationType;
 
-	public String view() {
+	public void onLoad(){
+		
 		providerList = providerService.fetchAllByRole(); //providerService.fetchAllByUser();
 		entityList = entityService.fetchAllByRole();
 		payerList = payerService.findAll();
@@ -86,6 +87,10 @@ public class ProviderController extends RootController {
 		initHashFour(providerList);
 		initHashThree(payerList);
 		initHashTwo(practiceList);
+	}
+	
+	public String view() {
+
 
 		return "ProviderView";
 	}

@@ -143,7 +143,7 @@ public class EntityController extends RootController {
 			showMessage("Kindly unassign all practices before removing");
 		}
 		catch (Exception e) {
-			
+			 
 			showMessage("Kindly unassign all practices before removing");
 			// TODO: handle exception
 		}

@@ -4,6 +4,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
+	<f:metadata>
+		<f:viewAction actionListener="#{providerController.onLoad()}" />
+	</f:metadata>
 
 </h:head>
 
@@ -189,9 +192,7 @@
 
 						<br />
 
-						<p:commandButton id="btnSave"
-						 value="Save"
-							validateClient="true"
+						<p:commandButton id="btnSave" value="Save" validateClient="true"
 							actionListener="#{providerController.saveInfo}"
 							update="msgs, :mainForm" />
 
@@ -207,7 +208,7 @@
 				</p:dialog>
 
 
-	<style>
+				<style>
 #providerDialog {
 	position: absolute !important;
 }

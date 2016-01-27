@@ -113,4 +113,20 @@ public class ProviderDao implements IProvider {
 			this.sessionFactory.getCurrentSession().update(practice);
 		}
 	}
+
+	@Transactional
+	@Override
+	public List<Provider> findProvidersByEntity(Integer id) {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		Query quey = session.createQuery("SELECT P FROM Provider P"
+				+ " JOIN P.practiceList Pra"
+				+ " JOIN Pra.entity E"
+				+ " WHERE E.id =:id");
+		quey.setParameter("id", id);
+		List<Provider> list = quey.list();
+		
+		return list;
+	}
 }

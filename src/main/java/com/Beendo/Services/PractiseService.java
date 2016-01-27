@@ -14,6 +14,7 @@ import com.Beendo.Dao.IEntity;
 import com.Beendo.Dao.IUserDao;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Provider;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 

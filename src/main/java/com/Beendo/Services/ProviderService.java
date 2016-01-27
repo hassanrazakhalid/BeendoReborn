@@ -94,12 +94,14 @@ public class ProviderService {
 			
 			List<Provider> tmpList = new ArrayList<Provider>();
 			List<Practice> practiseList = new ArrayList<Practice>();
-			practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 			
-			for (Practice practice : practiseList) {
+			tmpList.addAll(findProvidersByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId()));
+//			practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 			
-				tmpList.addAll(practice.getProviders());
-			}
+//			for (Practice practice : practiseList) {
+//			
+//				tmpList.addAll(practice.getProviders());
+//			}
 			
 			dataList = tmpList;
 		}
@@ -115,6 +117,11 @@ public class ProviderService {
 	public void updateProviderList(Set<Provider>list){
 		
 		service.updateProviderList(list);
+	}
+	
+	public List<Provider> findProvidersByEntity(Integer id){
+		
+		return service.findProvidersByEntity(id);
 	}
 	
 /*	public static List<Provider> isNameExist(List<Provider> entities, String name, String npi){
