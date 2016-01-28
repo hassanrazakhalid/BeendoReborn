@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
@@ -41,6 +43,8 @@ public class PractiseController {
 
 	private String practiceName;
 
+	private boolean isEntityListEnabled;
+	
 	@Autowired
 	private PractiseService practiseService;
 	
@@ -52,6 +56,10 @@ public class PractiseController {
 
 	private Practice practise = new Practice();
 
+	public boolean getIsEntityListEnabled(){
+		return isEntityListEnabled;
+	}
+	
 	public void onLoad() {
 		refreshAll();
 	}
@@ -61,6 +69,8 @@ public class PractiseController {
 		listPractise = practiseService.fetchAllByRole();
 		// return "Practise/PractiseView?faces-redirect=true";
 		// return "PractiseView";
+
+	
 	}
 
 	public String viewPractise() {
@@ -127,11 +137,13 @@ public class PractiseController {
 	public void createClicked() {
 
 		this.operationType = OperationType.Create;
+		isEntityListEnabled = false;
 		initNewPractise();
 	}
 
 	public void updateClicked(Practice sender) {
 
+		isEntityListEnabled = true;
 		practiceName = sender.getName();
 		practise = sender;
 
@@ -260,7 +272,6 @@ public class PractiseController {
 			if(practice.getId().compareTo(id) == 0)
 				return practice;
 		}
-		
 		return null;
 	}
 

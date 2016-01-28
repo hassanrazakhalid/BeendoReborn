@@ -113,7 +113,9 @@
 							value="#{practiseController.entityId}" panelStyle="width:180px"
 							effect="fade" style="width:160px" filter="true"
 							filterMatchMode="startsWith"
-							rendered="#{!practiseController.isSingleItemInEntityList()}">
+							rendered="#{!practiseController.isSingleItemInEntityList()}"
+							disabled="#{practiseController.getIsEntityListEnabled()}"
+							>
 
 							<!--  <f:selectItem itemLabel="Choose entity" itemValue="#{null}" /> -->
 
