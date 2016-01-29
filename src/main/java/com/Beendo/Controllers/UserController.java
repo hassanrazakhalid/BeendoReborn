@@ -53,6 +53,7 @@ public class UserController extends RootController implements DisposableBean, In
 	private Boolean sendEmail;
 	private String tmpUserName;
 	private String tmpEmail;
+	private boolean isEntityListDisabled;
 
 	@Autowired
 	private EntityService entityService;
@@ -86,6 +87,11 @@ public class UserController extends RootController implements DisposableBean, In
 
 	// ---------------------- Methods
 
+	public boolean getIsEntityListDisabled(){
+		
+		return isEntityListDisabled;
+	}
+	
 	public UserController(){
 		
 		System.out.println("In constructor");
@@ -227,6 +233,7 @@ public class UserController extends RootController implements DisposableBean, In
 
 	public void createButtonClicked() {
 
+		isEntityListDisabled = false;
 		operationType = OperationType.Create;
 		initUser();
 		tmpUserName = "";
@@ -382,6 +389,7 @@ public class UserController extends RootController implements DisposableBean, In
 
 	public void editButtonClicked(User sender) {
 
+		isEntityListDisabled = true;
 		operationType = OperationType.Edit;
 
 		// Set<Practice> practises = sender.getPractises();

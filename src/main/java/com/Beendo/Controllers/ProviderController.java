@@ -69,6 +69,13 @@ public class ProviderController extends RootController {
 	private CEntitiy currentEntity;
 	private OperationType opetationType;
 
+	private boolean isEntityListDisabled ;
+	
+	public boolean getIsEntityListDisabled(){
+		
+		return isEntityListDisabled;
+	}
+	
 	public void onLoad(){
 		
 		providerList = providerService.fetchAllByRole(); //providerService.fetchAllByUser();
@@ -116,7 +123,7 @@ public class ProviderController extends RootController {
 	public void updateClicked(Provider _provider) {
 		
 		//selectedPayers = getSelectedPayers(_provider);
-		
+		isEntityListDisabled = true;
 		practiceList.clear();
 		practiceList.addAll(_provider.getCentity().getPracticeList());		
 		
@@ -316,6 +323,8 @@ public class ProviderController extends RootController {
 	
 	
 	public void clearData() {
+		
+		isEntityListDisabled = false;
 		selectedPayers = null;
 		selectedPractices = null;
 		provider = new Provider();

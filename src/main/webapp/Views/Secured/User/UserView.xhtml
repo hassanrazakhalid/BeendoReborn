@@ -166,13 +166,16 @@ function createClicked(args,dialogName){
 								value="#{userController.selectedEntityId}"
 								panelStyle="width:180px" effect="fade" style="width:160px"
 								filter="true" filterMatchMode="startsWith"
-								rendered="#{userController.shouldshowEntity}">
+								rendered="#{userController.shouldshowEntity}"
+								disabled="#{userController.getIsEntityListEnabled()}"
+								>
 
 								<!-- var="t" converter="entityConverter" -->
 
 								<f:selectItems value="#{userController.listEntities}"
 									var="entity" itemLabel="#{entity.name}"
-									itemValue="#{entity.id}" />
+									itemValue="#{entity.id}"
+									 />
 								<p:ajax event="change" execute="@this"
 									listener="#{userController.entityChanged()}"
 									update="listPractiseID"></p:ajax>

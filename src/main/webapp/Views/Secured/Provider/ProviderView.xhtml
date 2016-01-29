@@ -123,7 +123,9 @@
 								panelStyle="width:180px" effect="fade"
 								converter="entityConverter" required="true" var="t"
 								style="width:177px"
-								rendered="#{!providerController.isSingleItemInEntityList()}">
+								rendered="#{!providerController.isSingleItemInEntityList()}"
+								disabled="#{providerController.getIsEntityListDisabled()}"
+								>
 
 								<p:ajax listener="#{providerController.onEntityChange}"
 									update="myPractices" />
