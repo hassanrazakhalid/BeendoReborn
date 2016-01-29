@@ -168,6 +168,8 @@ function createClicked(args,dialogName){
 								filter="true" filterMatchMode="startsWith"
 								rendered="#{userController.shouldshowEntity}"
 								disabled="#{userController.getIsEntityListDisabled()}"
+								required="true"
+								requiredMessage="Entity is mandatory"
 								>
 
 								<!-- var="t" converter="entityConverter" -->
