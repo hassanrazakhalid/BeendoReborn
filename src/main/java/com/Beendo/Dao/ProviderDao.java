@@ -120,11 +120,15 @@ public class ProviderDao implements IProvider {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
 		
-		Query quey = session.createQuery("SELECT DISTINCT P FROM Provider P"
-				+ " JOIN P.practiceList Pra"
-				+ " JOIN Pra.entity E"
-				+ " WHERE E.id =:id");
+//		Query quey = session.createQuery("SELECT DISTINCT P FROM Provider P"
+//				+ " JOIN P.practiceList Pra"
+//				+ " JOIN Pra.entity E"
+//				+ " WHERE E.id =:id");
+	
+		Query quey = session.createQuery("FROM Provider P WHERE P.centity.id=:id");
 		quey.setParameter("id", id);
+		
+		
 		List<Provider> list = quey.list();
 		
 		return list;

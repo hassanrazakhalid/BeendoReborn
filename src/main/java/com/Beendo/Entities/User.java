@@ -53,7 +53,7 @@ public class User implements UserDetails {
 	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.REFRESH})
 	private CEntitiy entity;
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,CascadeType.DETACH}, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,CascadeType.DETACH}, fetch = FetchType.LAZY)
 	private Set<Practice> practises = new HashSet<>(0);
 
 	public static User copy(User sender) {
