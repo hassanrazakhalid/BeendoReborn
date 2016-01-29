@@ -99,19 +99,33 @@
 				  
 				  	<p:messages id="msgs" />
 				  
-				  	<h:panelGrid columns="2" cellpadding="8">  
+				  	<h:panelGrid columns="4" cellpadding="8">  
 				  	 
+				  	 	<p:outputLabel for="PayerName" value="PayerName:" />
 				  	 	<p:inputText id="PayerName" value="#{payerController.payer.name}" placeholder="Payer Name" required="true" />
 			            <!-- <p:inputText id="CompanyName" value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" />  -->
 			            
+			            <p:outputLabel for="PlanName" value="PlanName:" />
 			            <p:inputText id="PlanName" value="#{payerController.payer.planName}" placeholder="Plan Name" required="true" />   			       
-			            <p:inputText id="PhoneNumber" value="#{payerController.payer.phoneNumber}" placeholder="Phone Number" required="true" /> 
 			            
+			            <p:outputLabel for="PhoneNumber" value="PhoneNumber:" />
+			            <p:inputText id="PhoneNumber" value="#{payerController.payer.phoneNumber}" placeholder="Phone Number" required="true">
+			            	<f:convertNumber integerOnly="true" type="number" />
+			            </p:inputText> 
+			            
+			            <p:outputLabel for="StreetField" value="Street:" />
 			            <p:inputText id="StreetField" value="#{payerController.payer.street}" placeholder="Street" required="true" />   			          
+			            
+			            <p:outputLabel for="CityField" value="City:" />
 			            <p:inputText id="CityField" value="#{payerController.payer.city}" placeholder="City" required="true" /> 
 			            
+			            <p:outputLabel for="StateField" value="State:" />
 			            <p:inputText id="StateField" value="#{payerController.payer.state}" placeholder="State" required="true" />
-			            <p:inputText id="ZipField" value="#{payerController.payer.zip}" placeholder="Zip Code" required="true" />
+			            
+			            <p:outputLabel for="ZipField" value="Zip-Code:" />
+			            <p:inputText id="ZipField" value="#{payerController.payer.zip}" placeholder="Zip Code" required="true">
+			            	<f:convertNumber integerOnly="true" type="number" />
+			            </p:inputText>
 			        
 			        </h:panelGrid>   
 
