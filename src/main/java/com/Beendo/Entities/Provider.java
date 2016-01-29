@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -37,7 +39,11 @@ public class Provider {
 	private Collection<Payer> payerList = new HashSet<Payer>();*/
 	
 //	, cascade={CascadeType.REMOVE}
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy="providers")
+//	,mappedBy="providers"
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="PRACTISE_PROVIDER",
+	inverseJoinColumns=@JoinColumn(name="PRACTISE_ID"),
+	joinColumns=@JoinColumn(name="PROVIDER_ID"))
 //	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private Set<Practice> practiceList = new HashSet<Practice>();
 	
