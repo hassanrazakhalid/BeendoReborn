@@ -37,16 +37,16 @@ public class CEntitiy implements ICache<CEntitiy>, Serializable {
 	private Integer id;
 	private String name;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.LAZY)
 	private Set<Practice> practiceList = new HashSet<Practice>();
 	
 	//@OneToMany(cascade=CascadeType.ALL, mappedBy="centity", fetch = FetchType.EAGER)
 	//private Set<Provider> providerList = new HashSet<Provider>();
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.LAZY)
 	private Set<ProviderTransaction> transactionList = new HashSet<ProviderTransaction>();
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<User>();
 	
 	@Override

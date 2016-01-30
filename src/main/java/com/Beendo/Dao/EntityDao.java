@@ -50,6 +50,25 @@ public class EntityDao implements IEntity {
 		CEntitiy entity = (CEntitiy)session.get(CEntitiy.class, id);
 		return entity;
 	}
+	
+	@Transactional
+	@Override
+	public List<CEntitiy> findAllPropertiesId(Integer id) {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		Query query = session.createQuery("FROM CEntitiy E"
+				+ " JOIN FETCH E.practiceList"
+				+ " JOIN FETCH E.users"
+				+ " WHERE E.id=:id");
+		query.setParameter("id", id);
+		
+		List<CEntitiy> result = query.list();
+//		if(result.size() > 0)
+			return result;
+//		else
+//			return null;
+	}
 
 	@Transactional
 	@Override

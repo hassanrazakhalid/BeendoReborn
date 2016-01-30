@@ -72,7 +72,8 @@ public class EntityService {
 			entityList.addAll(_service.fetchAllExcept(1));
 		} else {
 			if (userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
-				entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
+			entityList = _service.findAllPropertiesId(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
+//				entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
 			}
 			else if (userRole.equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 				if (SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderAdd())

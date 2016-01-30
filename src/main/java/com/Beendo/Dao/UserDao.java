@@ -107,7 +107,7 @@ public class UserDao implements IUserDao {
 
 	@Transactional()
 	public List<User> findAll() {
-		return sessionFactory.getCurrentSession().createQuery("From User").list();
+		return sessionFactory.getCurrentSession().createQuery("SELECT U From User U LEFT JOIN FETCH U.practises").list();
 	}
 
 	public void deleteAll() {
@@ -132,7 +132,9 @@ public class UserDao implements IUserDao {
 		// TODO Auto-generated method stub
 		
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM User U where U.roleName  not in ( :arg1, :arg2)");
+		Query query = session.createQuery("FROM User U"
+				+ " LEFT JOIN FETCH U.practises"
+				+ " WHERE U.roleName  not in ( :arg1, :arg2)");
 		query.setParameter("arg1", Role.ROOT_ADMIN.toString());
 		query.setParameter("arg2", Role.ROOT_USER.toString());
 		
@@ -242,12 +244,28 @@ public class UserDao implements IUserDao {
 		
 		Session session = this.sessionFactory.getCurrentSession();
 		
-		Query query  = session.createQuery("SELECT distinct E.users"
-				+ " FROM CEntitiy E"
-				+ " JOIN E.users U"
+//		Query query  = session.createQuery("SELECT distinct E.users"
+//				+ " FROM CEntitiy E"
+//				+ " JOIN FETCH E.users U"
+////				+ "	JOIN FETCH U.practises"
+//				+ " WHERE U.entity.id =:id");
+		Query query  = session.createQuery("FROM User U"
+//				+ " fetch all properties"
+				+ " JOIN FETCH U.entity E"
+				+ "	JOIN FETCH U.practises"
+				+ " JOIN FETCH E.practiceList"
 				+ " WHERE U.entity.id =:id");
+
+		
 		query.setParameter("id", id);
 		List<User> list = query.list();
+		
+//		for (User user : list) {
+//		
+//			Set<Practice>pList =  user.getEntity().getPracticeList();
+//			System.out.println("");
+//		}
+		 
 		
 		return list;
 	}
