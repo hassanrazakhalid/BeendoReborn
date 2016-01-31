@@ -70,6 +70,20 @@ public class PractiseDao implements IPractise {
 	}
 
 	@Override
+	@Transactional
+	public List<Practice> findAllByEntity(Integer id) {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query =  session.createQuery("FROM Practice P"
+//				+ " JOIN FETCH P."
+				+ " WHERE P.entity.id =:id");
+		query.setParameter("id", id);
+		
+		return query.list();
+		
+	}
+	
+	@Override
 	public void deleteAll() {
 		// TODO Auto-generated method stub
 		

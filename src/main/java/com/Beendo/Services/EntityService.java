@@ -114,7 +114,7 @@ public class EntityService {
 	}
 	
 	public CEntitiy fetchById(Integer id){
-		return _service.findById(id);
+		return _service.findEntityById(id);
 	}
 
 /*	public static List<CEntitiy> isNameExist(List<CEntitiy> entities, String name) {

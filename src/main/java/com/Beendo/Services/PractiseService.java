@@ -68,9 +68,10 @@ public class PractiseService {
 		{
 			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
 			{
-				CEntitiy entity = iEntity.refresh(SharedData.getSharedInstace().getCurrentUser().getEntity());
-				SharedData.getSharedInstace().getCurrentUser().setEntity(entity);
-				practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
+//				CEntitiy entity = iEntity.refresh(SharedData.getSharedInstace().getCurrentUser().getEntity());
+//				SharedData.getSharedInstace().getCurrentUser().setEntity(entity);
+				List<Practice> result = iPractise.findAllByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
+				practiseList.addAll(result);
 			}
 			else if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()))
 			{

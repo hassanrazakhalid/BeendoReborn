@@ -9,4 +9,5 @@ public interface IEntity extends ICRUD <CEntitiy, Integer> {
 	public List<CEntitiy> fetchAllExcept(Integer id);
 	public String isEntitynameExist(String userName);
 	public List<CEntitiy> findAllPropertiesId(Integer id);
+	public CEntitiy findEntityById(Integer id);
 }
