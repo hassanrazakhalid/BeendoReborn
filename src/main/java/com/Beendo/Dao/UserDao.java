@@ -107,7 +107,10 @@ public class UserDao implements IUserDao {
 
 	@Transactional()
 	public List<User> findAll() {
-		return sessionFactory.getCurrentSession().createQuery("SELECT U From User U LEFT JOIN FETCH U.practises").list();
+		return sessionFactory.getCurrentSession().createQuery("From User U"
+				+ " LEFT JOIN FETCH U.practises"
+				+ " JOIN FETCH U.entity E"
+				+ " JOIN FETCH E.practiceList").list();
 	}
 
 	public void deleteAll() {

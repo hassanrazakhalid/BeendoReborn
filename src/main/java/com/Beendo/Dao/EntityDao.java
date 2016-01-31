@@ -113,7 +113,9 @@ public class EntityDao implements IEntity {
 	public List<CEntitiy> fetchAllExcept(Integer id) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM CEntitiy E where E.id != :id");
+		Query query = session.createQuery("FROM CEntitiy E"
+				+ " JOIN FETCH E.practiceList"
+				+ " where E.id != :id");
 		query.setParameter("id", id);
 		List<CEntitiy> result = query.list();
 		return result;

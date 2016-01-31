@@ -38,10 +38,9 @@ public class DatabaseConfiguration {
 		properties.setProperty("hibernate.connection.pool_size", "10");
 		properties.setProperty("hibernate.show_sql", "true");
 		properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
-		properties.setProperty("hibernate.hbm2ddl.auto", "update");
+//		properties.setProperty("hibernate.hbm2ddl.auto", "update");
 
-		return properties;
-				
+		return properties;		
 	}
 	
 	@Autowired
