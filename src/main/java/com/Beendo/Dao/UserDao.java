@@ -252,7 +252,7 @@ public class UserDao implements IUserDao {
 //				+ " JOIN FETCH E.users U"
 ////				+ "	JOIN FETCH U.practises"
 //				+ " WHERE U.entity.id =:id");
-		Query query  = session.createQuery("FROM User U"
+		Query query  = session.createQuery("SELECT DISTINCT U FROM User U"
 //				+ " fetch all properties"
 				+ " JOIN FETCH U.entity E"
 				+ "	JOIN FETCH U.practises"
