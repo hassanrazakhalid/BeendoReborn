@@ -333,16 +333,21 @@ public class UserController extends RootController implements DisposableBean, In
 			user.setAppUserName(tmpUserName);
 			user.setEmail(tmpEmail);
 
+			user.getPractises().clear();
 			if (user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString())
 					|| user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString())) {
 				selectedEntity = entityService.fetchById(1);
-			} else
+			} 
+			else
+			{
 				selectedEntity = getSelectedEntity();
+				popoulatePracticesByIds(selectedPractises);
+			}
 			int x = selectedEntity.getUsers().size();
 			user.setEntity(selectedEntity);
 
-			user.getPractises().clear();
-			popoulatePracticesByIds(selectedPractises);
+			
+			
 
 			if (!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 				selectedPermission.selectAllPermissions();

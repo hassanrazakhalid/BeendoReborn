@@ -57,7 +57,7 @@ public class EntityDao implements IEntity {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
 		
-		Query query = session.createQuery("FROM CEntitiy E"
+		Query query = session.createQuery("SELECT DISTINCT E FROM CEntitiy E"
 				+ " JOIN FETCH E.practiceList"
 				+ " JOIN FETCH E.users"
 				+ " WHERE E.id=:id");
@@ -117,7 +117,7 @@ public class EntityDao implements IEntity {
 		Query query = session.createQuery("FROM CEntitiy E"
 				+ " JOIN FETCH E.users"
 				+ " JOIN FETCH E.practiceList"
-				+ " where E.id != :id");
+				+ " where E.id = :id");
 		query.setParameter("id", id);
 		List<CEntitiy> result = query.list();
 		if(result.size() > 0)

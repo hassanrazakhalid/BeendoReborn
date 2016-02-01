@@ -46,7 +46,6 @@ public class UserService implements UserDetailsService {
 		}
 		else if(userRole.equalsIgnoreCase(Role.ROOT_USER.toString()))
 		{
-			
 			userList.addAll(iUserDao.findUserOtherThanRoot());
 		}
 		else if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
