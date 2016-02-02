@@ -123,6 +123,11 @@ public class EntityService {
 	public CEntitiy fetchById(Integer id){
 		return _service.findEntityById(id);
 	}
+	
+	public CEntitiy findEntityWithTransaction(Integer id){
+		
+		return _service.findEntityWithTransaction(id);
+	}
 
 /*	public static List<CEntitiy> isNameExist(List<CEntitiy> entities, String name) {
 

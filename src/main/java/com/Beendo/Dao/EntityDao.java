@@ -124,9 +124,24 @@ public class EntityDao implements IEntity {
 			return result.get(0);
 		else
 			return null;
-		
 	}
 
+	@Transactional
+	@Override
+	public CEntitiy findEntityWithTransaction(Integer id){
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query = session.createQuery("SELECT DISTINCT E FROM CEntitiy E"
+				+ " LEFT JOIN FETCH E.transactionList"
+				+ " where E.id = :id");
+		query.setParameter("id", id);
+		List<CEntitiy> result = query.list();
+		if(result.size() > 0)
+			return result.get(0);
+		else
+			return null;
+	}
+	
 	@Transactional
 	@Override
 	public List<CEntitiy> fetchAllExcept(Integer id) {

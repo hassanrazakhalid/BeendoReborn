@@ -145,7 +145,7 @@ public class TransactionController extends RootController {
 			transaction.setPractice(null);
 		}
 		
-		CEntitiy entity = SharedData.getSharedInstace().getCurrentUser().getEntity();
+		CEntitiy entity = entityService.findEntityWithTransaction(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());//SharedData.getSharedInstace().getCurrentUser().getEntity();
 		transaction.setEntity(entity);
 		
 		try
@@ -165,7 +165,10 @@ public class TransactionController extends RootController {
 				//showMessage("Transaction has been saved");
 			}
 		}
-		catch(Exception ex){}
+		catch(Exception ex){
+			
+			System.out.println(ex);
+		}
 		
 		RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
 		
