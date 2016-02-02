@@ -68,7 +68,7 @@ public class TransactionDao implements ITransaction {
 	public List<ProviderTransaction> findTransactionsByEntity(Integer id) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM ProviderTransaction P"
+		Query query = session.createQuery("SELECT P FROM ProviderTransaction P"
 				+ " LEFT JOIN P.entity E"
 				+ " WHERE E.id = :id"); 
 //		Query query = session.createQuery("FROM CEntitiy E"
