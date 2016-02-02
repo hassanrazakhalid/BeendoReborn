@@ -21,6 +21,7 @@ import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
+import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
@@ -65,7 +66,7 @@ public class PractiseController {
 	}
 
 	private void refreshAll() {
-		listEntities = entityService.fetchAllByRole();
+		listEntities = entityService.fetchAllByRole(Screen.Screen_Practice);
 		listPractise = practiseService.fetchAllByRole();
 		// return "Practise/PractiseView?faces-redirect=true";
 		// return "PractiseView";

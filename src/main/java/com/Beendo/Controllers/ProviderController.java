@@ -26,6 +26,7 @@ import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
+import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
@@ -79,7 +80,7 @@ public class ProviderController extends RootController {
 	public void onLoad(){
 		
 		providerList = providerService.fetchAllByRole(); //providerService.fetchAllByUser();
-		entityList = entityService.fetchAllByRole();
+		entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
 		payerList = payerService.findAll();
 		practiceList = practiseService.fetchAllByRole();// new ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.Beendo.Dao.ICRUD;
+import com.Beendo.Dao.ITransaction;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
@@ -21,7 +22,7 @@ public class TransactionService {
 
 	@Autowired
 	@Qualifier("transactionDao")
-	private ICRUD<ProviderTransaction, Integer> service;
+	private ITransaction service;
 	
 	
 	public void save(ProviderTransaction entity)
@@ -59,7 +60,8 @@ public class TransactionService {
 		else
 		{
 			List<ProviderTransaction> tmpList = new ArrayList<ProviderTransaction>();
-			tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getTransactionList());
+			List<ProviderTransaction> result = service.findTransactionsByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
+			tmpList.addAll(result);
 			
 			dataList = tmpList;
 		}

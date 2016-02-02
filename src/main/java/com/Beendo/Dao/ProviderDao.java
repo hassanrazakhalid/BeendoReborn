@@ -125,7 +125,10 @@ public class ProviderDao implements IProvider {
 //				+ " JOIN Pra.entity E"
 //				+ " WHERE E.id =:id");
 	
-		Query quey = session.createQuery("FROM Provider P WHERE P.centity.id=:id");
+		Query quey = session.createQuery("SELECT DISTINCT P FROM Provider P"
+				+ " JOIN FETCH P.centity E"
+				+ " RIGHT JOIN FETCH E.practiceList "
+				+ " WHERE P.centity.id=:id");
 		quey.setParameter("id", id);
 		
 		

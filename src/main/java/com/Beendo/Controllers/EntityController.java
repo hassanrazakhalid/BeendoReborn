@@ -22,6 +22,7 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.UserService;
 import com.Beendo.Utils.OperationType;
+import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
@@ -45,7 +46,7 @@ public class EntityController extends RootController {
 	
 	public String viewEntity()
 	{
-		entities = entityService.fetchAllByRole();
+		entities = entityService.fetchAllByRole(Screen.Screen_Entity);
 		initHashOne(entities);
 		return "EntityView";
 /*		HttpServletRequest request =(HttpServletRequest)	FacesContext.getCurrentInstance().getExternalContext().getRequest();

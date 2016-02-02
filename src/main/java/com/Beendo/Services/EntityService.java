@@ -1,23 +1,17 @@
 package com.Beendo.Services;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Beendo.Dao.ICRUD;
 import com.Beendo.Dao.IEntity;
 import com.Beendo.Entities.CEntitiy;
-import com.Beendo.Entities.Practice;
-import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.Role;
+import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
 
 @Service
@@ -63,22 +57,35 @@ public class EntityService {
 
 	}
 
-	public List<CEntitiy> fetchAllByRole() {
+	public List<CEntitiy> fetchAllByRole(Screen screen) {
 
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
 		List<CEntitiy> entityList = new ArrayList<>();
-
-		if (SharedData.getSharedInstace().shouldReturnFullList()) {
-			entityList.addAll(_service.fetchAllExcept(1));
-		} else {
-			if (userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
-			entityList = _service.findAllPropertiesId(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
-//				entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
+		
+		switch (screen) {
+		
+		case Screen_Entity:
+		case Screen_Payer:
+		case Screen_Practice:
+		case Screen_Transaction:
+		case Screen_User:
+		case Screen_Provider:
+		{
+			if (SharedData.getSharedInstace().shouldReturnFullList()) {
+				entityList.addAll(_service.fetchAllExcept(1));
+			} else {
+				if (userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
+				entityList = _service.findAllPropertiesId(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
+//					entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
+				}
+				else if (userRole.equalsIgnoreCase(Role.ENTITY_USER.toString())) {
+					if (SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderAdd())
+						entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
+				}
 			}
-			else if (userRole.equalsIgnoreCase(Role.ENTITY_USER.toString())) {
-				if (SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderAdd())
-					entityList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
-			}
+		}
+		default:
+			break;
 		}
 
 		return entityList;

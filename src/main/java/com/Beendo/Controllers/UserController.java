@@ -36,6 +36,7 @@ import com.Beendo.Services.PermissionService;
 import com.Beendo.Services.UserService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
+import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
@@ -210,7 +211,7 @@ public class UserController extends RootController implements DisposableBean, In
 
 	private void reloadEntities() {
 
-		listEntities = entityService.fetchAllByRole();
+		listEntities = entityService.fetchAllByRole(Screen.Screen_User);
 		initHashOne(listEntities);
 	}
 
