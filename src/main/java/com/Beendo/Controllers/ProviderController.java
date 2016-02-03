@@ -240,17 +240,8 @@ public class ProviderController {
 
 		Set<Practice> tmpPractices = getSelectedList();
 		provider.setPracticeList(tmpPractices);
-		// for (Practice practise : tmpPractices) {
-		//
-		// try
-		// {
-		// practise.getProviders().add(provider);
-		// practiseService.update(practise);
-		// }
-		// catch(Exception ex){}
-		// }
+
 		practiseService.updatePractiseList(tmpPractices);
-		// currentEntity.setPracticeList(provider.getPracticeList());
 		provider.setCentity(entity);
 
 		switch (this.opetationType) {
@@ -322,8 +313,7 @@ public class ProviderController {
 			// providerService.update(provider);
 			// entityService.update(currentEntity);
 			providerService.delete(provider);
-
-			// providerList.remove(provider);
+			 providerList.remove(provider);
 			// entityService.update(currentEntity);
 
 		} catch (Exception ex) {
