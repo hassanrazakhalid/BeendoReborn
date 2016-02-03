@@ -153,7 +153,7 @@ public class TransactionController extends RootController {
 			if(isEditMode)
 			{		
 				transactionService.update(transaction);
-				entityService.update(entity);
+				//entityService.update(entity);
 				//showMessage("Transaction has been updated");
 			}
 			else
