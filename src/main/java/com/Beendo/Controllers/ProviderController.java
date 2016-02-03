@@ -35,8 +35,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-@Scope(value="session")
-public class ProviderController extends RootController {
+@Scope(value = "session")
+public class ProviderController {
 
 	@Autowired
 	private ProviderService providerService;
@@ -46,10 +46,10 @@ public class ProviderController extends RootController {
 
 	@Autowired
 	private EntityService entityService;
-	
+
 	@Autowired
 	private PractiseService practiseService;
-	
+
 	@Autowired
 	private TransactionService transactionService;
 	private List<ProviderTransaction> transactions;
@@ -60,287 +60,311 @@ public class ProviderController extends RootController {
 	private List<Provider> providerList;
 
 	private List<Practice> practiceList;
-	private List<Practice> selectedPractices;
+	private List<String> selectedPractices;
 
 	private List<Payer> payerList;
-	private List<Payer> selectedPayers;
+	private List<String> selectedPayers;
 
 	private List<CEntitiy> entityList;
 
-	private CEntitiy currentEntity;
+	private String currentEntity;
 	private OperationType opetationType;
 
-	private boolean isEntityListDisabled ;
-	
-	public boolean getIsEntityListDisabled(){
-		
+	private boolean isEntityListDisabled;
+
+	public boolean getIsEntityListDisabled() {
+
 		return isEntityListDisabled;
 	}
-	
-	public void onLoad(){
-		
-		providerList = providerService.fetchAllByRole(); //providerService.fetchAllByUser();
+
+	public void onLoad() {
+
+		providerList = providerService.fetchAllByRole(); // providerService.fetchAllByUser();
 		entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
 		payerList = payerService.findAll();
-		practiceList = practiseService.fetchAllByRole();// new ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
+		practiceList = practiseService.fetchAllByRole();// new
+														// ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 
 		transactions = transactionService.fetchAllByRole();
-		//initHashTwo(practiceList);
-		
+		// initHashTwo(practiceList);
+
 		if (!entityList.isEmpty()) {
-			setCurrentEntity(entityList.get(0));
+			setCurrentEntity(String.valueOf(entityList.get(0).getId()));
 			onEntityChange();
 		}
-		initHashOne(entityList);
-		initHashFour(providerList);
-		initHashThree(payerList);
-		initHashTwo(practiceList);
-	}
-	
-	public String view() {
 
+		// initHashOne(entityList);
+		// initHashFour(providerList);
+		// initHashThree(payerList);
+		// initHashTwo(practiceList);
+	}
+
+	public String view() {
 
 		return "ProviderView";
 	}
-	
-	public String getFirstEntityName(){
-		
-		if(entityList.isEmpty())
+
+	public String getFirstEntityName() {
+
+		if (entityList.isEmpty())
 			return "No Entity Exist";
 		else
 			return entityList.get(0).getName();
 	}
-	
-	public boolean isSingleItemInEntityList(){
-		
-		if(entityList.size() <= 1)
-		{
+
+	public boolean isSingleItemInEntityList() {
+
+		if (entityList.size() <= 1) {
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
-	public void updateClicked(Provider _provider) {
+	public List<String> getSelectedPracticesIds(Provider provider) {
+
+		Set<Practice> tmpPracticeList =  provider.getPracticeList();
+		List<String> tmpSelectedPractice = new ArrayList<>();
+		for (Practice practice : tmpPracticeList) {
+			tmpSelectedPractice.add(String.valueOf(practice.getId()));
+		}
+		return tmpSelectedPractice;
+	}
+
+	private Set<Practice> getPracticeListByEntity(Integer id){
 		
-		//selectedPayers = getSelectedPayers(_provider);
+		for (CEntitiy cEntitiy : entityList) {
+			
+			if(cEntitiy.getId().compareTo(id) == 0)
+				return cEntitiy.getPracticeList();
+		}
+		return new HashSet<>();
+	}
+	
+	public void updateClicked(Provider _provider) {
+
+		// selectedPayers = getSelectedPayers(_provider);
 		isEntityListDisabled = true;
 		practiceList.clear();
-		practiceList.addAll(_provider.getCentity().getPracticeList());		
+//		practiceList.addAll(_provider.getCentity().getPracticeList());
 		
-		initHashTwo(practiceList);
-		
-		selectedPractices = getSelectedPractices(_provider);
+		Set<Practice>tmpPractices = getPracticeListByEntity(_provider.getCentity().getId());
+		practiceList.addAll(tmpPractices);
+
+		// initHashTwo(practiceList);
+
+		selectedPractices = getSelectedPracticesIds(_provider);
 		provider = _provider;
-		//practiceList = new ArrayList<>(provider.getCentity().getPracticeList());
+		// practiceList = new
+		// ArrayList<>(provider.getCentity().getPracticeList());
 		// provider.setPracticeList(getSelectedList());
 		this.opetationType = OperationType.Edit;
-		setCurrentEntity(getEntityById(provider.getCentity().getId()));
-	}
-	
-	/*private List<Payer> getSelectedPayers(Provider _provider)
-	{
-		List<Payer> list = new ArrayList();
-		
-		for (Payer payer : _provider.getPayerList()) {
-			
-			list.add(getPayerById(payer.getId()));
-		}
-		
-		return list;
-	}*/
-	
-	private List<Practice> getSelectedPractices(Provider _provider)
-	{
-		List<Practice> mlist = new ArrayList();
-		Set<Practice> list = new HashSet<Practice>();
-		
-		for (Practice prac : _provider.getPracticeList()) {
-			
-			Practice tprac = getPractiseById(prac.getId());
-			
-			if(tprac != null)
-				list.add(tprac);
-		}
-		
-		mlist.addAll(list);
-		
-		return mlist;
+		setCurrentEntity(String.valueOf(_provider.getCentity().getId()));
 	}
 
-	private List<Practice> getSelectedList() {
-		List<Practice> list = new ArrayList();
+	/*
+	 * private List<Payer> getSelectedPayers(Provider _provider) { List<Payer>
+	 * list = new ArrayList();
+	 * 
+	 * for (Payer payer : _provider.getPayerList()) {
+	 * 
+	 * list.add(getPayerById(payer.getId())); }
+	 * 
+	 * return list; }
+	 */
 
-		for (Practice practice : provider.getCentity().getPracticeList()) {
+	private Set<Practice> getSelectedList() {
 
-			for (Practice prac : provider.getPracticeList()) {
+		Set<Practice> list = new HashSet<>();
 
-				if (prac.getId() == practice.getId())
+		CEntitiy entity = getEntityById(Integer.valueOf(currentEntity));
+		Set<Practice> allPractices = entity.getPracticeList();
+
+		for (String practiceId : selectedPractices) {
+
+			for (Practice practice : allPractices) {
+
+				if (practice.getId().compareTo(Integer.valueOf(practiceId)) == 0) {
 					list.add(practice);
+					break;
+				}
 			}
 		}
 		return list;
 	}
-	
-	public boolean canEditProvider(){
-		
+
+	public boolean canEditProvider() {
+
 		boolean isOK = true;
-	
-		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
-				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderEdit())
+
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())
+				&& !SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderEdit())
 			isOK = false;
-		
-		return isOK;
-	}
-	
-	public boolean canCreateProvider(){
-		
-		boolean isOK = true;
-	
-		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
-				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderAdd())
-			isOK = false;
-		
+
 		return isOK;
 	}
 
-	public boolean isInfoValid(){
-		
+	public boolean canCreateProvider() {
+
 		boolean isOK = true;
-		
-		String error = providerService.isNameExist(provider.getFirstName(), provider.getLastName(), provider.getNpiNum());
-		if(error != null)
-		{
+
+		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())
+				&& !SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderAdd())
+			isOK = false;
+
+		return isOK;
+	}
+
+	public boolean isInfoValid() {
+
+		boolean isOK = true;
+
+		String error = providerService.isNameExist(provider.getFirstName(), provider.getLastName(),
+				provider.getNpiNum());
+		if (error != null) {
 			isOK = false;
 			showMessage(error);
 		}
-		
+
 		return isOK;
 	}
-	
+
 	public void saveInfo(ActionEvent event) {
-		
-		if(this.opetationType == opetationType.Create && !isInfoValid())
+
+		if (this.opetationType == opetationType.Create && !isInfoValid())
 			return;
-		
-		
-			if(currentEntity == null && entityList.size() == 1)
+
+		CEntitiy entity = null;
+		if (entityList.size() >= 1) {
+			entity = getEntityById(Integer.valueOf(currentEntity));// entityList.get();
+		}
+
+		Set<Practice> tmpPractices = getSelectedList();
+		provider.setPracticeList(tmpPractices);
+		// for (Practice practise : tmpPractices) {
+		//
+		// try
+		// {
+		// practise.getProviders().add(provider);
+		// practiseService.update(practise);
+		// }
+		// catch(Exception ex){}
+		// }
+		practiseService.updatePractiseList(tmpPractices);
+		// currentEntity.setPracticeList(provider.getPracticeList());
+		provider.setCentity(entity);
+
+		switch (this.opetationType) {
+		case Create: {
 			{
-				currentEntity = entityList.get(0);
-			}	
-		
-			provider.setPracticeList(new HashSet<>(selectedPractices));
-			for (Practice practise : selectedPractices) {
 
-				try
-				{
-					practise.getProviders().add(provider);
-					practiseService.update(practise);
-				}
-				catch(Exception ex){}
-			}
-			
-			currentEntity.setPracticeList(provider.getPracticeList());			
-			provider.setCentity(currentEntity);
-			
-			switch (this.opetationType) {
-			case Create: {
-				{
-					
-					//currentEntity.getProviderList().add(provider);
-					
-					if(isInfoValid())
-					{
-						providerList.add(provider);
+				// currentEntity.getProviderList().add(provider);
+
+				if (isInfoValid()) {
+					try {
 						providerService.save(provider);
-						entityService.update(currentEntity);
-						RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-						//showMessage("Provider has been saved");
-					}
-				} 
-			}
-				break;
-			case Edit: {
-				providerService.update(provider);
-				//entityService.update(currentEntity);
-				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-				//showMessage("Provider has been updated");
-			}
-				break;
+						providerList.add(provider);
 
-			default:
-				break;
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+
+					// entityService.update(currentEntity);
+					RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+					// showMessage("Provider has been saved");
+				}
 			}
+		}
+			break;
+		case Edit: {
+			providerService.update(provider);
+			// entityService.update(currentEntity);
+			RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+			// showMessage("Provider has been updated");
+		}
+			break;
+
+		default:
+			break;
+		}
 
 	}
 
-	
 	public void removeClicked(Provider provider) {
-		
-		try
-		{
-						
+
+		try {
+
 			for (ProviderTransaction providerTransaction : transactions) {
-				
-				if(providerTransaction.getProvider() != null && provider.getId() == providerTransaction.getProvider().getId())
-				{
+
+				if (providerTransaction.getProvider() != null
+						&& provider.getId() == providerTransaction.getProvider().getId()) {
 					providerTransaction.setProvider(null);
 					transactionService.update(providerTransaction);
-				}			
-				
+				}
+
 			}
-			
-			//currentEntity.setPracticeList(provider.getPracticeList());			
-			//prov.setCentity(currentEntity);
-			
-//			prov.getPracticeList().clear();
+
 			Set<Practice> practiceList = provider.getPracticeList();
 			for (Practice practise : practiceList) {
-				
+
 				practise.getProviders().remove(provider);
-//				provider.getPracticeList().remove(practise);
-				
-//				practiseService.update(practise);
+				// provider.getPracticeList().remove(practise);
+
+				// practiseService.update(practise);
 			}
-			
+
 			practiseService.updatePractiseList(practiceList);
-			
+
 			int sz = provider.getPracticeList().size();
-			
-			currentEntity.setPracticeList(provider.getPracticeList());
-			provider.setCentity(currentEntity);
-			
-//			providerService.update(provider);
-			entityService.update(currentEntity);
+
+			// currentEntity.setPracticeList(provider.getPracticeList());
+			// provider.setCentity(currentEntity);
+
+			// providerService.update(provider);
+			// entityService.update(currentEntity);
 			providerService.delete(provider);
-			
-			providerList.remove(provider);
-			entityService.update(currentEntity);
-			
+
+			// providerList.remove(provider);
+			// entityService.update(currentEntity);
+
+		} catch (Exception ex) {
 		}
-		catch(Exception ex)
-		{}
 	}
-	
-	
+
 	public void clearData() {
-		
+
 		isEntityListDisabled = false;
 		selectedPayers = null;
 		selectedPractices = null;
 		provider = new Provider();
 		this.opetationType = OperationType.Create;
-		currentEntity = entityList.get(0);
 		practiceList.clear();
-		practiceList.addAll(currentEntity.getPracticeList());
-		initHashTwo(practiceList);
+
+		if (entityList.size() > 0) {
+			CEntitiy entity = entityList.get(0);
+			currentEntity = String.valueOf(entity.getId());
+			practiceList.addAll(entity.getPracticeList());
+		}
+
+		// initHashTwo(practiceList);
+	}
+
+	private CEntitiy getEntityById(Integer id) {
+
+		for (CEntitiy cEntitiy : entityList) {
+
+			if (cEntitiy.getId().compareTo(id) == 0)
+				return cEntitiy;
+		}
+		return null;
 	}
 
 	public void onEntityChange() {
-		provider.setCentity(currentEntity);
-		practiceList = new ArrayList(currentEntity.getPracticeList());
-		//practiceList = new ArrayList<>(currentEntity.getPracticeList());
-		initHashTwo(practiceList);
+
+		CEntitiy entity = getEntityById(Integer.valueOf(currentEntity));
+		provider.setCentity(entity);
+		practiceList = new ArrayList(entity.getPracticeList());
+		// practiceList = new ArrayList<>(currentEntity.getPracticeList());
+		// initHashTwo(practiceList);
 		/*
 		 * for (Practice practice : practiceList) {
 		 * 

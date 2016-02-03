@@ -121,7 +121,7 @@
 							<p:selectOneMenu id="entities"
 								value="#{providerController.currentEntity}"
 								panelStyle="width:180px" effect="fade"
-								converter="entityConverter" required="true" var="t"
+								 required="true"
 								style="width:177px"
 								rendered="#{!providerController.isSingleItemInEntityList()}"
 								disabled="#{providerController.getIsEntityListDisabled()}"
@@ -132,11 +132,11 @@
 
 								<f:selectItem itemLabel="Select Entity" />
 								<f:selectItems value="#{providerController.entityList}"
-									var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+									var="entity" itemLabel="#{entity.name}" itemValue="#{entity.getId()}" />
 
-								<p:column>
+								<!-- <p:column>
 									<h:outputText value="#{t.name}" />
-								</p:column>
+								</p:column> -->
 							</p:selectOneMenu>
 
 
@@ -144,11 +144,11 @@
 								value="#{providerController.selectedPractices}"
 								label="Select Practices" filter="true"
 								filterMatchMode="startsWith" style="width:177px" var="t"
-								converter="practiseConverter" panelStyle="width:250px">
+								 panelStyle="width:250px">
 
 								<f:selectItems value="#{providerController.practiceList}"
 									var="practice" itemLabel="#{practice.name}"
-									itemValue="#{practice}" />
+									itemValue="#{practice.getId()}" />
 
 								<!-- <p:column>
 									<h:outputText value="#{t.name}" />
