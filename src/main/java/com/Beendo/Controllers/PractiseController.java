@@ -19,6 +19,8 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
+import com.Beendo.Services.TransactionService;
+import com.Beendo.Services.UserService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
@@ -52,6 +54,12 @@ public class PractiseController {
 	@Autowired
 	private ProviderService providerService;
 
+	@Autowired
+	private TransactionService transactionService;
+	
+	@Autowired
+	private UserService userService;
+	
 	@Autowired
 	private EntityService entityService;
 
@@ -237,7 +245,7 @@ public class PractiseController {
 	public void remove(Practice sender) {
 
 		
-		
+		String error = "This practice is currently being used. Kindly unassign it before removing";
 		try {
 		
 //			Set<Provider> providerList = sender.getProviders();
@@ -250,14 +258,21 @@ public class PractiseController {
 //			}
 //			
 //			providerService.updateProviderList(providerList);
-			practiseService.remove(sender);
-			listPractise.remove(sender);
 			
-			
+			if(!userService.isUserExistForPractice(sender.getId()))
+			{
+				transactionService.deleteTransactionByPractics(sender.getId());
+				practiseService.remove(sender);
+				listPractise.remove(sender);				
+			}
+			else
+			{
+				showMessage("Error",error);
+			}
 		}
 		catch (DataIntegrityViolationException e){
 			
-			showMessage("Error","This practice is currently being used. Kindly unassign it before removing");
+			showMessage("Error",error);
 		}
 		catch (Exception e) {
 			

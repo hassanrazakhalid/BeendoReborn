@@ -69,5 +69,13 @@ public class TransactionService {
 		return dataList;
 	}
 	
+	public void deleteTransactionByPractics(Integer id){
+		
+		service.deleteTransactionByPractics(id);
+	}
 	
+	public void deleteTransactionByProvider(Integer id){
+		
+		service.deleteTransactionByProvider(id);
+	}
 }

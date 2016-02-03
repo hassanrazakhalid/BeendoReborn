@@ -129,4 +129,9 @@ public class UserService implements UserDetailsService {
 		
 		return iUserDao.findPracticesByUserId(id);
 	}
+	
+	public boolean isUserExistForPractice(Integer practiceId){
+		
+		return iUserDao.isUserExistForPractice(practiceId);
+	}
 }

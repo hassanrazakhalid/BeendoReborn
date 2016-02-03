@@ -230,7 +230,7 @@ public class ProviderController {
 
 	public void saveInfo(ActionEvent event) {
 
-		if (this.opetationType == opetationType.Create && !isInfoValid())
+		if (this.opetationType == OperationType.Create && !isInfoValid())
 			return;
 
 		CEntitiy entity = null;
@@ -284,16 +284,18 @@ public class ProviderController {
 
 		try {
 
-			for (ProviderTransaction providerTransaction : transactions) {
+//			for (ProviderTransaction providerTransaction : transactions) {
+//
+//				if (providerTransaction.getProvider() != null
+//						&& provider.getId() == providerTransaction.getProvider().getId()) {
+//					providerTransaction.setProvider(null);
+//					transactionService.update(providerTransaction);
+//				}
+//
+//			}
 
-				if (providerTransaction.getProvider() != null
-						&& provider.getId() == providerTransaction.getProvider().getId()) {
-					providerTransaction.setProvider(null);
-					transactionService.update(providerTransaction);
-				}
-
-			}
-
+			transactionService.deleteTransactionByProvider(provider.getId());
+			
 			Set<Practice> practiceList = provider.getPracticeList();
 			for (Practice practise : practiceList) {
 

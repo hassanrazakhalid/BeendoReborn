@@ -10,6 +10,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 
 @Repository
@@ -89,6 +91,30 @@ public class TransactionDao implements ITransaction {
 	public ProviderTransaction refresh(ProviderTransaction sender) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	@Transactional
+	public void deleteTransactionByPractics(Integer id) {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query = session.createQuery("DELETE FROM ProviderTransaction T"
+				+ " WHERE T.practice.id = :id");
+		query.setParameter("id", id);
+		int result = query.executeUpdate();
+		System.out.println("Affected Row: " + result);
+	}
+	
+	@Override
+	@Transactional
+	public void deleteTransactionByProvider(Integer id) {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query = session.createQuery("DELETE FROM ProviderTransaction T"
+				+ " WHERE T.provider.id = :id");
+		query.setParameter("id", id);
+		int result = query.executeUpdate();
+		System.out.println("Affected Row: " + result);
 	}
 
 }

@@ -27,5 +27,6 @@ public interface IUserDao extends ICRUD <User, Integer> {
 	
 	public List<User> findUsersByEntityId(Integer id);
 	
+	public boolean isUserExistForPractice(Integer id);
 //	public UserDetails loadUserByUsername(String username);
 }

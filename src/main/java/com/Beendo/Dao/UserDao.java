@@ -272,4 +272,23 @@ public class UserDao implements IUserDao {
 		
 		return list;
 	}
+	
+	@Transactional
+	@Override
+	public boolean isUserExistForPractice(Integer practiceId) {
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		boolean isExist = false;
+
+		Query query  = session.createQuery("SELECT DISTINCT U FROM User U"
+				+ " JOIN U.practises P"
+				+ " WHERE P.id =:id");
+		
+		query.setParameter("id", practiceId);
+		List<User> list = query.list();
+		if(list.size() > 0)
+			isExist = true;
+		
+		return isExist;
+	}
 }
