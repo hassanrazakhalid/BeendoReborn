@@ -294,7 +294,9 @@ public class ProviderController {
 //
 //			}
 
-			transactionService.deleteTransactionByProvider(provider.getId());
+			List<Integer> ids = new ArrayList<>();
+			ids.add(provider.getId());
+			transactionService.deleteTransactionByProvider(ids);
 			
 			Set<Practice> practiceList = provider.getPracticeList();
 			for (Practice practise : practiceList) {

@@ -1,5 +1,6 @@
 package com.Beendo.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Provider;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
@@ -262,6 +264,14 @@ public class PractiseController {
 			if(!userService.isUserExistForPractice(sender.getId()))
 			{
 				transactionService.deleteTransactionByPractics(sender.getId());
+				
+				List<Integer> ids = new ArrayList<>();
+				
+				for (Provider provider : sender.getProviders()) {
+				
+					ids.add(provider.getId());
+				}
+				transactionService.deleteTransactionByProvider(ids);
 				practiseService.remove(sender);
 				listPractise.remove(sender);				
 			}

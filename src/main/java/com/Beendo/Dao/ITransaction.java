@@ -8,6 +8,7 @@ public interface ITransaction extends ICRUD<ProviderTransaction, Integer> {
 
 	public List<ProviderTransaction> findTransactionsByEntity(Integer id);
 	
-	public void deleteTransactionByProvider(Integer id);
+	public void deleteTransactionByProvider(List<Integer> ids);
 	public void deleteTransactionByPractics(Integer id);
+	
 }

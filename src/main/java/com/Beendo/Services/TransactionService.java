@@ -74,8 +74,8 @@ public class TransactionService {
 		service.deleteTransactionByPractics(id);
 	}
 	
-	public void deleteTransactionByProvider(Integer id){
+	public void deleteTransactionByProvider(List<Integer> ids){
 		
-		service.deleteTransactionByProvider(id);
+		service.deleteTransactionByProvider(ids);
 	}
 }
