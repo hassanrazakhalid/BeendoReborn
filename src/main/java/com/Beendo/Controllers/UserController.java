@@ -112,7 +112,7 @@ public class UserController extends RootController implements DisposableBean, In
 
 			selectedEntityId = listEntities.get(0).getId().toString();
 		}
-
+ 
 		reloadPractises();
 	}
 	

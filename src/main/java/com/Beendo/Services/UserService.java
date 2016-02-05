@@ -29,6 +29,11 @@ public class UserService implements UserDetailsService {
 		iUserDao.save(user);
 	}
 	
+	public User refresh(User sender){
+		
+		return iUserDao.refresh(sender);
+	}
+	
 	public List<User> fetchAll(){
 		
 		return iUserDao.findAll();

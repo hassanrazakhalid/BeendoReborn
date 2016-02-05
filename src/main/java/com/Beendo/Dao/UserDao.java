@@ -288,7 +288,6 @@ public class UserDao implements IUserDao {
 		List<User> list = query.list();
 		if(list.size() > 0)
 			isExist = true;
-		
 		return isExist;
 	}
 }

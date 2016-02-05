@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.User;
 import com.Beendo.Services.IPractise;
 
 @Repository
@@ -118,4 +119,22 @@ public class PractiseDao implements IPractise {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Transactional
+	@Override
+	public List<Practice> getPracticeByUser(Integer userId) {
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		boolean isExist = false;
+
+		Query query  = session.createQuery("SELECT P FROM User U"
+				+ " JOIN U.practises P"
+				+ " WHERE U.id =:id");
+		
+		query.setParameter("id", userId);
+		List<Practice> list = query.list();
+		
+		return list;
+	}
+
 }

@@ -20,11 +20,13 @@ import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
+import com.Beendo.Services.UserService;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
@@ -70,6 +72,9 @@ public class ProviderController {
 
 	private String currentEntity;
 	private OperationType opetationType;
+	
+	@Autowired
+	private UserService userService;
 
 	private boolean isEntityListDisabled;
 
@@ -77,27 +82,25 @@ public class ProviderController {
 
 		return isEntityListDisabled;
 	}
+	
+	private User tmpUser;
 
 	public void onLoad() {
 
+		User user = SharedData.getSharedInstace().getCurrentUser();
+		tmpUser = userService.refresh(user);
+		
 		providerList = providerService.fetchAllByRole(); // providerService.fetchAllByUser();
 		entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
 		payerList = payerService.findAll();
-		practiceList = practiseService.fetchAllByRole();// new
+		// new
 														// ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 
 		transactions = transactionService.fetchAllByRole();
 		// initHashTwo(practiceList);
 
-		if (!entityList.isEmpty()) {
-			setCurrentEntity(String.valueOf(entityList.get(0).getId()));
-			onEntityChange();
-		}
+		refreshPractics();
 
-		// initHashOne(entityList);
-		// initHashFour(providerList);
-		// initHashThree(payerList);
-		// initHashTwo(practiceList);
 	}
 
 	public String view() {
@@ -182,7 +185,7 @@ public class ProviderController {
 
 		for (String practiceId : selectedPractices) {
 
-			for (Practice practice : allPractices) {
+			for (Practice practice : practiceList) {
 
 				if (practice.getId().compareTo(Integer.valueOf(practiceId)) == 0) {
 					list.add(practice);
@@ -197,9 +200,13 @@ public class ProviderController {
 
 		boolean isOK = true;
 
-		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())
-				&& !SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderEdit())
+		if (tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())
+				&& !tmpUser.getPermission().isCanProviderEdit())
 			isOK = false;
+		
+//		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())
+//				&& !SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderEdit())
+//			isOK = false;
 
 		return isOK;
 	}
@@ -208,9 +215,12 @@ public class ProviderController {
 
 		boolean isOK = true;
 
-		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())
-				&& !SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderAdd())
+		if (tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())
+				&& !tmpUser.getPermission().isCanProviderAdd())
 			isOK = false;
+//		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())
+//				&& !SharedData.getSharedInstace().getCurrentUser().getPermission().isCanProviderAdd())
+//			isOK = false;
 
 		return isOK;
 	}
@@ -342,10 +352,24 @@ public class ProviderController {
 		if (entityList.size() > 0) {
 			CEntitiy entity = entityList.get(0);
 			currentEntity = String.valueOf(entity.getId());
-			practiceList.addAll(entity.getPracticeList());
+//			practiceList.addAll(entity.getPracticeList());
+			refreshPractics();
 		}
-
-		// initHashTwo(practiceList);
+		
+	}
+	
+	private void refreshPractics(){
+		
+		if (!entityList.isEmpty()) {
+			setCurrentEntity(String.valueOf(entityList.get(0).getId()));
+			
+			if(SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			{
+				practiceList = practiseService.fetchAllByRole();
+			}
+			else
+				onEntityChange();
+		}
 	}
 
 	private CEntitiy getEntityById(Integer id) {

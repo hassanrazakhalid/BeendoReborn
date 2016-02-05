@@ -21,11 +21,13 @@ import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
+import com.Beendo.Services.UserService;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
@@ -70,13 +72,15 @@ public class TransactionController extends RootController {
 	private String currentRadio;
 	private Boolean canPracticeShow = true;
 	
-	
+	private User tmpUser;
+	@Autowired
+	private UserService userService;
 	//private HashMap<Integer, Practice> _hash = new HashMap<Integer, Practice>();
-	
-	public String view()
-	{
-		//transactions = transactionService.findAll();
-//		transactions = transactionService.findAllByUser();
+	public void onLoad(){
+		
+		User user = SharedData.getSharedInstace().getCurrentUser();
+		tmpUser = userService.refresh(user);
+		
 		transactions = transactionService.fetchAllByRole();
 		payerList = payerService.findAll();
 		practiceList = practiseService.fetchAllByRole();
@@ -95,6 +99,13 @@ public class TransactionController extends RootController {
 			
 			_hash.put(practice.getId(), practice);
 		}*/
+	}
+	
+	
+	public String view()
+	{
+
+		onLoad();
 		
 		return "ViewTransaction";
 	}
@@ -150,7 +161,7 @@ public class TransactionController extends RootController {
 		
 		 
 		CEntitiy entity = entityService.findEntityWithTransaction(entityId);
-//		transaction.setEntity(entity);
+		transaction.setEntity(entity);
 		
 		try
 		{
@@ -252,9 +263,12 @@ public class TransactionController extends RootController {
 		
 		boolean isOK = true;
 	
-		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
-				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanPayerTransactionEdit())
+		if (tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+				!tmpUser.getPermission().isCanPayerTransactionEdit())
 			isOK = false;
+//		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+//				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanPayerTransactionEdit())
+//			isOK = false;
 		
 		return isOK;
 	}
@@ -263,9 +277,13 @@ public class TransactionController extends RootController {
 		
 		boolean isOK = true;
 	
-		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
-				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanPayerTransactionAdd())
+		
+		if (tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+				!tmpUser.getPermission().isCanPayerTransactionAdd())
 			isOK = false;
+//		if (SharedData.getSharedInstace().getCurrentUser().getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+//				!SharedData.getSharedInstace().getCurrentUser().getPermission().isCanPayerTransactionAdd())
+//			isOK = false;
 		
 		return isOK;
 	}

@@ -66,19 +66,21 @@ public class PractiseService {
 		}
 		else
 		{
-			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
+//			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
 			{
 //				CEntitiy entity = iEntity.refresh(SharedData.getSharedInstace().getCurrentUser().getEntity());
 //				SharedData.getSharedInstace().getCurrentUser().setEntity(entity);
 				List<Practice> result = iPractise.findAllByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
 				practiseList.addAll(result);
 			}
-			else if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()))
+//			else if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()))
 			{
-				List<Practice> result = iUser.findPracticesByUserId(SharedData.getSharedInstace().getCurrentUser().getId());
-				Set<Practice> res = new HashSet<Practice>(result);
-				SharedData.getSharedInstace().getCurrentUser().setPractises(res);
-				practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getPractises());
+//				List<Practice> result = iUser.findPracticesByUserId(SharedData.getSharedInstace().getCurrentUser().getId());
+//				Set<Practice> res = new HashSet<Practice>(result);
+//				SharedData.getSharedInstace().getCurrentUser().setPractises(res);
+				
+//				List<Practice> result = getPracticeByUser(SharedData.getSharedInstace().getCurrentUser().getId());
+//				practiseList.addAll(result);
 			}
 		}
 		
@@ -120,6 +122,10 @@ public class PractiseService {
 		iPractise.updatePractiseList(list);
 	}
 	
+	public List<Practice> getPracticeByUser(Integer userId){
+		
+		return iPractise.getPracticeByUser(userId);
+	}
 	// GET practise ID From List
 	
 /*	public static Practice getPractiseIdByList(List<Practice> practises, Integer name){

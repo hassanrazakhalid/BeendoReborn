@@ -12,5 +12,6 @@ public interface IPractise extends ICRUD<Practice, Integer> {
 	
 	public void updatePractiseList(Set<Practice>list);
 	public List<Practice> findAllByEntity(Integer id);
+	public List<Practice> getPracticeByUser(Integer userId);
 }
  
