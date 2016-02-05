@@ -69,9 +69,9 @@ public class TransactionService {
 		return dataList;
 	}
 	
-	public void deleteTransactionByPractics(Integer id){
+	public void deleteTransactionByPractics(List<Integer> ids){
 		
-		service.deleteTransactionByPractics(id);
+		service.deleteTransactionByPractice(ids);
 	}
 	
 	public void deleteTransactionByProvider(List<Integer> ids){

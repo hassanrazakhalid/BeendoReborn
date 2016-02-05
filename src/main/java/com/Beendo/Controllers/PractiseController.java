@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
@@ -263,15 +261,16 @@ public class PractiseController {
 			
 			if(!userService.isUserExistForPractice(sender.getId()))
 			{
-				transactionService.deleteTransactionByPractics(sender.getId());
+				List<Integer> idsPractice = new ArrayList<>(); 
+				transactionService.deleteTransactionByPractics(idsPractice);
 				
-				List<Integer> ids = new ArrayList<>();
+				List<Integer> idsProvider = new ArrayList<>();
 				
 				for (Provider provider : sender.getProviders()) {
 				
-					ids.add(provider.getId());
+					idsProvider.add(provider.getId());
 				}
-				transactionService.deleteTransactionByProvider(ids);
+				transactionService.deleteTransactionByProvider(idsProvider);
 				practiseService.remove(sender);
 				listPractise.remove(sender);				
 			}

@@ -158,6 +158,22 @@ public class SharedData {
 		
 	}
 
+	public static String getInString(List<Integer> ids) {
+
+		String str = "in (";
+
+		for (int i = 0; i < ids.size(); i++) {
+
+			Integer integer = ids.get(i);
+			str += " :arg" + i;
+
+			if (i != (ids.size() - 1)) {
+				str += ",";
+			}
+		}
+		str += ")";
+		return str;
+	}
 //	public void setCurrentUser(User currentUser) {
 //		this.currentUser = currentUser;
 //	}

@@ -177,10 +177,17 @@ public class TransactionController extends RootController {
 	public void removeClicked(ProviderTransaction transac)
 	{
 		if(transac.getPractice() != null)
-			transactionService.deleteTransactionByPractics(transac.getPractice().getId());
+		{
+			List<Integer> ids =  new ArrayList<>();
+			ids.add(transac.getPractice().getId());
+			transactionService.deleteTransactionByPractics(ids);
+		}
 		else
-			transactionService.deleteTransactionByProvider(transac.getProvider().getId());
-		
+		{
+			List<Integer> ids =  new ArrayList<>();
+			ids.add(transac.getProvider().getId());
+			transactionService.deleteTransactionByProvider(ids);
+		}
 		transactions.remove(transac);
 	}
 	

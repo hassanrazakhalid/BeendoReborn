@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Utils.SharedData;
 
 @Repository
 public class TransactionDao implements ITransaction {
@@ -94,11 +95,18 @@ public class TransactionDao implements ITransaction {
 
 	@Override
 	@Transactional
-	public void deleteTransactionByPractics(Integer id) {
+	public void deleteTransactionByPractice(List<Integer> ids) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("DELETE FROM ProviderTransaction T" + " WHERE T.practice.id = :id");
-		query.setParameter("id", id);
+//		Query query = session.createQuery("DELETE FROM ProviderTransaction T" + " WHERE T.practice.id = :id");
+		String queryStr = "DELETE FROM ProviderTransaction T" + " WHERE T.practice.id " + SharedData.getInString(ids);
+		Query query = session.createQuery(queryStr);
+
+		for (int i = 0; i < ids.size(); i++) {
+
+			Integer integer = ids.get(i);
+			query.setParameter("arg"+i,integer);
+		}
 		int result = query.executeUpdate();
 		System.out.println("Affected Row: " + result);
 	}
@@ -111,7 +119,7 @@ public class TransactionDao implements ITransaction {
 		// Query query = session.createQuery("DELETE FROM ProviderTransaction T"
 		// + " WHERE T.provider.id = :id");
 
-		String queryStr = "DELETE FROM ProviderTransaction T" + " WHERE T.provider.id " + getInString(ids);
+		String queryStr = "DELETE FROM ProviderTransaction T" + " WHERE T.provider.id " + SharedData.getInString(ids);
 		Query query = session.createQuery(queryStr);
 
 		for (int i = 0; i < ids.size(); i++) {
@@ -122,26 +130,5 @@ public class TransactionDao implements ITransaction {
 //		query.setParameter("id", id);
 		int result = query.executeUpdate();
 		System.out.println("Affected Row: " + result);
-	}
-
-	public String getInString(List<Integer> ids) {
-
-		String str = "in (";
-
-		for (int i = 0; i < ids.size(); i++) {
-
-			Integer integer = ids.get(i);
-			str += " :arg" + i;
-
-			if (i != (ids.size() - 1)) {
-				str += ",";
-			}
-
-			
-		}
-		str += ")";
-		return str;
-		// not in ( :arg1, :arg2)
-
 	}
 }

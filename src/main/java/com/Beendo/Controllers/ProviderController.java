@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 
+import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -320,7 +321,12 @@ public class ProviderController {
 			 providerList.remove(provider);
 			// entityService.update(currentEntity);
 
-		} catch (Exception ex) {
+		}
+		catch (StaleObjectStateException e){
+			
+			showMessage("Records are outdated refresh the page");
+		}
+		catch (Exception ex) {
 		}
 	}
 
