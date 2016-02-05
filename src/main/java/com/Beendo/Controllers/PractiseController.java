@@ -262,6 +262,7 @@ public class PractiseController {
 			if(!userService.isUserExistForPractice(sender.getId()))
 			{
 				List<Integer> idsPractice = new ArrayList<>(); 
+				idsPractice.add(sender.getId());
 				transactionService.deleteTransactionByPractics(idsPractice);
 				
 				List<Integer> idsProvider = new ArrayList<>();
