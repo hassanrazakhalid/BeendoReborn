@@ -41,7 +41,7 @@ public class Practice {
 	@JoinTable(name="PRACTISE_PROVIDER",
 	joinColumns=@JoinColumn(name="PRACTISE_ID"),
 	inverseJoinColumns=@JoinColumn(name="PROVIDER_ID")
-	) // this is required otherwise on bothside so no one can be owner and hibernate creates one column
+	) // this is required otherwise on bothside so no one can be owner and hibernate creates one JOIN table
 //	@Cascade(org.hibernate.annotations.CascadeType.DELETE)
 	private Set<Provider> providers = new HashSet<Provider>();
 
