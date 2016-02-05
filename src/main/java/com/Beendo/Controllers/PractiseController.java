@@ -265,12 +265,11 @@ public class PractiseController {
 				transactionService.deleteTransactionByPractics(idsPractice);
 				
 				List<Integer> idsProvider = new ArrayList<>();
-				
 				for (Provider provider : sender.getProviders()) {
-				
 					idsProvider.add(provider.getId());
 				}
 				transactionService.deleteTransactionByProvider(idsProvider);
+				
 				practiseService.remove(sender);
 				listPractise.remove(sender);				
 			}

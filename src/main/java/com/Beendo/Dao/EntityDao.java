@@ -76,15 +76,15 @@ public class EntityDao implements IEntity {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
 		
-		entity.getPracticeList().clear();
+//		entity.getPracticeList().clear();
 		
-		Query	query = session.createQuery("DELETE Practice P WHERE P.entity.id = :id");
-		query.setParameter("id", entity.getId());
-		System.out.println(query.executeUpdate());
-		
-	    query = session.createQuery("DELETE Provider P WHERE P.centity.id = :id");
-		query.setParameter("id", entity.getId());
-		System.out.println(query.executeUpdate());
+//		Query	query = session.createQuery("DELETE Practice P WHERE P.entity.id = :id");
+//		query.setParameter("id", entity.getId());
+//		System.out.println(query.executeUpdate());
+//		
+//	    query = session.createQuery("DELETE Provider P WHERE P.centity.id = :id");
+//		query.setParameter("id", entity.getId());
+//		System.out.println(query.executeUpdate());
 		
 		session.delete(entity);
 	}

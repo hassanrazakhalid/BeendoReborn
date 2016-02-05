@@ -51,9 +51,9 @@ public class PractiseDao implements IPractise {
 
 	@Override
 	@Transactional
-	public void delete(Practice entity) {
+	public void delete(Practice practice) {
 		// TODO Auto-generated method stub
-		this.sessionFactory.getCurrentSession().delete(entity);
+		this.sessionFactory.getCurrentSession().delete(practice);
 	}
 
 	@Override

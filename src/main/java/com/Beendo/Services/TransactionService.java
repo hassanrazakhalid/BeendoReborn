@@ -23,59 +23,54 @@ public class TransactionService {
 	@Autowired
 	@Qualifier("transactionDao")
 	private ITransaction service;
-	
-	
-	public void save(ProviderTransaction entity)
-	{
+
+	public void save(ProviderTransaction entity) {
 		service.save(entity);
 	}
-	
-	public void update(ProviderTransaction entity)
-	{
+
+	public void update(ProviderTransaction entity) {
 		service.update(entity);
 	}
-	
-	public List<ProviderTransaction> findAll()
-	{
+
+	public List<ProviderTransaction> findAll() {
 		return service.findAll();
 	}
-	
-	public List<ProviderTransaction> findAllByUser()
-	{
+
+	public List<ProviderTransaction> findAllByUser() {
 		List<ProviderTransaction> tmpList = new ArrayList<ProviderTransaction>();
 		tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getTransactionList());
-		
+
 		return tmpList;
 	}
-	
-	public List<ProviderTransaction> fetchAllByRole(){
-		
+
+	public List<ProviderTransaction> fetchAllByRole() {
+
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
 		List<ProviderTransaction> dataList = new ArrayList<>();
-		
-		if(SharedData.getSharedInstace().shouldReturnFullList())
-		{
+
+		if (SharedData.getSharedInstace().shouldReturnFullList()) {
 			dataList.addAll(findAll());
-		}
-		else
-		{
+		} else {
 			List<ProviderTransaction> tmpList = new ArrayList<ProviderTransaction>();
-			List<ProviderTransaction> result = service.findTransactionsByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
+			List<ProviderTransaction> result = service
+					.findTransactionsByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
 			tmpList.addAll(result);
-			
+
 			dataList = tmpList;
 		}
-		
+
 		return dataList;
 	}
-	
-	public void deleteTransactionByPractics(List<Integer> ids){
-		
-		service.deleteTransactionByPractice(ids);
+
+	public void deleteTransactionByPractics(List<Integer> ids) {
+
+		if (ids.size() > 0)
+			service.deleteTransactionByPractice(ids);
 	}
-	
-	public void deleteTransactionByProvider(List<Integer> ids){
-		
-		service.deleteTransactionByProvider(ids);
+
+	public void deleteTransactionByProvider(List<Integer> ids) {
+
+		if (ids.size() > 0)
+			service.deleteTransactionByProvider(ids);
 	}
 }

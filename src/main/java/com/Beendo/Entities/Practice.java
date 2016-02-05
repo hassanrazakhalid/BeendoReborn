@@ -32,18 +32,17 @@ public class Practice {
 	private String name;	
 	
 	@ManyToOne
+//	@JoinColumn(name="ENTITY_ID") just to change the column name
 	private CEntitiy entity;
 	
 //	, cascade={CascadeType.REMOVE,CascadeType.REFRESH}
+//	,
 	@ManyToMany(fetch = FetchType.EAGER,cascade={CascadeType.REMOVE})
 	@JoinTable(name="PRACTISE_PROVIDER",
 	joinColumns=@JoinColumn(name="PRACTISE_ID"),
 	inverseJoinColumns=@JoinColumn(name="PROVIDER_ID")
-	)
-	
-	
-	
-//	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	) // this is required otherwise on bothside so no one can be owner and hibernate creates one column
+//	@Cascade(org.hibernate.annotations.CascadeType.DELETE)
 	private Set<Provider> providers = new HashSet<Provider>();
 
 }
