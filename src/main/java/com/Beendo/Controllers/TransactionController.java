@@ -134,19 +134,23 @@ public class TransactionController extends RootController {
 		Set<Payer> payers = new HashSet<Payer>(selectedPayers);
 		transaction.setPayerList(payers);
 		
+		Integer entityId = null;
 		if(canPracticeShow)
 		{
 			transaction.setPractice(currentPractice);
 			transaction.setProvider(null);
+			entityId = currentPractice.getEntity().getId();
 		}
 		else
 		{
 			transaction.setProvider(currentProvider);
 			transaction.setPractice(null);
+			entityId = currentProvider.getCentity().getId();
 		}
 		
-		CEntitiy entity = entityService.findEntityWithTransaction(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());//SharedData.getSharedInstace().getCurrentUser().getEntity();
-		transaction.setEntity(entity);
+		 
+		CEntitiy entity = entityService.findEntityWithTransaction(entityId);
+//		transaction.setEntity(entity);
 		
 		try
 		{
