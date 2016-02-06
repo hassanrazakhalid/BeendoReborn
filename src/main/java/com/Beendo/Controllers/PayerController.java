@@ -13,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.User;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.TransactionService;
+import com.Beendo.Services.UserService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
@@ -39,12 +41,18 @@ public class PayerController extends RootController {
 	private List<Payer> payers;
 	private OperationType operationType;
 	
+	@Autowired
+	private UserService userService;
+	
 	private List<ProviderTransaction> transactions;
 
 	public String view() {
+		
 		payers = payerService.findAll();
 		transactions = transactionService.fetchAllByRole();
 
+		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
+		
 		initHashThree(payers);
 		return "PayerView";
 	}

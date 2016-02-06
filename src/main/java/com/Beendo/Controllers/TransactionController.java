@@ -81,7 +81,7 @@ public class TransactionController extends RootController {
 	public void onLoad(){
 		
 		User user = SharedData.getSharedInstace().getCurrentUser();
-		tmpUser = userService.refresh(user);
+		tmpUser = userService.findById(user.getId(), false);
 		
 		transactions = transactionService.fetchAllByRole();
 		payerList = payerService.findAll();

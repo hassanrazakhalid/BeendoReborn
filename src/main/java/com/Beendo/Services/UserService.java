@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,6 +40,26 @@ public class UserService implements UserDetailsService {
 	public List<User> fetchAll(){
 		
 		return iUserDao.findAll();
+	}
+	
+	public User findById(Integer id, boolean shouldRedirect){
+
+		User user = iUserDao.findById(id);
+		
+		if(user == null &&
+		   shouldRedirect)
+		{
+			FacesContext fc = FacesContext.getCurrentInstance();
+			ExternalContext ex = fc.getExternalContext();
+			try {
+				ex.redirect("logout");
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		}
+		
+		return user;
 	}
 	
 	public List<User> fetchAllByRole(){

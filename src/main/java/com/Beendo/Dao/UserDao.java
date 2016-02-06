@@ -93,9 +93,12 @@ public class UserDao implements IUserDao {
 //		this.sessionFactory.getCurrentSession().update(entity);
 	}
 
+	@Transactional
 	public User findById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.getCurrentSession();
+		User user = (User)session.get(User.class, id);
+		return user;
 	}
 
 	@Transactional

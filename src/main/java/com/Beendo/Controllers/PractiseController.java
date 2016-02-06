@@ -79,7 +79,7 @@ public class PractiseController {
 
 	private void refreshAll() {
 		
-		tmpUser = userService.refresh(SharedData.getSharedInstace().getCurrentUser());
+		tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		listEntities = entityService.fetchAllByRole(Screen.Screen_Practice);
 		listPractise = practiseService.fetchAllByRole();
 		// return "Practise/PractiseView?faces-redirect=true";

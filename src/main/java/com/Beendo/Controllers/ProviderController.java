@@ -88,8 +88,8 @@ public class ProviderController {
 
 	public void onLoad() {
 
-		User user = SharedData.getSharedInstace().getCurrentUser();
-		tmpUser = userService.refresh(user);
+//		User user = SharedData.getSharedInstace().getCurrentUser();
+		tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		
 		providerList = providerService.fetchAllByRole(); // providerService.fetchAllByUser();
 		entityList = entityService.fetchAllByRole(Screen.Screen_Provider);

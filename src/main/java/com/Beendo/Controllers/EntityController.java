@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.UserService;
 import com.Beendo.Utils.Constants;
@@ -34,11 +35,14 @@ import lombok.Setter;
 @Getter
 @Controller
 @Scope(value="session")
-public class EntityController extends RootController {
+public class EntityController {
 
 	@Autowired
 	private EntityService entityService;
 
+	@Autowired
+	private UserService userService;
+	
 	private String entityName;
 	
 	private CEntitiy entity = new CEntitiy();
@@ -48,8 +52,10 @@ public class EntityController extends RootController {
 	
 	public String viewEntity() 
 	{
+		
+		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		entities = entityService.fetchAllByRole(Screen.Screen_Entity);
-		initHashOne(entities);
+//		initHashOne(entities);
 		return "EntityView";
 /*		HttpServletRequest request =(HttpServletRequest)	FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		String path = request.getContextPath();
