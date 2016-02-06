@@ -58,8 +58,8 @@ public class EntityDao implements IEntity {
 		Session session = this.sessionFactory.getCurrentSession();
 		
 		Query query = session.createQuery("SELECT DISTINCT E FROM CEntitiy E"
-				+ " JOIN FETCH E.practiceList"
-				+ " JOIN FETCH E.users"
+				+ " LEFT JOIN FETCH E.practiceList"
+				+ " LEFT JOIN FETCH E.users"
 				+ " WHERE E.id=:id");
 		query.setParameter("id", id);
 		
