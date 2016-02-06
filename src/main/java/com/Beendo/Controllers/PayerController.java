@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 
+import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,6 +15,7 @@ import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.TransactionService;
+import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
@@ -54,29 +56,39 @@ public class PayerController extends RootController {
 
 	public void saveInfo() {
 
-		switch (this.operationType) {
-		case Create: {
+		try {
+			
+			switch (this.operationType) {
+			case Create: {
 
-			List<Payer> result = payerService.isNameExist(payers, payer.getName(), payer.getPlanName(), payer.getCity(),
-					payer.getState(), payer.getZip(), payer.getStreet());
-			if (result.size() <= 0) {
-				payers.add(payer);
-				payerService.save(payer);
+				List<Payer> result = payerService.isNameExist(payers, payer.getName(), payer.getPlanName(), payer.getCity(),
+						payer.getState(), payer.getZip(), payer.getStreet());
+				if (result.size() <= 0) {
+					payers.add(payer);
+					payerService.save(payer);
+					RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+					//showMessage("Payer has been saved");
+				} else
+					showMessage("Payer info already exists!");
+			}
+				break;
+			case Edit: {
+				payerService.update(payer);
 				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-				//showMessage("Payer has been saved");
-			} else
-				showMessage("Payer info already exists!");
-		}
-			break;
-		case Edit: {
-			payerService.update(payer);
-			RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-			//showMessage("Payer has been updated");
-		}
-			break;
+				//showMessage("Payer has been updated");
+			}
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
+		}
+		catch (StaleObjectStateException e){
+			
+			showMessage(Constants.ERRR_RECORDS_OUDATED);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 
@@ -102,6 +114,10 @@ public class PayerController extends RootController {
 			
 			payerService.delete(_payer);
 			
+		}
+		catch (StaleObjectStateException e){
+			
+			showMessage(Constants.ERRR_RECORDS_OUDATED);
 		}
 		catch(Exception ex)
 		{}

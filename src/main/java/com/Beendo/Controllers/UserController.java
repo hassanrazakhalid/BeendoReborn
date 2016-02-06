@@ -12,6 +12,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.print.attribute.standard.Severity;
 
+import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -34,6 +35,7 @@ import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.PermissionService;
 import com.Beendo.Services.UserService;
+import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
@@ -327,6 +329,17 @@ public class UserController extends RootController implements DisposableBean, In
 
 	public void saveButtonClicked(ActionEvent event) {
 
+		try {
+			
+		}
+		catch (StaleObjectStateException e){
+			
+			showMessage(Constants.ERRR_RECORDS_OUDATED);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		if (isUserInfoValid()) {
 
 			CEntitiy selectedEntity = null;
@@ -444,17 +457,30 @@ public class UserController extends RootController implements DisposableBean, In
 
 	public void deleteUserClicked(User sender) {
 
-		CEntitiy entity = getEntityById(sender.getEntity().getId());
-		if(entity != null)
-		{
-			int x = entity.getUsers().size();
-			entity.removeUserById(sender.getId());
-			x = entity.getUsers().size();
-			entityService.update(entity);
+		try {
+			
+			CEntitiy entity = getEntityById(sender.getEntity().getId());
+			if(entity != null)
+			{
+				int x = entity.getUsers().size();
+				entity.removeUserById(sender.getId());
+				x = entity.getUsers().size();
+				entityService.update(entity);
+			}
+			
+			userService.remove(sender);
+			listUsers.remove(sender);
+
+			
+		}
+		catch (StaleObjectStateException e){
+			
+			showMessage(Constants.ERRR_RECORDS_OUDATED);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
 		}
 		
-		userService.remove(sender);
-		listUsers.remove(sender);
 	}
 
 	public CEntitiy getEntityById(Integer id) {
@@ -478,4 +504,10 @@ public class UserController extends RootController implements DisposableBean, In
 		// TODO Auto-generated method stub
 		System.out.println("Login bean created");
 	}
+	
+public void showMessage(String msg) {
+		
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User", msg);     
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
 }

@@ -42,6 +42,11 @@ public class TransactionService {
 
 		return tmpList;
 	}
+	
+	public void delete(ProviderTransaction entity){
+		
+		service.delete(entity);
+	}
 
 	public List<ProviderTransaction> fetchAllByRole() {
 

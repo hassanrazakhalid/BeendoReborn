@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -45,4 +46,7 @@ public class Practice {
 //	@Cascade(org.hibernate.annotations.CascadeType.DELETE)
 	private Set<Provider> providers = new HashSet<Provider>();
 
+	
+	@OneToMany(mappedBy="practice", cascade={CascadeType.REMOVE})
+	private Set<ProviderTransaction> transactions = new HashSet<>();
 }

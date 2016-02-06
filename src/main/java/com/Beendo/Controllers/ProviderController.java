@@ -27,6 +27,7 @@ import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
 import com.Beendo.Services.UserService;
+import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
@@ -241,73 +242,74 @@ public class ProviderController {
 
 	public void saveInfo(ActionEvent event) {
 
-		if (this.opetationType == OperationType.Create && !isInfoValid())
-			return;
+		try {
+			
+			if (this.opetationType == OperationType.Create && !isInfoValid())
+				return;
 
-		CEntitiy entity = null;
-		if (entityList.size() >= 1) {
-			entity = getEntityById(Integer.valueOf(currentEntity));// entityList.get();
-		}
+			CEntitiy entity = null;
+			if (entityList.size() >= 1) {
+				entity = getEntityById(Integer.valueOf(currentEntity));// entityList.get();
+			}
 
-		Set<Practice> tmpPractices = getSelectedList();
-		provider.setPracticeList(tmpPractices);
+			Set<Practice> tmpPractices = getSelectedList();
+			provider.setPracticeList(tmpPractices);
 
-		practiseService.updatePractiseList(tmpPractices);
-		provider.setCentity(entity);
+			practiseService.updatePractiseList(tmpPractices);
+			provider.setCentity(entity);
 
-		switch (this.opetationType) {
-		case Create: {
-			{
+			switch (this.opetationType) {
+			case Create: {
+				{
 
-				// currentEntity.getProviderList().add(provider);
+					// currentEntity.getProviderList().add(provider);
 
-				if (isInfoValid()) {
-					try {
-						providerService.save(provider);
-						providerList.add(provider);
+					if (isInfoValid()) {
+						try {
+							providerService.save(provider);
+							providerList.add(provider);
 
-					} catch (Exception e) {
-						// TODO: handle exception
+						}
+						catch (StaleObjectStateException e){
+							
+							showMessage(Constants.ERRR_RECORDS_OUDATED);
+						}
+						catch (Exception e) {
+							// TODO: handle exception
+						}
+
+						// entityService.update(currentEntity);
+						RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+						// showMessage("Provider has been saved");
 					}
-
-					// entityService.update(currentEntity);
-					RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-					// showMessage("Provider has been saved");
 				}
 			}
-		}
-			break;
-		case Edit: {
-			providerService.update(provider);
-			// entityService.update(currentEntity);
-			RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-			// showMessage("Provider has been updated");
-		}
-			break;
+				break;
+			case Edit: {
+				providerService.update(provider);
+				// entityService.update(currentEntity);
+				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
+				// showMessage("Provider has been updated");
+			}
+				break;
 
-		default:
-			break;
-		}
+			default:
+				break;
+			}
 
+		}
+		catch (StaleObjectStateException e){
+			
+			showMessage(Constants.ERRR_RECORDS_OUDATED);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	public void removeClicked(Provider provider) {
 
 		try {
-
-//			for (ProviderTransaction providerTransaction : transactions) {
-//
-//				if (providerTransaction.getProvider() != null
-//						&& provider.getId() == providerTransaction.getProvider().getId()) {
-//					providerTransaction.setProvider(null);
-//					transactionService.update(providerTransaction);
-//				}
-//
-//			}
-
-			List<Integer> ids = new ArrayList<>();
-			ids.add(provider.getId());
-			transactionService.deleteTransactionByProvider(ids);
 			
 			Set<Practice> practiceList = provider.getPracticeList();
 			for (Practice practise : practiceList) {
@@ -334,7 +336,7 @@ public class ProviderController {
 		}
 		catch (StaleObjectStateException e){
 			
-			showMessage("Records are outdated refresh the page");
+			showMessage(Constants.ERRR_RECORDS_OUDATED);
 		}
 		catch (Exception ex) {
 		}

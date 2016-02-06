@@ -11,6 +11,7 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +22,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.UserService;
+import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
@@ -44,7 +46,7 @@ public class EntityController extends RootController {
 	
 	private OperationType operation;
 	
-	public String viewEntity()
+	public String viewEntity() 
 	{
 		entities = entityService.fetchAllByRole(Screen.Screen_Entity);
 		initHashOne(entities);
@@ -101,36 +103,43 @@ public class EntityController extends RootController {
 	
 	public void saveButtonPressed(){
 		
-		/*if(!entity.getName().isEmpty())
-		RequestContext.getCurrentInstance().execute("addDlg.hide();"); //oncomplete="PF('addDlg').hide();" 
-	else
-		return;*/
 	
-	if(isEntityInfoValid())
-	{
-		entity.setName(entityName);
-		switch (operation) {
-		case Create:
-		{
-			entities.add(entity);
-			entityService.save(entity);
+		try {
+			if(isEntityInfoValid())
+			{
+				entity.setName(entityName);
+				switch (operation) {
+				case Create:
+				{
+					entities.add(entity);
+					entityService.save(entity);
+				}
+					break;
+				case Edit:
+				{
+					entityService.update(entity);
+				}
+				break;
+				default:
+					break;
+				}
+				
+				//showMessage("Entity has been saved");
+				clearData();
+				RequestContext.getCurrentInstance().execute("PF('addDlg').hide()"); 
+			}
+			//RequestContext.getCurrentInstance().closeDialog("createEntity");
+			//entity = new CEntitiy();
 		}
-			break;
-		case Edit:
-		{
-			entityService.update(entity);
+		catch (StaleObjectStateException e){
+			
+			showMessage(Constants.ERRR_RECORDS_OUDATED);
 		}
-		break;
-		default:
-			break;
+		catch (Exception e) {
+			// TODO: handle exception
 		}
-		
-		//showMessage("Entity has been saved");
-		clearData();
-		RequestContext.getCurrentInstance().execute("PF('addDlg').hide()"); 
-	}
-	//RequestContext.getCurrentInstance().closeDialog("createEntity");
-	//entity = new CEntitiy();
+	
+
 	}
 	
 	public void deleteEntityClicked(CEntitiy sender){
@@ -142,6 +151,10 @@ public class EntityController extends RootController {
 		catch(DataIntegrityViolationException e){
 			
 			showMessage("Kindly unassign all practices before removing");
+		}
+		catch (StaleObjectStateException e){
+			
+			showMessage(Constants.ERRR_RECORDS_OUDATED);
 		}
 		catch (Exception e) {
 			 
@@ -161,5 +174,4 @@ public class EntityController extends RootController {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Entity", msg);     
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-	
 }

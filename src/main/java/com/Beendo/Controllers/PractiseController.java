@@ -7,6 +7,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +22,7 @@ import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
 import com.Beendo.Services.UserService;
+import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
@@ -223,7 +225,12 @@ public class PractiseController {
 					}
 					RequestContext.getCurrentInstance().execute("PF('dlg2').hide()");
 				}
-			} catch (Exception e) {
+			}
+			catch (StaleObjectStateException e){
+				
+				showMessage("Error",Constants.ERRR_RECORDS_OUDATED);
+			}
+			catch (Exception e) {
 
 				System.out.println(e);
 			}
@@ -261,9 +268,9 @@ public class PractiseController {
 			
 			if(!userService.isUserExistForPractice(sender.getId()))
 			{
-				List<Integer> idsPractice = new ArrayList<>(); 
-				idsPractice.add(sender.getId());
-				transactionService.deleteTransactionByPractics(idsPractice);
+//				List<Integer> idsPractice = new ArrayList<>(); 
+//				idsPractice.add(sender.getId());
+//				transactionService.deleteTransactionByPractics(idsPractice);
 				
 				List<Integer> idsProvider = new ArrayList<>();
 				for (Provider provider : sender.getProviders()) {
@@ -282,6 +289,10 @@ public class PractiseController {
 		catch (DataIntegrityViolationException e){
 			
 			showMessage("Error",error);
+		}
+		catch (StaleObjectStateException e){
+			
+			showMessage("Error",Constants.ERRR_RECORDS_OUDATED);
 		}
 		catch (Exception e) {
 			

@@ -47,10 +47,12 @@ public class TransactionDao implements ITransaction {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public void delete(ProviderTransaction entity) {
 		// TODO Auto-generated method stub
 
+		this.sessionFactory.getCurrentSession().delete(entity);
 	}
 
 	@Override

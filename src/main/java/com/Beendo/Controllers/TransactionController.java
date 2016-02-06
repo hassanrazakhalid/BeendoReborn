@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 
+import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -28,6 +29,7 @@ import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
 import com.Beendo.Services.UserService;
+import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
@@ -191,19 +193,33 @@ public class TransactionController extends RootController {
 
 	public void removeClicked(ProviderTransaction transac)
 	{
-		if(transac.getPractice() != null)
-		{
-			List<Integer> ids =  new ArrayList<>();
-			ids.add(transac.getPractice().getId());
-			transactionService.deleteTransactionByPractics(ids);
+		
+		try {
+			
+			transactionService.delete(transac);
+			transactions.remove(transac);
+			
 		}
-		else
-		{
-			List<Integer> ids =  new ArrayList<>();
-			ids.add(transac.getProvider().getId());
-			transactionService.deleteTransactionByProvider(ids);
+		catch (StaleObjectStateException e){
+			
+			showMessage(Constants.ERRR_RECORDS_OUDATED);
 		}
-		transactions.remove(transac);
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+//		if(transac.getPractice() != null)
+//		{
+//			List<Integer> ids =  new ArrayList<>();
+//			ids.add(transac.getPractice().getId());
+//			transactionService.deleteTransactionByPractics(ids);
+//		}
+//		else
+//		{
+//			List<Integer> ids =  new ArrayList<>();
+//			ids.add(transac.getProvider().getId());
+//			transactionService.deleteTransactionByProvider(ids);
+//		}
+		
 	}
 	
 	public void clearData()
