@@ -124,6 +124,15 @@ public class ProviderController {
 		} else
 			return false;
 	}
+	
+	public boolean shouldShowDelete(){
+		
+		boolean show = true;
+		
+		if(tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			show = false;
+		return show;
+	}
 
 	public List<String> getSelectedPracticesIds(Provider provider) {
 

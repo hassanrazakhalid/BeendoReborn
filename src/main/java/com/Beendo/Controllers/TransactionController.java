@@ -103,6 +103,14 @@ public class TransactionController extends RootController {
 		}*/
 	}
 	
+	public boolean shouldShowDelete(){
+		
+		boolean show = true;
+		
+		if(tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			show = false;
+		return show;
+	}
 	
 	public String view()
 	{

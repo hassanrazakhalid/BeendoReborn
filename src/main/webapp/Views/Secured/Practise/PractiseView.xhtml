@@ -61,9 +61,12 @@
 							action="#{practiseController.updateClicked(practise)}"
 							oncomplete="PF('dlg2').show()"
 							update=":createForm, :practiseTable" />
+							
 						<p:commandButton icon="ui-icon-trash"
 							action="#{practiseController.remove(practise)}"
-							update=":practiseTable" resetValues="true">
+							update=":practiseTable" resetValues="true"
+							rendered="#{practiseController.shouldShowDelete()}"
+							>
 
 							<p:confirm header="Confirmation" message="Are you sure?"
 								icon="ui-icon-alert" />

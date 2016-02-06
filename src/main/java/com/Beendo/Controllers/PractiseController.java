@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
+import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
@@ -64,8 +65,9 @@ public class PractiseController {
 	
 	@Autowired
 	private EntityService entityService;
-
 	private Practice practise = new Practice();
+	
+	private User tmpUser;
 
 	public boolean getIsEntityListEnabled(){
 		return isEntityListEnabled;
@@ -76,14 +78,23 @@ public class PractiseController {
 	}
 
 	private void refreshAll() {
+		
+		tmpUser = userService.refresh(SharedData.getSharedInstace().getCurrentUser());
 		listEntities = entityService.fetchAllByRole(Screen.Screen_Practice);
 		listPractise = practiseService.fetchAllByRole();
 		// return "Practise/PractiseView?faces-redirect=true";
 		// return "PractiseView";
-
-	
 	}
 
+	public boolean shouldShowDelete(){
+		
+		boolean show = true;
+		
+		if(tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			show = false;
+		return show;
+	}
+	
 	public String viewPractise() {
 
 		/*

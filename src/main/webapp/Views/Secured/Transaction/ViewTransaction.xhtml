@@ -84,6 +84,7 @@
 
 							<p:commandButton icon="ui-icon-close" update=":mainForm"
 								resetValues="true"
+								rendered="#{transactionController.shouldShowDelete()}"
 								action="#{transactionController.removeClicked(transaction)}">
 
 								<p:confirm header="Confirmation" message="Are you sure?"

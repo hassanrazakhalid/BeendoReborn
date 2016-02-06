@@ -80,7 +80,9 @@
 
 							<p:commandButton icon="ui-icon-close" update=":mainForm"
 								resetValues="true"
-								action="#{providerController.removeClicked(provider)}">
+								action="#{providerController.removeClicked(provider)}"
+								rendered="#{providerController.shouldShowDelete()}"
+								>
 
 								<p:confirm header="Confirmation" message="Are you sure?"
 									icon="ui-icon-alert" />
