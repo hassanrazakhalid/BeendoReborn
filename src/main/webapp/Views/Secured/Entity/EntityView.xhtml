@@ -5,6 +5,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:sec="http://www.springframework.org/security/tags">
 <h:head>
+
+<f:metadata>
+ <f:viewAction actionListener="#{entityController.onLoad()}" />
+</f:metadata>
+
 </h:head>
 
 <h:body>

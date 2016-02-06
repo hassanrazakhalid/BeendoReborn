@@ -86,8 +86,8 @@ public class ProviderController {
 	
 	private User tmpUser;
 
-	public void onLoad() {
-
+	private void refreshAllData(){
+		
 //		User user = SharedData.getSharedInstace().getCurrentUser();
 		tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		
@@ -101,6 +101,11 @@ public class ProviderController {
 		// initHashTwo(practiceList);
 
 		refreshPractics();
+	}
+	
+	public void onLoad() {
+
+		refreshAllData();
 
 	}
 
@@ -340,6 +345,7 @@ public class ProviderController {
 			// entityService.update(currentEntity);
 			providerService.delete(provider);
 			 providerList.remove(provider);
+			 refreshAllData();
 			// entityService.update(currentEntity);
 
 		}

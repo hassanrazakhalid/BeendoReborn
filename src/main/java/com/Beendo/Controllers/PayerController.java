@@ -46,7 +46,7 @@ public class PayerController extends RootController {
 	
 	private List<ProviderTransaction> transactions;
 
-	public String view() {
+	private void refreshAllData(){
 		
 		payers = payerService.findAll();
 		transactions = transactionService.fetchAllByRole();
@@ -54,6 +54,15 @@ public class PayerController extends RootController {
 		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		
 		initHashThree(payers);
+	}
+	
+	public void onLoad(){
+	
+		refreshAllData();
+	}
+	
+	public String view() {
+		
 		return "PayerView";
 	}
 
@@ -121,6 +130,7 @@ public class PayerController extends RootController {
 			}
 			
 			payerService.delete(_payer);
+			refreshAllData();
 			
 		}
 		catch (StaleObjectStateException e){

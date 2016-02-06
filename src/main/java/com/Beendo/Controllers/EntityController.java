@@ -50,18 +50,28 @@ public class EntityController {
 	
 	private OperationType operation;
 	
-	public String viewEntity() 
-	{
+	public void onLoad(){
+		
+		refreshAllData();
+	}
+	
+	private void refreshAllData(){
 		
 		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		entities = entityService.fetchAllByRole(Screen.Screen_Entity);
 //		initHashOne(entities);
-		return "EntityView";
+
 /*		HttpServletRequest request =(HttpServletRequest)	FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		String path = request.getContextPath();
 //		String pathInfo = request.getPathInfo();
 		
-*/	}
+*/
+	}
+	
+	public String viewEntity() 
+	{	
+		return "EntityView";
+	}
 	
 //	public void createEntity()
 //	{		
@@ -153,6 +163,7 @@ public class EntityController {
 		try {
 			entityService.delete(sender);
 			entities.remove(sender);
+			refreshAllData();
 		}
 		catch(DataIntegrityViolationException e){
 			

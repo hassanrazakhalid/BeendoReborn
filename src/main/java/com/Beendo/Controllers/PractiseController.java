@@ -74,10 +74,10 @@ public class PractiseController {
 	}
 	
 	public void onLoad() {
-		refreshAll();
+		refreshAllData();
 	}
 
-	private void refreshAll() {
+	private void refreshAllData() {
 		
 		tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		listEntities = entityService.fetchAllByRole(Screen.Screen_Practice);
@@ -295,7 +295,7 @@ public class PractiseController {
 				
 				practiseService.remove(sender);
 				listPractise.remove(sender);
-				refreshAll();
+				refreshAllData();
 			}
 			else
 			{

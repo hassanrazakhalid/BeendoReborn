@@ -78,7 +78,8 @@ public class TransactionController extends RootController {
 	@Autowired
 	private UserService userService;
 	//private HashMap<Integer, Practice> _hash = new HashMap<Integer, Practice>();
-	public void onLoad(){
+	
+	private void refreshAllData(){
 		
 		User user = SharedData.getSharedInstace().getCurrentUser();
 		tmpUser = userService.findById(user.getId(), false);
@@ -101,6 +102,11 @@ public class TransactionController extends RootController {
 			
 			_hash.put(practice.getId(), practice);
 		}*/
+	}
+	
+	public void onLoad(){
+
+		refreshAllData();
 	}
 	
 	public boolean shouldShowDelete(){
@@ -206,6 +212,7 @@ public class TransactionController extends RootController {
 			
 			transactionService.delete(transac);
 			transactions.remove(transac);
+			refreshAllData();
 			
 		}
 		catch (StaleObjectStateException e){

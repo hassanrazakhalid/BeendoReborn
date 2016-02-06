@@ -41,10 +41,10 @@ public class ProviderTransaction {
 	@ManyToMany(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
 	private Set<Payer> payerList = new HashSet<Payer>();
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
 	private Practice practice = new Practice();
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
 	private Provider provider = new Provider();
 	
 }
