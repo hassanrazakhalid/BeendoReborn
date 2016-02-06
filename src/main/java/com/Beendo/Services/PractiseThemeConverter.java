@@ -79,7 +79,7 @@ public class PractiseThemeConverter implements Converter {
             	else
             	{
             		UserController userController = (UserController) getSpringContext().getBean("userController");
-            		practise = userController.getPractiseById(Integer.parseInt(value));
+//            		practise = userController.getPractiseById(Integer.parseInt(value));
             	}
 //                EntityService service = (EntityService) context.getExternalContext().getApplicationMap().get("themeService");
 //                return service.getThemes().get(Integer.parseInt(value));

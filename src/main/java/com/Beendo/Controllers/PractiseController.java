@@ -217,8 +217,9 @@ public class PractiseController {
 					case Create: {
 
 						{
+//							 practiseService.save(practise);
 							currentEntity.getPracticeList().add(practise);
-							// practiseService.save(practise);
+							
 							entityService.update(currentEntity);
 							listPractise.add(practise);
 							initNewPractise();
@@ -235,6 +236,7 @@ public class PractiseController {
 						break;
 					}
 					RequestContext.getCurrentInstance().execute("PF('dlg2').hide()");
+//					refreshAll();
 				}
 			}
 			catch (StaleObjectStateException e){
@@ -283,14 +285,17 @@ public class PractiseController {
 //				idsPractice.add(sender.getId());
 //				transactionService.deleteTransactionByPractics(idsPractice);
 				
-				List<Integer> idsProvider = new ArrayList<>();
-				for (Provider provider : sender.getProviders()) {
-					idsProvider.add(provider.getId());
-				}
-				transactionService.deleteTransactionByProvider(idsProvider);
+//				List<Integer> idsProvider = new ArrayList<>();
+//				for (Provider provider : sender.getProviders()) {
+//					idsProvider.add(provider.getId());
+//				}
+//				transactionService.deleteTransactionByProvider(idsProvider);
+				
+				
 				
 				practiseService.remove(sender);
-				listPractise.remove(sender);				
+				listPractise.remove(sender);
+				refreshAll();
 			}
 			else
 			{

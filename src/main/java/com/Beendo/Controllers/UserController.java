@@ -48,7 +48,7 @@ import lombok.Setter;
 @Getter
 @Controller
 @Scope(value="session")
-public class UserController extends RootController implements DisposableBean, InitializingBean{
+public class UserController implements DisposableBean, InitializingBean{
 
 	private OperationType operationType;
 	public List<String> listRoles = new ArrayList<>();
@@ -100,7 +100,7 @@ public class UserController extends RootController implements DisposableBean, In
 		System.out.println("In constructor");
 	}
 	
-	public void onLoad(){
+	private void refreshAllData(){
 		
 		shouldshowEntity = false;
 		shouldshowPractise = false;
@@ -116,6 +116,42 @@ public class UserController extends RootController implements DisposableBean, In
 		}
  
 		reloadPractises();
+	}
+	
+	public void onLoad(){
+		
+		refreshAllData();
+	}
+	
+	public List<String> reloadRolesList() {
+
+		List<String> listRoles = new ArrayList<>();
+		if(!listRoles.isEmpty())
+			return listRoles;
+		else
+		{
+			String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
+			
+			if(userRole.equalsIgnoreCase(Role.ROOT_ADMIN.toString()))
+			{
+					listRoles.add(Role.ROOT_USER.toString());
+					listRoles.add(Role.ENTITY_ADMIN.toString());
+					listRoles.add(Role.ENTITY_USER.toString());		
+			}
+			
+			if(userRole.equalsIgnoreCase(Role.ROOT_USER.toString())) //add all except
+			{
+					listRoles.add(Role.ENTITY_ADMIN.toString());
+					listRoles.add(Role.ENTITY_USER.toString());		
+			}
+			
+			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) //add all except
+			{
+					listRoles.add(Role.ENTITY_USER.toString());		
+			}		
+
+			return listRoles;
+		}
 	}
 	
 	public String showUserMainView() {
@@ -155,8 +191,6 @@ public class UserController extends RootController implements DisposableBean, In
 		listPractise.clear();
 
 		listPractise.addAll(getSelectedEntity().getPracticeList());
-		clearHashTwo();
-		initHashTwo(listPractise);
 		System.out.println("Changed");
 	}
 
@@ -214,7 +248,6 @@ public class UserController extends RootController implements DisposableBean, In
 	private void reloadEntities() {
 
 		listEntities = entityService.fetchAllByRole(Screen.Screen_User);
-		initHashOne(listEntities);
 	}
 
 	private void reloadPractises() {
@@ -229,7 +262,6 @@ public class UserController extends RootController implements DisposableBean, In
 			if (entity != null &&
 				entity.getPracticeList().size() > 0) {
 				listPractise = new ArrayList<Practice>(entity.getPracticeList());
-				initHashTwo(listPractise);
 			}
 		}
 	}
@@ -326,11 +358,74 @@ public class UserController extends RootController implements DisposableBean, In
 			// user.setPractises(new HashSet<>(selectedPractises));
 		}
 	}
+	
+	private Practice getPractiseById(Integer id){
+				
+		for (Practice tmpPractice : listPractise) {
+			
+			if(tmpPractice.getId().compareTo(id) == 0)
+				return tmpPractice;
+		}
+		
+		return null;
+	}
 
 	public void saveButtonClicked(ActionEvent event) {
 
 		try {
-			
+			if (isUserInfoValid()) {
+
+				CEntitiy selectedEntity = null;
+
+				user.setAppUserName(tmpUserName);
+				user.setEmail(tmpEmail);
+
+				user.getPractises().clear();
+				if (user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString())
+						|| user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString())) {
+					selectedEntity = entityService.fetchById(1);
+				} 
+				else
+				{
+					selectedEntity = getSelectedEntity();
+					popoulatePracticesByIds(selectedPractises);
+				}
+				int x = selectedEntity.getUsers().size();
+				user.setEntity(selectedEntity);
+
+				
+				
+
+				if (!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
+					selectedPermission.selectAllPermissions();
+				}
+				user.setPermission(selectedPermission);
+
+				switch (operationType) {
+				case Create:
+				case Copy: {
+					selectedEntity.getUsers().add(user); // addUserToSelectedPractise();
+					// userService.save(user);
+
+					{
+						entityService.update(selectedEntity);
+						listUsers.add(user);
+						initUser();
+					}
+
+				}
+					break;
+				case Edit: {
+					userService.update(user);
+				}
+					break;
+
+				default:
+					break;
+				}
+
+				RequestContext.getCurrentInstance().execute("PF('userCreateDialog').hide()");
+			}
 		}
 		catch (StaleObjectStateException e){
 			
@@ -340,59 +435,7 @@ public class UserController extends RootController implements DisposableBean, In
 			// TODO: handle exception
 		}
 		
-		if (isUserInfoValid()) {
 
-			CEntitiy selectedEntity = null;
-
-			user.setAppUserName(tmpUserName);
-			user.setEmail(tmpEmail);
-
-			user.getPractises().clear();
-			if (user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString())
-					|| user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString())) {
-				selectedEntity = entityService.fetchById(1);
-			} 
-			else
-			{
-				selectedEntity = getSelectedEntity();
-				popoulatePracticesByIds(selectedPractises);
-			}
-			int x = selectedEntity.getUsers().size();
-			user.setEntity(selectedEntity);
-
-			
-			
-
-			if (!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
-				selectedPermission.selectAllPermissions();
-			}
-			user.setPermission(selectedPermission);
-
-			switch (operationType) {
-			case Create:
-			case Copy: {
-				selectedEntity.getUsers().add(user); // addUserToSelectedPractise();
-				// userService.save(user);
-
-				{
-					entityService.update(selectedEntity);
-					listUsers.add(user);
-					initUser();
-				}
-
-			}
-				break;
-			case Edit: {
-				userService.update(user);
-			}
-				break;
-
-			default:
-				break;
-			}
-
-			RequestContext.getCurrentInstance().execute("PF('userCreateDialog').hide()");
-		}
 	}
 
 	public boolean shouldShowCreateUser() {
@@ -471,7 +514,7 @@ public class UserController extends RootController implements DisposableBean, In
 			userService.remove(sender);
 			listUsers.remove(sender);
 
-			
+			refreshAllData();
 		}
 		catch (StaleObjectStateException e){
 			
