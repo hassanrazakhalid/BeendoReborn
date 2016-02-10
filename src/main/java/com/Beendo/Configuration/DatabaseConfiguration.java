@@ -17,7 +17,7 @@ public class DatabaseConfiguration {
 
 	@Bean(name="dataSource")
 	public BasicDataSource dataSource(){
-		
+		// user dbcp apache datasource
 		BasicDataSource basicDataSource = new BasicDataSource();
 		basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
 //		basicDataSource.setUrl("jdbc:mysql://162.214.3.88:3306/janjua_TestDb");
@@ -38,7 +38,7 @@ public class DatabaseConfiguration {
 		properties.setProperty("hibernate.connection.pool_size", "10");
 		properties.setProperty("hibernate.show_sql", "true");
 		properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
-//		properties.setProperty("hibernate.hbm2ddl.auto", "create");
+		properties.setProperty("hibernate.hbm2ddl.auto", "update");
  
 		return properties;		
 	}

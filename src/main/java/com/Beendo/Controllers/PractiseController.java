@@ -1,6 +1,5 @@
 package com.Beendo.Controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
-import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.PractiseService;
@@ -262,6 +260,9 @@ public class PractiseController {
 		return null;
 	}
 
+	/*
+	 * this will 
+	 */
 	public void remove(Practice sender) {
 
 		
@@ -292,7 +293,7 @@ public class PractiseController {
 //				transactionService.deleteTransactionByProvider(idsProvider);
 				
 				
-				
+			
 				practiseService.remove(sender);
 				listPractise.remove(sender);
 				refreshAllData();

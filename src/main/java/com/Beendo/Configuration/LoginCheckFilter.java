@@ -9,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
@@ -33,10 +35,17 @@ public class LoginCheckFilter implements Filter {
 	 SecurityContextHolderAwareRequestWrapper contextHolder = (SecurityContextHolderAwareRequestWrapper) request;
 		
 	 String user = contextHolder.getRemoteUser();
-	 System.out.println("In login call \n"+ request.getServletContext().getContextPath());
+	 HttpServletRequest req = (HttpServletRequest)request;
+//	 System.out.println("In login call \n"+ req.getServletContext().getContextPath());
+	 System.out.println("In login call \n"+ req.getRequestURL());
+//	 String p = req.getPathInfo();
+//	 String I = req.getRequestURI();
+	 HttpSession session = req.getSession(false);
 		if (user != null)
 		{
-			httpResponse.sendRedirect(request.getServletContext().getContextPath() + "/Views/Secured/Dashboard/Dashboard.xhtml"); // Redirect to home page.
+			httpResponse.sendRedirect(req.getRequestURL() + "/Views/Secured/Dashboard/Dashboard.xhtml"); // Redirect to home page.
+
+//			httpResponse.sendRedirect(req.getServletContext().getContextPath() + "/Views/Secured/Dashboard/Dashboard.xhtml"); // Redirect to home page.
 		} 
 			else
 			{

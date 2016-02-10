@@ -14,10 +14,15 @@ import javax.print.attribute.standard.Severity;
 
 import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Scope;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,6 +45,7 @@ import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
+import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -47,8 +53,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-@Scope(value="session")
-public class UserController implements DisposableBean, InitializingBean{
+//@Scope(value="session")
+@SpringScopeView
+public class UserController implements DisposableBean, InitializingBean,ApplicationContextAware{
 
 	private OperationType operationType;
 	public List<String> listRoles = new ArrayList<>();
@@ -85,6 +92,9 @@ public class UserController implements DisposableBean, InitializingBean{
 	private List<User> listUsers = new ArrayList<User>();
 	// Security Code
 
+	private JavaMailSenderImpl mail;
+
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -546,6 +556,24 @@ public class UserController implements DisposableBean, InitializingBean{
 	public void afterPropertiesSet() throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("Login bean created");
+	}
+	
+	public void sendMail(String from, String to, String subject, String msg) {  
+        //creating message  
+        SimpleMailMessage message = new SimpleMailMessage();  
+        message.setFrom(from);  
+        message.setTo(to);  
+        message.setSubject(subject);  
+        message.setText(msg);  
+        //sending message  
+        mail.send(message);     
+    }  
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		// TODO Auto-generated method stub
+	
+		mail = (JavaMailSenderImpl)applicationContext.getBean("mailSender");
 	}
 	
 public void showMessage(String msg) {

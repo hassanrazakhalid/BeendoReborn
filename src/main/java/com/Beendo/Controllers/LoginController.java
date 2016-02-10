@@ -1,11 +1,17 @@
 package com.Beendo.Controllers;
 
 import javax.faces.application.FacesMessage;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Scope;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -14,6 +20,7 @@ import com.Beendo.Entities.User;
 //import com.Beendo.Security.UserSecurityService;
 import com.Beendo.Services.UserService;
 import com.Beendo.Utils.SharedData;
+import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +28,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
+@SpringScopeView
 public class LoginController implements DisposableBean {
 
 	private String userName;
@@ -34,37 +42,24 @@ public class LoginController implements DisposableBean {
 
 	@Autowired
 	private UserDetailsService securityService;
-
-	public String getName() {
-
-		return "Hello world123";
-	}
-
+	
 	public void onLoad(){
 		
 		userName = "";
 		password = "";
+		
+//		HttpSession session = SharedData.session();
+//		int i =0;
 	}
 	
 	public String loginPressed() {
 
-//		userName = "admin";
-//		password = "password";
-
-//		 userName = "pk1@hotmail.com";
-//		 password ="12434";
-
-//		User user = userService.isUserValid(userName, password);
-
-//		if(user ==  null)
-//		{
-////			RequestContext.getCurrentInstance().execute("PF('growl').show('error')");
-//			
-//		}
-//		else	
+//		sendMail("hassanrazakhalid89@gmail.com", "hassanrazakhalid@yahoo.com", "From Java", "My first mail");
 		{
 			SharedData sharedData = SharedData.getSharedInstace();
 
+			
+			
 //			sharedData.setCurrentUser(user);
 			String result = sharedData.checkForSecurity(userName, password);
 			if(result.equalsIgnoreCase("incorrect"))

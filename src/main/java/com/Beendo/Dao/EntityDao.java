@@ -35,7 +35,7 @@ public class EntityDao implements IEntity {
 		
 		this.sessionFactory.getCurrentSession().update(entity);
 	}
-
+	
 	@Override
 	public void update(int id) {
 		// TODO Auto-generated method stub
