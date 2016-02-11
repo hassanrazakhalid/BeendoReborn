@@ -21,6 +21,9 @@
 		<!-- <url-pattern>*.jsf</url-pattern> -->
 	</servlet-mapping>
 
+<!-- 	<listener>
+		<listener-class>com.Beendo.Configuration.LoginCheckFilter</listener-class>
+	</listener> -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -75,9 +78,7 @@
 		<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	<!-- <context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>bootstrap</param-value>
-	</context-param> -->
+	<!-- <context-param> <param-name>primefaces.THEME</param-name> <param-value>bootstrap</param-value> 
+		</context-param> -->
 
 </web-app>

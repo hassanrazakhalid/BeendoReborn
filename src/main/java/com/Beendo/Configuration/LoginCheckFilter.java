@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
@@ -40,7 +42,7 @@ public class LoginCheckFilter implements Filter {
 	 System.out.println("In login call \n"+ req.getRequestURL());
 //	 String p = req.getPathInfo();
 //	 String I = req.getRequestURI();
-	 HttpSession session = req.getSession(false);
+	 String session = req.getSession(false).getId();
 		if (user != null)
 		{
 			httpResponse.sendRedirect(req.getRequestURL() + "/Views/Secured/Dashboard/Dashboard.xhtml"); // Redirect to home page.
@@ -71,5 +73,21 @@ public class LoginCheckFilter implements Filter {
 			
 			return false;
 	}
+
+/*	@Override
+	public void sessionCreated(HttpSessionEvent se) {
+		// TODO Auto-generated method stub
+		
+		int i=0;
+		i = 1;
+	}
+
+	@Override
+	public void sessionDestroyed(HttpSessionEvent se) {
+		// TODO Auto-generated method stub
+		
+		int i=0;
+		i = 1;
+	}*/
 
 }
