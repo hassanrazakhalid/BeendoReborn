@@ -14,12 +14,21 @@
 		<!-- <div>
 			<h:graphicImage value="/Images/Sypore_Logo.jpg" width="130" />
 		</div> -->
-		
-		<p:panelGrid columns="3" layout="grid">            
-		    <h:graphicImage value="/Images/Sypore_Logo.jpg" width="220" />
-		    <h:outputText value="ParTracker" style="font-size: 30px; font-weight: bold;" /> 
-		   <!--  <h:outputText value="#{principal}" style="float:right; margin-top:10px;" /> -->
-		  <h:outputText value="#{sharedData.getFullName()}" style="float:right; margin-top:10px;" />
+
+		<p:panelGrid columns="3" layout="grid">
+			<h:graphicImage value="/Images/Sypore_Logo.jpg" width="220" />
+
+			<p:column>
+				<h:outputText value="ParTracker"
+					style="font-size: 30px; font-weight: bold;" />
+				<br />
+				<h:outputText
+					value="Provider Credentialing Status At Your Fingertips"
+					style="font-size: 15px; font-weight: bold;" />
+			</p:column>
+			<!--  <h:outputText value="#{principal}" style="float:right; margin-top:10px;" /> -->
+			<h:outputText value="#{sharedData.getFullName()}"
+				style="float:right; margin-top:10px;" />
 		</p:panelGrid>
 
 		<h:form>
@@ -39,7 +48,7 @@
 
 				<sec:authorize
 					access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')">
-					<p:menuitem value="User" 
+					<p:menuitem value="User"
 						action="#{userController.showUserMainView()}" />
 				</sec:authorize>
 				<!-- rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER,ROLE_ENTITY_ADMIN')}"  -->
@@ -48,20 +57,17 @@
 					action="#{practiseController.viewPractise()}" />
 
 				<p:menuitem value="Entity" action="#{entityController.viewEntity()}"
-					
 					rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" />
 
 				<p:menuitem value="Payer" action="#{payerController.view()}"
-					
 					rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" />
 
 				<!-- <p:menuitem value="Role" action="#{roleController.view()}" icon="ui-icon-user-1" rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" /> -->
 
-				<p:menuitem value="Provider" action="#{providerController.view()}"
-					/>
+				<p:menuitem value="Provider" action="#{providerController.view()}" />
 
 				<p:menuitem value="Transaction"
-					action="#{transactionController.view()}"/>
+					action="#{transactionController.view()}" />
 
 				<p:submenu label="Reports">
 					<p:menuitem value="Transaction Report"

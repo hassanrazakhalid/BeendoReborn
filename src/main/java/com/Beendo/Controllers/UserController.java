@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.print.attribute.standard.Severity;
 
+import org.eclipse.jdt.internal.compiler.env.ISourceMethod;
 import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.BeansException;
@@ -53,9 +55,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-@Scope(value="session")
-//@SpringScopeView
-public class UserController implements DisposableBean, InitializingBean,ApplicationContextAware{
+@Scope(value = "session")
+// @SpringScopeView
+public class UserController implements DisposableBean, InitializingBean, ApplicationContextAware {
 
 	private OperationType operationType;
 	public List<String> listRoles = new ArrayList<>();
@@ -94,24 +96,23 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 
 	private JavaMailSenderImpl mail;
 
-	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
 	// ---------------------- Methods
 
-	public boolean getIsEntityListDisabled(){
-		
+	public boolean getIsEntityListDisabled() {
+
 		return isEntityListDisabled;
 	}
-	
-	public UserController(){
-		
+
+	public UserController() {
+
 		System.out.println("In constructor");
 	}
-	
-	private void refreshAllData(){
-		
+
+	private void refreshAllData() {
+
 		shouldshowEntity = false;
 		shouldshowPractise = false;
 		shouldshowPermission = false;
@@ -124,48 +125,48 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 
 			selectedEntityId = listEntities.get(0).getId().toString();
 		}
- 
+
 		reloadPractises();
 	}
-	
-	public void onLoad(){
-		
+
+	public void onLoad() {
+
 		refreshAllData();
 	}
-	
+
 	public List<String> reloadRolesList() {
 
 		List<String> listRoles = new ArrayList<>();
-		if(!listRoles.isEmpty())
+		if (!listRoles.isEmpty())
 			return listRoles;
-		else
-		{
+		else {
 			String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
-			
-			if(userRole.equalsIgnoreCase(Role.ROOT_ADMIN.toString()))
-			{
-					listRoles.add(Role.ROOT_USER.toString());
-					listRoles.add(Role.ENTITY_ADMIN.toString());
-					listRoles.add(Role.ENTITY_USER.toString());		
+
+			if (userRole.equalsIgnoreCase(Role.ROOT_ADMIN.toString())) {
+				listRoles.add(Role.ROOT_USER.toString());
+				listRoles.add(Role.ENTITY_ADMIN.toString());
+				listRoles.add(Role.ENTITY_USER.toString());
 			}
-			
-			if(userRole.equalsIgnoreCase(Role.ROOT_USER.toString())) //add all except
+
+			if (userRole.equalsIgnoreCase(Role.ROOT_USER.toString())) // add all
+																		// except
 			{
-					listRoles.add(Role.ENTITY_ADMIN.toString());
-					listRoles.add(Role.ENTITY_USER.toString());		
+				listRoles.add(Role.ENTITY_ADMIN.toString());
+				listRoles.add(Role.ENTITY_USER.toString());
 			}
-			
-			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) //add all except
+
+			if (userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) // add
+																			// all
+																			// except
 			{
-					listRoles.add(Role.ENTITY_USER.toString());		
-			}		
+				listRoles.add(Role.ENTITY_USER.toString());
+			}
 
 			return listRoles;
 		}
 	}
-	
-	public String showUserMainView() {
 
+	public String showUserMainView() {
 
 		return "UserView";
 	}
@@ -214,13 +215,11 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 			// reloadEntities();
 		} else if (user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 			// reloadEntities();
-			if(user.getEntity() != null &&
-			   user.getEntity().getId().compareTo(1) != 1)
-			{
-				if(listEntities.size() > 0)
+			if (user.getEntity() != null && user.getEntity().getId().compareTo(1) != 1) {
+				if (listEntities.size() > 0)
 					selectedEntityId = listEntities.get(0).getId().toString();
 			}
-				reloadPractises();
+			reloadPractises();
 		} else {
 
 			// listEntities.clear();
@@ -269,8 +268,7 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 				entity = listEntities.get(0);
 			else
 				entity = getSelectedEntity();
-			if (entity != null &&
-				entity.getPracticeList().size() > 0) {
+			if (entity != null && entity.getPracticeList().size() > 0) {
 				listPractise = new ArrayList<Practice>(entity.getPracticeList());
 			}
 		}
@@ -313,9 +311,7 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 
 				error = userService.isUsernameExist(tmpUserName);
 			}
-			if (error == null &&
-				!tmpEmail.equalsIgnoreCase(user.getEmail()) &&
-				tmpEmail.length() > 0) {
+			if (error == null && !tmpEmail.equalsIgnoreCase(user.getEmail()) && tmpEmail.length() > 0) {
 				error = userService.isEmailExist(tmpEmail);
 			}
 
@@ -332,8 +328,7 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 		} else {
 			error = userService.isUsernameExist(tmpUserName);
 
-			if (error == null &&
-				tmpEmail.length() > 0) {
+			if (error == null && tmpEmail.length() > 0) {
 				error = userService.isEmailExist(tmpEmail);
 			}
 			if (error == null && user.getRoleName().equalsIgnoreCase(Role.ENTITY_ADMIN.toString())) {
@@ -368,20 +363,20 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 			// user.setPractises(new HashSet<>(selectedPractises));
 		}
 	}
-	
-	private Practice getPractiseById(Integer id){
-				
+
+	private Practice getPractiseById(Integer id) {
+
 		for (Practice tmpPractice : listPractise) {
-			
-			if(tmpPractice.getId().compareTo(id) == 0)
+
+			if (tmpPractice.getId().compareTo(id) == 0)
 				return tmpPractice;
 		}
-		
+
 		return null;
 	}
 
 	public void saveButtonClicked(ActionEvent event) {
-
+		
 		try {
 			if (isUserInfoValid()) {
 
@@ -394,17 +389,12 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 				if (user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString())
 						|| user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString())) {
 					selectedEntity = entityService.fetchById(1);
-				} 
-				else
-				{
+				} else {
 					selectedEntity = getSelectedEntity();
 					popoulatePracticesByIds(selectedPractises);
 				}
 				int x = selectedEntity.getUsers().size();
 				user.setEntity(selectedEntity);
-
-				
-				
 
 				if (!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {
 					selectedPermission.selectAllPermissions();
@@ -414,12 +404,16 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 				switch (operationType) {
 				case Create:
 				case Copy: {
+
+					
+
 					selectedEntity.getUsers().add(user); // addUserToSelectedPractise();
 					// userService.save(user);
 
 					{
 						entityService.update(selectedEntity);
 						listUsers.add(user);
+						checkAndSendEmail();
 						initUser();
 					}
 
@@ -427,6 +421,7 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 					break;
 				case Edit: {
 					userService.update(user);
+					checkAndSendEmail();
 				}
 					break;
 
@@ -436,18 +431,29 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 
 				RequestContext.getCurrentInstance().execute("PF('userCreateDialog').hide()");
 			}
-		}
-		catch (StaleObjectStateException e){
-			
+		} catch (StaleObjectStateException e) {
+
 			showMessage(Constants.ERRR_RECORDS_OUDATED);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
 
 	}
 
+	private void checkAndSendEmail(){
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//		String path = ec.getRequestContextPath();
+//		String n = ec.getRequestServerName();
+//		String n1 = ec.getRequestPathInfo();
+//		String n2 = ec.getRequestServletPath();
+		if (sendEmail && user.getEmail() != null && user.getEmail().length() > 0) {
+			String appUrl = "http://"+ ec.getRequestServerName()+":"+ec.getRequestServerPort()+ec.getRequestContextPath()+"/Views/Unsecured/Login/index.xhtml";
+			String str = appUrl + "\n" + "UserName:" + user.getAppUserName() + "\n" + "Password"
+					+ user.getPassword();
+			sendMail("Sypore", user.getEmail(), "Sypore", str);
+		}
+	}
+	
 	public boolean shouldShowCreateUser() {
 
 		boolean isOK = true;
@@ -498,7 +504,7 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 
 	private void updateSelectedEntity(User user) {
 
-			selectedEntityId = String.valueOf(user.getEntity().getId());
+		selectedEntityId = String.valueOf(user.getEntity().getId());
 		// selectedEntity = getEntityById(user.getEntity().getId());
 	}
 
@@ -511,29 +517,26 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 	public void deleteUserClicked(User sender) {
 
 		try {
-			
+
 			CEntitiy entity = getEntityById(sender.getEntity().getId());
-			if(entity != null)
-			{
+			if (entity != null) {
 				int x = entity.getUsers().size();
 				entity.removeUserById(sender.getId());
 				x = entity.getUsers().size();
 				entityService.update(entity);
 			}
-			
+
 			userService.remove(sender);
 			listUsers.remove(sender);
 
 			refreshAllData();
-		}
-		catch (StaleObjectStateException e){
-			
+		} catch (StaleObjectStateException e) {
+
 			showMessage(Constants.ERRR_RECORDS_OUDATED);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
 
 	public CEntitiy getEntityById(Integer id) {
@@ -557,28 +560,28 @@ public class UserController implements DisposableBean, InitializingBean,Applicat
 		// TODO Auto-generated method stub
 		System.out.println("Login bean created");
 	}
-	
-	public void sendMail(String from, String to, String subject, String msg) {  
-        //creating message  
-        SimpleMailMessage message = new SimpleMailMessage();  
-        message.setFrom(from);  
-        message.setTo(to);  
-        message.setSubject(subject);  
-        message.setText(msg);  
-        //sending message  
-        mail.send(message);     
-    }  
+
+	public void sendMail(String from, String to, String subject, String msg) {
+		// creating message
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom(from);
+		message.setTo(to);
+		message.setSubject(subject);
+		message.setText(msg);
+		// sending message
+		mail.send(message);
+	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		// TODO Auto-generated method stub
-	
-		mail = (JavaMailSenderImpl)applicationContext.getBean("mailSender");
+
+		mail = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
 	}
-	
-public void showMessage(String msg) {
-		
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User", msg);     
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
+
+	public void showMessage(String msg) {
+
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User", msg);
+		RequestContext.getCurrentInstance().showMessageInDialog(message);
+	}
 }

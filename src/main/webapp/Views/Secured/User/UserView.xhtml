@@ -121,7 +121,7 @@ function createClicked(args,dialogName){
 						<p:outputLabel for="tfName" value="Name:" />
 						<p:inputText autocomplete="off" id="tfName"
 							value="#{userController.user.name}"
-							validatorMessage="Name can only contain alphabets">
+							validatorMessage="Name can only contain alphabets and FirstName LastName">
 							<f:validateRegex pattern="[a-zA-Z]+(\s)*[a-zA-Z]*" />
 
 							<!-- <f:ajax render="result" /> -->
@@ -143,6 +143,7 @@ function createClicked(args,dialogName){
 						<p:inputText autocomplete="off" id="tfEmail"
 							value="#{userController.tmpEmail}">
 							<!-- <f:ajax render="result" /> -->
+							<f:validator validatorId="custom.emailValidator" />
 						</p:inputText>
 
 						<p:outputLabel for="roleList" value="Select Role:" />
@@ -258,6 +259,24 @@ function createClicked(args,dialogName){
 		function myStyle(){
 			//$('#userDialog').css('position','absolute');
 		}
+
+		/**
+	     * Faces Validator
+	     */
+	    PrimeFaces.validator['custom.emailValidator'] = {
+	 
+	        pattern: /\S+@\S+/,
+	 
+	        validate: function(element, value) {
+	            //use element.data() to access validation metadata, in this case there is none.
+	            if(!this.pattern.test(value)) {
+	                throw {
+	                    summary: 'Invalid Email',
+	                    detail: value + ' is not a valid email.'
+	                }
+	            }
+	        }
+	    };
 		</script>
 			<style>
 #userDialog {
