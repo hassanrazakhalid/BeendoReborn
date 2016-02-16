@@ -17,7 +17,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @EnableTransactionManagement
 public class DatabaseConfiguration {
-
+ 
 //	@Bean(name="dataSource")
 //	public BasicDataSource dataSource(){
 //		// user dbcp apache datasource
