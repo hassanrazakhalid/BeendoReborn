@@ -405,8 +405,6 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 				case Create:
 				case Copy: {
 
-					
-
 					selectedEntity.getUsers().add(user); // addUserToSelectedPractise();
 					// userService.save(user);
 
