@@ -152,7 +152,7 @@
 							#{transaction.provider.name}
 						</p:column> -->
 
-						<p:column headerText="Status">
+						<p:column headerText="Status" filterMatchMode="startsWith" filterBy="#{transaction.parStatus}">
 							#{transaction.parStatus}
 						</p:column>
 		
