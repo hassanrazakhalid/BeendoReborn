@@ -90,7 +90,7 @@
         </props>  
     </property>
 	</bean>
-	
+	 
 	 <import resource="security.xml" />
 	 <import resource="classpath:/com/github/javaplugs/jsf/jsfSpringScope.xml"/> <!-- For ViewScope -->
 </beans>
