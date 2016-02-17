@@ -191,9 +191,22 @@ public class ReportsController extends RootController {
 		}
 		else
 		{
-			transactions = practiceTransactions.stream()
+			if(!currentPayerStatus.isEmpty())
+			{
+				transactions = practiceTransactions.stream()
+						.filter(f -> f.getParStatus().equals(currentPayerStatus))
+						.collect(Collectors.toList());
+				
+				transactions = transactions.stream()
+						.filter(f -> (f.getPractice() != null))
+						.collect(Collectors.toList());
+			}
+			else
+			{
+				transactions = practiceTransactions.stream()
 					.filter(f -> (f.getPractice() != null))
 					.collect(Collectors.toList());
+			}
 		}
 		
 		//.filter(f -> (f.getPractice().getName() != null))
@@ -365,9 +378,22 @@ public class ReportsController extends RootController {
 		else
 		{
 			
-			transactions = providerTransactions.stream()
+			if(!currentPayerStatus.isEmpty())
+			{
+				transactions = providerTransactions.stream()
+						.filter(f -> f.getParStatus().equals(currentPayerStatus))
+						.collect(Collectors.toList());
+				
+				transactions = transactions.stream()
+						.filter(f -> (f.getProvider() != null))
+						.collect(Collectors.toList());
+			}
+			else
+			{
+				transactions = providerTransactions.stream()
 					.filter(f -> (f.getProvider() != null))
 					.collect(Collectors.toList());
+			}
 		}
 		
 		//.filter(f -> (f.getProvider().getFirstName() != null))
