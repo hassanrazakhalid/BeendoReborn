@@ -61,22 +61,23 @@ public class DatabaseConfiguration {
 	}
 	
 	private Properties hikariProperties(){
-		
-//		<prop key="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</prop>
-//		<prop key="hibernate.hikari.dataSourceClassName">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</prop>
-//		<prop key="hibernate.hikari.dataSource.url">${database.connection}</prop>
-//		<prop key="hibernate.hikari.dataSource.user">${database.username}</prop>
-//		<prop key="hibernate.hikari.dataSource.password">${database.password}</prop>
-//		<prop key="hibernate.hikari.dataSource.cachePrepStmts">true</prop>
-//		<prop key="hibernate.hikari.dataSource.prepStmtCacheSize">250</prop>
-//		<prop key="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">2048</prop>
-		
+				
 		Properties prop = new Properties();
 		prop.setProperty("hibernate.connection.provider_class", "com.zaxxer.hikari.hibernate.HikariConnectionProvider");
 		prop.setProperty("hibernate.hikari.dataSourceClassName", "com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3307/janjua_TestDb");
-		prop.setProperty("hibernate.hikari.dataSource.user", "admin");
-		prop.setProperty("hibernate.hikari.dataSource.password", "admin");
+
+		// Server Db Settings
+		
+		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3306/janjua_TestDb");
+		prop.setProperty("hibernate.hikari.dataSource.user", "janjua_admin");
+		prop.setProperty("hibernate.hikari.dataSource.password", "7kcvfRSMJ4qP");
+		
+		// Local Db settings
+		
+//		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3307/janjua_TestDb");
+//		prop.setProperty("hibernate.hikari.dataSource.user", "admin");
+//		prop.setProperty("hibernate.hikari.dataSource.password", "admin");
+		//
 		prop.setProperty("hibernate.hikari.dataSource.cachePrepStmts", "true");
 		prop.setProperty("hibernate.hikari.dataSource.prepStmtCacheSize", "250");
 		prop.setProperty("hibernate.hikari.dataSource.prepStmtCacheSqlLimit", "2048");

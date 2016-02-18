@@ -1,8 +1,7 @@
 package com.Beendo.Controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+
 import java.util.List;
 import java.util.Set;
 
@@ -10,10 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.print.attribute.standard.Severity;
 
-import org.eclipse.jdt.internal.compiler.env.ISourceMethod;
 import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.BeansException;
@@ -411,7 +407,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 					{
 						entityService.update(selectedEntity);
 						listUsers.add(user);
-						checkAndSendEmail();
+//						checkAndSendEmail();
 						initUser();
 					}
 
@@ -419,7 +415,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 					break;
 				case Edit: {
 					userService.update(user);
-					checkAndSendEmail();
+//					checkAndSendEmail();
 				}
 					break;
 
