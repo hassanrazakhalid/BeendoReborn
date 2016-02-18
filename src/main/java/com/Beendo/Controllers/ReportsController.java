@@ -19,6 +19,7 @@ import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
+import com.Beendo.Utils.Constants;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -69,9 +70,13 @@ public class ReportsController extends RootController {
 	public HashMap<Integer, Payer> hashPayer = new HashMap<Integer, Payer>();
 	public HashMap<Integer, Practice> hashPractice = new HashMap<Integer, Practice>();
 
+	private String [] statusList;
+	
 	// ---------------------------------------PRACTICE REPORT-----------------------------------------------
 
 	public String viewRepPractice() {
+		
+		statusList = Constants.practiceStatus;
 		cleanData();
 		practiceList = practiseService.fetchAllByRole();
 		hashPractice.clear();
@@ -276,6 +281,8 @@ public class ReportsController extends RootController {
 	// ---------------------------------------PROVIDER REPORT-----------------------------------------------
 
 	public String viewRepProvider() {
+		
+		statusList = Constants.providerStatus;
 		cleanData();
 		providerList = providerService.fetchAllByRole();
 		payerList = payerService.findAll();

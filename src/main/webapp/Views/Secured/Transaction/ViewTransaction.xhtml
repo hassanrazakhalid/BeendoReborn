@@ -211,6 +211,10 @@
 			            
 			            <h:outputLabel for="vname" value="Select Status:" />
 			        	<p:selectOneMenu id="vname" value="#{transactionController.transaction.parStatus}" style="width:175px">
+			        		
+			        		<f:selectItems value="#{transactionController.statusList}" var="v"
+			        		itemLabel="#{v}" itemValue="#{v}"/>
+			        		<!-- <f:selectItem itemLabel="New-Provider" itemValue="New-Provider" />
 			        		<f:selectItem itemLabel="Non-Par" itemValue="Non-Par" />
 				            <f:selectItem itemLabel="PAR" itemValue="PAR" />				            
 				            <f:selectItem itemLabel="Application Package Complete" itemValue="Application Package Complete" />
@@ -218,7 +222,7 @@
 				            <f:selectItem itemLabel="Application Accepted" itemValue="Application Accepted" />
 				            <f:selectItem itemLabel="Application Rejected" itemValue="Application Rejected" />
 				            <f:selectItem itemLabel="Effective Date Assigned" itemValue="Effective Date Assigned" />
-				            <f:selectItem itemLabel="Letter Received" itemValue="Letter Received" />
+				            <f:selectItem itemLabel="Letter Received" itemValue="Letter Received" /> -->
 				        </p:selectOneMenu> 
 			            
 			        </h:panelGrid>

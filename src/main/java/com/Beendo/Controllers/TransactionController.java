@@ -74,6 +74,8 @@ public class TransactionController extends RootController {
 	private String currentRadio;
 	private Boolean canPracticeShow = true;
 	
+	private String[] statusList;
+	
 	private User tmpUser;
 	@Autowired
 	private UserService userService;
@@ -250,6 +252,7 @@ public class TransactionController extends RootController {
 		
 		transaction.setTransactionDate(dateFormat.format(date));
 		isEditMode = false;
+		onSelectionChange();
 	}
 	
 	public void showMessage(String msg) {
@@ -261,10 +264,15 @@ public class TransactionController extends RootController {
 	public void onSelectionChange()
 	{
 		if(currentRadio.equals("rbPractice"))
+		{
+			statusList =  Constants.practiceStatus;
 			canPracticeShow = true;
+		}
 		else
+		{
+			statusList =  Constants.providerStatus;
 			canPracticeShow = false;
-		
+		}
 	}
 	
 	

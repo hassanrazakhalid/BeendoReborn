@@ -24,7 +24,7 @@
 						 <!-- <p:outputLabel for="idProviders" value="Select Provider: " />  -->
 						 <p:selectOneMenu id="idProviders" value="#{reportsController.currentProvider}"
 								panelStyle="width:180px" effect="fade" converter="providerConverter"
-								var="t" style="width:177px">
+								var="t" style="width:177px" >
 								
 								<!-- <p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" /> -->
 								
@@ -32,9 +32,9 @@
 								<f:selectItems value="#{reportsController.providerList}" var="entity"
 									itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity}"  />
 	
-								<p:column>
+								<!-- <p:column>
 									<h:outputText value="#{t.firstName} #{t.lastName}" />
-								</p:column>
+								</p:column> -->
 							</p:selectOneMenu> 
 							
 							
@@ -70,7 +70,12 @@
 				        
 				        <!-- <h:outputLabel for="status" value="Select Status:" /> -->
 			        	<p:selectOneMenu value="#{reportsController.currentPayerStatus}" style="width:175px">
-			        		<f:selectItem itemLabel="Select Status" />
+			        	
+			        	<f:selectItem itemLabel="Select Status" />
+			        	<f:selectItems value="#{reportsController.statusList}" var="v"
+			        		itemLabel="#{v}" itemValue="#{v}"/>
+			        		
+<!-- 			        		
 				            <f:selectItem itemLabel="PAR" itemValue="PAR" />
 				            <f:selectItem itemLabel="Non-Par" itemValue="Non-Par" />
 				            <f:selectItem itemLabel="Application Package Complete" itemValue="Application Package Complete" />
@@ -79,7 +84,7 @@
 				            <f:selectItem itemLabel="Application Rejected" itemValue="Application Rejected" />
 				            <f:selectItem itemLabel="Effective Date Assigned" itemValue="Effective Date Assigned" />
 				            <f:selectItem itemLabel="Letter Received" itemValue="Letter Received" />
-				        </p:selectOneMenu>
+ -->				        </p:selectOneMenu>
 					
 						<p:commandButton value="Search" update=":frmMain"
 							action="#{reportsController.getPayerData()}" />
