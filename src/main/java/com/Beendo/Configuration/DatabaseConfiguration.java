@@ -68,15 +68,15 @@ public class DatabaseConfiguration {
 
 		// Server Db Settings
 		
-		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3306/janjua_TestDb");
-		prop.setProperty("hibernate.hikari.dataSource.user", "janjua_admin");
-		prop.setProperty("hibernate.hikari.dataSource.password", "7kcvfRSMJ4qP");
+//		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3306/janjua_TestDb");
+//		prop.setProperty("hibernate.hikari.dataSource.user", "janjua_admin");
+//		prop.setProperty("hibernate.hikari.dataSource.password", "7kcvfRSMJ4qP");
 		
 		// Local Db settings
 		
-//		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3307/janjua_TestDb");
-//		prop.setProperty("hibernate.hikari.dataSource.user", "admin");
-//		prop.setProperty("hibernate.hikari.dataSource.password", "admin");
+		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3307/janjua_TestDb");
+		prop.setProperty("hibernate.hikari.dataSource.user", "admin");
+		prop.setProperty("hibernate.hikari.dataSource.password", "admin");
 		//
 		prop.setProperty("hibernate.hikari.dataSource.cachePrepStmts", "true");
 		prop.setProperty("hibernate.hikari.dataSource.prepStmtCacheSize", "250");
