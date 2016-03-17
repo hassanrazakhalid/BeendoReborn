@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.Beendo.Entities.Payer;
 
 @Repository
-public class PayerDao extends GenericDao<Payer, Integer> implements ICRUD<Payer, Integer> {
+public class PayerDao extends GenericDao<Payer, Integer> implements IPayer {
 
 	@Autowired
     private SessionFactory sessionFactory;

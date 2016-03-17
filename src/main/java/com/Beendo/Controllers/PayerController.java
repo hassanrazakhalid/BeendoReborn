@@ -14,6 +14,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Entities.User;
+import com.Beendo.Services.IUserService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.TransactionService;
 import com.Beendo.Services.UserService;
@@ -42,7 +43,7 @@ public class PayerController extends RootController {
 	private OperationType operationType;
 	
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
 	private List<ProviderTransaction> transactions;
 

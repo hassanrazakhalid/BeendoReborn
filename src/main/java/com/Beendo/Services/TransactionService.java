@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.ICRUD;
 import com.Beendo.Dao.ITransaction;
@@ -48,6 +49,7 @@ public class TransactionService {
 		service.delete(entity);
 	}
 
+	@Transactional(readOnly=true)
 	public List<ProviderTransaction> fetchAllByRole() {
 
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();

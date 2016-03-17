@@ -1,27 +1,21 @@
 package com.Beendo.Services;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.Beendo.Dao.ICRUD;
-import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Dao.IPayer;
 import com.Beendo.Entities.Payer;
-import org.springframework.beans.factory.annotation.Qualifier;
 @Service
 public class PayerService {
 
 	@Autowired
-	@Qualifier("payerDao")
-	private ICRUD<Payer, Integer> service;	
+//	@Qualifier("payerDao")
+	private IPayer service;	
 	
 	public void save(Payer entity)
 	{
@@ -38,6 +32,7 @@ public class PayerService {
 		service.delete(entity);
 	}
 	
+	@Transactional(readOnly=true)
 	public List<Payer> findAll()
 	{
 		return service.findAll();

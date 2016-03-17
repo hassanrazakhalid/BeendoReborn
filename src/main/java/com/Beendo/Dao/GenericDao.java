@@ -1,6 +1,8 @@
 package com.Beendo.Dao;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -14,6 +16,12 @@ public abstract class GenericDao<T, ID extends Serializable> implements ICRUD<T,
 	private SessionFactory sessionFactory;
 	
 	protected Class<? extends T> daoType;
+	
+    public GenericDao() {
+        Type t = getClass().getGenericSuperclass();
+        ParameterizedType pt = (ParameterizedType) t;
+        daoType = (Class) pt.getActualTypeArguments()[0];
+    }
 	
 	@Override
 	public void save(T obj){
