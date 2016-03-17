@@ -16,40 +16,40 @@ import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.User;
 
 @Repository
-public class EntityDao implements IEntity {
+public class EntityDao extends GenericDao<CEntitiy, Integer> implements IEntity {
 
 	
 	@Autowired
     private SessionFactory sessionFactory;
 	
-	@Override
-	@Transactional
-	public void save(CEntitiy entity) {
-		
-		this.sessionFactory.getCurrentSession().save(entity);
-	}
-
-	@Override
-	@Transactional
-	public void update(CEntitiy entity) {
-		
-		this.sessionFactory.getCurrentSession().update(entity);
-	}
-	
-	@Override
-	public void update(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Transactional
-	@Override
-	public CEntitiy findById(Integer id) {
-		// TODO Auto-generated method stub
-		Session session = this.sessionFactory.getCurrentSession();
-		CEntitiy entity = (CEntitiy)session.get(CEntitiy.class, id);
-		return entity;
-	}
+//	@Override
+//	@Transactional
+//	public void save(CEntitiy entity) {
+//		
+//		this.sessionFactory.getCurrentSession().save(entity);
+//	}
+//
+//	@Override
+//	@Transactional
+//	public void update(CEntitiy entity) {
+//		
+//		this.sessionFactory.getCurrentSession().update(entity);
+//	}
+//	
+//	@Override
+//	public void update(int id) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Transactional
+//	@Override
+//	public CEntitiy findById(Integer id) {
+//		// TODO Auto-generated method stub
+//		Session session = this.sessionFactory.getCurrentSession();
+//		CEntitiy entity = (CEntitiy)session.get(CEntitiy.class, id);
+//		return entity;
+//	}
 	
 	@Transactional
 	@Override
@@ -70,43 +70,43 @@ public class EntityDao implements IEntity {
 //			return null;
 	}
 
-	@Transactional
-	@Override
-	public void delete(CEntitiy entity) {
-		// TODO Auto-generated method stub
-		Session session = this.sessionFactory.getCurrentSession();
-		
-//		entity.getPracticeList().clear();
-		
-//		Query	query = session.createQuery("DELETE Practice P WHERE P.entity.id = :id");
-//		query.setParameter("id", entity.getId());
-//		System.out.println(query.executeUpdate());
+//	@Transactional
+//	@Override
+//	public void delete(CEntitiy entity) {
+//		// TODO Auto-generated method stub
+//		Session session = this.sessionFactory.getCurrentSession();
 //		
-//	    query = session.createQuery("DELETE Provider P WHERE P.centity.id = :id");
-//		query.setParameter("id", entity.getId());
-//		System.out.println(query.executeUpdate());
-		
-		session.delete(entity);
-	}
+////		entity.getPracticeList().clear();
+//		
+////		Query	query = session.createQuery("DELETE Practice P WHERE P.entity.id = :id");
+////		query.setParameter("id", entity.getId());
+////		System.out.println(query.executeUpdate());
+////		
+////	    query = session.createQuery("DELETE Provider P WHERE P.centity.id = :id");
+////		query.setParameter("id", entity.getId());
+////		System.out.println(query.executeUpdate());
+//		
+//		session.delete(entity);
+//	}
 
-	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	@Transactional
-	public List<CEntitiy> findAll() {
-		// TODO Auto-generated method stub
-		return this.sessionFactory.getCurrentSession().createQuery("FROM CEntitiy").list();
-	}
-
-	@Override
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void delete(int id) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	@Transactional
+//	public List<CEntitiy> findAll() {
+//		// TODO Auto-generated method stub
+//		return this.sessionFactory.getCurrentSession().createQuery("FROM CEntitiy").list();
+//	}
+//
+//	@Override
+//	public void deleteAll() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	
 	@Transactional
 	@Override

@@ -15,7 +15,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@EnableTransactionManagement
+@EnableTransactionManagement//(proxyTargetClass=true)
 public class DatabaseConfiguration {
 // NEw Code is below    
 //	@Bean(name="dataSource")
@@ -68,12 +68,12 @@ public class DatabaseConfiguration {
 
 		// Server Db Settings
 		
-//		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3306/janjua_TestDb");
+//		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3306/janjua_partracker_prod");
 //		prop.setProperty("hibernate.hikari.dataSource.user", "janjua_admin");
 //		prop.setProperty("hibernate.hikari.dataSource.password", "7kcvfRSMJ4qP");
 		
 		// Local Db settings
-		
+//		janjua_partracker_prod
 		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3307/janjua_TestDb");
 		prop.setProperty("hibernate.hikari.dataSource.user", "admin");
 		prop.setProperty("hibernate.hikari.dataSource.password", "admin");
@@ -84,25 +84,32 @@ public class DatabaseConfiguration {
 		
 //		prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 		prop.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
-		prop.setProperty("hibernate.hbm2ddl.auto", "update");
+		prop.setProperty("hibernate.hbm2ddl.auto", "validate");
 		prop.setProperty("hibernate.show_sql", "true");
 		return prop;
 
 		
 	}
 	
-	public Properties hibernateProperties(){
-		
-		Properties properties = new Properties();
-//		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-		properties.setProperty("hibernate.connection.provider_class", "com.zaxxer.hikari.hibernate.HikariConnectionProvider");
-//		properties.setProperty("hibernate.connection.pool_size", "10");
-		properties.setProperty("hibernate.show_sql", "true");
-		properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
-		properties.setProperty("hibernate.hbm2ddl.auto", "update");
- 
-		return properties;		
-	}
+
+//    validate: validate that the schema matches, make no changes to the schema of the database, you probably want this for production.
+//    update: update the schema to reflect the entities being persisted
+//    create: creates the schema necessary for your entities, destroying any previous data.
+//    create-drop: create the schema as in create above, but also drop the schema at the end of the session. This is great in early development or for testing.
+
+	
+//	public Properties hibernateProperties(){
+//		
+//		Properties properties = new Properties();
+////		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+//		properties.setProperty("hibernate.connection.provider_class", "com.zaxxer.hikari.hibernate.HikariConnectionProvider");
+////		properties.setProperty("hibernate.connection.pool_size", "10");
+//		properties.setProperty("hibernate.show_sql", "true");
+//		properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
+//		properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+// 
+//		return properties;		
+//	}
 	
 	@Autowired
 	@Bean(name = "sessionFactory")

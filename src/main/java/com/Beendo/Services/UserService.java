@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.IUserDao;
 import com.Beendo.Entities.CEntitiy;
@@ -22,10 +23,11 @@ import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService,IUserService {
 
 	@Autowired
 	private IUserDao iUserDao;
+	
 	
 	public void save(User user){
 		
@@ -37,11 +39,13 @@ public class UserService implements UserDetailsService {
 		return iUserDao.refresh(sender);
 	}
 	
+	@Transactional(readOnly=true)
 	public List<User> fetchAll(){
 		
 		return iUserDao.findAll();
 	}
 	
+	@Transactional(readOnly=true)
 	public User findById(Integer id, boolean shouldRedirect){
 
 		User user = iUserDao.findById(id);
@@ -62,6 +66,7 @@ public class UserService implements UserDetailsService {
 		return user;
 	}
 	
+	@Transactional(readOnly=true)
 	public List<User> fetchAllByRole(){
 		
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
@@ -101,18 +106,21 @@ public class UserService implements UserDetailsService {
 		return list;
 	}
 	
+	@Transactional(readOnly=true)
 	public User isUserValid(String appUserName, String password){
 	
 		User user =	iUserDao.isUserValid(appUserName, password);
 		return user;
 	}
 	
+	@Transactional(readOnly=true)
 	public User isUserValid(String userName){
 		
 		User user =	iUserDao.isUserValid(userName);
 		return user;
 	}
 
+//	@Transactional
 	public void update(User user) {
 		// TODO Auto-generated method stub
 		iUserDao.update(user);
@@ -122,6 +130,8 @@ public class UserService implements UserDetailsService {
 		// TODO Auto-generated method stub
 		iUserDao.delete(sender);
 	}
+	
+//	@Transactional(readOnly=true)
 	public List<User> findUsersByEntityId(Integer id){
 		
 		return iUserDao.findUsersByEntityId(id);
@@ -138,26 +148,31 @@ public class UserService implements UserDetailsService {
 	}
 	// Security Methods
 
+	@Transactional(readOnly=true)
 	public String isEntityAdminExist(Integer id){
 		
 		return iUserDao.isEntityAdminExist(id);
 	} 	
 	
+	@Transactional(readOnly=true)
 	public String isUsernameExist(String userName){
 		
 		return iUserDao.isUsernameExist(userName);
 	}
 	
+	@Transactional(readOnly=true)
 	public String isEmailExist(String email){
 		
 		return iUserDao.isEmailExist(email);
 	}
 	
+	@Transactional(readOnly=true)
 	public List<Practice> findPracticesByUserId(Integer id){
 		
 		return iUserDao.findPracticesByUserId(id);
 	}
 	
+	@Transactional(readOnly=true)
 	public boolean isUserExistForPractice(Integer practiceId){
 		
 		return iUserDao.isUserExistForPractice(practiceId);

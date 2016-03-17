@@ -22,15 +22,11 @@ import com.Beendo.Utils.Role;
 
 
 @Repository
-public class UserDao implements IUserDao {
+public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 
 	@Autowired
     private SessionFactory sessionFactory;
-
-	@Autowired
-	private EntityService entityService;
 	
-	@Transactional
 	public User isUserValid(String appUserName, String password){
 		
 		User user = null;
@@ -47,8 +43,8 @@ public class UserDao implements IUserDao {
 		return user;	
 	}
 	
-	@Override
 	@Transactional(readOnly=true)
+	@Override
 	public User isUserValid(String userName){
 		
 		User user = null;
@@ -64,7 +60,6 @@ public class UserDao implements IUserDao {
 		return user;
 	}
 	
-	@Transactional
 	public User finsUserByUserName(String email){
 		
 		User user = null;
@@ -80,36 +75,8 @@ public class UserDao implements IUserDao {
 		return user;	
 	}
 
-	@Transactional
-	public void save(User entity) {
-		// TODO Auto-generated method stub
-		this.sessionFactory.getCurrentSession().persist(entity);
-//		this.sessionFactory.getCurrentSession().save(entity);
-	}
 
-	@Transactional
-	public void update(User entity) {
-		
-		this.sessionFactory.getCurrentSession().merge(entity);
-//		this.sessionFactory.getCurrentSession().update(entity);
-	}
 
-	@Transactional
-	public User findById(Integer id) {
-		// TODO Auto-generated method stub
-		Session session = this.sessionFactory.getCurrentSession();
-		User user = (User)session.get(User.class, id);
-		return user;
-	}
-
-	@Transactional
-	public void delete(User entity) {
-		// TODO Auto-generated method stub
-	
-		sessionFactory.getCurrentSession().delete(entity);
-	}
-
-	@Transactional()
 	public List<User> findAll() {
 		return sessionFactory.getCurrentSession().createQuery("SELECT DISTINCT U From User U"
 				+ " LEFT JOIN FETCH U.practises"
@@ -117,23 +84,57 @@ public class UserDao implements IUserDao {
 				+ " LEFT JOIN FETCH E.practiceList").list();
 	}
 
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void update(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Transactional
-	public void delete(int id) {
-		User tmp = (User) sessionFactory.getCurrentSession().load(User.class, id);
-		sessionFactory.getCurrentSession().delete(tmp);	
-	}
-
-	@Transactional
+//	@Transactional
+//	public void save(User entity) {
+//		// TODO Auto-generated method stub
+//		this.sessionFactory.getCurrentSession().persist(entity);
+////		this.sessionFactory.getCurrentSession().save(entity);
+//	}
+//
+//	@Transactional
+//	public void update(User entity) {
+//		
+//		this.sessionFactory.getCurrentSession().merge(entity);
+////		this.sessionFactory.getCurrentSession().update(entity);
+//	}
+//
+//	@Transactional
+//	public User findById(Integer id) {
+//		// TODO Auto-generated method stub
+//		Session session = this.sessionFactory.getCurrentSession();
+//		User user = (User)session.get(User.class, id);
+//		return user;
+//	}
+//
+//	@Transactional
+//	public void delete(User entity) {
+//		// TODO Auto-generated method stub
+//	
+//		sessionFactory.getCurrentSession().delete(entity);
+//	}
+//	public void deleteAll() {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	public void update(int id) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Transactional
+//	public void delete(int id) {
+//		User tmp = (User) sessionFactory.getCurrentSession().load(User.class, id);
+//		sessionFactory.getCurrentSession().delete(tmp);	
+//	}
+//	@Override
+//	@Transactional
+//	public User refresh(User sender) {
+//		
+//		Session session = this.sessionFactory.getCurrentSession();
+//		session.refresh(sender);
+//		return sender;
+//	}
 	@Override
 	public List<User> findUserOtherThanRoot() {
 		// TODO Auto-generated method stub
@@ -149,7 +150,6 @@ public class UserDao implements IUserDao {
 		return result;	
 	}
 	
-	@Transactional
 	public String isEntityAdminExist(Integer id){
 		
 		String error = null;
@@ -168,7 +168,6 @@ public class UserDao implements IUserDao {
 		return error;
 	}
 	
-	@Transactional
 	@Override
 	public String isUsernameExist(String userName){
 		
@@ -187,7 +186,6 @@ public class UserDao implements IUserDao {
 		return error;
 	}
 	
-	@Transactional
 	@Override
 	public String isEmailExist(String email){
 		
@@ -206,17 +204,7 @@ public class UserDao implements IUserDao {
 		return error;
 		
 	}
-
-	@Override
-	@Transactional
-	public User refresh(User sender) {
-		
-		Session session = this.sessionFactory.getCurrentSession();
-		session.refresh(sender);
-		return sender;
-	}
 	
-	@Transactional
 	@Override
 	public List<Practice> findPracticesByUserId(Integer id) {
 		
@@ -245,7 +233,6 @@ public class UserDao implements IUserDao {
 		criteria.add(criterion)
 	}*/
 
-	@Transactional
 	@Override
 	public List<User> findUsersByEntityId(Integer id) {
 		
@@ -277,7 +264,6 @@ public class UserDao implements IUserDao {
 		return list;
 	}
 	
-	@Transactional
 	@Override
 	public boolean isUserExistForPractice(Integer practiceId) {
 		

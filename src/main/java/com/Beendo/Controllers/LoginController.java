@@ -7,6 +7,7 @@ import org.primefaces.context.RequestContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Scope;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.User;
+import com.Beendo.Services.IUserService;
 //import com.Beendo.Security.UserSecurityService;
 import com.Beendo.Services.UserService;
 import com.Beendo.Utils.SharedData;
@@ -38,10 +40,10 @@ public class LoginController implements DisposableBean {
 	private SharedData sharedData;
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 
-	@Autowired
-	private UserDetailsService securityService;
+//	@Autowired
+//	private UserDetailsService securityService;
 	
 	public void onLoad(){
 		

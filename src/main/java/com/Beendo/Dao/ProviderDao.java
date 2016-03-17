@@ -15,70 +15,71 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 
 @Repository
-public class ProviderDao implements IProvider {
+public class ProviderDao extends GenericDao<Provider, Integer> implements IProvider {
 
 	
 	@Autowired
     private SessionFactory sessionFactory;
 	
-	@Transactional
-	@Override
-	public void save(Provider entity) {
-		
-		this.sessionFactory.getCurrentSession().save(entity);
-	}
+//	@Transactional
+//	@Override
+//	public void save(Provider entity) {
+//		
+//		this.sessionFactory.getCurrentSession().save(entity);
+//	}
+//
+//	@Transactional
+//	@Override
+//	public void update(Provider entity) {
+//		
+//		this.sessionFactory.getCurrentSession().update(entity);	
+//	}
 
-	@Transactional
-	@Override
-	public void update(Provider entity) {
-		
-		this.sessionFactory.getCurrentSession().update(entity);	
-	}
+//	@Override
+//	public void update(int id) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Transactional
+//	@Override
+//	public Provider findById(Integer id) {
+//		
+//		//return (Provider)this.sessionFactory.getCurrentSession().createQuery("FROM Provider").list().get(0);
+//		
+////		Query query = this.sessionFactory.getCurrentSession().createQuery("FROM Provider where id = :code ");
+////		query.setParameter("code", id);
+////		return (Provider)query.list().get(0);
+//		
+//		return (Provider)this.sessionFactory.getCurrentSession().get(Provider.class, id);
+//	}
 
-	@Override
-	public void update(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Transactional
-	@Override
-	public Provider findById(Integer id) {
-		
-		//return (Provider)this.sessionFactory.getCurrentSession().createQuery("FROM Provider").list().get(0);
-		
-//		Query query = this.sessionFactory.getCurrentSession().createQuery("FROM Provider where id = :code ");
-//		query.setParameter("code", id);
-//		return (Provider)query.list().get(0);
-		
-		return (Provider)this.sessionFactory.getCurrentSession().get(Provider.class, id);
-	}
-
-	@Transactional
-	@Override
-	public void delete(Provider entity) {
-		
-		this.sessionFactory.getCurrentSession().delete(entity);	
-	}
-
-	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Transactional
+//	@Override
+//	public void delete(Provider entity) {
+//		
+//		this.sessionFactory.getCurrentSession().delete(entity);	
+//	}
+//
+//	@Override
+//	public void delete(int id) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Transactional
 	@Override
 	public List<Provider> findAll() {
 		
-		return this.sessionFactory.getCurrentSession().createQuery("FROM Provider").list();
+		return this.sessionFactory.getCurrentSession().createQuery("SELECT P FROM Provider P"
+				+ " LEFT JOIN FETCH P.documents D").list();
 	}
 
-	@Override
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void deleteAll() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Transactional
 	@Override
@@ -98,11 +99,11 @@ public class ProviderDao implements IProvider {
 		return error;
 	}
 
-	@Override
-	public Provider refresh(Provider sender) {
-		// TODO Auto-generated method stub
-		return  null;
-	}
+//	@Override
+//	public Provider refresh(Provider sender) {
+//		// TODO Auto-generated method stub
+//		return  null;
+//	}
 
 	@Transactional
 	@Override

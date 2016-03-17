@@ -1,7 +1,9 @@
 package com.Beendo.Entities;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,6 +36,9 @@ public class Provider {
 	private String lastName;
 	private String npiNum;
  	
+	@OneToMany(mappedBy="provider",cascade={CascadeType.PERSIST})
+	private Set<Document> documents = new HashSet<>();
+	
 	@ManyToOne
 	private CEntitiy centity;
 	
@@ -57,4 +62,15 @@ public class Provider {
 		return firstName+" " + lastName+ " " + npiNum;
 	}
 	
+	public Document getFilenameByType(String fileType){
+	
+	Optional<Document>res = this.getDocuments().stream()
+				.filter(doc -> doc.getName().equalsIgnoreCase(fileType))
+				.findFirst();
+	if(res.isPresent())
+		return res.get();
+	else
+		return null;
+	
+	}
 }

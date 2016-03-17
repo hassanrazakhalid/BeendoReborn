@@ -81,8 +81,7 @@
 							<p:commandButton icon="ui-icon-close" update=":mainForm"
 								resetValues="true"
 								action="#{providerController.removeClicked(provider)}"
-								rendered="#{providerController.shouldShowDelete()}"
-								>
+								rendered="#{providerController.shouldShowDelete()}">
 
 								<p:confirm header="Confirmation" message="Are you sure?"
 									icon="ui-icon-alert" />
@@ -119,22 +118,20 @@
 								value="#{providerController.getFirstEntityName()}"
 								rendered="#{providerController.isSingleItemInEntityList()}" />
 
-
 							<p:selectOneMenu id="entities"
 								value="#{providerController.currentEntity}"
-								panelStyle="width:180px" effect="fade"
-								 required="true"
+								panelStyle="width:180px" effect="fade" required="true"
 								style="width:177px"
 								rendered="#{!providerController.isSingleItemInEntityList()}"
-								disabled="#{providerController.getIsEntityListDisabled()}"
-								>
+								disabled="#{providerController.getIsEntityListDisabled()}">
 
 								<p:ajax listener="#{providerController.onEntityChange}"
 									update="myPractices" />
 
 								<f:selectItem itemLabel="Select Entity" />
 								<f:selectItems value="#{providerController.entityList}"
-									var="entity" itemLabel="#{entity.name}" itemValue="#{entity.getId()}" />
+									var="entity" itemLabel="#{entity.name}"
+									itemValue="#{entity.getId()}" />
 
 								<!-- <p:column>
 									<h:outputText value="#{t.name}" />
@@ -146,7 +143,7 @@
 								value="#{providerController.selectedPractices}"
 								label="Select Practices" filter="true"
 								filterMatchMode="startsWith" style="width:177px" var="t"
-								 panelStyle="width:250px">
+								panelStyle="width:250px">
 
 								<f:selectItems value="#{providerController.practiceList}"
 									var="practice" itemLabel="#{practice.name}"
@@ -172,8 +169,6 @@
 				            
 				        </p:selectCheckboxMenu>  -->
 
-
-
 							<p:inputText id="NpiNumber"
 								value="#{providerController.provider.npiNum}"
 								placeholder="Npi Number" maxlength="10" label="NPI"
@@ -195,10 +190,53 @@
 
 
 						<br />
+						<h:dataTable id="filesTable"
+							value="#{providerController.fileTypes}" var="docName">
+
+							<p:column>
+							<b><h:outputLabel for="fileUpload" value="#{docName}" /></b>
+							 <br/>
+							
+							<h:outputLabel value="Existing File: " for="idFileName" />
+							<h:outputLabel id="idFileName" value="#{provider.getFilenameByType(docName)}" /> <br/>
+								<p:fileUpload value="#{docName}"
+									fileUploadListener="#{providerController.handleFileUpload}"
+									mode="advanced" dragDropSupport="false" fileLimit="3"
+									sizeLimit="100000" allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/">
+
+									<f:attribute name="name" value="#{docName}" />
+									
+								</p:fileUpload>
+							</p:column>
+						
+							<p:column headerText="Remove">
+
+								<p:commandButton icon="ui-icon-trash"
+									action="#{providerController.deleteFileClicked(docName)}"
+									update=":myForm:filesTable">
+
+									<p:confirm header="Confirmation" message="Are you sure?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+
+								<p:confirmDialog global="true" showEffect="fade"
+									hideEffect="fade">
+									<p:commandButton value="Yes" type="button"
+										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button"
+										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+
+							</p:column>
+
+
+						</h:dataTable>
 
 						<p:commandButton id="btnSave" value="Save" validateClient="true"
 							actionListener="#{providerController.saveInfo}"
 							update="msgs, :mainForm" />
+
+
 
 
 						<p:blockUI trigger="myForm:btnSave" block="providerDialog">

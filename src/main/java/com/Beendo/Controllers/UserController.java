@@ -35,6 +35,7 @@ import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Permission;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
+import com.Beendo.Services.IUserService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.PermissionService;
 import com.Beendo.Services.UserService;
@@ -68,7 +69,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 	@Autowired
 	private PermissionService roleService;
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 
 	@Autowired
 	private PractiseService practiseService;

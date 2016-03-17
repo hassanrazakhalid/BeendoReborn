@@ -18,13 +18,13 @@ import com.Beendo.Entities.User;
 import com.Beendo.Services.IPractise;
 
 @Repository
-public class PractiseDao implements IPractise {
+public class PractiseDao extends GenericDao<Practice, Integer> implements IPractise {
 
 	
 	@Autowired
     private SessionFactory sessionFactory;
 	
-	@Override
+/*	@Override
 	@Transactional
 	public void save(Practice entity) {
 		
@@ -61,14 +61,14 @@ public class PractiseDao implements IPractise {
 	public void delete(int id) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
-	@Override
-	@Transactional
-	public List<Practice> findAll() {
-		// TODO Auto-generated method stub
-		return this.sessionFactory.getCurrentSession().createQuery("FROM Practice").list();
-	}
+//	@Override
+//	@Transactional
+//	public List<Practice> findAll() {
+//		// TODO Auto-generated method stub
+//		return this.sessionFactory.getCurrentSession().createQuery("FROM Practice").list();
+//	}
 
 	@Override
 	@Transactional
@@ -84,11 +84,11 @@ public class PractiseDao implements IPractise {
 		
 	}
 	
-	@Override
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void deleteAll() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Transactional
 	@Override
@@ -114,11 +114,11 @@ public class PractiseDao implements IPractise {
 		}
 	}
 
-	@Override
-	public Practice refresh(Practice sender) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Practice refresh(Practice sender) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 	@Transactional
 	@Override
