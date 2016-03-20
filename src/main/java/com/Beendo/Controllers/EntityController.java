@@ -22,6 +22,8 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
+import com.Beendo.Services.IEntityService;
+import com.Beendo.Services.IUserService;
 import com.Beendo.Services.UserService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
@@ -38,10 +40,10 @@ import lombok.Setter;
 public class EntityController {
 
 	@Autowired
-	private EntityService entityService;
+	private IEntityService entityService;
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
 	private String entityName;
 	
@@ -128,7 +130,7 @@ public class EntityController {
 				case Create:
 				{
 					entities.add(entity);
-					entityService.save(entity);
+					entityService.saveOrUpdate(entity);
 				}
 					break;
 				case Edit:
@@ -161,7 +163,7 @@ public class EntityController {
 	public void deleteEntityClicked(CEntitiy sender){
 		
 		try {
-			entityService.delete(sender);
+			entityService.remove(sender);
 			entities.remove(sender);
 			refreshAllData();
 		}

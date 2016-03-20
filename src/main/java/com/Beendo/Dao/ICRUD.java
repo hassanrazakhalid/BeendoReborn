@@ -8,24 +8,13 @@ import org.hibernate.Session;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.User;
 
-public interface ICRUD <T , Id extends Serializable> {
+public interface ICRUD <E , K extends Serializable> {
 
-	public void save(T entity);
-	
-	public void update(T entity);
-	
-	public void update(int id);
-	
-	public T findById(Id id);
-	
-	public void delete(T entity);
-	
-	public void delete(int id);
-	
-	public List<T> findAll();
-	
-	public void deleteAll();
-	
-	public T refresh(T sender);
+    public void saveOrUpdate(E entity) ;
+    public void update(E entity) ;
+    public void remove(E entity);
+    public void remove(K id);
+    public E find(K key);
+    public List<E> findAll() ;
 
 }

@@ -175,7 +175,7 @@ public class EntityDao extends GenericDao<CEntitiy, Integer> implements IEntity 
 		return error;
 	}
 	
-	@Transactional
+/*	@Transactional
 	@Override
 	public CEntitiy refresh(CEntitiy sender) {
 		// TODO Auto-generated method stub
@@ -186,5 +186,5 @@ public class EntityDao extends GenericDao<CEntitiy, Integer> implements IEntity 
 		count = sender.getPracticeList().size();
 		System.out.println("");
 		return sender;
-	}
+	}*/
 }

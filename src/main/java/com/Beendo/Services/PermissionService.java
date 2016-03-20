@@ -16,7 +16,7 @@ import com.Beendo.Dao.IRole;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Permission;
 
-@Service
+//@Service
 public class PermissionService {
 
 	private HashMap<Integer, Permission> hashRole = new HashMap<>();;
@@ -47,7 +47,7 @@ public class PermissionService {
 	
 	public void save(Permission entity)
 	{
-		service.save(entity);
+//		service.save(entity);
 		hashRole.put(entity.getId(), entity);
 	}
 	

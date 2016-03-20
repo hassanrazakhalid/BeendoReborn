@@ -24,6 +24,12 @@ import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
+import com.Beendo.Services.IEntityService;
+import com.Beendo.Services.IPayerService;
+import com.Beendo.Services.IPractiseService;
+import com.Beendo.Services.IProviderService;
+import com.Beendo.Services.ITransactionService;
+import com.Beendo.Services.IUserService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
@@ -43,19 +49,19 @@ import lombok.Setter;
 public class TransactionController extends RootController {
 
 	@Autowired
-	private TransactionService transactionService;
+	private ITransactionService transactionService;
 	
 	@Autowired
-	private PayerService payerService;
+	private IPayerService payerService;
 	
 	@Autowired
-	private PractiseService practiseService;
+	private IPractiseService practiseService;
 	
 	@Autowired
-	private EntityService entityService;
+	private IEntityService entityService;
 	
 	@Autowired
-	private ProviderService providerService;
+	private IProviderService providerService;
 	
 	private ProviderTransaction transaction = new ProviderTransaction();
 	private List<ProviderTransaction> transactions;
@@ -78,7 +84,7 @@ public class TransactionController extends RootController {
 	
 	private User tmpUser;
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	//private HashMap<Integer, Practice> _hash = new HashMap<Integer, Practice>();
 	
 	private void refreshAllData(){
@@ -87,7 +93,7 @@ public class TransactionController extends RootController {
 		tmpUser = userService.findById(user.getId(), false);
 		
 		transactions = transactionService.fetchAllByRole();
-		payerList = payerService.findAll();
+		payerList = payerService.getAll();
 		practiceList = practiseService.fetchAllByRole();
 		providerList = providerService.fetchAllByRole();
 		
@@ -193,7 +199,7 @@ public class TransactionController extends RootController {
 			{
 				entity.getTransactionList().add(transaction);
 				transactions.add(transaction);
-				transactionService.save(transaction);
+				transactionService.saveOrUpdate(transaction);
 				entityService.update(entity);
 				//showMessage("Transaction has been saved");
 			}
@@ -212,7 +218,7 @@ public class TransactionController extends RootController {
 		
 		try {
 			
-			transactionService.delete(transac);
+			transactionService.remove(transac);
 			transactions.remove(transac);
 			refreshAllData();
 			

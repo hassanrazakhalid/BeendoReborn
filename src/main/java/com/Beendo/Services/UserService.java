@@ -23,32 +23,16 @@ import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 @Service
-public class UserService implements UserDetailsService,IUserService {
+public class UserService extends GenericServiceImpl<User, Integer> implements UserDetailsService,IUserService {
 
 	@Autowired
 	private IUserDao iUserDao;
 	
 	
-	public void save(User user){
-		
-		iUserDao.save(user);
-	}
-	
-	public User refresh(User sender){
-		
-		return iUserDao.refresh(sender);
-	}
-	
-	@Transactional(readOnly=true)
-	public List<User> fetchAll(){
-		
-		return iUserDao.findAll();
-	}
-	
 	@Transactional(readOnly=true)
 	public User findById(Integer id, boolean shouldRedirect){
 
-		User user = iUserDao.findById(id);
+		User user = iUserDao.find(id);
 		
 		if(user == null &&
 		   shouldRedirect)
@@ -128,7 +112,7 @@ public class UserService implements UserDetailsService,IUserService {
 
 	public void remove(User sender) {
 		// TODO Auto-generated method stub
-		iUserDao.delete(sender);
+		iUserDao.remove(sender);
 	}
 	
 //	@Transactional(readOnly=true)

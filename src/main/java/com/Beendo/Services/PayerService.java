@@ -11,39 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.Beendo.Dao.IPayer;
 import com.Beendo.Entities.Payer;
 @Service
-public class PayerService {
+public class PayerService extends GenericServiceImpl<Payer, Integer> implements IPayerService {
 
 	@Autowired
 //	@Qualifier("payerDao")
 	private IPayer service;	
 	
-	public void save(Payer entity)
-	{
-		service.save(entity);
-	}
-	
-	public void update(Payer entity)
-	{
-		service.update(entity);
-	}
-	
-	public void delete(Payer entity)
-	{
-		service.delete(entity);
-	}
-	
-	@Transactional(readOnly=true)
-	public List<Payer> findAll()
-	{
-		return service.findAll();
-	}
-	
-	public static List<Payer> isNameExist(List<Payer> entities, String name, String planName, String city, String state, String zip, String street){
+	public List<Payer> isNameExist(List<Payer> entities, String name, String planName, String city, String state, String zip, String street){
 		
 		return filterData(entities, getNamePredicate(name, planName, city, state, zip, street));
 	}
 	
-	private static List<Payer> filterData (List<Payer> list, Predicate<Payer> predicate) {
+	private List<Payer> filterData (List<Payer> list, Predicate<Payer> predicate) {
         return list.stream().filter( predicate ).collect(Collectors.<Payer>toList());
     }
 	

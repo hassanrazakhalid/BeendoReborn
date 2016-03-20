@@ -35,6 +35,8 @@ import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Permission;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
+import com.Beendo.Services.IEntityService;
+import com.Beendo.Services.IPractiseService;
 import com.Beendo.Services.IUserService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.PermissionService;
@@ -65,14 +67,14 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 	private boolean isEntityListDisabled;
 
 	@Autowired
-	private EntityService entityService;
-	@Autowired
-	private PermissionService roleService;
+	private IEntityService entityService;
+//	@Autowired
+//	private PermissionService roleService;
 	@Autowired
 	private IUserService userService;
 
 	@Autowired
-	private PractiseService practiseService;
+	private IPractiseService practiseService;
 
 	private User user;
 
@@ -385,7 +387,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 				user.getPractises().clear();
 				if (user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString())
 						|| user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString())) {
-					selectedEntity = entityService.fetchById(1);
+					selectedEntity = entityService.get(1);
 				} else {
 					selectedEntity = getSelectedEntity();
 					popoulatePracticesByIds(selectedPractises);

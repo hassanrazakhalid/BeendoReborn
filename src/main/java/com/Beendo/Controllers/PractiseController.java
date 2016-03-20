@@ -17,6 +17,11 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
+import com.Beendo.Services.IEntityService;
+import com.Beendo.Services.IPractiseService;
+import com.Beendo.Services.IProviderService;
+import com.Beendo.Services.ITransactionService;
+import com.Beendo.Services.IUserService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
@@ -50,19 +55,19 @@ public class PractiseController {
 	private boolean isEntityListEnabled;
 	
 	@Autowired
-	private PractiseService practiseService;
+	private IPractiseService practiseService;
 	
 	@Autowired
-	private ProviderService providerService;
+	private IProviderService providerService;
 
 	@Autowired
-	private TransactionService transactionService;
+	private ITransactionService transactionService;
 	
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
 	@Autowired
-	private EntityService entityService;
+	private IEntityService entityService;
 	private Practice practise = new Practice();
 	
 	private User tmpUser;

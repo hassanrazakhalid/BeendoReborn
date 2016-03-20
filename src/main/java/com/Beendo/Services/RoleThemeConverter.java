@@ -18,7 +18,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Permission;
 import com.Beendo.Utils.SharedData;
 
-@Controller
+//@Controller
 @FacesConverter("roleConverter")
 public class RoleThemeConverter implements Converter {
 	

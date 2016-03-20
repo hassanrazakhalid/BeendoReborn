@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.IEntity;
 import com.Beendo.Entities.CEntitiy;
@@ -15,29 +16,12 @@ import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
 
 @Service
-public class EntityService {
+public class EntityService extends GenericServiceImpl<CEntitiy, Integer> implements IEntityService {
 
 	@Autowired
 	private IEntity _service;
 
-	// private List<CEntitiy> listEntities;
-	/*
-	 * private HashMap<Integer, CEntitiy> hashEntities = new HashMap<Integer,
-	 * CEntitiy>();
-	 * 
-	 * @PostConstruct private void init(){
-	 * 
-	 * List<CEntitiy> listEntities = this.findAll(); for(int i=0; i <
-	 * listEntities.size(); i++) { CEntitiy entity = listEntities.get(i);
-	 * hashEntities.put(entity.getId(), entity); }
-	 * 
-	 * }
-	 */
-
-	public List<CEntitiy> fetchAll() {
-		return _service.findAll();
-	}
-
+	@Transactional(readOnly=true)
 	public List<CEntitiy> fetchAllEntitiesByUse() {
 
 		/*
@@ -57,6 +41,7 @@ public class EntityService {
 
 	}
 
+	@Transactional(readOnly=true)
 	public List<CEntitiy> fetchAllByRole(Screen screen) {
 
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
@@ -99,60 +84,17 @@ public class EntityService {
 	 * public CEntitiy getEntityById(Integer id) { return hashEntities.get(id);
 	 * }
 	 */
-	public void save(CEntitiy entity) {
-//		entity.setName(entity.getName().toLowerCase());
-		_service.save(entity);
-		// hashEntities.put(entity.getId(), entity);
-	}
 
-	public void update(CEntitiy entity) {
-		_service.update(entity);
-	}
-	
-	public void delete(CEntitiy entity){
-		
-		_service.delete(entity);
-	}
-	
-	public void refresh(CEntitiy sender){
-		
-		_service.refresh(sender);
-	}
-	
+	@Transactional(readOnly=true)
 	public String isUsernameExist(String name){
 		
 		return _service.isEntitynameExist(name);
 	}
 	
-	public CEntitiy fetchById(Integer id){
-		return _service.findEntityById(id);
-	}
 	
+	@Transactional(readOnly=true)
 	public CEntitiy findEntityWithTransaction(Integer id){
 		
 		return _service.findEntityWithTransaction(id);
 	}
-
-/*	public static List<CEntitiy> isNameExist(List<CEntitiy> entities, String name) {
-
-		return filterData(entities, getNamePredicate(name));
-	}*/
-
-	private static List<CEntitiy> filterData(List<CEntitiy> list, Predicate<CEntitiy> predicate) {
-
-		List<CEntitiy> result = null;
-		try {
-			result = list.stream().filter(predicate).collect(Collectors.<CEntitiy> toList());
-		} catch (Exception e) {
-			System.out.println(e);
-			// TODO: handle exception
-		}
-		return result;
-	}
-
-	private static Predicate<CEntitiy> getNamePredicate(String name) {
-
-		return p -> p.getName().equalsIgnoreCase(name);
-	}
-
 }

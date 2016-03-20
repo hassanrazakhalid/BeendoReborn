@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository;
 import com.Beendo.Entities.Permission;
 
 @Repository
-public class RoleDao implements IRole {
+public class RoleDao {
 
 	@Autowired
     private SessionFactory sessionFactory;
 	
-	@Override
+/*	@Override
 	@Transactional
 	public void save(Permission entity) {
 		
@@ -71,6 +71,6 @@ public class RoleDao implements IRole {
 	public Permission refresh(Permission sender) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
 }

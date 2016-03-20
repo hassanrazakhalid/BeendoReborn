@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.ICRUD;
 import com.Beendo.Dao.IProvider;
@@ -20,65 +21,13 @@ import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 @Service
-public class ProviderService {
+public class ProviderService extends GenericServiceImpl<Provider, Integer> implements IProviderService {
 
 	@Autowired
 	private IProvider service;
 	
-	public void save(Provider entity)
-	{
-		service.save(entity);
-	}
-	
-	public void update(Provider entity)
-	{
-		service.update(entity);
-	}
-	
-	public void delete(Provider entity)
-	{
-		service.delete(entity);
-	}
-	
-	public Provider findById(Integer id)
-	{
-		return service.findById(id);
-	}
-	
-	public List<Provider> fetchAll()
-	{
-		return service.findAll();
-	}
-	
-	public List<Provider> fetchAllByUser()
-	{
-		List<Provider> resultList = null;
-		if(SharedData.getSharedInstace().shouldReturnFullList())
-			resultList = service.findAll();
-		else
-		{
-			CEntitiy entity = SharedData.getSharedInstace().getCurrentUser().getEntity();
-			//resultList = SharedData.getSharedInstace().getCurrentUser().getEntity().getProviderList();
-			
-			/*List<Provider> tmpList = new ArrayList<Provider>();
-			tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getProviderList());
-			resultList = tmpList;*/
-			
-			List<Provider> tmpList = new ArrayList<Provider>();
-			List<Practice> practiseList = new ArrayList<Practice>();
-			practiseList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
-			
-			for (Practice practice : practiseList) {
-			
-				tmpList.addAll(practice.getProviders());
-			}
-			resultList = tmpList;
-		}
-		
-		return resultList;
-	}
-	
-	
+	@Override
+	@Transactional(readOnly=true)
 	public List<Provider> fetchAllByRole(){
 		
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
@@ -86,7 +35,7 @@ public class ProviderService {
 		
 		if(SharedData.getSharedInstace().shouldReturnFullList())
 		{
-			dataList.addAll(fetchAll());
+			dataList.addAll(getAll());
 		}
 		else
 		{

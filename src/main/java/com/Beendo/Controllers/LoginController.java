@@ -93,7 +93,7 @@ public class LoginController implements DisposableBean {
 		user.setEmail("pk@hotmail.com");
 		user.setPassword("12345");
 
-		userService.save(user);
+		userService.saveOrUpdate(user);
 
 	}
 

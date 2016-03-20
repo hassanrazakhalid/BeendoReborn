@@ -67,13 +67,13 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 //		
 //	}
 
-	@Transactional
+/*	@Transactional
 	@Override
 	public List<Provider> findAll() {
 		
 		return this.sessionFactory.getCurrentSession().createQuery("SELECT P FROM Provider P"
 				+ " LEFT JOIN FETCH P.documents D").list();
-	}
+	}*/
 
 //	@Override
 //	public void deleteAll() {

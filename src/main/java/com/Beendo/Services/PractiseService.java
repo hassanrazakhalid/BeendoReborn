@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.IEntity;
 import com.Beendo.Dao.IUserDao;
@@ -19,7 +20,7 @@ import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 
 @Service
-public class PractiseService {
+public class PractiseService extends GenericServiceImpl<Practice, Integer> implements IPractiseService {
 
 	@Autowired
 	private IPractise iPractise;
@@ -29,16 +30,6 @@ public class PractiseService {
 	
 	@Autowired
 	private IUserDao iUser;
-	
-	public void save(Practice user){
-		
-		iPractise.save(user);
-	}
-	
-	public List<Practice> fetchAll(){
-		
-		return iPractise.findAll();
-	}
 	
 	public List<Practice> fetchAllByUser(){
 		
@@ -55,6 +46,7 @@ public class PractiseService {
 		return resultList;
 	}
 	
+	@Transactional(readOnly=true)
 	public List<Practice> fetchAllByRole(){
 		
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
@@ -87,41 +79,19 @@ public class PractiseService {
 		return practiseList;
 	}
 
-
-	public void update(Practice practise) {
-		// TODO Auto-generated method stub
-		iPractise.update(practise);
-	}
-
+	@Transactional(readOnly=true)
 	public String checkDuplicateUsername(String name){
 		
 		return iPractise.checkDuplicateUsername(name);
 	}
 	
-/*	public static List<Practice> isNameExist(List<Practice> practises,String name){
-		
-		return filterEmployees(practises, getUserNamePredicate(name));
-	}*/
-	
-	private static List<Practice> filterEmployees (List<Practice> practiseList, Predicate<Practice> predicate) {
-        return practiseList.stream().filter( predicate ).collect(Collectors.<Practice>toList());
-    }
-	
-/*	private static Predicate<Practice> getUserNamePredicate(String name){
-
-		 return p -> p.getName().equalsIgnoreCase(name);
-	 }*/
-
-	public void remove(Practice sender) {
-		// TODO Auto-generated method stub
-		iPractise.delete(sender);
-	}
-	
+	@Transactional(readOnly=true)
 	public void updatePractiseList(Set<Practice>list){
 		
 		iPractise.updatePractiseList(list);
 	}
 	
+	@Transactional(readOnly=true)
 	public List<Practice> getPracticeByUser(Integer userId){
 		
 		return iPractise.getPracticeByUser(userId);

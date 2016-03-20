@@ -14,6 +14,8 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Entities.User;
+import com.Beendo.Services.IPayerService;
+import com.Beendo.Services.ITransactionService;
 import com.Beendo.Services.IUserService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.TransactionService;
@@ -33,10 +35,10 @@ import lombok.Setter;
 public class PayerController extends RootController {
 
 	@Autowired
-	private PayerService payerService;
+	private IPayerService payerService;
 	
 	@Autowired
-	private TransactionService transactionService;
+	private ITransactionService transactionService;
 
 	private Payer payer = new Payer();
 	private List<Payer> payers;
@@ -49,7 +51,7 @@ public class PayerController extends RootController {
 
 	private void refreshAllData(){
 		
-		payers = payerService.findAll();
+		payers = payerService.getAll();
 		transactions = transactionService.fetchAllByRole();
 
 		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
@@ -83,7 +85,7 @@ public class PayerController extends RootController {
 						payer.getState(), payer.getZip(), payer.getStreet());
 				if (result.size() <= 0) {
 					payers.add(payer);
-					payerService.save(payer);
+					payerService.saveOrUpdate(payer);
 					RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
 					//showMessage("Payer has been saved");
 				} else
@@ -124,13 +126,13 @@ public class PayerController extends RootController {
 					if(pay.getId() == _payer.getId())
 					{
 						providerTransaction.getPayerList().remove(pay);
-						transactionService.update(providerTransaction);
+						transactionService.saveOrUpdate(providerTransaction);
 					}
 				}			
 				
 			}
 			
-			payerService.delete(_payer);
+			payerService.remove(_payer);
 			refreshAllData();
 			
 		}

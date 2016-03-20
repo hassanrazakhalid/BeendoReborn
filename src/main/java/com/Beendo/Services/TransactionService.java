@@ -19,34 +19,19 @@ import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Utils.SharedData;
 
 @Service
-public class TransactionService {
+public class TransactionService extends GenericServiceImpl<ProviderTransaction, Integer> implements ITransactionService {
 
 	@Autowired
 	@Qualifier("transactionDao")
 	private ITransaction service;
 
-	public void save(ProviderTransaction entity) {
-		service.save(entity);
-	}
 
-	public void update(ProviderTransaction entity) {
-		service.update(entity);
-	}
-
-	public List<ProviderTransaction> findAll() {
-		return service.findAll();
-	}
-
+	@Transactional(readOnly=true)
 	public List<ProviderTransaction> findAllByUser() {
 		List<ProviderTransaction> tmpList = new ArrayList<ProviderTransaction>();
 		tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getEntity().getTransactionList());
 
 		return tmpList;
-	}
-	
-	public void delete(ProviderTransaction entity){
-		
-		service.delete(entity);
 	}
 
 	@Transactional(readOnly=true)
@@ -56,7 +41,7 @@ public class TransactionService {
 		List<ProviderTransaction> dataList = new ArrayList<>();
 
 		if (SharedData.getSharedInstace().shouldReturnFullList()) {
-			dataList.addAll(findAll());
+			dataList.addAll(getAll());
 		} else {
 			List<ProviderTransaction> tmpList = new ArrayList<ProviderTransaction>();
 			List<ProviderTransaction> result = service

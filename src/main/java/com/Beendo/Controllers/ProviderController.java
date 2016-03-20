@@ -25,6 +25,12 @@ import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
+import com.Beendo.Services.IEntityService;
+import com.Beendo.Services.IPayerService;
+import com.Beendo.Services.IPractiseService;
+import com.Beendo.Services.IProviderService;
+import com.Beendo.Services.ITransactionService;
+import com.Beendo.Services.IUserService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
@@ -47,19 +53,19 @@ import lombok.Setter;
 public class ProviderController {
 
 	@Autowired
-	private ProviderService providerService;
+	private IProviderService providerService;
 
 	@Autowired
-	private PayerService payerService;
+	private IPayerService payerService;
 
 	@Autowired
-	private EntityService entityService;
+	private IEntityService entityService;
 
 	@Autowired
-	private PractiseService practiseService;
+	private IPractiseService practiseService;
 
 	@Autowired
-	private TransactionService transactionService;
+	private ITransactionService transactionService;
 	private List<ProviderTransaction> transactions;
 
 	private String entityName;
@@ -81,7 +87,7 @@ public class ProviderController {
 	private List<String> fileTypes;
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 
 	private boolean isEntityListDisabled;
 
@@ -99,7 +105,7 @@ public class ProviderController {
 
 		providerList = providerService.fetchAllByRole(); // providerService.fetchAllByUser();
 		entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
-		payerList = payerService.findAll();
+		payerList = payerService.getAll();
 		// new
 		// ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 
@@ -297,7 +303,7 @@ public class ProviderController {
 
 					if (isInfoValid()) {
 						try {
-							providerService.save(provider);
+							providerService.saveOrUpdate(provider);
 							providerList.add(provider);
 
 						} catch (StaleObjectStateException e) {
@@ -356,7 +362,7 @@ public class ProviderController {
 
 			// providerService.update(provider);
 			// entityService.update(currentEntity);
-			providerService.delete(provider);
+			providerService.remove(provider);
 			providerList.remove(provider);
 			refreshAllData();
 			// entityService.update(currentEntity);

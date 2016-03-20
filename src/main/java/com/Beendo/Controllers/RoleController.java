@@ -17,7 +17,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@Controller
+//@Controller
 public class RoleController {
 
 	@Autowired

@@ -24,7 +24,7 @@ public abstract class GenericDao<T, ID extends Serializable> implements ICRUD<T,
     }
 	
 	@Override
-	public void save(T obj){
+	public void saveOrUpdate(T obj){
 		
 		this.sessionFactory.getCurrentSession().saveOrUpdate(obj);
 	}
@@ -36,44 +36,27 @@ public abstract class GenericDao<T, ID extends Serializable> implements ICRUD<T,
 	}
 	
 	@Override
-	public void update(int id){
-		
-	}
-	
-	@Override
-	public T findById(ID id){
+	public T find(ID id){
 		
 		return (T) this.sessionFactory.getCurrentSession().get(daoType, id);
 	}
 	
 	@Override
-	public void delete(T obj){
+	public void remove(T obj){
 		
 		this.sessionFactory.getCurrentSession().delete(obj);
 	}
 	
-	public void delete(int id){
+	@Override
+	public void remove(ID id){
 		
 	  T obj = (T) this.sessionFactory.getCurrentSession().get(daoType, id);
-	  this.delete(obj);
+	  this.remove(obj);
 	}
 	
 	@Override
 	public List<T> findAll(){
 		
 		return  this.sessionFactory.getCurrentSession().createCriteria(daoType).list();
-	}
-	
-	@Override
-	public void deleteAll(){
-		
-		
-	}
-	
-	@Override
-	public T refresh(T sender){
-		
-		 this.sessionFactory.getCurrentSession().refresh(sender);
-		 return sender;
 	}
 }
