@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.GenericDao;
@@ -23,42 +24,42 @@ public abstract class GenericServiceImpl <E, K extends Serializable> implements 
     public GenericServiceImpl() {
     }
 	
-	@Transactional(readOnly=true)
+	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 	@Override
 	public void saveOrUpdate(E entity) {
 		// TODO Auto-generated method stub
 		genericDao.saveOrUpdate(entity);
 	}
 
-	@Transactional(readOnly=true)
+	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 	@Override
 	public List<E> getAll() {
 		// TODO Auto-generated method stub
 		return genericDao.findAll();
 	}
 
-	@Transactional(readOnly=true)
+	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 	@Override
 	public E get(K id) {
 		// TODO Auto-generated method stub
 		return genericDao.find(id);
 	}
 
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRED)
 	@Override
 	public void add(E entity) {
 		// TODO Auto-generated method stub
 		genericDao.saveOrUpdate(entity);
 	}
 
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRED)
 	@Override
 	public void update(E entity) {
 		// TODO Auto-generated method stub
 		genericDao.saveOrUpdate(entity);
 	}
 
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRED)
 	@Override
 	public void remove(E entity) {
 		// TODO Auto-generated method stub

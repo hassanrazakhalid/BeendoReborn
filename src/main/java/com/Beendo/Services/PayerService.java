@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.IPayer;
@@ -17,6 +18,7 @@ public class PayerService extends GenericServiceImpl<Payer, Integer> implements 
 //	@Qualifier("payerDao")
 	private IPayer service;	
 	
+	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 	public List<Payer> isNameExist(List<Payer> entities, String name, String planName, String city, String state, String zip, String street){
 		
 		return filterData(entities, getNamePredicate(name, planName, city, state, zip, street));
