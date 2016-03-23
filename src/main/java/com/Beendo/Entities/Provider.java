@@ -1,9 +1,10 @@
 package com.Beendo.Entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -17,8 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-//import org.hibernate.annotations.CascadeType;
+import com.Beendo.Dto.DocumentCell;
+import com.Beendo.Utils.ProviderFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -64,13 +65,42 @@ public class Provider {
 	
 	public Document getFilenameByType(String fileType){
 	
+//	for (Document doc : this.getDocuments()) {
+//			
+//			System.out.println(doc.getType());
+//		}
 	Optional<Document>res = this.getDocuments().stream()
-				.filter(doc -> doc.getName().equalsIgnoreCase(fileType))
+				.filter(doc -> doc.getType().equalsIgnoreCase(fileType))
 				.findFirst();
 	if(res.isPresent())
 		return res.get();
 	else
 		return null;
 	
+	}
+	
+	public List<DocumentCell> getDocumentCellList(){
+		
+		List<DocumentCell> cells = new ArrayList<>();
+		
+		for (ProviderFile file : ProviderFile.values()) {
+
+			DocumentCell cell = new DocumentCell();
+			Document doc = getFilenameByType(file.getFileType());
+			
+			if(doc == null)	
+			{
+				doc = new Document();
+				doc.setName("");
+				doc.setType(file.getFileType());
+			}
+			
+			cell.setDocument(doc);
+			
+			cell.setLbName(file.toString());
+			cells.add(cell);
+		}
+		
+		return cells;
 	}
 }

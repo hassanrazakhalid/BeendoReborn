@@ -23,7 +23,7 @@
 
 				<h:form rendered="#{providerController.canCreateProvider()}">
 					<p:commandButton value="Create" update=":myForm"
-						action="#{providerController.clearData()}"
+						action="#{providerController.createProviderClicked()}"
 						oncomplete="PF('Dlg1').show();" />
 
 					<br />
@@ -191,20 +191,21 @@
 
 						<br />
 						<h:dataTable id="filesTable"
-							value="#{providerController.fileTypes}" var="docName">
+							value="#{providerController.documentCells}" var="docCell">
 
 							<p:column>
-							<b><h:outputLabel for="fileUpload" value="#{docName}" /></b>
+							<b><h:outputLabel for="fileUpload" value="#{docCell.lbName}" /></b>
 							 <br/>
 							
 							<h:outputLabel value="Existing File: " for="idFileName" />
-							<h:outputLabel id="idFileName" value="#{provider.getFilenameByType(docName)}" /> <br/>
-								<p:fileUpload value="#{docName}"
+							<h:outputLabel id="idFileName" value="#{docCell.document.name}" /> <br/>
+								<p:fileUpload value="#{docCell.document.name}"
 									fileUploadListener="#{providerController.handleFileUpload}"
 									mode="advanced" dragDropSupport="false" fileLimit="3"
-									sizeLimit="100000" allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/">
+									sizeLimit="100000" allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/"
+									update="filesTable">
 
-									<f:attribute name="name" value="#{docName}" />
+									<f:attribute name="name" value="#{docCell}" />
 									
 								</p:fileUpload>
 							</p:column>
@@ -212,7 +213,7 @@
 							<p:column headerText="Remove">
 
 								<p:commandButton icon="ui-icon-trash"
-									action="#{providerController.deleteFileClicked(docName)}"
+									action="#{providerController.deleteFileClicked(docCell)}"
 									update=":myForm:filesTable">
 
 									<p:confirm header="Confirmation" message="Are you sure?"

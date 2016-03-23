@@ -2,6 +2,7 @@ package com.Beendo.Controllers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.Beendo.Dto.DocumentCell;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Document;
 import com.Beendo.Entities.Payer;
@@ -55,39 +57,30 @@ public class ProviderController {
 	@Autowired
 	private IProviderService providerService;
 
-	@Autowired
-	private IPayerService payerService;
-
-	@Autowired
-	private IEntityService entityService;
 
 	@Autowired
 	private IPractiseService practiseService;
 
-	@Autowired
-	private ITransactionService transactionService;
+	
 	private List<ProviderTransaction> transactions;
 
 	private String entityName;
 
 	private Provider provider = new Provider();
-	private List<Provider> providerList;
+	private List<Provider> providerList = new ArrayList<>();
 
-	private List<Practice> practiceList;
-	private List<String> selectedPractices;
+	private List<Practice> practiceList = new ArrayList<>();
+	private List<String> selectedPractices = new ArrayList<>();
 
-	private List<Payer> payerList;
-	private List<String> selectedPayers;
+	private List<Payer> payerList = new ArrayList<>();;
+	private List<String> selectedPayers = new ArrayList<>();;
 
-	private List<CEntitiy> entityList;
+	private List<CEntitiy> entityList = new ArrayList<>();;
 
 	private String currentEntity;
 	private OperationType opetationType;
 
-	private List<String> fileTypes;
-
-	@Autowired
-	private IUserService userService;
+	private List<DocumentCell> documentCells = new ArrayList<>();;
 
 	private boolean isEntityListDisabled;
 
@@ -100,32 +93,36 @@ public class ProviderController {
 
 	private void refreshAllData() {
 
-		// User user = SharedData.getSharedInstace().getCurrentUser();
-		tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
-
-		providerList = providerService.fetchAllByRole(); // providerService.fetchAllByUser();
-		entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
-		payerList = payerService.getAll();
-		// new
-		// ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
-
-		transactions = transactionService.fetchAllByRole();
+//		// User user = SharedData.getSharedInstace().getCurrentUser();
+//		tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
+//
+//		providerList = providerService.fetchAllByRole(); // providerService.fetchAllByUser();
+//		entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
+//		payerList = payerService.getAll();
+//		// new
+//		// ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
+//
+//		transactions = transactionService.fetchAllByRole();
 		// initHashTwo(practiceList);
 
 		refreshPractics();
+		documentCells = new ArrayList<>();
+		
+		ProviderCallback response = (User user, List<Provider>providerList,List<CEntitiy> entityList,List<Payer> payerList,List<ProviderTransaction> transactions)->{
+			
+			this.tmpUser = user;
+			this.providerList = providerList;
+			this.entityList = entityList;
+			this.payerList = payerList;
+			this.transactions = transactions;
+			
+		};
+		providerService.refreshAllData(response);
 	}
 
 	public void onLoad() {
 
-		fileTypes = new ArrayList<>();
-		for (ProviderFile file : ProviderFile.values()) {
-
-			fileTypes.add(file.toString());
-		}
-
-		// fileTypes = Constants.providerFiles;
 		refreshAllData();
-
 	}
 
 	public String view() {
@@ -189,7 +186,8 @@ public class ProviderController {
 		practiceList.addAll(tmpPractices);
 
 		// initHashTwo(practiceList);
-
+	
+		documentCells = _provider.getDocumentCellList();
 		selectedPractices = getSelectedPracticesIds(_provider);
 		provider = _provider;
 		// practiceList = new
@@ -374,7 +372,7 @@ public class ProviderController {
 		}
 	}
 
-	public void clearData() {
+	public void createProviderClicked() {
 
 		isEntityListDisabled = false;
 		selectedPayers = null;
@@ -390,6 +388,8 @@ public class ProviderController {
 			refreshPractics();
 		}
 
+	documentCells = new ArrayList<>();
+//		documentCells = provider.getDocumentCellList();
 	}
 
 	private void refreshPractics() {
@@ -430,6 +430,13 @@ public class ProviderController {
 		 */
 	}
 
+	public String getExtension(String fileName){
+		
+		List<String> strList = new ArrayList<>(Arrays.asList(fileName.split("\\."))) ;
+		
+		return strList.get(strList.size()-1);
+	}
+	
 	/**
 	 * Upload Code
 	 * 
@@ -439,23 +446,25 @@ public class ProviderController {
 	public void handleFileUpload(FileUploadEvent event) {
 
 		UploadedFile file = event.getFile();
-		String docName = (String) event.getComponent().getAttributes().get("name");
+		DocumentCell obj =  (DocumentCell)event.getComponent().getAttributes().get("name");
 
-		Document doc = provider.getFilenameByType(docName);
-		if(doc == null)
-		{
-			doc = new Document();
-		}
-		doc.setName(provider.getId()+file.getFileName());
-		doc.setProvider(provider);
-		provider.getDocuments().add(doc);
+		Document doc = (Document)obj.getDocument();//provider.getFilenameByType(docName);
+		doc.setName(provider.getId()+"_"+doc.getType()+"."+getExtension(file.getFileName()));
+//		provider.getDocuments().add(doc);
 		
 		String finalPath = getFullPath(doc.getName());
 
 		try {
+			deleteFileClicked(doc.getName());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		try {
 			file.write(finalPath);
 			FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			providerService.addDocumentToProvider(provider, doc);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -471,8 +480,8 @@ public class ProviderController {
 
 		try {
 
-			Document doc = provider.getFilenameByType(fileName);
-			String fullPath =  getFullPath(doc.getName());
+//			Document doc = provider.getFilenameByType(fileName);
+			String fullPath =  getFullPath(fileName);
 			File file = new File(fullPath);
 
 			if (file.delete()) {

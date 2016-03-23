@@ -20,7 +20,7 @@ public class Document {
 	private Integer id;
 	
 	private String name;
-	private String path;
+	private String type;
 	
 	@ManyToOne
 	private Provider provider;
