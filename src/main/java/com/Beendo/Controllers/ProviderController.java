@@ -289,8 +289,7 @@ public class ProviderController {
 
 			Set<Practice> tmpPractices = getSelectedList();
 			provider.setPracticeList(tmpPractices);
-
-			practiseService.updatePractiseList(tmpPractices);
+//			practiseService.updatePractiseList(tmpPractices);
 			provider.setCentity(entity);
 
 			switch (this.opetationType) {
@@ -301,7 +300,7 @@ public class ProviderController {
 
 					if (isInfoValid()) {
 						try {
-							providerService.saveOrUpdate(provider);
+							providerService.addProviderToPractise(provider, tmpPractices);
 							providerList.add(provider);
 
 						} catch (StaleObjectStateException e) {
@@ -342,18 +341,7 @@ public class ProviderController {
 
 		try {
 
-			Set<Practice> practiceList = provider.getPracticeList();
-			for (Practice practise : practiceList) {
-
-				practise.getProviders().remove(provider);
-				// provider.getPracticeList().remove(practise);
-
-				// practiseService.update(practise);
-			}
-
-			practiseService.updatePractiseList(practiceList);
-
-			int sz = provider.getPracticeList().size();
+//			int sz = provider.getPracticeList().size();
 
 			// currentEntity.setPracticeList(provider.getPracticeList());
 			// provider.setCentity(currentEntity);
@@ -449,19 +437,13 @@ public class ProviderController {
 		DocumentCell obj =  (DocumentCell)event.getComponent().getAttributes().get("name");
 
 		Document doc = (Document)obj.getDocument();//provider.getFilenameByType(docName);
-		doc.setName(provider.getId()+"_"+doc.getType()+"."+getExtension(file.getFileName()));
-//		provider.getDocuments().add(doc);
-		
-		String finalPath = getFullPath(doc.getName());
 
-		try {
-			deleteFileClicked(doc.getName());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		doc.setOrignalName(event.getFile().getFileName());
+		doc.setNameOnDisk(provider.getId()+"_"+doc.getType()+"."+getExtension(file.getFileName()));
+		doc.removeFileOnDisk();
 		
 		try {
-			file.write(finalPath);
+			file.write(doc.getFullPath());
 			FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 			providerService.addDocumentToProvider(provider, doc);
@@ -471,31 +453,15 @@ public class ProviderController {
 		}
 	}
 	
-	private String getFullPath(String fileName){
+	public void deleteFileClicked(DocumentCell cell) {
+
+		providerService.removeDocumentFromProvider(provider,cell.getDocument());
+		documentCells = provider.getDocumentCellList();
 		
-		return Constants.PROVIDER_FOLDER_PATH + fileName;
-	}
-
-	public void deleteFileClicked(String fileName) {
-
-		try {
-
-//			Document doc = provider.getFilenameByType(fileName);
-			String fullPath =  getFullPath(fileName);
-			File file = new File(fullPath);
-
-			if (file.delete()) {
-				System.out.println(file.getName() + " is deleted!");
-			} else {
-				System.out.println("Delete operation is failed.");
-			}
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-
+//		for (DocumentCell tmpCell : documentCells) {
+//			
+//			System.out.println(tmpCell.getDocument().getOrignalName());
+//		}
 	}
 
 	public void showMessage(String msg) {

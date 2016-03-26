@@ -34,4 +34,6 @@ public interface IProviderService extends GenericService<Provider, Integer> {
 	public List<Provider> findProvidersByEntity(Integer id);
 	public void refreshAllData(ProviderCallback callBack);
 	public void addDocumentToProvider(Provider provider, Document document);
+	public void removeDocumentFromProvider(Provider provider, Document document);
+	public void addProviderToPractise(Provider provider, Set<Practice>listPracitce);
 }

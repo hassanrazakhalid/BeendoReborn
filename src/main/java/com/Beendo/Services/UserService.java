@@ -104,16 +104,16 @@ public class UserService extends GenericServiceImpl<User, Integer> implements Us
 		return user;
 	}
 
-//	@Transactional
-	public void update(User user) {
-		// TODO Auto-generated method stub
-		iUserDao.update(user);
-	}
+////	@Transactional
+//	public void update(User user) {
+//		// TODO Auto-generated method stub
+//		iUserDao.update(user);
+//	}
 
-	public void remove(User sender) {
-		// TODO Auto-generated method stub
-		iUserDao.remove(sender);
-	}
+//	public void remove(User sender) {
+//		// TODO Auto-generated method stub
+//		iUserDao.remove(sender);
+//	}
 	
 //	@Transactional(readOnly=true)
 	public List<User> findUsersByEntityId(Integer id){

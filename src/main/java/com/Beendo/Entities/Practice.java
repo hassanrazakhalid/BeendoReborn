@@ -1,6 +1,7 @@
 package com.Beendo.Entities;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,8 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cascade;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -49,4 +48,14 @@ public class Practice {
 	
 	@OneToMany(mappedBy="practice", cascade={CascadeType.REMOVE})
 	private Set<ProviderTransaction> transactions = new HashSet<>();
+	
+	public void removeAllProviderDocumentsOnDisk(){
+		
+		Set<Provider> list = getProviders();
+		for (Provider provider : list) {
+			
+			provider.removeAllDocumentOnDisk();
+			
+		}
+	}
 }

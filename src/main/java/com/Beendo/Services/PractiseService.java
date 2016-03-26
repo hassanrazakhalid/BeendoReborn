@@ -1,41 +1,51 @@
 package com.Beendo.Services;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.IEntity;
+import com.Beendo.Dao.IProvider;
+import com.Beendo.Dao.ITransaction;
 import com.Beendo.Dao.IUserDao;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Utils.Role;
+import com.Beendo.Entities.User;
+import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
 
 @Service
 public class PractiseService extends GenericServiceImpl<Practice, Integer> implements IPractiseService {
 
 	@Autowired
-	private IPractise iPractise;
+	private IPractise practiseDao;
 	
 	@Autowired
-	private IEntity iEntity;
-	
+	private IEntity entityDao;
 	@Autowired
-	private IUserDao iUser;
-	
+	private IEntityService entityService;
+	@Autowired
+	private IUserDao userDao;
+	@Autowired
+	private IUserService userService;
+
+	@Autowired
+	private IProvider providerDao;
+
+	@Autowired
+	private ITransaction transactionDao;
+		
 	public List<Practice> fetchAllByUser(){
 		
 		List<Practice> resultList = null;
 		if(SharedData.getSharedInstace().shouldReturnFullList())
-			resultList = iPractise.findAll();
+			resultList = practiseDao.findAll();
 		else
 		{
 			List<Practice> tmpList = new ArrayList<Practice>();
@@ -46,6 +56,15 @@ public class PractiseService extends GenericServiceImpl<Practice, Integer> imple
 		return resultList;
 	}
 	
+	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
+	public void refreshAllData(IPracticeCallBack callBack){
+		
+		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
+		List<CEntitiy> listEntities = entityService.fetchAllByRole(Screen.Screen_Practice);
+		List<Practice> listPractise = this.fetchAllByRole();
+		callBack.refreshAllData(tmpUser, listEntities, listPractise);
+	} 
+	
 	@Transactional(readOnly=true)
 	public List<Practice> fetchAllByRole(){
 		
@@ -54,7 +73,7 @@ public class PractiseService extends GenericServiceImpl<Practice, Integer> imple
 		
 		if(SharedData.getSharedInstace().shouldReturnFullList())
 		{
-			practiseList.addAll(iPractise.findAll());
+			practiseList.addAll(practiseDao.findAll());
 		}
 		else
 		{
@@ -62,7 +81,7 @@ public class PractiseService extends GenericServiceImpl<Practice, Integer> imple
 			{
 //				CEntitiy entity = iEntity.refresh(SharedData.getSharedInstace().getCurrentUser().getEntity());
 //				SharedData.getSharedInstace().getCurrentUser().setEntity(entity);
-				List<Practice> result = iPractise.findAllByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
+				List<Practice> result = practiseDao.findAllByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
 				practiseList.addAll(result);
 			}
 //			else if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()))
@@ -82,19 +101,34 @@ public class PractiseService extends GenericServiceImpl<Practice, Integer> imple
 	@Transactional(readOnly=true)
 	public String checkDuplicateUsername(String name){
 		
-		return iPractise.checkDuplicateUsername(name);
-	}
-	
-	@Transactional(readOnly=true)
-	public void updatePractiseList(Set<Practice>list){
-		
-		iPractise.updatePractiseList(list);
+		return practiseDao.checkDuplicateUsername(name);
 	}
 	
 	@Transactional(readOnly=true)
 	public List<Practice> getPracticeByUser(Integer userId){
 		
-		return iPractise.getPracticeByUser(userId);
+		return practiseDao.getPracticeByUser(userId);
+	}
+	
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
+	@Override
+	public void remove(Practice entity) {
+		
+		
+		try {
+			
+			super.remove(entity);
+			
+			//deleting files physcically from disk
+			for (Provider provider : entity.getProviders()) {
+				
+				provider.removeAllDocumentOnDisk();
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 	// GET practise ID From List
 	

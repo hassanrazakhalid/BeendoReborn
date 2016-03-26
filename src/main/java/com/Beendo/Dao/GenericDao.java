@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -57,6 +58,8 @@ public abstract class GenericDao<T, ID extends Serializable> implements ICRUD<T,
 	@Override
 	public List<T> findAll(){
 		
-		return  this.sessionFactory.getCurrentSession().createCriteria(daoType).list();
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(daoType);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return  criteria.list();
 	}
 }

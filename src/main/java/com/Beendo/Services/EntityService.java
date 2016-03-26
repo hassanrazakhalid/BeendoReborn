@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.IEntity;
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.Practice;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
@@ -96,5 +97,23 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 	public CEntitiy findEntityWithTransaction(Integer id){
 		
 		return _service.findEntityWithTransaction(id);
+	}
+	
+	@Override
+	public void remove(CEntitiy entity) {
+		// TODO Auto-generated method stub
+		try {
+		
+			super.remove(entity);
+			
+			for (Practice practice : entity.getPracticeList()) {
+				
+				practice.removeAllProviderDocumentsOnDisk();
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 }

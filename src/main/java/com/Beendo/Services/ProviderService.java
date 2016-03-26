@@ -3,8 +3,6 @@ package com.Beendo.Services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +10,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Controllers.ProviderCallback;
-import com.Beendo.Dao.ICRUD;
 import com.Beendo.Dao.IDocument;
 import com.Beendo.Dao.IProvider;
 import com.Beendo.Entities.CEntitiy;
@@ -22,7 +19,6 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Entities.User;
-import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
 
@@ -41,6 +37,8 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 	private ITransactionService transactionService;
 	@Autowired
 	private IDocument documentDao;
+	@Autowired
+	private IPractise practiceDao;
 	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.REQUIRED)
@@ -97,6 +95,49 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 		service.saveOrUpdate(provider);
 	}
 	
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
+	public void removeDocumentFromProvider(Provider provider, Document document)
+	{
+		if(document.getId() != null)
+		{
+			try {
+				
+				provider.getDocuments().remove(document);
+				service.saveOrUpdate(provider);
+				documentDao.remove(document);
+				document.removeFileOnDisk();
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
+	
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
+	@Override
+	public void remove(Provider provider) {
+		
+		try {
+		
+			Set<Practice> practiceList = provider.getPracticeList();
+			for (Practice practise : practiceList) {
+				practise.getProviders().remove(provider);
+			}
+			practiceDao.updatePractiseList(practiceList);
+			provider.removeAllDocumentOnDisk();
+			super.remove(provider);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
+	public void addProviderToPractise(Provider provider, Set<Practice>listPracitce){
+		
+		practiceDao.updatePractiseList(listPracitce);
+		this.saveOrUpdate(provider);
+	}
+		
 	public String isNameExist(String name, String lname, String npi){
 		
 		return service.isNameExist(name, lname, npi);
@@ -111,31 +152,4 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 		
 		return service.findProvidersByEntity(id);
 	}
-	
-/*	public static List<Provider> isNameExist(List<Provider> entities, String name, String npi){
-		
-		return filterData(entities, getNamePredicate(name, npi));
-	}
-	
-	private static List<Provider> filterData (List<Provider> list, Predicate<Provider> predicate) {
-		
-		List<Provider> lst = new ArrayList();
-		
-		try
-		{
-			lst = list.stream().filter( predicate ).collect(Collectors.<Provider>toList());
-		}
-		catch(Exception ex)
-		{}
-		finally
-		{
-			return lst;
-		}
-    }
-	
-	private static Predicate<Provider> getNamePredicate(String name, String npi){
-
-		 return p -> p.getName().equalsIgnoreCase(name) && p.getName().equalsIgnoreCase(npi);
-	 }*/
-	
 }

@@ -18,6 +18,7 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.IEntityService;
+import com.Beendo.Services.IPracticeCallBack;
 import com.Beendo.Services.IPractiseService;
 import com.Beendo.Services.IProviderService;
 import com.Beendo.Services.ITransactionService;
@@ -55,19 +56,13 @@ public class PractiseController {
 	private boolean isEntityListEnabled;
 	
 	@Autowired
-	private IPractiseService practiseService;
-	
-	@Autowired
-	private IProviderService providerService;
-
-	@Autowired
-	private ITransactionService transactionService;
-	
-	@Autowired
 	private IUserService userService;
-	
+	@Autowired
+	private IPractiseService practiseService;
 	@Autowired
 	private IEntityService entityService;
+	
+
 	private Practice practise = new Practice();
 	
 	private User tmpUser;
@@ -82,11 +77,15 @@ public class PractiseController {
 
 	private void refreshAllData() {
 		
-		tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
-		listEntities = entityService.fetchAllByRole(Screen.Screen_Practice);
-		listPractise = practiseService.fetchAllByRole();
+		IPracticeCallBack callback = (User user, List<CEntitiy>entityList, List<Practice>practiceList)->{
+
+			tmpUser = user;
+			listEntities = entityList;
+			listPractise = practiceList;			
+		};
 		// return "Practise/PractiseView?faces-redirect=true";
 		// return "PractiseView";
+		practiseService.refreshAllData(callback);
 	}
 
 	public boolean shouldShowDelete(){
@@ -208,7 +207,7 @@ public class PractiseController {
 					// Set<Practice> set = new HashSet<Practice>();
 					// set.add(practise);
 
-					if (listEntities.size() == 1)
+					if (listEntities.size() == 1)//means just pick the 1st entry from list
 						currentEntity = listEntities.get(0);
 					else
 						currentEntity = getEntityById(entityId);

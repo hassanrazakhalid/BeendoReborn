@@ -198,12 +198,12 @@
 							 <br/>
 							
 							<h:outputLabel value="Existing File: " for="idFileName" />
-							<h:outputLabel id="idFileName" value="#{docCell.document.name}" /> <br/>
-								<p:fileUpload value="#{docCell.document.name}"
+							<h:outputLabel id="idFileName" value="#{docCell.document.orignalName}" /> <br/>
+								<p:fileUpload value="#{docCell.document.orignalName}"
 									fileUploadListener="#{providerController.handleFileUpload}"
 									mode="advanced" dragDropSupport="false" fileLimit="3"
 									sizeLimit="100000" allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/"
-									update="filesTable">
+									update=":myForm" label="Browse...">
 
 									<f:attribute name="name" value="#{docCell}" />
 									
@@ -214,7 +214,7 @@
 
 								<p:commandButton icon="ui-icon-trash"
 									action="#{providerController.deleteFileClicked(docCell)}"
-									update=":myForm:filesTable">
+									update=":myForm">
 
 									<p:confirm header="Confirmation" message="Are you sure?"
 										icon="ui-icon-alert" />

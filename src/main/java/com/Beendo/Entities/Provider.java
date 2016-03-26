@@ -37,7 +37,7 @@ public class Provider {
 	private String lastName;
 	private String npiNum;
  	
-	@OneToMany(mappedBy="provider",cascade={CascadeType.PERSIST})
+	@OneToMany(mappedBy="provider",cascade={CascadeType.PERSIST,CascadeType.REMOVE})
 	private Set<Document> documents = new HashSet<>();
 	
 	@ManyToOne
@@ -91,7 +91,7 @@ public class Provider {
 			if(doc == null)	
 			{
 				doc = new Document();
-				doc.setName("");
+				doc.setOrignalName("");
 				doc.setType(file.getFileType());
 			}
 			
@@ -103,4 +103,12 @@ public class Provider {
 		
 		return cells;
 	}
+	
+	public void removeAllDocumentOnDisk(){
+		
+	for (Document doc : getDocuments()) {
+		
+		doc.removeFileOnDisk();
+	}
+}
 }

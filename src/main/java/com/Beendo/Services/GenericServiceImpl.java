@@ -24,7 +24,7 @@ public abstract class GenericServiceImpl <E, K extends Serializable> implements 
     public GenericServiceImpl() {
     }
 	
-	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
 	@Override
 	public void saveOrUpdate(E entity) {
 		// TODO Auto-generated method stub
@@ -45,21 +45,21 @@ public abstract class GenericServiceImpl <E, K extends Serializable> implements 
 		return genericDao.find(id);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
 	@Override
 	public void add(E entity) {
 		// TODO Auto-generated method stub
 		genericDao.saveOrUpdate(entity);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
 	@Override
 	public void update(E entity) {
 		// TODO Auto-generated method stub
 		genericDao.saveOrUpdate(entity);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
 	@Override
 	public void remove(E entity) {
 		// TODO Auto-generated method stub

@@ -23,6 +23,7 @@ public interface IPractiseService extends GenericService<Practice, Integer> {
 	public List<Practice> fetchAllByUser();
 	public List<Practice> fetchAllByRole();
 	public String checkDuplicateUsername(String name);
-	public void updatePractiseList(Set<Practice>list);
 	public List<Practice> getPracticeByUser(Integer userId);
+	
+	public void refreshAllData(IPracticeCallBack callBack);
 }
