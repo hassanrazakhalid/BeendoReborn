@@ -29,6 +29,7 @@ import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
+import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +37,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-@Scope(value="session")
+//@Scope(value="session")
+@SpringScopeView
 public class EntityController {
 
 	@Autowired

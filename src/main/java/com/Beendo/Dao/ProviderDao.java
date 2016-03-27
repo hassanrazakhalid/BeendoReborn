@@ -128,6 +128,7 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 		Query quey = session.createQuery("SELECT DISTINCT P FROM Provider P"
 				+ " JOIN FETCH P.centity E"
 				+ " RIGHT JOIN FETCH E.practiceList "
+				+ " RIGHT JOIN FETCH P.documents "
 				+ " WHERE P.centity.id=:id");
 		quey.setParameter("id", id);
 		

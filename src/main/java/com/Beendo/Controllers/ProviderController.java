@@ -44,6 +44,7 @@ import com.Beendo.Utils.ProviderFile;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
+import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -51,7 +52,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-@Scope(value = "session")
+//@Scope(value = "session")
+@SpringScopeView
 public class ProviderController {
 
 	@Autowired

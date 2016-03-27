@@ -20,6 +20,7 @@ import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
 import com.Beendo.Utils.Constants;
+import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +28,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-@Scope(value="session")
+//@Scope(value="session")
+@SpringScopeView
 public class ReportsController extends RootController {
 
 	@Autowired

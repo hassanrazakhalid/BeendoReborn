@@ -28,4 +28,5 @@ public interface ITransactionService extends GenericService<ProviderTransaction,
 	public void deleteTransactionByPractics(List<Integer> ids);
 
 	public void deleteTransactionByProvider(List<Integer> ids);
+	public void refreshAllData(ITransactionCallback callBack);
 }

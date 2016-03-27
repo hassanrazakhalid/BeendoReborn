@@ -29,11 +29,29 @@
 								
 								 />								
 					<br/>
+					
+									<h:panelGrid columns="3">
+				<h:outputLabel for="payerMenu" value="Select payer:" />
+				<p:selectCheckboxMenu id="payerMenu" label="Select payer" 
+				value="#{transactionController.payerFilter}"
+				 converter="javax.faces.Integer"
+				>
+				
+				<f:ajax event="change" listener="#{transactionController.payerCheckBoxChanged}" render=":mainForm" />
+				<f:selectItems value="#{transactionController.payerList}" var="payer"
+				itemLabel="#{payer.name}" itemValue="#{payer.id}"/>
+				
+				
+				
+				</p:selectCheckboxMenu>
+				</h:panelGrid>
+					
 				</h:form>
+				
 				
 				 <h:form id="mainForm"> 
     
-				    <p:dataTable value="#{transactionController.transactions}" var="transaction" >
+				    <p:dataTable value="#{transactionController.filterTransactions}" var="transaction" >
 
 						<p:column headerText="Payer Name">
 							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
@@ -128,39 +146,39 @@
 						
 						<p:selectOneMenu id="idPractice" value="#{transactionController.currentPractice}"
 							panelStyle="width:180px" effect="fade" rendered="#{transactionController.canPracticeShow}"
-							converter="practiseConverter" required="true"
+							converter="javax.faces.Integer" required="true"
 							requiredMessage="Select atleast one practice"
-							var="t" style="width:177px">
+							 style="width:177px">
 							
 							<!-- <p:ajax event="change" listener="#{transactionController.onPracticeChange}" update="idPayer" />  -->
 							
 							<f:selectItem itemLabel="Select Practice" />
 							
 							<f:selectItems value="#{transactionController.practiceList}" var="entity"
-								itemLabel="#{entity.name}" itemValue="#{entity}"  />
+								itemLabel="#{entity.name}" itemValue="#{entity.id}"  />
 
-							<p:column>
+						<!-- 	<p:column>
 								<h:outputText value="#{t.name}" />
-							</p:column>
+							</p:column> -->
 						</p:selectOneMenu>
 						
 						<p:selectOneMenu id="idProvider" value="#{transactionController.currentProvider}"
 							panelStyle="width:180px" effect="fade" rendered="#{!transactionController.canPracticeShow}"
-							converter="providerConverter" required="true"
+							converter="javax.faces.Integer" required="true"
 							requiredMessage="Select atleast one provider"
-							var="t" style="width:177px">
+							 style="width:177px">
 							
 							<f:selectItem itemLabel="Select Provider" />
 							
 							<f:selectItems value="#{transactionController.providerList}" var="entity"
-								itemLabel="#{entity.getNameWithNPI()}" itemValue="#{entity}"  />
+								itemLabel="#{entity.getNameWithNPI()}" itemValue="#{entity.id}"  />
 								
 								<!--  #{entity.lastName} -->
 							<!-- <p:ajax event="change" listener="#{transactionController.onProviderChange}" update="idPayer" />  -->
 
-							<p:column>
+						<!-- 	<p:column>
 								<h:outputText value="#{t.getNameWithNPI()}" />
-							</p:column>
+							</p:column> -->
 						</p:selectOneMenu>
 				  	
 				  	</h:panelGrid>
@@ -172,15 +190,15 @@
 				  		<p:outputLabel for="idPayer" value="Select Payer: " />
 				  	    <p:selectCheckboxMenu id="idPayer" value="#{transactionController.selectedPayers}"
 				  	    requiredMessage="Select atleast one payer"
-				            filter="false" filterMatchMode="startsWith" style="width:177px"  var="t" required="true"
-				            converter="payerConverter" panelStyle="width:250px">
+				            filter="false" filterMatchMode="startsWith" style="width:177px" required="true"
+				            converter="javax.faces.Integer" panelStyle="width:250px">
 				            
 				            <f:selectItems value="#{transactionController.payerList}" var="payer"
-								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer}"  />
+								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
 
-							<p:column>
+						<!-- 	<p:column>
 								<h:outputText value="#{t.name}" />
-							</p:column>
+							</p:column> -->
 				            
 				        </p:selectCheckboxMenu> 
 				  		<!-- <p:selectOneMenu id="idPayer" value="#{transactionController.currentPayer}"

@@ -194,22 +194,27 @@
 							value="#{providerController.documentCells}" var="docCell">
 
 							<p:column>
-							<b><h:outputLabel for="fileUpload" value="#{docCell.lbName}" /></b>
-							 <br/>
-							
-							<h:outputLabel value="Existing File: " for="idFileName" />
-							<h:outputLabel id="idFileName" value="#{docCell.document.orignalName}" /> <br/>
-								<p:fileUpload value="#{docCell.document.orignalName}"
-									fileUploadListener="#{providerController.handleFileUpload}"
-									mode="advanced" dragDropSupport="false" fileLimit="3"
-									sizeLimit="100000" allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/"
-									update=":myForm" label="Browse...">
+								<p:row style="border: 3px solid blue;">
+									<b><h:outputLabel for="fileUpload"
+											value="#{docCell.lbName}" /></b>
+									<br />
 
-									<f:attribute name="name" value="#{docCell}" />
-									
-								</p:fileUpload>
+									<h:outputLabel value="Existing File: " for="idFileName" />
+									<h:outputLabel id="idFileName"
+										value="#{docCell.document.orignalName}" />
+									<br />
+									<p:fileUpload value="#{docCell.document.orignalName}"
+										fileUploadListener="#{providerController.handleFileUpload}"
+										mode="advanced" dragDropSupport="false" fileLimit="3"
+										sizeLimit="100000" allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/"
+										update=":myForm" label="Browse...">
+
+										<f:attribute name="name" value="#{docCell}" />
+
+									</p:fileUpload>
+								</p:row>
 							</p:column>
-						
+
 							<p:column headerText="Remove">
 
 								<p:commandButton icon="ui-icon-trash"

@@ -4,17 +4,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 
 import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
@@ -23,21 +24,12 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Entities.User;
-import com.Beendo.Services.EntityService;
 import com.Beendo.Services.IEntityService;
-import com.Beendo.Services.IPayerService;
-import com.Beendo.Services.IPractiseService;
-import com.Beendo.Services.IProviderService;
+import com.Beendo.Services.ITransactionCallback;
 import com.Beendo.Services.ITransactionService;
-import com.Beendo.Services.IUserService;
-import com.Beendo.Services.PayerService;
-import com.Beendo.Services.PractiseService;
-import com.Beendo.Services.ProviderService;
-import com.Beendo.Services.TransactionService;
-import com.Beendo.Services.UserService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.Role;
-import com.Beendo.Utils.SharedData;
+import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,37 +37,34 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-@Scope(value="session")
-public class TransactionController extends RootController {
+//@Scope(value="session")
+@SpringScopeView
+public class TransactionController{
+	
 
+	
+//	extends RootController
 	@Autowired
 	private ITransactionService transactionService;
 	
-	@Autowired
-	private IPayerService payerService;
-	
-	@Autowired
-	private IPractiseService practiseService;
+
 	
 	@Autowired
 	private IEntityService entityService;
 	
-	@Autowired
-	private IProviderService providerService;
+
 	
 	private ProviderTransaction transaction = new ProviderTransaction();
-	private List<ProviderTransaction> transactions;
+	private List<ProviderTransaction> transactions = new ArrayList<>();
 	private Boolean isEditMode;
 	
-	
-	private Payer currentPayer;
-	private Practice currentPractice = new Practice();
-	private Provider currentProvider = new Provider();
+	private Integer currentPractice;
+	private Integer currentProvider;
 	
 	private List<Practice> practiceList;
 	private List<Payer> payerList;
 	private List<Provider> providerList;
-	private List<Payer> selectedPayers;
+	private List<Integer> selectedPayers;
 	
 	private String currentRadio;
 	private Boolean canPracticeShow = true;
@@ -83,23 +72,29 @@ public class TransactionController extends RootController {
 	private String[] statusList;
 	
 	private User tmpUser;
-	@Autowired
-	private IUserService userService;
+
+	private List<Integer> payerFilter = new ArrayList<>();
+	private List<ProviderTransaction> filterTransactions = new ArrayList<>();
 	//private HashMap<Integer, Practice> _hash = new HashMap<Integer, Practice>();
 	
 	private void refreshAllData(){
 		
-		User user = SharedData.getSharedInstace().getCurrentUser();
-		tmpUser = userService.findById(user.getId(), false);
 		
-		transactions = transactionService.fetchAllByRole();
-		payerList = payerService.getAll();
-		practiceList = practiseService.fetchAllByRole();
-		providerList = providerService.fetchAllByRole();
+		ITransactionCallback callBack = (User user, List<ProviderTransaction>transactions, List<Payer>payerList, List<Practice>practiceList, List<Provider>providerList)->{
+			
+			tmpUser = user;
+			this.transactions = transactions;
+			this.payerList = payerList;
+			this.practiceList = practiceList;
+			this.providerList = providerList;
+			this.filterTransactions.addAll(transactions);
+		};
+
+		transactionService.refreshAllData(callBack);
 		
-		initHashTwo(practiceList);
-		initHashThree(payerList);
-		initHashFour(providerList);
+//		initHashTwo(practiceList);
+//		initHashThree(payerList);
+//		initHashFour(providerList);
 		
 		//payerList.clear();
 		
@@ -138,23 +133,25 @@ public class TransactionController extends RootController {
 	{
 		//currentPayer = getPayerById(_transaction.getPayer().getId());
 		List<Payer> prlist = new ArrayList();
-		
+		selectedPayers.clear();
 		for (Payer payer : _transaction.getPayerList()) {
 			
-			prlist.add(getPayerById(payer.getId()));
+//			prlist.add(getPayerById(payer.getId(), _transaction.getPayerList()));
+			selectedPayers.add(payer.getId());
 		}
 		
-		selectedPayers = prlist;
+//		selectedPayers = prlist;
 		
 		if(_transaction.getPractice() != null)
 		{
-			currentPractice = getPractiseById(_transaction.getPractice().getId());
+			currentPractice = _transaction.getPractice().getId();
+//			currentPractice = getPractiseById(_transaction.getPractice().getId());
 			currentRadio = "rbPractice";
 			canPracticeShow = true;
 		}
 		else
 		{
-			currentProvider = getProviderById(_transaction.getProvider().getId());
+			currentProvider = _transaction.getProvider().getId();
 			currentRadio = "rbProvider";
 			canPracticeShow = false;
 		}
@@ -163,24 +160,76 @@ public class TransactionController extends RootController {
 		isEditMode = true;
 	}
 	
+	private Practice getPractiseById(Integer id) {
+		
+		Optional<Practice> res = practiceList.stream().
+		filter(p -> p.getId().compareTo(id) == 0).findFirst();
+		
+		if(res.isPresent())
+			return res.get();
+		else
+		return null;
+	}
+
+	private Provider getProviderById(Integer id) {
+		
+		Optional<Provider> res = providerList.stream().
+		filter(p -> p.getId().compareTo(id) == 0).findFirst();
+		
+		if(res.isPresent())
+			return res.get();
+		else
+		return null;
+	}
+	
+	private Payer getPayerById(Integer id, Set<Payer>payerlist) {
+		
+	Optional<Payer> payer =	payerlist.stream().
+		filter(p -> p.getId().compareTo(id) == 0)
+		.findFirst();
+		
+	if(payer.isPresent())
+		return payer.get();
+	else
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void saveInfo()
 	{
 		//transaction.setPayer(currentPayer);
-		Set<Payer> payers = new HashSet<Payer>(selectedPayers);
-		transaction.setPayerList(payers);
+		
+	List<Payer> payers =	payerList.stream()
+		.filter(p -> {
+			
+			if(selectedPayers.contains(p.getId()))
+				return true;
+			else 
+				return false;
+		}).collect(Collectors.toList());
+		
+		
+//		Set<Payer> payers = new HashSet<Payer>(selectedPayers);
+
+
+		Set<Payer> payersSet = new HashSet<Payer>(payers);
+		transaction.setPayerList(payersSet);
 		
 		Integer entityId = null;
 		if(canPracticeShow)
 		{
-			transaction.setPractice(currentPractice);
+			Practice practice = getPractiseById(currentPractice);
+			transaction.setPractice(practice);
 			transaction.setProvider(null);
-			entityId = currentPractice.getEntity().getId();
+			entityId = practice.getEntity().getId();
 		}
 		else
 		{
-			transaction.setProvider(currentProvider);
+			Provider provider = getProviderById(currentProvider);
+			transaction.setProvider(provider);
 			transaction.setPractice(null);
-			entityId = currentProvider.getCentity().getId();
+			entityId = provider.getCentity().getId();
 		}
 		
 		 
@@ -199,6 +248,7 @@ public class TransactionController extends RootController {
 			{
 				entity.getTransactionList().add(transaction);
 				transactions.add(transaction);
+				filterTransactions.add(transaction); 
 				transactionService.saveOrUpdate(transaction);
 				entityService.update(entity);
 				//showMessage("Transaction has been saved");
@@ -248,7 +298,6 @@ public class TransactionController extends RootController {
 	public void clearData()
 	{	
 		currentProvider = null;
-		currentPayer = null;
 		currentPractice = null;
 		selectedPayers = new ArrayList();
 		transaction = new ProviderTransaction();
@@ -333,4 +382,44 @@ public class TransactionController extends RootController {
 		return isOK;
 	}
 	
+	//Filter Code
+	/**
+	 * Filter Data logic
+	 * @param obj
+	 */
+	public void payerCheckBoxChanged(Object obj){
+		
+		filterTransactions.clear();
+		if(payerFilter.size() <= 0)
+		{
+			// show all
+			filterTransactions.addAll(transactions);
+		}
+		else
+		{
+			
+			Predicate<ProviderTransaction> predicate = (t)->{
+				
+				Optional<Payer> res = t.getPayerList().stream().filter(p -> payerFilter.contains(p.getId()))
+				.findFirst();
+				if(res.isPresent())
+				{
+					System.out.println("true");
+					return true;
+				}
+				else
+				{
+					System.out.println("false");
+					return false;
+				}
+			};
+			
+			List<ProviderTransaction> result = transactions.stream()
+					.filter(predicate)
+					.collect(Collectors.toList());
+			
+			filterTransactions.addAll(result);
+		}
+		this.payerFilter.size();
+	}
 }
