@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 
 import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -39,7 +40,7 @@ import lombok.Setter;
 @Controller
 //@Scope(value="session")
 @SpringScopeView
-public class TransactionController{
+public class TransactionController implements DisposableBean{
 	
 
 	
@@ -421,5 +422,11 @@ public class TransactionController{
 			filterTransactions.addAll(result);
 		}
 		this.payerFilter.size();
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("");
 	}
 }

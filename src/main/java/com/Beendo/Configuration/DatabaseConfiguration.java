@@ -1,5 +1,8 @@
 package com.Beendo.Configuration;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import org.apache.commons.dbcp.BasicDataSource;
@@ -60,14 +63,21 @@ public class DatabaseConfiguration {
 //		return basicDataSource;
 	}
 	
-	private Properties hikariProperties(){
+/*	private Properties hikariProperties(){
 				
+		try {
+			return getPropValues();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Properties prop = new Properties();
 		prop.setProperty("hibernate.connection.provider_class", "com.zaxxer.hikari.hibernate.HikariConnectionProvider");
 		prop.setProperty("hibernate.hikari.dataSourceClassName", "com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
 
 		// Server Db Settings
 		
+//		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3306/janjua_TestDb");
 //		prop.setProperty("hibernate.hikari.dataSource.url", "jdbc:mysql://127.0.0.1:3306/janjua_partracker_prod");
 //		prop.setProperty("hibernate.hikari.dataSource.user", "janjua_admin");
 //		prop.setProperty("hibernate.hikari.dataSource.password", "7kcvfRSMJ4qP");
@@ -78,18 +88,18 @@ public class DatabaseConfiguration {
 		prop.setProperty("hibernate.hikari.dataSource.user", "admin");
 		prop.setProperty("hibernate.hikari.dataSource.password", "admin");
 		//
-		prop.setProperty("hibernate.hikari.dataSource.cachePrepStmts", "true");
-		prop.setProperty("hibernate.hikari.dataSource.prepStmtCacheSize", "250");
-		prop.setProperty("hibernate.hikari.dataSource.prepStmtCacheSqlLimit", "2048");
+//		prop.setProperty("hibernate.hikari.dataSource.cachePrepStmts", "true");
+//		prop.setProperty("hibernate.hikari.dataSource.prepStmtCacheSize", "250");
+//		prop.setProperty("hibernate.hikari.dataSource.prepStmtCacheSqlLimit", "2048");
 		
 //		prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-		prop.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
-		prop.setProperty("hibernate.hbm2ddl.auto", "validate");
-		prop.setProperty("hibernate.show_sql", "true");
+//		prop.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
+//		prop.setProperty("hibernate.hbm2ddl.auto", "validate");
+//		prop.setProperty("hibernate.show_sql", "true");
 		return prop;
 
 		
-	}
+	}*/
 	
 
 //    validate: validate that the schema matches, make no changes to the schema of the database, you probably want this for production.
@@ -113,7 +123,7 @@ public class DatabaseConfiguration {
 	
 	@Autowired
 	@Bean(name = "sessionFactory")
-	public LocalSessionFactoryBean sessionFactory(HikariDataSource dataSource){
+	public LocalSessionFactoryBean sessionFactory(HikariDataSource dataSource) throws IOException{
 		
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setPackagesToScan("com.Beendo.Entities");
@@ -130,5 +140,28 @@ public class DatabaseConfiguration {
 		HibernateTransactionManager transctionManager = new HibernateTransactionManager();
 		transctionManager.setSessionFactory(sessionFactory);
 		return transctionManager;
+	}
+	
+	private Properties hikariProperties() throws IOException {
+		 
+		InputStream inputStream = null;
+		Properties prop = null;
+		try {
+			 prop = new Properties();
+			String propFileName = "DbConfig.properties";
+ 
+			 inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+ 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			} 
+		} catch (Exception e) {
+			System.out.println("Exception: " + e);
+		} finally {
+			inputStream.close();
+		}
+		return prop;
 	}
 }

@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="DOCUMENT")
+@Table(name="document")
 public class Document {
 
 	@Id

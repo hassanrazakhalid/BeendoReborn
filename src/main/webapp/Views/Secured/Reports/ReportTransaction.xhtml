@@ -21,12 +21,12 @@
 					
 					<h:panelGrid columns="3" cellpadding="0">  
 						
-						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayers}" label="Select Payers"
+						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
-				            converter="payerConverter" panelStyle="width:250px">
+				            converter="javax.faces.Integer" panelStyle="width:250px">
 				            
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
-								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer}"  />
+								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
 
 							<p:column>
 								<h:outputText value="#{t.name}" />

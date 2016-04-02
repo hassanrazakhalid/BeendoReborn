@@ -23,19 +23,19 @@
 					
 					
 						<!-- <p:outputLabel for="idPractices" value="Select Practice: " /> -->
-						 <p:selectOneMenu id="idPractices" value="#{reportsController.currentPractice}"
-								panelStyle="width:180px" effect="fade" converter="practiseConverter"
+						 <p:selectOneMenu id="idPractices" value="#{reportsController.currentPracticeId}"
+								panelStyle="width:180px" effect="fade" converter="javax.faces.Integer"
 								var="t" style="width:177px">
 								
 								 <!-- <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" /> -->
 								 
 								 <f:selectItem itemLabel="Select Practice" />
 								<f:selectItems value="#{reportsController.practiceList}" var="entity"
-									itemLabel="#{entity.name}" itemValue="#{entity}"  />
+									itemLabel="#{entity.name}" itemValue="#{entity.id}"  />
 	
-								<p:column>
+							<!-- 	<p:column>
 									<h:outputText value="#{t.name}" />
-								</p:column>
+								</p:column> -->
 							</p:selectOneMenu> 
 							
 						<!-- <p:selectCheckboxMenu id="idPractices" value="#{reportsController.selectedPracticeList}" label="Select Practices"
@@ -88,12 +88,12 @@
 							
 							
 						<!-- <h:outputLabel  value="Select Payer: " /> -->
-						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerList}" label="Select Payers"
+						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
-				            converter="payerConverter" panelStyle="width:250px">
+				            converter="javax.faces.Integer" panelStyle="width:250px">
 				            
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
-								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer}"  />
+								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
 
 							<p:column>
 								<h:outputText value="#{t.name}" />

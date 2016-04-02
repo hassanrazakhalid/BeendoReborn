@@ -22,19 +22,19 @@
 					<h:panelGrid columns="7" cellpadding="0">  
 					
 						 <!-- <p:outputLabel for="idProviders" value="Select Provider: " />  -->
-						 <p:selectOneMenu id="idProviders" value="#{reportsController.currentProvider}"
-								panelStyle="width:180px" effect="fade" converter="providerConverter"
-								var="t" style="width:177px" >
-								
+						 <p:selectOneMenu id="idProviders" value="#{reportsController.currentProviderId}"
+								panelStyle="width:180px" effect="fade" converter="javax.faces.Integer"
+								 style="width:177px" >
+								<!-- var="t" -->
 								<!-- <p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" /> -->
 								
 								<f:selectItem itemLabel="Select Provider" />
 								<f:selectItems value="#{reportsController.providerList}" var="entity"
-									itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity}"  />
+									itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity.id}"  />
 	
-								 <p:column>
+								<!--  <p:column>
 									<h:outputText value="#{t.firstName} #{t.lastName}" />
-								</p:column>
+								</p:column> -->
 							</p:selectOneMenu> 
 							
 							
@@ -55,16 +55,16 @@
 							
 							
 						<!-- <h:outputLabel value="Select Payer: " /> -->
-						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerList}" label="Select Payers"
-				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
-				            converter="payerConverter" panelStyle="width:250px">
-				            
+						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"
+				            filter="true" filterMatchMode="startsWith" style="width:177px"  
+				            converter="javax.faces.Integer" panelStyle="width:250px">
+				            <!-- var="t" -->
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
-								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer}"  />
+								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
 
-							<p:column>
+						<!-- 	<p:column>
 								<h:outputText value="#{t.name}" />
-							</p:column>
+							</p:column> -->
 				            
 				        </p:selectCheckboxMenu>
 				        
@@ -72,6 +72,7 @@
 			        	<p:selectOneMenu value="#{reportsController.currentPayerStatus}" style="width:175px">
 			        	
 			        	<f:selectItem itemLabel="Select Status" />
+			        	
 			        	<f:selectItems value="#{reportsController.statusList}" var="v"
 			        		itemLabel="#{v}" itemValue="#{v}"/>
 			        		
