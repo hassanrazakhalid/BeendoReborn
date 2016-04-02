@@ -1,9 +1,13 @@
 package com.Beendo.Controllers;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +35,15 @@ import lombok.Setter;
 @Getter
 @Controller
 @SpringScopeView
-public class LoginController implements DisposableBean {
+public class LoginController implements DisposableBean,Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4982548254116513730L;
+
+	private final Logger slf4Logger = LoggerFactory.getLogger(this.getClass());
+	
 	private String userName;
 	private String password;
 
@@ -100,6 +111,7 @@ public class LoginController implements DisposableBean {
 	@Override
 	public void destroy() throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("Login bean destroyed");
+//		System.out.println("Login bean destroyed");
+		slf4Logger.debug("Login bean destroyed");
 	}
 }

@@ -41,9 +41,9 @@ public class LoginCheckFilter implements Filter {
 	 HttpServletRequest req = (HttpServletRequest)request;
 //	 System.out.println("In login call \n"+ req.getServletContext().getContextPath());
 	 System.out.println("In login call \n"+ req.getRequestURL());
-	 String p = req.getPathInfo();
-	 String I = req.getRequestURI();
-	 String I1 = req.getContextPath();
+//	 String p = req.getPathInfo();
+//	 String I = req.getRequestURI();
+//	 String I1 = req.getContextPath();
 	 String I2 = req.getServletPath();
 	 
 //	 String session = req.getSession(false).getId();

@@ -34,7 +34,7 @@ import lombok.Setter;
 @Controller
 //@Scope(value="session")
 @SpringScopeView
-public class PayerController extends RootController {
+public class PayerController {
 
 	@Autowired
 	private IPayerService payerService;
@@ -58,7 +58,7 @@ public class PayerController extends RootController {
 
 		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		
-		initHashThree(payers);
+//		initHashThree(payers);
 	}
 	
 	public void onLoad(){
