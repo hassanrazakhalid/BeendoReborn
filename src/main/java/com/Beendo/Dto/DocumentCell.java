@@ -11,5 +11,12 @@ public class DocumentCell {
 
 	private Document document;
 	private String lbName;
-	
+
+	public String getColorClassName(){
+		
+		if(this.document.getOrignalName().length() > 0)
+			return "green";
+		else
+			return "red";
+	}
 }

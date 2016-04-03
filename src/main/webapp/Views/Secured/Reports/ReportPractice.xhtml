@@ -25,8 +25,8 @@
 						<!-- <p:outputLabel for="idPractices" value="Select Practice: " /> -->
 						 <p:selectOneMenu id="idPractices" value="#{reportsController.currentPracticeId}"
 								panelStyle="width:180px" effect="fade" converter="javax.faces.Integer"
-								var="t" style="width:177px">
-								
+								 style="width:177px">
+								<!-- var="t" -->
 								 <!-- <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" /> -->
 								 
 								 <f:selectItem itemLabel="Select Practice" />
@@ -121,7 +121,7 @@
 				        
 					
 						<p:commandButton value="Search" update=":frmMain"
-							actionListener="#{reportsController.searchPayerData}" />
+							actionListener="#{reportsController.filterReport()}" />
 						<br />
 						
 					</h:panelGrid>

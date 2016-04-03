@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.DisposableBean;
@@ -72,13 +74,8 @@ public class ReportsController implements DisposableBean,Serializable {
 	private List<Practice> practiceList;
 //	private List<Practice> selectedPracticeList;
 	private Integer currentPracticeId;
-
-//	public HashMap<Integer, Provider> tmpHasnPractise = new HashMap<Integer, Provider>();
-//	public HashMap<Integer, Payer> hashPayer = new HashMap<Integer, Payer>();
-//	public HashMap<Integer, Practice> hashPractice = new HashMap<Integer, Practice>();
-
 	private String [] statusList;
-	
+	private ReportType reportType;
 	// ---------------------------------------PRACTICE REPORT-----------------------------------------------
 
 	public String viewRepPractice() {
@@ -87,10 +84,6 @@ public class ReportsController implements DisposableBean,Serializable {
 		cleanData();
 		
 		loadDataByReportType(ReportType.ReportTypePractise);
-//		practiceList = practiseService.fetchAllByRole();
-		
-//		payerList = payerService.getAll();
-
 		return "ReportPractice";
 	}
 	
@@ -102,20 +95,20 @@ public class ReportsController implements DisposableBean,Serializable {
 		
 		IReportCallback callBack = (List<Practice>tmpPractiseList, List<Provider>tmpProviderList, List<Payer>tmpPayerList, List<ProviderTransaction>tmpListTransaction,ReportType reportType) -> {
 			
-//			hashPractice.clear();
 			this.practiceList = tmpPractiseList;
 			this.payerList = tmpPayerList;
+			this.reportType = reportType;
 			
 			switch (reportType) {
 			case ReportTypeProvider:
 				this.providerTransactions = tmpListTransaction;
 				break;
 			case ReportTypePractise:
-				this.practiceTransactions = tmpListTransaction;
+				this.providerTransactions = tmpListTransaction;
 				break;
 				
 			case ReportTypeTransaction:
-				this.savedTransactions = tmpListTransaction;
+				this.providerTransactions = tmpListTransaction;
 				break;
 
 			default:
@@ -123,18 +116,6 @@ public class ReportsController implements DisposableBean,Serializable {
 			}
 			
 			this.providerList = tmpProviderList;
-//			for (Practice practice : practiceList) {
-//
-//				hashPractice.put(practice.getId(), practice);
-//			}
-//			
-//			tmpHasnPractise.clear();
-//			hashPayer.clear();
-//			
-//			for (Payer pro : payerList) {
-//
-//				hashPayer.put(pro.getId(), pro);
-//			}
 		};
 		
 		reportService.reloadPracticeReportData(callBack, type);
@@ -143,14 +124,6 @@ public class ReportsController implements DisposableBean,Serializable {
 	public String viewRepTransac() {
 		cleanData();
 		loadDataByReportType(ReportType.ReportTypeTransaction);
-//		payerList = payerService.getAll();
-//
-//		initHashThree(payerList);
-////		savedTransactions = transactionService.findAll();
-//		savedTransactions = transactionService.fetchAllByRole();
-		
-//		transactions = savedTransactions;
-		
 		return "ReportTransaction";
 	}
 	
@@ -158,288 +131,150 @@ public class ReportsController implements DisposableBean,Serializable {
 		
 		statusList = Constants.providerStatus;
 		cleanData();
-//		providerList = providerService.fetchAllByRole();
-//		payerList = payerService.getAll();
-//		
-//		initHashThree(payerList);
-//		
-//		tmpHasnPractise.clear();
-//		providerTransactions = transactionService.fetchAllByRole();
-
 		loadDataByReportType(ReportType.ReportTypeProvider);
-//		for (Provider pro : providerList) {
-//
-//			tmpHasnPractise.put(pro.getId(), pro);
-//		}
-//		
-//		hashPayer.clear();
-//		
-//		for (Payer pro : payerList) {
-//
-//			hashPayer.put(pro.getId(), pro);
-//		}
-
 		return "ReportProvider";
 	}
+
+	public void filterReport(){
+		
+		switch (reportType) {
+		case ReportTypeProvider:
+			
+			filterByProvider();
+			break;
+		case ReportTypePractise:
+			filterByPractise();
+			break;
+			
+		case ReportTypeTransaction:
+			filterByTransaction();
+				break;
+		default:
+			break;
+		}
+	}
+
+	private void filterByPractise(){
+		
+		transactions = providerTransactions.stream().filter( (t) ->{
+			
+			boolean isPractiseOk = true;
+			boolean isPayerOk = true;
+			boolean isStatusOk = true;
+			
+			if(currentPracticeId != null)
+			{
+				if(t.getPractice() == null)
+					isPractiseOk = false;
+				else if(currentPracticeId != t.getPractice().getId())
+					isPractiseOk = false;
+			}
+
+			if(selectedPayerIdList != null &&
+				selectedPayerIdList.size() > 0)
+			{
+				isPayerOk = isTransactionExistInPayer(t.getPayerList());
+			}
+			
+			if(!currentPayerStatus.isEmpty() &&
+			   !currentPayerStatus.equals(t.getParStatus()))
+			{
+				isStatusOk = false;
+			}
+			
+			if(isPayerOk &&
+			   isPractiseOk &&
+			   isStatusOk)
+				return true;
+			else
+				return false;
+		}).collect(Collectors.toList());
+	}
 	
-	/*
-	 * private List<Provider> getProvidersFromPractice( ) { List<Provider>
-	 * provList = providerService.fetchAllByUser(); List<Provider> tmpProvider =
-	 * new ArrayList<Provider>();
-	 * 
-	 * for (Provider provider : provList) {
-	 * 
-	 * for (Practice prac : provider.getPracticeList()) {
-	 * 
-	 * if(prac.getId().equals(currentPractice.getId())) {
-	 * tmpProvider.add(provider); break; } } }
-	 * 
-	 * return tmpProvider;
-	 * 
-	 * }
-	 */
+	private void filterByProvider(){
+		
+		transactions = providerTransactions.stream().filter( (t) ->{
+	
+			boolean isProviderOk = true;
+			boolean isPayerOk = true;
+			boolean isStatusOk = true;
+			
+			if(currentProviderId != null)
+			{
+				if(t.getProvider() == null)
+					isProviderOk = false;
+				else if(currentProviderId != t.getProvider().getId())
+					isProviderOk = false;
+			}
 
-//	public Provider getProviderById(Integer id) {
-//
-//		return tmpHasnPractise.get(id);
-//	}
+			if(selectedPayerIdList != null &&
+				selectedPayerIdList.size() > 0)
+			{
+				isPayerOk = isTransactionExistInPayer(t.getPayerList());
+			}
+			
+			if(!currentPayerStatus.isEmpty() &&
+			   !currentPayerStatus.equals(t.getParStatus()))
+			{
+				isStatusOk = false;
+			}
+			
+			if(isPayerOk &&
+			   isProviderOk &&
+			   isStatusOk)
+				return true;
+			else
+				return false;
+		}).collect(Collectors.toList());
+	}
+	private void filterByTransaction(){
+		
+		transactions = providerTransactions.stream().filter( (t) ->{
+			
+//			boolean isProviderOk = true;
+			boolean isPayerOk = true;
+			boolean isStatusOk = true;
 
+			if(selectedPayerIdList != null &&
+				selectedPayerIdList.size() > 0)
+			{
+				isPayerOk = isTransactionExistInPayer(t.getPayerList());
+			}
+			
+			if(!currentPayerStatus.isEmpty() &&
+			   !currentPayerStatus.equals(t.getParStatus()))
+			{
+				isStatusOk = false;
+			}
+			
+			if(isPayerOk &&
+			   isStatusOk)
+				return true;
+			else
+				return false;
+		}).collect(Collectors.toList());
+}
+	
+	private boolean isTransactionExistInPayer(Set<Payer> tmpPayerList){
+		
+		Set<Integer> ids = tmpPayerList.stream()
+				.map(Payer::getId)
+				.collect(Collectors.toSet());
+				
+		Set<Integer> res = ids.stream()
+                .filter(selectedPayerIdList::contains)
+                .collect(Collectors.toSet());
+		
+		if(res.size() > 0)
+			return true;
+		else
+			return false;
+	}
+	
 	public void onPracticeChange() {
 
 		providerList.clear();
-
-		Set<Provider> spayer = new HashSet<Provider>();
-		
-//		for (Practice practice : selectedPracticeList) {
-//			spayer.addAll(practice.getProviders());
-//		}
-		
-		providerList = new ArrayList(spayer);
-		
-		/*for (Practice practice : selectedPracticeList) {
-
-			providerList.addAll(practice.getProviders());
-		}*/
-
-		// providerList = getProvidersFromPractice();
-
-//		tmpHasnPractise.clear();
-//
-//		for (Provider pro : providerList) {
-//
-//			tmpHasnPractise.put(pro.getId(), pro);
-//		}
 	}
-
-	public void searchPayerData() {
-
-//		payerProvider.clear();
-
-		if (currentPracticeId != null)
-		{
-			/*transactions = practiceTransactions.stream()
-					.filter(f -> selectedPracticeList.stream().filter(p -> p.getId() == f.getPractice().getId()).count() > 0)
-					.collect(Collectors.toList());*/
-			
-			transactions = practiceTransactions.stream()
-					.filter(f -> (f.getPractice() != null && f.getPractice().getId() == currentPracticeId))
-					.collect(Collectors.toList());
-			//************************************************************************************************************************
-			if (selectedPayerIdList.size() > 0)
-			{
-				/*transactions = transactions.stream()
-						.filter(f -> selectedPayerList.stream().filter(p -> p.getId() == f.getPayer().getId()).count() > 0)
-						.collect(Collectors.toList());*/
-				
-				transactions = new ArrayList<ProviderTransaction>(getMatchedData(transactions, selectedPayerIdList));
-				
-				if(!currentPayerStatus.isEmpty())
-				{
-					transactions = transactions.stream()
-							.filter(f -> f.getParStatus().equals(currentPayerStatus))
-							.collect(Collectors.toList());
-				}
-				
-			}
-			
-		}
-		else
-		{
-			if(!currentPayerStatus.isEmpty())
-			{
-				transactions = practiceTransactions.stream()
-						.filter(f -> f.getParStatus().equals(currentPayerStatus))
-						.collect(Collectors.toList());
-				
-				transactions = transactions.stream()
-						.filter(f -> (f.getPractice() != null))
-						.collect(Collectors.toList());
-			}
-			else
-			{
-				transactions = practiceTransactions.stream()
-					.filter(f -> (f.getPractice() != null))
-					.collect(Collectors.toList());
-			}
-		}
-		
-		//.filter(f -> (f.getPractice().getName() != null))
-
-	}
-
-	// ---------------------------------------TRANSACTION REPORT-----------------------------------------------
-
-
-	
-	Set<ProviderTransaction> getMatchedData(List<ProviderTransaction> tmpTransactions, List<Integer> tmpSelectedPayers)
-	{
-		Set<ProviderTransaction> setTrans = new HashSet<ProviderTransaction>();
-		
-		for (ProviderTransaction ptran : tmpTransactions) {
-			
-			for (Payer tpayer : ptran.getPayerList()) {
-				
-				for (Integer spayerId : tmpSelectedPayers) {
-					
-					if(spayerId == tpayer.getId())
-						setTrans.add(ptran);
-				}
-				
-			}
-			
-		}
-		
-		return setTrans;
-		
-	}
-
-	// submit clicked
-	public void getData() {
-		if (selectedPayerIdList.size() > 0)
-		{
-			
-			transactions = new ArrayList<ProviderTransaction>(getMatchedData(savedTransactions, selectedPayerIdList));
-			
-			/*transactions = savedTransactions.stream()
-					.filter(f -> selectedPayers.stream().filter(p -> p.getId() == f.getPayer().getId()).count() > 0)
-					.collect(Collectors.toList());*/
-		}
-		else
-			transactions = savedTransactions;
-
-		//.filter(f -> selectedPayers.stream().filter(p -> p.getId() == f.getPayer().getId()).count() > 0)
-		// List<ProviderTransaction> tlist = savedTransactions.stream().filter(f
-		// ->
-		// selectedPayers.contains(f.getPayer())).collect(Collectors.toList());
-		// List<ProviderTransaction> intersect =
-		// savedTransactions.stream().filter(selectedPayers::contains).collect(Collectors.toList());
-
-	}
-
-	// ---------------------------------------PROVIDER REPORT-----------------------------------------------
-
-
-
-	/*public void onEntityChange() {
-		// currentProvider.setCentity(currentEntity);
-		// payerProvider = currentProvider.getPayerList();
-
-		payerList.clear();
-		Set<Payer> spayer = new HashSet<Payer>();
-		
-		for (Provider pro : selectedProviderList) {
-			//payerList.addAll(pro.getPayerList());
-			spayer.addAll(pro.getPayerList());
-		}
-		
-		payerList = new ArrayList(spayer);
-
-		hashPayer.clear();
-
-		// for (Payer pro : currentProvider.getPayerList()) {
-		//
-		// hashPayer.put(pro.getId(), pro);
-		// }
-
-		
-		
-		
-		for (Payer pro : payerList) {
-
-			hashPayer.put(pro.getId(), pro);
-		}
-
-		initHashThree(payerList);
-		// initHashThree(currentProvider.getPayerList());
-
-	}*/
-
-	public void getPayerData() {
-
-//		payerProvider.clear();
-		
-//		List<ProviderTransaction> transac = providerTransactions.stream()
-//				.filter(f -> (f.getParStatus().equals(currentPayerStatus)) && selectedPayerList.stream().filter(p -> p.getId() == f.getId()).count() > 0 ).collect(Collectors.toList());
-
-//		List<ProviderTransaction> transac = providerTransactions.stream()
-//				.filter(f -> (f.getParStatus().equals(currentPayerStatus)) ).collect(Collectors.toList());
-//		
-//		List<Payer> pay = selectedPayerList.stream()
-//				.filter(f -> (providerTransactions.stream().filter(p -> p.getPayer().getId() == f.getId())).count() > 0 ).collect(Collectors.toList());
-		
-		if (currentProviderId != null)
-		{
-			/*transactions = providerTransactions.stream()
-					.filter(f -> selectedProviderList.stream().filter(p -> p.getId() == currentProvider.getId()).count() > 0)
-					.collect(Collectors.toList());*/
-			
-			transactions = providerTransactions.stream()
-					.filter(f -> (f.getProvider() != null && f.getProvider().getId() == currentProviderId))
-					.collect(Collectors.toList());
-			//************************************************************************************************************************
-			if (selectedPayerIdList.size() > 0)
-			{
-				/*transactions = transactions.stream()
-						.filter(f -> selectedPayerList.stream().filter(p -> p.getId() == f.getPayer().getId()).count() > 0)
-						.collect(Collectors.toList());*/
-				
-				transactions = new ArrayList(getMatchedData(transactions, selectedPayerIdList));
-				
-				if(!currentPayerStatus.isEmpty())
-				{
-					transactions = transactions.stream()
-							.filter(f -> f.getParStatus().equals(currentPayerStatus))
-							.collect(Collectors.toList());
-				}
-				
-			}
-			
-		}
-		else
-		{
-			
-			if(!currentPayerStatus.isEmpty())
-			{
-				transactions = providerTransactions.stream()
-						.filter(f -> f.getParStatus().equals(currentPayerStatus))
-						.collect(Collectors.toList());
-				
-				transactions = transactions.stream()
-						.filter(f -> (f.getProvider() != null))
-						.collect(Collectors.toList());
-			}
-			else
-			{
-				transactions = providerTransactions.stream()
-					.filter(f -> (f.getProvider() != null))
-					.collect(Collectors.toList());
-			}
-		}
-		
-		//.filter(f -> (f.getProvider().getFirstName() != null))
-
-	}
-
 	// -------------------------
 
 	private void cleanData() {

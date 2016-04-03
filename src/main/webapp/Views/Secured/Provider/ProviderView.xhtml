@@ -196,18 +196,19 @@
 							<p:column>
 								<p:row style="border: 3px solid blue;">
 									<b><h:outputLabel for="fileUpload"
-											value="#{docCell.lbName}" /></b>
+											value="#{docCell.lbName}" styleClass="#{docCell.getColorClassName()}" /></b>
 									<br />
 
-									<h:outputLabel value="Existing File: " for="idFileName" />
+									<h:outputLabel value="Existing File: " for="idFileName" styleClass="#{docCell.getColorClassName()}" />
 									<h:outputLabel id="idFileName"
-										value="#{docCell.document.orignalName}" />
+										value="#{docCell.document.orignalName}" styleClass="#{docCell.getColorClassName()}" />
 									<br />
 									<p:fileUpload value="#{docCell.document.orignalName}"
 										fileUploadListener="#{providerController.handleFileUpload}"
 										mode="advanced" dragDropSupport="false" fileLimit="3"
 										sizeLimit="100000" allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/"
-										update=":myForm" label="Browse...">
+										update=":myForm" label="Browse..." 
+										>
 
 										<f:attribute name="name" value="#{docCell}" />
 
@@ -260,6 +261,9 @@
 #providerDialog {
 	position: absolute !important;
 }
+
+.red{color:red}
+.green{color:green}
 </style>
 			</ui:define>
 		</ui:composition>
