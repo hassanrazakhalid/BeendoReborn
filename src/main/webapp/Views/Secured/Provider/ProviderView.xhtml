@@ -34,8 +34,12 @@
 					<p:dataTable value="#{providerController.providerList}"
 						var="provider">
 
-						<p:column headerText="Provider Name">
-							#{provider.firstName} #{provider.lastName}
+<!-- 	<p:inputText value="#{providerController.providerSearchText}">
+						<f:ajax event="change" listener="#{providerController.providerSearchTextChanged()}"></f:ajax>
+						</p:inputText> -->
+						<p:column headerText="Provider Name" filterMatchMode="contains" filterBy="#{provider.getFullName()}">
+					
+							#{provider.getFullName()}
 						</p:column>
 
 						<p:column headerText="Npi Number">
@@ -206,7 +210,7 @@
 									<p:fileUpload value="#{docCell.document.orignalName}"
 										fileUploadListener="#{providerController.handleFileUpload}"
 										mode="advanced" dragDropSupport="false" fileLimit="3"
-										sizeLimit="100000" allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/"
+										sizeLimit="500000" allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/"
 										update=":myForm" label="Browse..." 
 										>
 

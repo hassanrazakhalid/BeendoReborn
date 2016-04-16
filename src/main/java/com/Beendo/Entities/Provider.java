@@ -63,6 +63,11 @@ public class Provider {
 		return firstName+" " + lastName+ " " + npiNum;
 	}
 	
+	public String getFullName(){
+		
+		return firstName+" " + lastName;
+	}
+	
 	public Document getFilenameByType(String fileType){
 	
 //	for (Document doc : this.getDocuments()) {

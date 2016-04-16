@@ -99,11 +99,11 @@
 
 					<p:dataTable value="#{reportsController.transactions}" var="transaction" >
 
-						<p:column headerText="Provider Name">
+						<p:column headerText="Provider Name" filterBy="#{transaction.provider.getFullName()}" filterMatchMode="contains">
 							#{transaction.provider.firstName} #{transaction.provider.lastName}
 						</p:column>
 
-						<p:column headerText="Payer Name">
+						<p:column headerText="Payer Name" filterBy="#{transaction.payerList}" filterFunction="#{transaction.filterByPayer}">
 							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
 							
 							<table>

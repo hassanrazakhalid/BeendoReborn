@@ -2,6 +2,7 @@ package com.Beendo.Entities;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -47,4 +48,41 @@ public class ProviderTransaction {
 	@ManyToOne(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
 	private Provider provider = new Provider();
 	
+	
+	/*public String getPayerWithPlan(){
+		
+		String finalStr = "";
+		for (Payer payer : getPayerList()) {
+			
+			finalStr += payer.getName() + " " + payer.getPlanName();
+			finalStr += "<br/>";
+		}
+		
+		return finalStr;
+	}*/
+
+	public boolean filterByPayer(Object value, Object filter, Locale locale) {
+        String filterText = (filter == null) ? null : filter.toString().trim();
+        if(filterText == null||filterText.equals("")) {
+            return true;
+        }
+         
+        if(value == null) {
+            return false;
+        }
+        String lowerFilterText = filterText.toLowerCase();
+        Set<Payer>payers = (Set)value;
+        
+       boolean result = payers.stream().anyMatch( (p) -> {
+        	
+    	   boolean isOK = false;
+    	   if(p.getName().toLowerCase().contains(lowerFilterText))
+    		   isOK = true;
+    	   if(p.getPlanName().toLowerCase().contains(lowerFilterText))
+    		   isOK = true;
+        	return isOK;
+        });
+        return result;
+//        return ((Comparable) value).compareTo(Integer.valueOf(filterText)) > 0;
+    }
 }

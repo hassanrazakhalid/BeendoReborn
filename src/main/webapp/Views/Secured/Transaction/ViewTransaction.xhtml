@@ -53,12 +53,12 @@
     
 				    <p:dataTable value="#{transactionController.filterTransactions}" var="transaction" >
 
-						<p:column headerText="Payer Name">
+						<p:column headerText="Payer Name" filterBy="#{transaction.payerList}" filterFunction="#{transaction.filterByPayer}">
 							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
 							
 							<table>
 								<ui:repeat value="#{transaction.payerList.toArray()}" var="t">
-
+								
 									<tr>
 										<td style="border: 0px;"><h:outputText value="#{t.name} #{t.planName}" />
 										</td>
@@ -69,12 +69,12 @@
 							
 						</p:column>
 						
-						<p:column headerText="Practice Name">
+						<p:column headerText="Practice Name" filterMatchMode="contains" filterBy="#{transaction.practice.name}">
 							#{transaction.practice.name}
 						</p:column>
 						
-						<p:column headerText="Provider Name">
-							#{transaction.provider.firstName} #{transaction.provider.lastName}
+						<p:column headerText="Provider Name" filterMatchMode="contains" filterBy="#{transaction.provider.getFullName()}">
+							#{transaction.provider.getFullName()}
 						</p:column>
 
 						<p:column headerText="Date">

@@ -88,6 +88,7 @@ public class TransactionController implements DisposableBean{
 			this.payerList = payerList;
 			this.practiceList = practiceList;
 			this.providerList = providerList;
+			this.filterTransactions.clear();
 			this.filterTransactions.addAll(transactions);
 		};
 
@@ -423,6 +424,7 @@ public class TransactionController implements DisposableBean{
 		}
 		this.payerFilter.size();
 	}
+	
 
 	@Override
 	public void destroy() throws Exception {

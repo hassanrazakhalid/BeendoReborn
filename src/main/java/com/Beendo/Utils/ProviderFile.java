@@ -73,7 +73,38 @@ public enum ProviderFile {
 		public String toString() {
 			return "Copy of ECFMG";
 		}
+	},
+	Provider_CV{
+
+		@Override
+		public String getFileType() {
+			// TODO Auto-generated method stub
+			return "Provider_CV";
+		}
+		
+		public String toString(){
+			
+			return "Provider CV";
+		}
+		
+		
+	},
+	W9_Form{
+
+		@Override
+		public String getFileType() {
+			// TODO Auto-generated method stub
+			return "W9_Form";
+		}
+		
+		public String toString(){
+			
+			return "W9 Form";
+		}
+		
+		
 	};
+	
 	public abstract String getFileType();
 	
 	public static ProviderFile getFileByName(String name){

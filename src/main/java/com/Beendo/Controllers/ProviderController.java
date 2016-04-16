@@ -85,7 +85,7 @@ public class ProviderController {
 	private List<DocumentCell> documentCells = new ArrayList<>();;
 
 	private boolean isEntityListDisabled;
-
+	
 	public boolean getIsEntityListDisabled() {
 
 		return isEntityListDisabled;
@@ -471,5 +471,4 @@ public class ProviderController {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Provider", msg);
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
-
 }

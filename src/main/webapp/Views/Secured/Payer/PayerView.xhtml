@@ -35,7 +35,7 @@
     
 				    <p:dataTable value="#{payerController.payers}" var="payer" >
 
-						<p:column headerText="Payer Name">
+						<p:column headerText="Payer Name" filterMatchMode="contains" filterBy="#{payer.name}">
 							#{payer.name}
 						</p:column>
 
