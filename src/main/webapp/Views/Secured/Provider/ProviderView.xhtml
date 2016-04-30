@@ -2,25 +2,29 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	>
 <h:head>
+
 	<f:metadata>
 		<f:viewAction actionListener="#{providerController.onLoad()}" />
 	</f:metadata>
 
 </h:head>
 
-<h:body>
+
 
 	<h:body>
 		<ui:composition template="/Views/Template/MainTemplate.xhtml">
 			<ui:define name="pageTitle">
             Welcome [Dashboard.xhtml]
+            
         	</ui:define>
 
 			<ui:define name="mainContent">
+			<!-- <h:outputScript library="primefaces" name="jquery/jquery.js"/> -->
+			
 				<h2>Provider Details</h2>
-
 				<h:form rendered="#{providerController.canCreateProvider()}">
 					<p:commandButton value="Create" update=":myForm"
 						action="#{providerController.createProviderClicked()}"
@@ -78,10 +82,20 @@
 
 						<p:column headerText="Edit" width="80"
 							rendered="#{providerController.canEditProvider()}">
-							<p:commandButton icon="ui-icon-pencil" update=":myForm"
+							<!-- <p:commandButton icon="ui-icon-pencil" update=":myForm"
 								oncomplete="PF('Dlg1').show();"
-								action="#{providerController.updateClicked(provider)}" />
-
+								action="#{providerController.updateClicked(provider)}" /> -->
+								
+								<h:link value="Edit" outcome="#{providerController.moveToEditView(provider)}">
+								
+								<f:param name="id" value="#{provider.id}" />
+								 </h:link>
+								<!-- <h:form target="_blank">
+									<p:commandButton icon="ui-icon-pencil"
+								action="#{providerController.moveToEditView(provider)}"/>
+								
+								</h:form> -->
+							
 							<p:commandButton icon="ui-icon-close" update=":mainForm"
 								resetValues="true"
 								action="#{providerController.removeClicked(provider)}"
@@ -199,14 +213,35 @@
 
 							<p:column>
 								<p:row style="border: 3px solid blue;">
-									<b><h:outputLabel for="fileUpload"
+								
+								<p:panelGrid>
+									<p:row>
+										<p:column>
+										<b><h:outputLabel for="fileUpload"
 											value="#{docCell.lbName}" styleClass="#{docCell.getColorClassName()}" /></b>
-									<br />
-
-									<h:outputLabel value="Existing File: " for="idFileName" styleClass="#{docCell.getColorClassName()}" />
-									<h:outputLabel id="idFileName"
+									
+										</p:column>
+										
+										<p:column>
+										 
+										 <p:calendar id="cal" value="#{docCell.document.effectiveDate}" />
+										
+										</p:column>
+									</p:row>
+									
+									<p:row>
+									<p:column>
+										<h:outputLabel value="Existing File: " for="idFileName" styleClass="#{docCell.getColorClassName()}" />
+									
+									</p:column>
+									<p:column>
+										<h:outputLabel id="idFileName"
 										value="#{docCell.document.orignalName}" styleClass="#{docCell.getColorClassName()}" />
-									<br />
+									</p:column>
+									</p:row>
+									
+									<p:row>
+									<p:column>
 									<p:fileUpload value="#{docCell.document.orignalName}"
 										fileUploadListener="#{providerController.handleFileUpload}"
 										mode="advanced" dragDropSupport="false" fileLimit="3"
@@ -217,6 +252,12 @@
 										<f:attribute name="name" value="#{docCell}" />
 
 									</p:fileUpload>
+									</p:column>
+									 </p:row>
+								</p:panelGrid>
+									
+									<br />
+									
 								</p:row>
 							</p:column>
 
@@ -274,6 +315,6 @@
 	</h:body>
 
 
-</h:body>
+
 
 </html>

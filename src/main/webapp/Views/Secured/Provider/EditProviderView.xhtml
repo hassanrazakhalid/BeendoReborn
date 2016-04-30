@@ -1,0 +1,209 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<f:metadata>
+		<f:viewAction actionListener="#{editProviderController.onLoad()}" />
+	</f:metadata>
+
+</h:head>
+
+
+
+<h:body>
+	<ui:composition template="/Views/Template/MainTemplate.xhtml">
+		<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+            
+        	</ui:define>
+
+		<ui:define name="mainContent">
+			<!-- <h:outputScript library="primefaces" name="jquery/jquery.js"/> -->
+
+			<h2>Provider Details</h2>
+			<!-- ADD / EDIT DIALOG -->
+
+			<h:form id="myForm">
+
+				<p:messages id="msgs" />
+
+				<h:panelGrid columns="2" cellpadding="8">
+
+					<p:outputLabel id="entity"
+						value="#{editProviderController.entityName}" />
+
+					<p:selectCheckboxMenu id="myPractices"
+						value="#{editProviderController.selectedPractices}"
+						label="Select Practices" filter="true"
+						filterMatchMode="startsWith" style="width:177px" var="t"
+						panelStyle="width:250px" converter="javax.faces.Integer">
+
+						<f:selectItems value="#{editProviderController.practiceList}"
+							var="practice" itemLabel="#{practice.name}"
+							itemValue="#{practice.getId()}" />
+
+						<!-- <p:column>
+									<h:outputText value="#{t.name}" />
+								</p:column> -->
+
+					</p:selectCheckboxMenu>
+
+					<p:inputText id="NpiNumber"
+						value="#{editProviderController.provider.npiNum}"
+						placeholder="Npi Number" maxlength="10" label="NPI"
+						required="true"
+						validatorMessage="NPI should only digits and length 10">
+						<!--  validator="npiValidator" -->
+						<f:validateRegex for="NpiNumber" pattern="[0-9]{10}" />
+						<!-- <f:convertNumber integerOnly="true"/> -->
+
+					</p:inputText>
+					<p:inputText value="#{editProviderController.provider.firstName}"
+						placeholder="First Name" label="FirstName" required="true" />
+					<p:inputText value="#{providerController.provider.lastName}"
+						placeholder="Last Name" label="Last Name" required="true" />
+
+
+				</h:panelGrid>
+
+
+
+				<br />
+				
+				<p:dataGrid id="filesTable" columns="3"
+					value="#{editProviderController.documentCells}" var="docCell">
+
+					<p:column>
+						<p:row style="border: 3px solid blue;">
+					<p:panelGrid>			
+									<p:row>
+										<p:column>
+											<b><h:outputLabel for="fileUpload"
+													value="#{docCell.lbName}"
+													styleClass="#{docCell.getColorClassName()}" /></b>
+
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+										<p:panelGrid columns="2">
+										<h:outputLabel value="Existing File: " for="idFileName"
+												styleClass="#{docCell.getColorClassName()}" />
+												<h:outputLabel id="idFileName"
+												value="#{docCell.document.orignalName}"
+												styleClass="#{docCell.getColorClassName()}" />
+										</p:panelGrid>
+											
+
+										</p:column>
+										
+
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<p:fileUpload value="#{docCell.document.orignalName}"
+												fileUploadListener="#{editProviderController.handleFileUpload}"
+												mode="advanced" dragDropSupport="false" fileLimit="3"
+												sizeLimit="5242880"
+												allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/" update=":myForm"
+												label="Browse...">
+
+												<f:attribute name="name" value="#{docCell}" />
+
+											</p:fileUpload>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Effective Date: " />
+											<p:calendar style="float:right" id="cal"
+												value="#{docCell.document.effectiveDate}" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Expire Date: " />
+											<p:calendar style="float:right" id="cal2" value="#{docCell.document.expireDate}" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Reminder: " />
+											<p:inputText style="float:right" id="txt1" value="#{sliderView.number1}" />
+											<br style="margin: 0px 0px 20px;" />
+											<p:slider for="txt1" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+														<p:column headerText="Remove">
+
+						<p:commandButton icon="ui-icon-trash"
+							action="#{editProviderController.deleteFileClicked(docCell)}"
+							update=":myForm">
+
+							<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+
+					</p:column>
+									
+									</p:row>
+													
+							</p:panelGrid>
+
+							<br />
+
+						</p:row>
+					</p:column>
+
+				</p:dataGrid>
+
+				<p:commandButton id="btnSave" value="Save" validateClient="true"
+					actionListener="#{editProviderController.saveInfo}" update="msgs" />
+
+
+
+				<!-- block="providerDialog" -->
+				<p:blockUI trigger="myForm:btnSave">
+            LOADING<br />
+					<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
+				</p:blockUI>
+			</h:form>
+
+			<style>
+#providerDialog {
+	position: absolute !important;
+}
+
+.red {
+	color: red
+}
+
+.green {
+	color: green
+}
+</style>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+
+
+
+</html>

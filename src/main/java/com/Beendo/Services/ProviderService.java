@@ -64,6 +64,12 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 		return dataList;
 	}
 	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public void getAllProviderInfo(Integer id, EditProviderCallBack callBack){
+		
+		callBack.fetchProviderInfo(service.getProviderDetails(id));
+	}
+	
 	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 	public void refreshAllData(ProviderCallback callBack)
 	{

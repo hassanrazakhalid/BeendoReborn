@@ -104,7 +104,6 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 //		return  null;
 //	}
 
-	@Transactional
 	@Override
 	public void updateProviderList(Set<Provider>list){
 		 
@@ -114,7 +113,6 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 		}
 	}
 
-	@Transactional
 	@Override
 	public List<Provider> findProvidersByEntity(Integer id) {
 		// TODO Auto-generated method stub
@@ -136,5 +134,25 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 		List<Provider> list = quey.list();
 		
 		return list;
+	}
+	
+	@Override
+	public Provider getProviderDetails(Integer id) {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		Query quey = session.createQuery("SELECT P FROM Provider P"
+				+ " JOIN FETCH P.centity E"
+				+ " LEFT JOIN FETCH E.practiceList "
+				+ " LEFT JOIN FETCH P.documents "
+				+ " WHERE P.id=:id");
+		quey.setParameter("id", id);
+		
+		List<Provider> list = quey.list();
+
+		if(list.size() > 0)
+			return list.get(0);
+		else
+			return null;
 	}
 }

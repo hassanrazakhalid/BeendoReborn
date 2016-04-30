@@ -93,6 +93,16 @@
    <PROCESS-ITEM-OUTPUT ID="logout::#Views#Unsecured#Login#index.xhtml"
     NAME="output10" PATH="/Views/Unsecured/Login/index.xhtml"
     TARGET="rules:#Views#Unsecured#Login#index.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="EditProviderView::#Views#Secured#Provider#EditProviderView.xhtml"
+    NAME="output11"
+    PATH="/Views/Secured/Provider/EditProviderView.xhtml"
+    TARGET="rules:#Views#Secured#Provider#EditProviderView.xhtml"
+    TITLE="EditProviderView" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#Views#Secured#Provider#EditProviderView.xhtml"
+  PATH="/Views/Secured/Provider/EditProviderView.xhtml"
+  SHAPE="304,593,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

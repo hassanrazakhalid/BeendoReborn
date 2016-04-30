@@ -361,6 +361,11 @@ public class ProviderController {
 		} catch (Exception ex) {
 		}
 	}
+	
+	public String moveToEditView(Provider provider){
+		
+		return "EditProviderView";
+	}
 
 	public void createProviderClicked() {
 

@@ -122,12 +122,9 @@
 			<version>1.14.8</version>
 		</dependency>
 
-		<!-- <dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.faces</artifactId>
-			<version>2.2.9</version>
-		</dependency> -->
-		
+		<!-- <dependency> <groupId>org.glassfish</groupId> <artifactId>javax.faces</artifactId> 
+			<version>2.2.9</version> </dependency> -->
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -169,7 +166,7 @@
 		<!-- <dependency> <groupId>org.hsqldb</groupId> <artifactId>hsqldb</artifactId> 
 			<version>2.3.2</version> </dependency> -->
 
-		<dependency>
+ 	 	<dependency>
 			<groupId>net.bootsfaces</groupId>
 			<artifactId>bootsfaces</artifactId>
 			<version>0.8.0</version>
@@ -181,6 +178,13 @@
 			<version>5.3</version>
 			<scope>compile</scope>
 		</dependency>
+
+	<!-- 	<dependency>
+			<groupId>org.primefaces.extensions</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+ -->
 
 		<dependency>
 			<groupId>commons-dbcp</groupId>

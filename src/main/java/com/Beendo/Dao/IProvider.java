@@ -12,4 +12,5 @@ public interface IProvider extends ICRUD<Provider, Integer> {
 	public String isNameExist(String name, String lname, String npi);
 	public void updateProviderList(Set<Provider>list);
 	public List<Provider> findProvidersByEntity(Integer id);
+	public Provider getProviderDetails(Integer id);
 }

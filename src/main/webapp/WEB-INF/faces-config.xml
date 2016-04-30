@@ -68,6 +68,11 @@
    <to-view-id>/Views/Unsecured/Login/index.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>EditProviderView</from-outcome>
+   <to-view-id>/Views/Secured/Provider/EditProviderView.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
  </navigation-rule>
  <application>
   <action-listener>org.primefaces.application.DialogActionListener</action-listener>

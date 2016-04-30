@@ -1,6 +1,7 @@
 package com.Beendo.Entities;
 
 import java.io.File;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,8 @@ public class Document {
 	private String orignalName;
 	private String nameOnDisk;
 	private String type;
+	private Date  expireDate;
+	private Date  effectiveDate;
 	
 	@ManyToOne
 	private Provider provider;

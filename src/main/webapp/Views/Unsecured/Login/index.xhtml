@@ -24,6 +24,11 @@ form ul {
 
 <h:body>
 
+<h:form id="fform">
+    <p:growl id="msgs" showDetail="true" />
+     <p:outputLabel for="popup" value="Popup:" />
+        <p:calendar id="popup" value="#{calendarView.date2}" />
+</h:form>
 
 	<p:growl widgetVar="growl" showDetail="false" />
 	<h2  style="text-align: center; margin: 10% auto 2%;">ParTracker</h2>
