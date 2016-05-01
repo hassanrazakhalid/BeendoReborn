@@ -3,28 +3,16 @@ package com.Beendo.Controllers;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
-import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Scope;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.User;
 import com.Beendo.Services.IUserService;
-//import com.Beendo.Security.UserSecurityService;
-import com.Beendo.Services.UserService;
 import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
 
@@ -53,6 +41,7 @@ public class LoginController implements DisposableBean,Serializable {
 	@Autowired
 	private IUserService userService;
 
+
 //	@Autowired
 //	private UserDetailsService securityService;
 	
@@ -72,8 +61,8 @@ public class LoginController implements DisposableBean,Serializable {
 			SharedData sharedData = SharedData.getSharedInstace();
 
 			
+//			sharedData.sendMail("Hassan.raza@sypore.com", "Hassan.raza@sypore.com", "sample mail", "salam");
 			
-//			sharedData.setCurrentUser(user);
 			String result = sharedData.checkForSecurity(userName, password);
 			if(result.equalsIgnoreCase("incorrect"))
 			{

@@ -54,10 +54,30 @@
 		transaction-manager="transactionManager" /> -->
 
 
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+<!-- 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="username" value="hassanrazakhalid89@gmail.com" />
 		<property name="password" value="haider123" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.port">465</prop>
+			</props>
+		</property>
+	</bean> -->
+
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  <property name="location">
+    <value>classpath:EmailSettings.properties</value>
+  </property>
+</bean>
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${host}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.auth">true</prop>

@@ -2,6 +2,7 @@ package com.Beendo.Controllers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -20,15 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Dto.DocumentCell;
-import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Document;
-import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.ProviderTransaction;
-import com.Beendo.Entities.User;
 import com.Beendo.Services.EditProviderCallBack;
-import com.Beendo.Services.IPractiseService;
 import com.Beendo.Services.IProviderService;
 import com.Beendo.Utils.Constants;
 import com.github.javaplugs.jsf.SpringScopeView;
@@ -47,22 +44,27 @@ public class EditProviderController {
 	private IProviderService providerService;
 
 
-	@Autowired
-	private IPractiseService practiseService;
+//	@Autowired
+//	private IPractiseService practiseService;
 
 	private String entityName;
 
+	private String npiNumber;
+	private Date expireDate;
+	private Date effectiveDate;
+	private Date reminderDate;
+	
 	private Provider provider = new Provider();
 	private List<Provider> providerList = new ArrayList<>();
 
 	private List<Practice> practiceList = new ArrayList<>();
 	private List<Integer> selectedPractices = new ArrayList<>();
 
-	private String currentEntity;
+//	private String currentEntity;
 
 	private List<DocumentCell> documentCells = new ArrayList<>();
 
-	private User tmpUser;
+//	private User tmpUser;
 
 	private void refreshAllData() {
 
@@ -77,6 +79,8 @@ public class EditProviderController {
 		EditProviderCallBack response = (Provider providerDetails)->{
 			
 			this.provider = providerDetails;
+			
+			this.npiNumber = providerDetails.getNpiNum();
 			this.entityName = providerDetails.getCentity().getName();
 			this.practiceList = new ArrayList<>(providerDetails.getCentity().getPracticeList());
 			documentCells = providerDetails.getDocumentCellList();
@@ -132,7 +136,7 @@ public class EditProviderController {
 		// practiceList = new
 		// ArrayList<>(provider.getCentity().getPracticeList());
 		// provider.setPracticeList(getSelectedList());
-		setCurrentEntity(String.valueOf(_provider.getCentity().getId()));
+//		setCurrentEntity(String.valueOf(_provider.getCentity().getId()));
 	}
 
 	/*
@@ -150,12 +154,12 @@ public class EditProviderController {
 
 		Set<Practice> list = new HashSet<>();
 
-		CEntitiy entity = null;//getEntityById(Integer.valueOf(currentEntity));
-		Set<Practice> allPractices = entity.getPracticeList();
+//		CEntitiy entity = null;//getEntityById(Integer.valueOf(currentEntity));
+		Set<Practice> allPractices = provider.getCentity().getPracticeList();
 
 		for (Integer practiceId : selectedPractices) {
 
-			for (Practice practice : practiceList) {
+			for (Practice practice : allPractices) {
 
 				if (practice.getId().compareTo(practiceId) == 0) {
 					list.add(practice);
@@ -170,16 +174,25 @@ public class EditProviderController {
 
 		boolean isOK = true;
 
+		if(this.npiNumber.equalsIgnoreCase(provider.getNpiNum()))
+			return true;
+		
 		String error = providerService.isNameExist(provider.getFirstName(), provider.getLastName(),
 				provider.getNpiNum());
 		if (error != null) {
 			isOK = false;
-			showMessage(error);
+			showMessage(FacesMessage.SEVERITY_ERROR,error);
 		}
 
 		return isOK;
 	}
 
+	public String actionSaveInfo(){
+		
+		saveInfo(null);
+		return null;
+	}
+	
 	public void saveInfo(ActionEvent event) {
 
 		try {
@@ -188,17 +201,21 @@ public class EditProviderController {
 				return;
 
 			Set<Practice> tmpPractices = getSelectedList();
+			provider.setNpiNum(npiNumber);
 			provider.setPracticeList(tmpPractices);
 //			practiseService.updatePractiseList(tmpPractices);
 //			provider.setCentity(entity);
 
 			providerService.update(provider);
+			showMessage(FacesMessage.SEVERITY_INFO,"Saved Succesfully");
 			// entityService.update(currentEntity);			
 
 		} catch (StaleObjectStateException e) {
 
-			showMessage(Constants.ERRR_RECORDS_OUDATED);
+			showMessage(FacesMessage.SEVERITY_ERROR,Constants.ERRR_RECORDS_OUDATED);
 		} catch (Exception e) {
+			
+			showMessage(FacesMessage.SEVERITY_ERROR,e.toString());
 			// TODO: handle exception
 		}
 	}
@@ -232,6 +249,14 @@ public class EditProviderController {
 		
 		return strList.get(strList.size()-1);
 	}
+	
+	 public void onDateSelect(DocumentCell docCell){
+		 
+		 Document doc = docCell.getDocument();
+		 
+		 doc.updateReminderCount();
+//		 System.out.println("");
+	 }
 	
 	/**
 	 * Upload Code
@@ -272,9 +297,11 @@ public class EditProviderController {
 //		}
 	}
 
-	public void showMessage(String msg) {
+	public void showMessage(Severity type,String msg) {
 
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Provider", msg);
-		RequestContext.getCurrentInstance().showMessageInDialog(message);
+//		FacesMessage message = new FacesMessage(type, "Provider", msg);
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(type, msg, null));
+
 	}
 }

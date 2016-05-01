@@ -149,6 +149,18 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 		return service.isNameExist(name, lname, npi);
 	}
 	
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
+	@Override
+	public void update(Provider entity) {
+		
+		super.update(entity);
+		for (Document doc : entity.getDocuments()) {
+			
+			documentDao.update(doc);
+		}
+	}
+	
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
 	public void updateProviderList(Set<Provider>list){
 		
 		service.updateProviderList(list);
@@ -157,5 +169,26 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 	public List<Provider> findProvidersByEntity(Integer id){
 		
 		return service.findProvidersByEntity(id);
+	}
+	
+	/**
+	 * Document Fetcing code for sending emails
+	 */
+	@Override
+	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
+	public List<Document> getDocumentByEmail(){
+		
+		return documentDao.getDocumentByEmail();
+	}
+	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
+	public void updateDocuments(List<Document>docList){
+		
+		for (Document document : docList) {
+			
+			documentDao.update(document);
+		}
+//		return documentDao.getDocumentByEmail();
 	}
 }

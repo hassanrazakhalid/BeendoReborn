@@ -447,7 +447,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 			String appUrl = "http://"+ ec.getRequestServerName()+":"+ec.getRequestServerPort()+ec.getRequestContextPath()+"/Views/Unsecured/Login/index.xhtml";
 			String str = appUrl + "\n" + "UserName:" + user.getAppUserName() + "\n" + "Password"
 					+ user.getPassword();
-			sendMail("Sypore", user.getEmail(), "Sypore", str);
+//			sendMail("Sypore", user.getEmail(), "Sypore", str);
 		}
 	}
 	
@@ -558,7 +558,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 		System.out.println("Login bean created");
 	}
 
-	public void sendMail(String from, String to, String subject, String msg) {
+/*	public void sendMail(String from, String to, String subject, String msg) {
 		// creating message
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(from);
@@ -567,7 +567,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 		message.setText(msg);
 		// sending message
 		mail.send(message);
-	}
+	}*/
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

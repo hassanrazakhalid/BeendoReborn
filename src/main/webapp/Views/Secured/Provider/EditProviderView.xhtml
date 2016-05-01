@@ -25,10 +25,11 @@
 
 			<h2>Provider Details</h2>
 			<!-- ADD / EDIT DIALOG -->
-
 			<h:form id="myForm">
+<p:messages id="msgs" />
 
-				<p:messages id="msgs" />
+				
+				<!-- <p:growl id="msgs" showSummary="true" /> -->
 
 				<h:panelGrid columns="2" cellpadding="8">
 
@@ -52,7 +53,7 @@
 					</p:selectCheckboxMenu>
 
 					<p:inputText id="NpiNumber"
-						value="#{editProviderController.provider.npiNum}"
+						value="#{editProviderController.npiNumber}"
 						placeholder="Npi Number" maxlength="10" label="NPI"
 						required="true"
 						validatorMessage="NPI should only digits and length 10">
@@ -63,7 +64,7 @@
 					</p:inputText>
 					<p:inputText value="#{editProviderController.provider.firstName}"
 						placeholder="First Name" label="FirstName" required="true" />
-					<p:inputText value="#{providerController.provider.lastName}"
+					<p:inputText value="#{editProviderController.provider.lastName}"
 						placeholder="Last Name" label="Last Name" required="true" />
 
 
@@ -72,99 +73,112 @@
 
 
 				<br />
-				
+
 				<p:dataGrid id="filesTable" columns="3"
 					value="#{editProviderController.documentCells}" var="docCell">
 
 					<p:column>
 						<p:row style="border: 3px solid blue;">
-					<p:panelGrid>			
-									<p:row>
-										<p:column>
-											<b><h:outputLabel for="fileUpload"
-													value="#{docCell.lbName}"
-													styleClass="#{docCell.getColorClassName()}" /></b>
+							<p:panelGrid>
+								<p:row>
+									<p:column>
+										<b><h:outputLabel id="_lbDocName" for="fileUpload"
+												value="#{docCell.lbName}"
+												styleClass="#{docCell.getColorClassName()}" /></b>
 
-										</p:column>
-									</p:row>
+									</p:column>
+								</p:row>
 
-									<p:row>
-										<p:column>
+								<p:row>
+									<p:column>
 										<p:panelGrid columns="2">
-										<h:outputLabel value="Existing File: " for="idFileName"
+											<h:outputLabel value="Existing File: " for="idFileName"
 												styleClass="#{docCell.getColorClassName()}" />
-												<h:outputLabel id="idFileName"
+											<h:outputLabel id="idFileName"
 												value="#{docCell.document.orignalName}"
 												styleClass="#{docCell.getColorClassName()}" />
 										</p:panelGrid>
+
+
+									</p:column>
+
+
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<p:fileUpload id="_fileUpload" value="#{docCell.document.orignalName}"
+											fileUploadListener="#{editProviderController.handleFileUpload}"
+											mode="advanced" dragDropSupport="false" fileLimit="3"
+											sizeLimit="5242880"
+											allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/" update=":myForm"
+											label="Browse...">
+
+											<f:attribute name="name" value="#{docCell}" />
+
+										</p:fileUpload>
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Effective Date: " />
+										<p:calendar style="float:right" id="cal"
+											value="#{docCell.document.effectiveDate}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Expire Date: " />
+										<p:calendar style="float:right" id="cal2"
+											value="#{docCell.document.expireDate}" >
 											
+									<!-- <p:ajax event="dateSelect" listener="#{editProviderController.onDateSelect(docCell)}" /> -->		
+											 </p:calendar>
+									</p:column>
+								</p:row>
 
-										</p:column>
-										
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Reminder: " />
+										<p:calendar style="float:right" id="cal3"
+											value="#{docCell.document.reminderDate}" >
+											
+											<p:ajax event="dateSelect" listener="#{editProviderController.onDateSelect(docCell)}" />
+											
+											 </p:calendar>
+											
+										<!-- <p:inputText style="float:right" id="txt1"
+											value="#{docCell.document.reminderDays}" />
+										<br style="margin: 0px 0px 20px;" />
+										<p:slider for="txt1" /> -->
+									</p:column>
+								</p:row>
 
-									</p:row>
+								<p:row>
+									<p:column headerText="Remove">
 
-									<p:row>
-										<p:column>
-											<p:fileUpload value="#{docCell.document.orignalName}"
-												fileUploadListener="#{editProviderController.handleFileUpload}"
-												mode="advanced" dragDropSupport="false" fileLimit="3"
-												sizeLimit="5242880"
-												allowTypes="/(\.|\/)(pdf|doc?x|png|txt)$/" update=":myForm"
-												label="Browse...">
+										<p:commandButton icon="ui-icon-trash"
+											action="#{editProviderController.deleteFileClicked(docCell)}"
+											update=":myForm">
 
-												<f:attribute name="name" value="#{docCell}" />
+											<p:confirm header="Confirmation" message="Are you sure?"
+												icon="ui-icon-alert" />
+										</p:commandButton>
 
-											</p:fileUpload>
-										</p:column>
-									</p:row>
+										<p:confirmDialog global="true" showEffect="fade"
+											hideEffect="fade">
+											<p:commandButton value="Yes" type="button"
+												styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+											<p:commandButton value="No" type="button"
+												styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										</p:confirmDialog>
 
-									<p:row>
-										<p:column>
-											<h:outputLabel value="Effective Date: " />
-											<p:calendar style="float:right" id="cal"
-												value="#{docCell.document.effectiveDate}" />
-										</p:column>
-									</p:row>
+									</p:column>
 
-									<p:row>
-										<p:column>
-											<h:outputLabel value="Expire Date: " />
-											<p:calendar style="float:right" id="cal2" value="#{docCell.document.expireDate}" />
-										</p:column>
-									</p:row>
+								</p:row>
 
-									<p:row>
-										<p:column>
-											<h:outputLabel value="Reminder: " />
-											<p:inputText style="float:right" id="txt1" value="#{sliderView.number1}" />
-											<br style="margin: 0px 0px 20px;" />
-											<p:slider for="txt1" />
-										</p:column>
-									</p:row>
-
-									<p:row>
-														<p:column headerText="Remove">
-
-						<p:commandButton icon="ui-icon-trash"
-							action="#{editProviderController.deleteFileClicked(docCell)}"
-							update=":myForm">
-
-							<p:confirm header="Confirmation" message="Are you sure?"
-								icon="ui-icon-alert" />
-						</p:commandButton>
-
-						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-							<p:commandButton value="Yes" type="button"
-								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-							<p:commandButton value="No" type="button"
-								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-						</p:confirmDialog>
-
-					</p:column>
-									
-									</p:row>
-													
 							</p:panelGrid>
 
 							<br />
@@ -175,12 +189,11 @@
 				</p:dataGrid>
 
 				<p:commandButton id="btnSave" value="Save" validateClient="true"
-					actionListener="#{editProviderController.saveInfo}" update="msgs" />
+					actionListener="#{editProviderController.saveInfo}"
+					update="msgs,myForm" />
 
 
-
-				<!-- block="providerDialog" -->
-				<p:blockUI trigger="myForm:btnSave">
+			<p:blockUI trigger="myForm:btnSave" block="myForm">
             LOADING<br />
 					<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
 				</p:blockUI>

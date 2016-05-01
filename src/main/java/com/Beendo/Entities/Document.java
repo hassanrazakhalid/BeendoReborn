@@ -29,6 +29,8 @@ public class Document {
 	private String type;
 	private Date  expireDate;
 	private Date  effectiveDate;
+	private Date reminderDate;
+	private Integer reminderStatus;
 	
 	@ManyToOne
 	private Provider provider;
@@ -36,6 +38,18 @@ public class Document {
 	public String getFullPath(){
 		
 		return Constants.PROVIDER_FOLDER_PATH + getNameOnDisk();
+	}
+	
+	public void updateReminderCount(){
+		
+		if(this.reminderDate.after(new Date()))
+		{
+			this.setReminderStatus(0);
+		}
+		else
+		{
+			this.setReminderStatus(1);
+		}
 	}
 	
 	public void removeFileOnDisk(){
