@@ -11,9 +11,11 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
@@ -26,6 +28,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -58,10 +61,14 @@ public class SharedData implements ApplicationContextAware {
     private Authentication authentication;
     private JavaMailSenderImpl mail;
     
+    private String documentRootPath;
+    private String serverRootPath;
+    
 	@Autowired
 	private IProviderService providerService;
 //    private User currentUser;
     
+	
     private void init(){
     	
     	
@@ -69,12 +76,52 @@ public class SharedData implements ApplicationContextAware {
     	
     }
     
+    public String getDocumentRootPath() {
+		return documentRootPath;
+	}
+
+	public void setDocumentRootPath(String documentRootPath) {
+		this.documentRootPath = documentRootPath;
+	}
+
+	public String getServerRootPath() {
+		return serverRootPath;
+	}
+
+	public void setServerRootPath(String serverRootPath) {
+		this.serverRootPath = serverRootPath;
+	}
+
+	@PostConstruct
+    private void initializeData(){
+    	
+    	
+		loadPaths();
+		addTimerForDocumentExpire();
+    	
+    }
+    
+    private void loadPaths(){
+    	
+    	try {
+		Properties dict = readFile("ServerSettings.properties");
+		this.setServerRootPath((String)dict.getProperty("serverPath"));
+		this.setDocumentRootPath((String)dict.getProperty("documentPath"));
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
     private void addTimerForDocumentExpire(){
     	
     	this.timer = new Timer();
     	Properties map = null;
+    	
     	try {
 			map = readFile("EmailSettings.properties");
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -85,6 +132,7 @@ public class SharedData implements ApplicationContextAware {
     	{
     		int min = Integer.valueOf(map.getProperty("timerDuration")) ;
            	int totalDelay = min * 1000 * 60;
+           	String from  = (String) map.get("username");
         	timer.schedule(new TimerTask() {
     			
     			@Override
@@ -96,8 +144,8 @@ public class SharedData implements ApplicationContextAware {
     				for (Document document : docList) {
 						
     					//send emails to these documents , they are already filtered
-    					String msg = document.getOrignalName() + "is going to expired on" + document.getExpireDate();
-    					sendMail("Partracker", "Hassan.raza@sypore.com", "Document Reminder", msg);
+    					String msg = getMessageBody(document);//document.getOrignalName() + "is going to expired on" + document.getExpireDate() + "<b> BOLD </b>";
+    					sendMail(from, "Hassan.raza@sypore.com", "Document Reminder", msg);
     					document.setReminderStatus(1);
 					}
     				
@@ -107,12 +155,26 @@ public class SharedData implements ApplicationContextAware {
     				System.out.println(new Date());
     				
     			}
-    		}, 0,totalDelay);
-        	
+    		}, 0,totalDelay);	
     	}
-
     }
     
+    private String getMessageBody(Document document){
+    	
+//    	document.getOrignalName() + "is going to expired on" + document.getExpireDate() + "<b> BOLD </b>"
+    	String template = document.getOrignalName()+
+    			" is going to expired on"+
+    			document.getExpireDate() +
+    			"\n Open the following URL to stop reminder for this document \n"+
+    			getServerRootPath() +"/Views/Unsecured/EmailLinks/DocReminder.xhtml?id="+
+    			document.getId();
+    	
+ 
+    	
+//    	String message = String.format(template, document.getOrignalName(), document.getEffectiveDate().toString(),);
+    	return template;
+    }
+        
 	public Properties readFile(String propFileName) throws IOException {
 		 
 		InputStream inputStream = null;
@@ -135,11 +197,21 @@ public class SharedData implements ApplicationContextAware {
 		return prop;
 	}
     
+	/**
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param msg
+	 */
 	public void sendMail(String from, String to, String subject, String msg) {
 		// creating message
 		
 		try {
 
+			
+//			MimeMessage message = mail.createMimeMessage();
+//			message.setFrom(new Ad);
+			
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setFrom(from);
 			message.setTo(to);
@@ -286,6 +358,7 @@ public class SharedData implements ApplicationContextAware {
 
 		mail = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
 	}
+	
 //	public void setCurrentUser(User currentUser) {
 //		this.currentUser = currentUser;
 //	}

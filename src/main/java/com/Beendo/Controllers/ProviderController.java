@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
@@ -14,6 +15,7 @@ import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -54,7 +56,7 @@ import lombok.Setter;
 @Controller
 //@Scope(value = "session")
 @SpringScopeView
-public class ProviderController {
+public class ProviderController implements DisposableBean {
 
 	@Autowired
 	private IProviderService providerService;
@@ -74,8 +76,8 @@ public class ProviderController {
 	private List<Practice> practiceList = new ArrayList<>();
 	private List<String> selectedPractices = new ArrayList<>();
 
-	private List<Payer> payerList = new ArrayList<>();;
-	private List<String> selectedPayers = new ArrayList<>();;
+//	private List<Payer> payerList = new ArrayList<>();;
+//	private List<Integer> selectedPayers = new ArrayList<>();;
 
 	private List<CEntitiy> entityList = new ArrayList<>();;
 
@@ -113,9 +115,13 @@ public class ProviderController {
 		ProviderCallback response = (User user, List<Provider>providerList,List<CEntitiy> entityList,List<Payer> payerList,List<ProviderTransaction> transactions)->{
 			
 			this.tmpUser = user;
+//			for(int i=0; i< 10;i++)
+//			{
+//				this.providerList.add(providerList.get(i));
+//			}
 			this.providerList = providerList;
 			this.entityList = entityList;
-			this.payerList = payerList;
+//			this.payerList = payerList;
 			this.transactions = transactions;
 			
 		};
@@ -199,16 +205,19 @@ public class ProviderController {
 		setCurrentEntity(String.valueOf(_provider.getCentity().getId()));
 	}
 
-	/*
-	 * private List<Payer> getSelectedPayers(Provider _provider) { List<Payer>
-	 * list = new ArrayList();
-	 * 
-	 * for (Payer payer : _provider.getPayerList()) {
-	 * 
-	 * list.add(getPayerById(payer.getId())); }
-	 * 
-	 * return list; }
-	 */
+	
+/*	  private List<Payer> getSelectedPayersObject() {
+	  
+	 return this.payerList.stream().filter( p -> {
+		 
+		 if(this.selectedPayers.contains(p.getId()))
+			 return true;
+		 else
+		  return false;
+	  }).collect(Collectors.toList());
+	  
+	  }*/
+	 
 
 	private Set<Practice> getSelectedList() {
 
@@ -289,11 +298,13 @@ public class ProviderController {
 				entity = getEntityById(Integer.valueOf(currentEntity));// entityList.get();
 			}
 
+//			List<Payer>payerList = getSelectedPayersObject();
+			
 			Set<Practice> tmpPractices = getSelectedList();
 			provider.setPracticeList(tmpPractices);
 //			practiseService.updatePractiseList(tmpPractices);
 			provider.setCentity(entity);
-
+//			provider.get
 			switch (this.opetationType) {
 			case Create: {
 				{
@@ -370,7 +381,7 @@ public class ProviderController {
 	public void createProviderClicked() {
 
 		isEntityListDisabled = false;
-		selectedPayers = null;
+//		selectedPayers = null;
 		selectedPractices = null;
 		provider = new Provider();
 		this.opetationType = OperationType.Create;
@@ -475,5 +486,11 @@ public class ProviderController {
 
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Provider", msg);
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("");
 	}
 }

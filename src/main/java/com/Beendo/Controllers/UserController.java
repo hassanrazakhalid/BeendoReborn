@@ -54,8 +54,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @Controller
-@Scope(value = "session")
-// @SpringScopeView
+//@Scope(value = "session")
+ @SpringScopeView
 public class UserController implements DisposableBean, InitializingBean, ApplicationContextAware {
 
 	private OperationType operationType;

@@ -79,13 +79,13 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 
 		List<Provider>providerList = this.fetchAllByRole(); // providerService.fetchAllByUser();
 		List<CEntitiy> entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
-		List<Payer> payerList = payerService.getAll();
+//		List<Payer> payerList = payerService.getAll();
 		// new
 		// ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 
 		List<ProviderTransaction> transactions = transactionService.fetchAllByRole();
 		
-		callBack.getProviderData(tmpUser,providerList,entityList,payerList,transactions);
+		callBack.getProviderData(tmpUser,providerList,entityList,null,transactions);
 	}
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)

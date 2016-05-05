@@ -15,19 +15,32 @@ import com.Beendo.Entities.Document;
 public class DocumentDao extends GenericDao<Document, Integer> implements IDocument {
 
 	@Autowired
-    private SessionFactory sessionFactory;
-	
+	private SessionFactory sessionFactory;
+
 	@Override
-	public List<Document> getDocumentByEmail(){
-		
-	
+	public List<Document> getDocumentByEmail() {
+
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query =  session.createQuery("SELECT DISTINCT D FROM Document D"
-				+ " WHERE D.reminderDate >= :currentDate AND D.reminderStatus <= 0");
-		
+		Query query = session.createQuery("SELECT DISTINCT D FROM Document D"
+				+ " WHERE :currentDate >= D.reminderDate AND D.reminderStatus <= 0");
+
 		query.setParameter("currentDate", new Date());
 		List<Document> result = query.list();
-		
+
 		return result;
 	}
+
+	@Override
+	public int markDocumentRead(Integer id) {
+		// TODO Auto-generated method stub
+
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "UPDATE Document set reminderStatus = 1 " + "WHERE id = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+		int result = query.executeUpdate();
+		System.out.println("Rows affected: " + result);
+		return result;
+	}
+
 }

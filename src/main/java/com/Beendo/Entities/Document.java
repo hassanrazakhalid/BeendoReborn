@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.Beendo.Utils.Constants;
+import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +38,9 @@ public class Document {
 	
 	public String getFullPath(){
 		
-		return Constants.PROVIDER_FOLDER_PATH + getNameOnDisk();
+		
+		return SharedData.getSharedInstace().getDocumentRootPath() + getNameOnDisk();
+//		return Constants.PROVIDER_FOLDER_PATH + getNameOnDisk();
 	}
 	
 	public void updateReminderCount(){

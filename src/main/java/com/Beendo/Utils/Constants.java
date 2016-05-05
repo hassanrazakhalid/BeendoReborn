@@ -3,7 +3,12 @@ package com.Beendo.Utils;
 
 public class Constants {
 
-	public static String PROVIDER_FOLDER_PATH = "C:\\" + "Users" + "\\" + "Hassan" + "\\" + "Documents" + "\\" + "partracker-doc" + "\\";
+	
+	// Dev Paths
+	
+	// Server Paths
+	
+//	public static String PROVIDER_FOLDER_PATH = "C:\\" + "Users" + "\\" + "Hassan" + "\\" + "Documents" + "\\" + "partracker-doc" + "\\";
 //	public static String PROVIDER_FOLDER_PATH = "//" + "opt" + "//" + "partracker-doc" + "//";
 	public static String ERRR_RECORDS_OUDATED = "Records are outdated refresh the page";
 	

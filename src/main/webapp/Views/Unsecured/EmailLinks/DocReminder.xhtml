@@ -5,9 +5,9 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 
-	<f:metadata>
-		<f:viewAction actionListener="#{loginController.onLoad()}" />
-	</f:metadata>
+	 <f:metadata>
+		<f:viewAction actionListener="#{linksHandleController.onLoad()}" />
+	</f:metadata> 
 
 	<style>
 .c {
@@ -31,25 +31,10 @@ form ul {
 	<b:well styleClass="c">
 		<h:form class="form-signin">
 
-			<h:messages />
+		<h2>#{linksHandleController.getDocStatus()}</h2>
 
 
-			<b:inputText value="#{loginController.userName}"
-				placeholder="Username" label="Username" required="true"
-				requiredMessage="Please Enter Username">
-				<f:facet name="prepend">
-					<b:icon name="glyphicon-user" />
-				</f:facet>
-			</b:inputText>
 
-			<b:inputSecret placeholder="Password"
-				value="#{loginController.password}" label="Password" required="true">
-				<f:facet name="prepend">
-					<b:iconAwesome name="fa-key" />
-				</f:facet>
-			</b:inputSecret>
-			<b:commandButton action="#{loginController.loginPressed()}"
-				styleClass="c" value="Sign In" />
 		</h:form>
 
 	</b:well>

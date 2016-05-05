@@ -32,7 +32,6 @@ function createClicked(args,dialogName){
 
 </script>
 
-
 			<!-- 	<h:form rendered="#{sharedData.currentUser.canCreateUser}"> -->
 			<h:form rendered="#{userController.shouldShowCreateUser()}">
 				<p:commandButton
@@ -291,6 +290,11 @@ function createClicked(args,dialogName){
 td {
 	color: #4F4F4F;
 	font-size: 0.875em;
+}
+
+.ui-dialog{
+	top: 40% !important
+
 }
 </style>
 		</ui:define>

@@ -7,4 +7,5 @@ import com.Beendo.Entities.Document;
 public interface IDocument extends ICRUD<Document, Integer> {
 
 	public List<Document> getDocumentByEmail();
+	public int markDocumentRead(Integer id);
 }

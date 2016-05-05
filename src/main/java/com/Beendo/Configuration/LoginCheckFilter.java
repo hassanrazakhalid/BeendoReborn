@@ -47,18 +47,27 @@ public class LoginCheckFilter implements Filter {
 	 String I2 = req.getServletPath();
 	 
 //	 String session = req.getSession(false).getId();
-		if (user == null &&
-				!I2.contains("Login"))
-		{
-			httpResponse.sendRedirect(req.getContextPath() + "/Views/Unsecured/Login/index.xhtml"); // Redirect to home page.
-
-//			httpResponse.sendRedirect(req.getServletContext().getContextPath() + "/Views/Secured/Dashboard/Dashboard.xhtml"); // Redirect to home page.
-		} 
-			else
+	 
+	 if(I2.contains("Unsecured"))
+	 {
+		 chain.doFilter(request, response);
+	 }
+	 else if(I2.contains("Secured"))
+	 {
+			if (user == null &&
+					!I2.contains("Login"))
 			{
-            chain.doFilter(request, response); // User is not logged-in, so just continue request.
-        }
-	}
+				httpResponse.sendRedirect(req.getContextPath() + "/Views/Unsecured/Login/index.xhtml"); // Redirect to home page.
+
+//				httpResponse.sendRedirect(req.getServletContext().getContextPath() + "/Views/Secured/Dashboard/Dashboard.xhtml"); // Redirect to home page.
+			} 
+				else
+				{
+	            chain.doFilter(request, response); // User is not logged-in, so just continue request.
+	        }
+	 }
+	 
+}
 
 	@Override
 	public void destroy() {
