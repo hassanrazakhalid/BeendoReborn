@@ -30,7 +30,7 @@ public class Document {
 	private String type;
 	private Date  expireDate;
 	private Date  effectiveDate;
-	private Date reminderDate;
+	private Integer reminderDays;
 	private Integer reminderStatus;
 	
 	@ManyToOne
@@ -45,14 +45,15 @@ public class Document {
 	
 	public void updateReminderCount(){
 		
-		if(this.reminderDate.after(new Date()))
-		{
-			this.setReminderStatus(0);
-		}
-		else
-		{
-			this.setReminderStatus(1);
-		}
+		int i =0;
+//		if(this.reminderDate.after(new Date()))
+//		{
+//			this.setReminderStatus(0);
+//		}
+//		else
+//		{
+//			this.setReminderStatus(1);
+//		}
 	}
 	
 	public void removeFileOnDisk(){

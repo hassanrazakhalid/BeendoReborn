@@ -142,12 +142,16 @@
 								<p:row>
 									<p:column>
 										<h:outputLabel value="Reminder: " />
-										<p:calendar style="float:right" id="cal3"
+										<h:inputText value="#{docCell.document.reminderDays}" > 
+										
+										<f:ajax event="blur" listener="#{editProviderController.onDateSelect(docCell)}" ></f:ajax>
+										</h:inputText>
+							<!-- 			<p:calendar style="float:right" id="cal3"
 											value="#{docCell.document.reminderDate}" >
 											
 											<p:ajax event="dateSelect" listener="#{editProviderController.onDateSelect(docCell)}" />
 											
-											 </p:calendar>
+											 </p:calendar> -->
 											
 										<!-- <p:inputText style="float:right" id="txt1"
 											value="#{docCell.document.reminderDays}" />

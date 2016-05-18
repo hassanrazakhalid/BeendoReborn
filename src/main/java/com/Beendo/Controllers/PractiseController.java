@@ -99,7 +99,7 @@ public class PractiseController {
 		return show;
 	}
 	
-	public String viewPractise() {
+	public String viewPractise() throws Exception {
 
 		/*
 		 * listEntities = entityService.fetchAllByRole(); listPractise =
@@ -109,7 +109,17 @@ public class PractiseController {
 		// initHashOne(listEntities);
 		// initHashTwo(listPractise);
 		// return "Practise/PractiseView?faces-redirect=true";
-		return "PractiseView";
+		
+//		if(SharedData.getSharedInstace().getCurrentUser() == null)
+//		{
+//			throw new Exception("Session expired");
+//		}
+//		else
+		{
+			return "PractiseView";
+		}
+		
+		
 	}
 
 	public boolean canEditPracise() {

@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -17,6 +19,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
@@ -24,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.mail.SimpleMailMessage;
@@ -34,6 +39,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -43,6 +49,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.Beendo.Entities.Document;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.User;
+import com.Beendo.ExceptionHandlers.SessionExpiredException;
+import com.Beendo.Services.EmailSendingCallback;
 import com.Beendo.Services.IProviderService;
 
 
@@ -68,6 +76,10 @@ public class SharedData implements ApplicationContextAware {
 	private IProviderService providerService;
 //    private User currentUser;
     
+	
+	@Autowired
+	@Qualifier("sas")
+	private SessionAuthenticationStrategy sessionAuthenticationStrategy;
 	
     private void init(){
     	
@@ -97,7 +109,7 @@ public class SharedData implements ApplicationContextAware {
     	
     	
 		loadPaths();
-		addTimerForDocumentExpire();
+//		addTimerForDocumentExpire();
     	
     }
     
@@ -139,24 +151,58 @@ public class SharedData implements ApplicationContextAware {
     			public void run() {
     				// TODO Auto-generated method stub
     				
-    				List<Document> docList = providerService.getDocumentByEmail();
+    				EmailSendingCallback callBack = (List<Document>documents, List<User>admins) -> {
+
+        				for (Document document : documents) {
+    						
+        					//send emails to these documents , they are already filtered
+        					String msg = getMessageBody(document);//document.getOrignalName() + "is going to expired on" + document.getExpireDate() + "<b> BOLD </b>";
+        					User admin = getAdminById(admins,document.getProvider().getCentity().getId());
+        					
+        					if(admin != null &&
+        					admin.getEmail().length() > 0)
+        					{
+        						sendMail(from, admin.getEmail(), "Document Reminder", msg);
+//        						sendMail(from, "Hassan.raza@sypore.com", "Document Reminder", msg);
+            					document.setReminderStatus(1);
+        					}
+        					
+        					
+    					}
+        				
+        				if(!documents.isEmpty())
+        					providerService.updateDocuments(documents);
+        				
+        				System.out.println(new Date());
+
+    					
+    				};
+    				providerService.getDocumentByEmail(callBack);
     				
-    				for (Document document : docList) {
-						
-    					//send emails to these documents , they are already filtered
-    					String msg = getMessageBody(document);//document.getOrignalName() + "is going to expired on" + document.getExpireDate() + "<b> BOLD </b>";
-    					sendMail(from, "Hassan.raza@sypore.com", "Document Reminder", msg);
-    					document.setReminderStatus(1);
-					}
-    				
-    				if(!docList.isEmpty())
-    					providerService.updateDocuments(docList);
-    				
-    				System.out.println(new Date());
     				
     			}
+
+			
     		}, 0,totalDelay);	
     	}
+    }
+    
+    private User getAdminById(List<User>admins,Integer id){
+    	
+    Optional<User> result =	admins.stream().filter(u ->{
+    	
+    	if(u.getId().compareTo(id) == 0)
+    		return true;
+    	else
+    		return false;
+    	
+    	}).findFirst();
+    	
+    	if(result.isPresent())
+    		return result.get();
+    	else
+    		return null;
+    	
     }
     
     private String getMessageBody(Document document){
@@ -268,8 +314,11 @@ public class SharedData implements ApplicationContextAware {
             Authentication request = new UsernamePasswordAuthenticationToken(userName, password);
             authentication = authenticationManager.authenticate(request);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            
            
+//            HttpServletRequest httpReq = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            HttpServletResponse httpResp = (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
+//            
+//           sessionAuthenticationStrategy.onAuthentication(authentication, httpReq, httpResp);
             
             isOK = "correct";
         } catch (AuthenticationException e) {
@@ -316,8 +365,24 @@ public class SharedData implements ApplicationContextAware {
 	
 	public User getCurrentUser() {
 		Object obj =	SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		if(obj instanceof User)
+		if(obj instanceof User)
 			return (User)obj;
+		else
+		{
+			try {
+				throw new SessionExpiredException();
+			}
+		
+			catch (SessionExpiredException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			finally{
+				
+				return null;
+			}
+			
+		}
 		
 //		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 //		try {

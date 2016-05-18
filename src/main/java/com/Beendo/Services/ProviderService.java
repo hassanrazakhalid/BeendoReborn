@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.Beendo.Controllers.ProviderCallback;
 import com.Beendo.Dao.IDocument;
 import com.Beendo.Dao.IProvider;
+import com.Beendo.Dao.IUserDao;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Document;
 import com.Beendo.Entities.Payer;
@@ -39,6 +40,8 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 	private IDocument documentDao;
 	@Autowired
 	private IPractise practiceDao;
+	@Autowired
+	private IUserDao userDao;
 	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.REQUIRED)
@@ -176,9 +179,15 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 	 */
 	@Override
 	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
-	public List<Document> getDocumentByEmail(){
+	public void getDocumentByEmail(EmailSendingCallback callBack){
 		
-		return documentDao.getDocumentByEmail();
+		List<Document> docList = documentDao.getDocumentByEmail();
+		
+		List<User> admins = null;
+		if(!docList.isEmpty())
+			admins = userDao.getAllAdmins();
+		
+		callBack.getEmailsData(docList, admins);
 	}
 	
 	@Override

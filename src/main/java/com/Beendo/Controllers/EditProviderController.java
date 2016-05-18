@@ -1,5 +1,6 @@
 package com.Beendo.Controllers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -28,6 +29,7 @@ import com.Beendo.Entities.Provider;
 import com.Beendo.Services.EditProviderCallBack;
 import com.Beendo.Services.IProviderService;
 import com.Beendo.Utils.Constants;
+import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;

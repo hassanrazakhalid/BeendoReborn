@@ -1,5 +1,6 @@
 package com.Beendo.Entities;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.persistence.Table;
 
 import com.Beendo.Dto.DocumentCell;
 import com.Beendo.Utils.ProviderFile;
+import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -83,6 +85,21 @@ public class Provider {
 		return null;
 	
 	}
+	
+//	public String getFolderForDocument(Document doc){
+//		
+//		String path = SharedData.getSharedInstace().getDocumentRootPath()+getFullName();
+//		File dir = new File(path);
+//        if (!dir.exists()) {
+//            if (dir.mkdir()) {
+//                System.out.println("Directory is created!");
+//            } else {
+//                System.out.println("Failed to create directory!");
+//            }
+//        }
+//        
+//        return path;
+//	}
 	
 	public List<DocumentCell> getDocumentCellList(){
 		

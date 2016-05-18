@@ -280,4 +280,18 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 			isExist = true;
 		return isExist;
 	}
+	
+	@Override
+	public List<User> getAllAdmins() {
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		boolean isExist = false;
+
+		Query query  = session.createQuery("SELECT DISTINCT U FROM User U"
+				+ " WHERE U.roleName = :role");
+		
+		query.setParameter("role", "ENTITY_ADMIN");
+		List<User> list = query.list();
+		return list;
+	}
 }
