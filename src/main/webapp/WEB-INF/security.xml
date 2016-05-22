@@ -11,10 +11,10 @@
 
 <!-- New Code try -->
 
-<!-- <beans:bean id="concurrencyFilter"
+ <!-- <beans:bean id="concurrencyFilter"
    class="org.springframework.security.web.session.ConcurrentSessionFilter">
   <beans:constructor-arg name="sessionRegistry" ref="sessionRegistry" />
-  <beans:constructor-arg name="expiredUrl" value="/multipleLogins.xhtml" />
+  <beans:constructor-arg name="expiredUrl" value="/Views/Unsecured/Login/index.xhtml" />
   this permits redirection to session timeout page from javascript/ajax or http
    <beans:property name="redirectStrategy" ref="jsfRedirectStrategy" />
 </beans:bean> -->
@@ -84,13 +84,17 @@
 
 </http> -->
 	
-<!--  -->
-	<http entry-point-ref="loginUrlAuthenticationEntryPoint"   auto-config="false" use-expressions="true">
+<!--entry-point-ref="loginUrlAuthenticationEntryPoint"   -->
+	<http   auto-config="false" use-expressions="true">
 		<csrf disabled="true" />
 		
- <!-- <custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter" /> -->
-  <custom-filter position="FORM_LOGIN_FILTER" ref="myAuthFilter" />
-  <!-- <session-management session-authentication-strategy-ref="sas"/> -->
+ <!--  <custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter" /> -->
+  
+  <!-- <custom-filter position="FORM_LOGIN_FILTER" ref="myAuthFilter" /> -->
+  
+<!--    <session-management invalid-session-url="/Views/Unsecured/Login/index.xhtml">
+   <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/Views/Unsecured/Login/index.xhtml"/>
+    </session-management> -->
 		
   <custom-filter   before="SESSION_MANAGEMENT_FILTER" ref="sessionManagementFilter"/>	
  <!-- 		<intercept-url pattern="/javax.faces.resource/**"
@@ -109,12 +113,12 @@
 			access="hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ROOT_USER','ROLE_ENTITY_ADMIN')" />
 	<intercept-url pattern="/Views/Secured/**"
 			access="isAuthenticated()" />
-<!-- 		 <form-login  authentication-failure-url="/Views/Unsecured/Login/index.xhtml"
+ 		 <form-login  authentication-failure-url="/Views/Unsecured/Login/index.xhtml"
 		 login-page="/Views/Unsecured/Login/index.xhtml" />
 		 
 		<logout invalidate-session="true"  delete-cookies="JSESSIONID"
 			logout-url="/Views/Unsecured/logout.xhtml"  />
-  		<session-management session-authentication-strategy-ref="mySessionAuthenticationStrategy"
+ <!-- 		<session-management session-authentication-strategy-ref="mySessionAuthenticationStrategy"
   		  invalid-session-url="/Views/Unsecured/Login/index.xhtml">
   		  
   		  <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>

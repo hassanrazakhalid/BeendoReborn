@@ -3,6 +3,10 @@ package com.Beendo.Utils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -42,6 +46,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -109,7 +114,7 @@ public class SharedData implements ApplicationContextAware {
     	
     	
 		loadPaths();
-//		addTimerForDocumentExpire();
+		addTimerForDocumentExpire();
     	
     }
     
@@ -153,16 +158,23 @@ public class SharedData implements ApplicationContextAware {
     				
     				EmailSendingCallback callBack = (List<Document>documents, List<User>admins) -> {
 
+    					boolean shouldUpdate = false;
         				for (Document document : documents) {
     						
         					//send emails to these documents , they are already filtered
         					String msg = getMessageBody(document);//document.getOrignalName() + "is going to expired on" + document.getExpireDate() + "<b> BOLD </b>";
-        					User admin = getAdminById(admins,document.getProvider().getCentity().getId());
         					
-        					if(admin != null &&
-        					admin.getEmail().length() > 0)
+   
+        					
+//        					User admin = getAdminById(admins,document.getProvider().getCentity().getId());
+        					
+//        					String emails = "hassanrazakhalid@yahoo.com,haider.khalid@sypore.com";
+        					List<String> emails = getEmailsToSend(document.getProvider().getCentity().getId(), admins);
+        					
+        					if(!emails.isEmpty())
         					{
-        						sendMail(from, admin.getEmail(), "Document Reminder", msg);
+        						shouldUpdate = true;
+        						sendMail(from, emails, "Document Reminder", msg);
 //        						sendMail(from, "Hassan.raza@sypore.com", "Document Reminder", msg);
             					document.setReminderStatus(1);
         					}
@@ -170,7 +182,8 @@ public class SharedData implements ApplicationContextAware {
         					
     					}
         				
-        				if(!documents.isEmpty())
+        				if(!documents.isEmpty() &&
+        					shouldUpdate)
         					providerService.updateDocuments(documents);
         				
         				System.out.println(new Date());
@@ -185,6 +198,48 @@ public class SharedData implements ApplicationContextAware {
 			
     		}, 0,totalDelay);	
     	}
+    }
+    
+    private List<String> getEmailsToSend(Integer id, List<User>admins){
+    	
+			List<String>rootUsers = admins.stream().filter( u -> {
+			
+				boolean isOK = false;
+				
+				if(u.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString()) ||
+						u.getId().compareTo(id) == 0)
+				{
+					if( u.getEmail() != null &&
+						!u.getEmail().isEmpty())
+						isOK = true;
+				}				
+					return isOK;
+			}).map(User::getEmail).collect(Collectors.toList());
+			
+//			String emails =	StringUtils.arrayToCommaDelimitedString(rootUsers.toArray());
+			
+			return rootUsers;
+    }
+    
+    public static String getCurrentUrl(HttpServletRequest request){
+        URL url;
+		try {
+			url = new URL(request.getRequestURL().toString());
+	        String host  = url.getHost();
+	        String userInfo = url.getUserInfo();
+	        String scheme = url.getProtocol();
+	        int port = url.getPort();
+	        String path = (String) request.getAttribute("javax.servlet.forward.request_uri");
+	        String query = (String) request.getAttribute("javax.servlet.forward.query_string");
+
+	        URI uri = new URI(scheme,userInfo,host,port,path,query,null);
+	        return uri.toString();
+		} catch (MalformedURLException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
     }
     
     private User getAdminById(List<User>admins,Integer id){
@@ -249,7 +304,7 @@ public class SharedData implements ApplicationContextAware {
 	 * @param subject
 	 * @param msg
 	 */
-	public void sendMail(String from, String to, String subject, String msg) {
+	public void sendMail(String from, List<String> tos, String subject, String msg) {
 		// creating message
 		
 		try {
@@ -260,7 +315,16 @@ public class SharedData implements ApplicationContextAware {
 			
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setFrom(from);
-			message.setTo(to);
+//			message.setTo(to);
+			
+//			List<String>tosArray = new ArrayList<>();
+//			tosArray.add("hassanrazakhalid@yahoo.com");
+//			tosArray.add("haider.khalid@sypore.com");
+
+			String[] array = tos.toArray(new String[0]);
+			
+//			String[] toppings = {"hassanrazakhalid@yahoo.com", "haider.khalid@sypore.com"}; 
+			message.setTo(array);
 			message.setSubject(subject);
 			message.setText(msg);
 			// sending message

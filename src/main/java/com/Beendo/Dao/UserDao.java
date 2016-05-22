@@ -288,7 +288,8 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 		boolean isExist = false;
 
 		Query query  = session.createQuery("SELECT DISTINCT U FROM User U"
-				+ " WHERE U.roleName = :role");
+				+ " WHERE U.roleName = :role OR"
+				+ " U.roleName = 'ROOT_USER'");
 		
 		query.setParameter("role", "ENTITY_ADMIN");
 		List<User> list = query.list();
