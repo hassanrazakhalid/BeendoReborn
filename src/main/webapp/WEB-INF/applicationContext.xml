@@ -74,9 +74,12 @@
     <value>classpath:EmailSettings.properties</value>
   </property>
 </bean>
-
+<!-- fixed-delay="${timerDuration}"   initial-delay="1000" -->
+<!-- second, minute, hour, day of month, month, day(s) of week -->
+<!-- 0 59 23 1/1 * ? --><!-- For every 12 clock -->
+<!-- 0 0/1 * 1/1 * ? --><!-- For Every 1 min -->
 <task:scheduled-tasks>
-	<task:scheduled ref="sharedData" initial-delay="1000" method="run" fixed-delay="${timerDuration}" />
+	<task:scheduled ref="sharedData" cron="0 59 23 1/1 * ?" method="run"  />
   </task:scheduled-tasks>
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">

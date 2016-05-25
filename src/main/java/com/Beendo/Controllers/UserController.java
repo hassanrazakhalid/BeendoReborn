@@ -392,7 +392,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 					selectedEntity = getSelectedEntity();
 					popoulatePracticesByIds(selectedPractises);
 				}
-				int x = selectedEntity.getUsers().size();
+//				int x = selectedEntity.getUsers().size();
 				user.setEntity(selectedEntity);
 
 				if (!user.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString())) {

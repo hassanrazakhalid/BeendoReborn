@@ -168,8 +168,10 @@ public class SharedData implements ApplicationContextAware {
 			e.printStackTrace();
 		}
     	
+   
     	if(map != null)
     	{
+    		slf4Logger.info("Email Prperties is OK");
 //    		int min = Integer.valueOf(map.getProperty("timerDuration")) ;
 //           	int totalDelay = min * 1000 * 60;
            	String from  = (String) map.get("username");
@@ -212,6 +214,11 @@ public class SharedData implements ApplicationContextAware {
 				slf4Logger.info("Getting List for documents for sending email");
 				providerService.getDocumentByEmail(callBack);
 				
+    	}
+    	else
+    	{
+    		
+    		slf4Logger.info("Email Prperties is NUll");
     	}
  
   }

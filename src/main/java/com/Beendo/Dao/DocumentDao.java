@@ -29,8 +29,8 @@ public class DocumentDao extends GenericDao<Document, Integer> implements IDocum
 //		List<Document> result = query.list();
 
 		Query query = session.createSQLQuery(
-				"SELECT * FROM document as D JOIN provider as P ON P.id = D.provider_id "
-				+ "JOIN entities as E ON E.id = P.centity_id "
+				"SELECT * FROM document as D JOIN Provider as P ON P.id = D.provider_id "
+				+ "JOIN Entities as E ON E.id = P.centity_id "
 				+ "WHERE DATEDIFF(expireDate,curdate()) <= reminderDays AND reminderStatus = 0")
 				.addEntity(Document.class);
 				List<Document> result = query.list();
