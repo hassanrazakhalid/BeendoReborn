@@ -26,10 +26,10 @@
 			<h2>Provider Details</h2>
 			<!-- ADD / EDIT DIALOG -->
 			<h:form id="myForm">
-<p:messages id="msgs" />
+				<p:messages id="msgs" />
 
-				
-				<!-- <p:growl id="msgs" showSummary="true" /> -->
+
+				 <p:growl id="gMsgs" showSummary="true" />
 
 				<h:panelGrid columns="2" cellpadding="8">
 
@@ -107,7 +107,8 @@
 
 								<p:row>
 									<p:column>
-										<p:fileUpload id="_fileUpload" value="#{docCell.document.orignalName}"
+										<p:fileUpload id="_fileUpload"
+											value="#{docCell.document.orignalName}"
 											fileUploadListener="#{editProviderController.handleFileUpload}"
 											mode="advanced" dragDropSupport="false" fileLimit="3"
 											sizeLimit="5242880"
@@ -132,32 +133,42 @@
 									<p:column>
 										<h:outputLabel value="Expire Date: " />
 										<p:calendar style="float:right" id="cal2"
-											value="#{docCell.document.expireDate}" >
-											
-									<!-- <p:ajax event="dateSelect" listener="#{editProviderController.onDateSelect(docCell)}" /> -->		
-											 </p:calendar>
+											value="#{docCell.document.expireDate}">
+
+											<!-- <p:ajax event="dateSelect" listener="#{editProviderController.onDateSelect(docCell)}" /> -->
+										</p:calendar>
 									</p:column>
 								</p:row>
 
 								<p:row>
 									<p:column>
 										<h:outputLabel value="Reminder: " />
-										<h:inputText value="#{docCell.document.reminderDays}" > 
-										
-										<f:ajax event="blur" listener="#{editProviderController.onDateSelect(docCell)}" ></f:ajax>
+										<h:inputText value="#{docCell.document.reminderDays}">
+
+											<f:ajax event="blur"
+												listener="#{docCell.updateReminderStatus()}"></f:ajax>
 										</h:inputText>
-							<!-- 			<p:calendar style="float:right" id="cal3"
+										&#160;
+											<p:selectBooleanButton
+											value="#{docCell.alarmEnabled}" onLabel="Yes"
+											offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close"
+											style="width:65px">
+											<p:ajax update=":myForm:gMsgs"
+												listener="#{docCell.updateReminderStatus()}" />
+										</p:selectBooleanButton>
+										<!-- 			<p:calendar style="float:right" id="cal3"
 											value="#{docCell.document.reminderDate}" >
 											
 											<p:ajax event="dateSelect" listener="#{editProviderController.onDateSelect(docCell)}" />
 											
 											 </p:calendar> -->
-											
+
 										<!-- <p:inputText style="float:right" id="txt1"
 											value="#{docCell.document.reminderDays}" />
 										<br style="margin: 0px 0px 20px;" />
 										<p:slider for="txt1" /> -->
 									</p:column>
+
 								</p:row>
 
 								<p:row>
@@ -197,7 +208,7 @@
 					update="msgs,myForm" />
 
 
-			<p:blockUI trigger="myForm:btnSave" block="myForm">
+				<p:blockUI trigger="myForm:btnSave" block="myForm">
             LOADING<br />
 					<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
 				</p:blockUI>
@@ -215,11 +226,10 @@
 .green {
 	color: green
 }
-.ui-dialog{
+
+.ui-dialog {
 	top: 40% !important
-
 }
-
 </style>
 		</ui:define>
 	</ui:composition>

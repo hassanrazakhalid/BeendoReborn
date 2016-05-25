@@ -252,14 +252,6 @@ public class EditProviderController {
 		return strList.get(strList.size()-1);
 	}
 	
-	 public void onDateSelect(DocumentCell docCell){
-		 
-		 Document doc = docCell.getDocument();
-		 
-		 doc.updateReminderCount();
-//		 System.out.println("");
-	 }
-	
 	/**
 	 * Upload Code
 	 * 

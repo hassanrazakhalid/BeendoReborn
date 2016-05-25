@@ -43,9 +43,12 @@ public class Document {
 //		return Constants.PROVIDER_FOLDER_PATH + getNameOnDisk();
 	}
 	
-	public void updateReminderCount(){
+	public void updateReminderCount(int active){
 		
 		int i =0;
+		
+		this.setReminderStatus(active);
+		
 //		if(this.reminderDate.after(new Date()))
 //		{
 //			this.setReminderStatus(0);
@@ -54,6 +57,14 @@ public class Document {
 //		{
 //			this.setReminderStatus(1);
 //		}
+	}
+	
+	public boolean getReminderBooleanValue(){
+	
+		if(getReminderStatus() == null)
+			return false;
+		
+		 return getReminderStatus() <= 0 ? true : false;
 	}
 	
 	public void removeFileOnDisk(){

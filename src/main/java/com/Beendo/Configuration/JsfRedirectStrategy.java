@@ -36,6 +36,9 @@ public class JsfRedirectStrategy implements InvalidSessionStrategy {
         if (ajaxRedirect) {
             String contextPath = request.getContextPath();
             String redirectUrl = contextPath + invalidSessionUrl;
+//            int p1 = request.getServerPort();
+//            int p1 = request.getRemotePort();
+//            int p1 = request.getpo;
             LOG.debug("Session expired due to ajax request, redirecting to '{}'", redirectUrl);
 
             String ajaxRedirectXml = createAjaxRedirectXml(redirectUrl);

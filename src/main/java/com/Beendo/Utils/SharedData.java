@@ -1,5 +1,6 @@
 package com.Beendo.Utils;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,11 +68,9 @@ public class SharedData implements ApplicationContextAware {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	private final Logger slf4Logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger slf4Logger = LoggerFactory.getLogger(SharedData.class);
 	private static SharedData instance = null;
-	
-    
-    private Timer timer;
+	    
     private Authentication authentication;
     private JavaMailSenderImpl mail;
     
@@ -112,11 +112,35 @@ public class SharedData implements ApplicationContextAware {
 	@PostConstruct
     private void initializeData(){
     	
-    	
+//		Properties props = new Properties();
+//		
+//		try {
+//			 props = readFile("log4j.properties");
+//			
+////			props.load(new FileInputStream("/log4j.properties"));
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		PropertyConfigurator.configure(props);
+		
+	
 		loadPaths();
-		addTimerForDocumentExpire();
+//		addTimerForDocumentExpire();
     	
+		
     }
+	
+	public void run(){
+		
+//		slf4Logger.debug("Init shared");
+//		slf4Logger.info("In info");
+//		slf4Logger.error("error");
+		checkForUnSendDocumentsReminders();
+	}
     
     private void loadPaths(){
     	
@@ -131,11 +155,10 @@ public class SharedData implements ApplicationContextAware {
 		}
     }
     
-    private void addTimerForDocumentExpire(){
+    private void checkForUnSendDocumentsReminders(){
     	
-    	this.timer = new Timer();
     	Properties map = null;
-    	
+    		slf4Logger.debug("In Unsend Doc Logic");
     	try {
 			map = readFile("EmailSettings.properties");
 			
@@ -147,58 +170,52 @@ public class SharedData implements ApplicationContextAware {
     	
     	if(map != null)
     	{
-    		int min = Integer.valueOf(map.getProperty("timerDuration")) ;
-           	int totalDelay = min * 1000 * 60;
+//    		int min = Integer.valueOf(map.getProperty("timerDuration")) ;
+//           	int totalDelay = min * 1000 * 60;
            	String from  = (String) map.get("username");
-        	timer.schedule(new TimerTask() {
-    			
-    			@Override
-    			public void run() {
-    				// TODO Auto-generated method stub
-    				
-    				EmailSendingCallback callBack = (List<Document>documents, List<User>admins) -> {
+           	
+				EmailSendingCallback callBack = (List<Document>documents, List<User>admins) -> {
 
-    					boolean shouldUpdate = false;
-        				for (Document document : documents) {
-    						
-        					//send emails to these documents , they are already filtered
-        					String msg = getMessageBody(document);//document.getOrignalName() + "is going to expired on" + document.getExpireDate() + "<b> BOLD </b>";
-        					
-   
-        					
-//        					User admin = getAdminById(admins,document.getProvider().getCentity().getId());
-        					
-//        					String emails = "hassanrazakhalid@yahoo.com,haider.khalid@sypore.com";
-        					List<String> emails = getEmailsToSend(document.getProvider().getCentity().getId(), admins);
-        					
-        					if(!emails.isEmpty())
-        					{
-        						shouldUpdate = true;
-        						sendMail(from, emails, "Document Reminder", msg);
-//        						sendMail(from, "Hassan.raza@sypore.com", "Document Reminder", msg);
-            					document.setReminderStatus(1);
-        					}
-        					
-        					
-    					}
-        				
-        				if(!documents.isEmpty() &&
-        					shouldUpdate)
-        					providerService.updateDocuments(documents);
-        				
-        				System.out.println(new Date());
+					boolean shouldUpdate = false;
+					slf4Logger.info("Documetns to send: "+ documents.size());
+					slf4Logger.info("Users to receive: "+ admins.size());
+					
+    				for (Document document : documents) {
+						
+    					//send emails to these documents , they are already filtered
+    					String msg = getMessageBody(document);//document.getOrignalName() + "is going to expired on" + document.getExpireDate() + "<b> BOLD </b>";
+    					
 
     					
-    				};
-    				providerService.getDocumentByEmail(callBack);
+//    					User admin = getAdminById(admins,document.getProvider().getCentity().getId());
+    					
+//    					String emails = "hassanrazakhalid@yahoo.com,haider.khalid@sypore.com";
+    					List<String> emails = getEmailsToSend(document.getProvider().getCentity().getId(), admins);
+    					slf4Logger.info("Emails: "+ emails);
+    					if(!emails.isEmpty())
+    					{
+    						shouldUpdate = true;
+    						sendMail(from, emails, "Document Reminder", msg);
+//    						sendMail(from, "Hassan.raza@sypore.com", "Document Reminder", msg);
+        					document.setReminderStatus(1);
+    					}    					
+					}
     				
+    				if(!documents.isEmpty() &&
+    					shouldUpdate)
+    					providerService.updateDocuments(documents);
     				
-    			}
-
-			
-    		}, 0,totalDelay);	
+    				slf4Logger.info(new Date().toString());
+//    				System.out.println(new Date());
+				};
+				
+				slf4Logger.info("Getting List for documents for sending email");
+				providerService.getDocumentByEmail(callBack);
+				
     	}
-    }
+ 
+  }
+    
     
     private List<String> getEmailsToSend(Integer id, List<User>admins){
     	
@@ -308,18 +325,12 @@ public class SharedData implements ApplicationContextAware {
 		// creating message
 		
 		try {
-
-			
 //			MimeMessage message = mail.createMimeMessage();
 //			message.setFrom(new Ad);
 			
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setFrom(from);
 //			message.setTo(to);
-			
-//			List<String>tosArray = new ArrayList<>();
-//			tosArray.add("hassanrazakhalid@yahoo.com");
-//			tosArray.add("haider.khalid@sypore.com");
 
 			String[] array = tos.toArray(new String[0]);
 			

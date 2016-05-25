@@ -14,6 +14,8 @@ public class DocumentCell {
 	private Document document;
 	private String lbName;
 
+	private boolean alarmEnabled; 
+	
 	public String getColorClassName(){
 		
 		if(this.document.getOrignalName().length() > 0)
@@ -21,4 +23,15 @@ public class DocumentCell {
 		else
 			return "red";
 	}
+	
+	 public void updateReminderStatus(){
+		 
+		 if(alarmEnabled)
+		 {
+			 Document doc = this.getDocument();
+			 
+			 doc.updateReminderCount(alarmEnabled == true ? 0 : 1);
+//			 System.out.println("");			 
+		 }
+	 }
 }

@@ -6,8 +6,10 @@
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
@@ -23,7 +25,6 @@
 
 	<mvc:annotation-driven  />
 	<context:annotation-config />
-
 
 	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
 		destroy-method="close"> <property name="driverClassName" value="com.mysql.jdbc.Driver" 
@@ -73,6 +74,10 @@
     <value>classpath:EmailSettings.properties</value>
   </property>
 </bean>
+
+<task:scheduled-tasks>
+	<task:scheduled ref="sharedData" initial-delay="1000" method="run" fixed-delay="${timerDuration}" />
+  </task:scheduled-tasks>
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${host}" />

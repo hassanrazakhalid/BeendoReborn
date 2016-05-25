@@ -117,6 +117,7 @@ public class Provider {
 				doc.setType(file.getFileType());
 			}
 			
+			cell.setAlarmEnabled(doc.getReminderBooleanValue());
 			cell.setDocument(doc);
 			
 			cell.setLbName(file.toString());
