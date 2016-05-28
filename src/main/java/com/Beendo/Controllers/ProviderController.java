@@ -276,8 +276,7 @@ public class ProviderController implements DisposableBean {
 
 		boolean isOK = true;
 
-		String error = providerService.isNameExist(provider.getFirstName(), provider.getLastName(),
-				provider.getNpiNum());
+		String error = providerService.isNPIExist(provider.getNpiNum());
 		if (error != null) {
 			isOK = false;
 			showMessage(error);

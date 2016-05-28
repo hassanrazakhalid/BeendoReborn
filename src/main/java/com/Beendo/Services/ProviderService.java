@@ -149,9 +149,9 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 		provider.makeFolderIfNotExist();
 	}
 		
-	public String isNameExist(String name, String lname, String npi){
+	public String isNPIExist(String npi){
 		
-		return service.isNameExist(name, lname, npi);
+		return service.isNPIExist(npi);
 	}
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)

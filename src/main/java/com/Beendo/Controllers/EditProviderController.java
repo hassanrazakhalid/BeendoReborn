@@ -179,8 +179,7 @@ public class EditProviderController {
 		if(this.npiNumber.equalsIgnoreCase(provider.getNpiNum()))
 			return true;
 		
-		String error = providerService.isNameExist(provider.getFirstName(), provider.getLastName(),
-				provider.getNpiNum());
+		String error = providerService.isNPIExist(npiNumber);
 		if (error != null) {
 			isOK = false;
 			showMessage(FacesMessage.SEVERITY_ERROR,error);

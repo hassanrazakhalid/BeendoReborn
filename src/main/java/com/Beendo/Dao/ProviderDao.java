@@ -82,7 +82,7 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 
 	@Transactional
 	@Override
-	public String isNameExist(String name, String lname, String npi) {
+	public String isNPIExist(String npi) {
 		// TODO Auto-generated method stub
 		String error = null;
 		

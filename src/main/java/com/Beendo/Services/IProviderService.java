@@ -27,7 +27,7 @@ public interface IProviderService extends GenericService<Provider, Integer> {
 
 	public List<Provider> fetchAllByRole();
 	
-	public String isNameExist(String name, String lname, String npi);
+	public String isNPIExist(String npi);
 	
 	public void updateProviderList(Set<Provider>list);
 	
