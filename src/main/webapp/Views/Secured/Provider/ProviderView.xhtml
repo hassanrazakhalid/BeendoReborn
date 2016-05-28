@@ -187,7 +187,7 @@
 							validatorMessage="NPI should only digits and length 10">
 
 							<f:validateRegex for="NpiNumber" pattern="[0-9]{10}" />
-								<f:convertNumber integerOnly="true"/>
+								<!-- <f:convertNumber integerOnly="true"/> -->
 
 						</p:inputText>
 						<p:inputText value="#{providerController.provider.firstName}"
