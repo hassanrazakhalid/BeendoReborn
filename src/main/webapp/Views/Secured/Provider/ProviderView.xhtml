@@ -93,7 +93,7 @@
 
 
 						<p:commandButton icon="ui-icon-trash" update=":mainForm"
-							resetValues="true"
+							resetValues="true" actionListener="#{providerController.removeClicked(provider)}"
 							rendered="#{providerController.shouldShowDelete()}">
 
 							<p:confirm header="Confirmation" message="Are you sure?"

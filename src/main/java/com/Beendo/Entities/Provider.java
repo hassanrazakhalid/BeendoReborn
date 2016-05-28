@@ -1,6 +1,7 @@
 package com.Beendo.Entities;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.FileSystemUtils;
+
 import com.Beendo.Dto.DocumentCell;
 import com.Beendo.Utils.ProviderFile;
 import com.Beendo.Utils.SharedData;
@@ -31,7 +36,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "Provider")
 public class Provider {
-
+	
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -115,6 +120,7 @@ public class Provider {
 				doc = new Document();
 				doc.setOrignalName("");
 				doc.setType(file.getFileType());
+				doc.setProvider(this);
 			}
 			
 			cell.setAlarmEnabled(doc.getReminderBooleanValue());
@@ -132,6 +138,54 @@ public class Provider {
 	for (Document doc : getDocuments()) {
 		
 		doc.removeFileOnDisk();
+	}	
 	}
-}
+	
+	public String getFolderPath(){
+
+		return SharedData.getSharedInstace().getDocumentRootPath()+ getId();
+	}
+
+	public void makeFolderIfNotExist(){
+		
+	     File file = new File(getFolderPath());
+	        if (!file.exists()) {
+	            if (file.mkdir()) {
+	            	
+	            	System.out.println("Directory is created For:"+ getId());
+	            } else {
+	            	
+	            	System.out.println("Failed to create directory!"+ getId());
+	            }
+	        }
+	}
+	
+	public void deleteDocumentFolder(){
+		
+		
+		
+	 	File directory = new File(getFolderPath());
+	 	FileSystemUtils.deleteRecursively(directory);
+    	//make sure directory exists
+  /*  	if(!directory.exists()){
+ 
+           System.out.println("Directory does not exist.");
+           System.exit(0);
+ 
+        }else{
+ 
+           try{
+        	   
+        	   directory.delete();
+//               delete(directory);
+        	
+           }catch(IOException e){
+               e.printStackTrace();
+               System.exit(0);
+           }
+        }
+ 
+    	System.out.println("Done");
+    }*/
+	}
 }

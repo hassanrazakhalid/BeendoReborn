@@ -133,7 +133,8 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 				practise.getProviders().remove(provider);
 			}
 			practiceDao.updatePractiseList(practiceList);
-			provider.removeAllDocumentOnDisk();
+//			provider.removeAllDocumentOnDisk();
+			provider.deleteDocumentFolder();
 			super.remove(provider);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -145,6 +146,7 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 		
 		practiceDao.updatePractiseList(listPracitce);
 		this.saveOrUpdate(provider);
+		provider.makeFolderIfNotExist();
 	}
 		
 	public String isNameExist(String name, String lname, String npi){
