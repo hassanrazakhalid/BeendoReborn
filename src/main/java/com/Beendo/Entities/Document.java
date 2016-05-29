@@ -39,7 +39,7 @@ public class Document {
 	public String getFullPath(){
 		
 		
-		return provider.getFolderPath()+"\\" + getNameOnDisk();
+		return provider.getFolderPath()+"//" + getNameOnDisk();
 //		return SharedData.getSharedInstace().getDocumentRootPath() + getNameOnDisk();
 //		return Constants.PROVIDER_FOLDER_PATH + getNameOnDisk();
 	}
