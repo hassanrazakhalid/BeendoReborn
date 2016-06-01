@@ -62,10 +62,10 @@ public class TransactionController implements DisposableBean{
 	private Integer currentPractice;
 	private Integer currentProvider;
 	
-	private List<Practice> practiceList;
-	private List<Payer> payerList;
-	private List<Provider> providerList;
-	private List<Integer> selectedPayers;
+	private List<Practice> practiceList = new ArrayList<>();
+	private List<Payer> payerList = new ArrayList<>();
+	private List<Provider> providerList = new ArrayList<>();
+	private List<Integer> selectedPayers = new ArrayList<>();
 	
 	private String currentRadio;
 	private Boolean canPracticeShow = true;
@@ -134,7 +134,7 @@ public class TransactionController implements DisposableBean{
 	public void updateClicked(ProviderTransaction _transaction)
 	{
 		//currentPayer = getPayerById(_transaction.getPayer().getId());
-		List<Payer> prlist = new ArrayList();
+//		List<Payer> prlist = new ArrayList();
 		selectedPayers.clear();
 		for (Payer payer : _transaction.getPayerList()) {
 			
@@ -158,6 +158,7 @@ public class TransactionController implements DisposableBean{
 			canPracticeShow = false;
 		}
 		
+		updateProviderStatusList();
 		transaction = _transaction;
 		isEditMode = true;
 	}
@@ -320,6 +321,11 @@ public class TransactionController implements DisposableBean{
 	
 	public void onSelectionChange()
 	{
+		updateProviderStatusList();
+	}
+	
+	private void updateProviderStatusList(){
+		
 		if(currentRadio.equals("rbPractice"))
 		{
 			statusList =  Constants.practiceStatus;
@@ -331,7 +337,6 @@ public class TransactionController implements DisposableBean{
 			canPracticeShow = false;
 		}
 	}
-	
 	
 	/*public void onProviderChange()
 	{

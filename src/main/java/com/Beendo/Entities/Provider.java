@@ -1,7 +1,6 @@
 package com.Beendo.Entities;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,8 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.FileSystemUtils;
 
 import com.Beendo.Dto.DocumentCell;
@@ -34,7 +31,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "Provider")
+@Table(name = "PROVIDER")
 public class Provider {
 	
 	@Id
