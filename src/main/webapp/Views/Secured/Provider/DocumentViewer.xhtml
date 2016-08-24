@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<f:metadata>
+		<f:viewAction actionListener="#{documentViewer.onLoad()}" />
+	</f:metadata>
+
+</h:head>
+
+
+
+<h:body>
+	<ui:composition template="/Views/Template/MainTemplate.xhtml">
+		<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+            
+        	</ui:define>
+
+		<ui:define name="mainContent">
+			<!-- <h:outputScript library="primefaces" name="jquery/jquery.js"/> -->
+			<h2>Provider Details</h2>
+			
+			<h:form id="myForm">
+				<p:messages id="msgs" />
+
+
+
+     <h3>PDF</h3>
+     
+     <!--  <p:media value="#{documentViewer.stream}" width="700px" height="700px" player="pdf" /> -->
+<!--      <iframe src="C:\Users\Hassan\Documents\partracker-doc\1\1_Copy_CLIA.pdf" width="500" height="500"></iframe>
+ -->   <!--   <object type="application/pdf"
+      data="#{documentViewer.getDocumentPath()}" height="300px" width="100%" internalinstanceid="12">
+            Your browser can't display pdf, <a href="C:\Users\Hassan\Documents\partracker-doc\1\1_Copy_CLIA.pdf">click</a> to download pdf instead.
+        </object> -->
+
+			</h:form>
+
+			<style>
+#providerDialog {
+	position: absolute !important;
+}
+
+
+</style>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+
+
+
+</html>

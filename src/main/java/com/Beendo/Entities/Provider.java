@@ -1,13 +1,17 @@
 package com.Beendo.Entities;
 
 import java.io.File;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,11 +23,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.springframework.util.FileSystemUtils;
-
+import com.Beendo.Configuration.JSONUserType;
 import com.Beendo.Dto.DocumentCell;
 import com.Beendo.Utils.ProviderFile;
 import com.Beendo.Utils.SharedData;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +41,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "PROVIDER")
-public class Provider {
+public class Provider extends BaseEntity {
 	
 	@Id
 	@GeneratedValue
@@ -41,11 +50,33 @@ public class Provider {
 	private String lastName;
 	private String npiNum;
  	
+//	, @org.hibernate.annotations.Parameter(name = "email", value = "com.Beendo.Entities.Email")
+//	@Type(type = "json", parameters = {@Parameter(name="type", value="com.Beendo.Entities.Email"), @org.hibernate.annotations.Parameter(name = "RETURNED_CLASS", value = "com.Beendo.Entities.Email")})
+//	@Column(columnDefinition="json")
+//	@JsonProperty("Emails")
+	
+//	@Column(name="emails", columnDefinition="json")
+	@Type(type = "JsonStringType", parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Email"),@Parameter(name="type", value="2000")})
+	private ArrayList<Email> emails;
+
+	private String CAQHId;
+	private String CAQHPassword;
+	private Date dob;
+	private String socialSecurityNumber;
+	private String degree;
+	
+	@Type(type = "JsonStringType", parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.PhoneNumber")})
+	private List<PhoneNumber> phoneNumber;
+	@Type(type = "JsonStringType", parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.FaxNumber")})
+	private List<FaxNumber> faxNumber;
+	
 	@OneToMany(mappedBy="provider",cascade={CascadeType.PERSIST,CascadeType.REMOVE})
 	private Set<Document> documents = new HashSet<>();
 	
 	@ManyToOne
 	private CEntitiy centity;
+	
+	
 	
 	/*@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Payer> payerList = new HashSet<Payer>();*/

@@ -61,12 +61,11 @@
 							action="#{practiseController.updateClicked(practise)}"
 							oncomplete="PF('dlg2').show()"
 							update=":createForm, :practiseTable" />
-							
+
 						<p:commandButton icon="ui-icon-trash"
 							action="#{practiseController.remove(practise)}"
 							update=":practiseTable" resetValues="true"
-							rendered="#{practiseController.shouldShowDelete()}"
-							>
+							rendered="#{practiseController.shouldShowDelete()}">
 
 							<p:confirm header="Confirmation" message="Are you sure?"
 								icon="ui-icon-alert" />
@@ -117,8 +116,7 @@
 							effect="fade" style="width:160px" filter="true"
 							filterMatchMode="startsWith"
 							rendered="#{!practiseController.isSingleItemInEntityList()}"
-							disabled="#{practiseController.isEntityListEnabled}"
-							>
+							disabled="#{practiseController.isEntityListEnabled}">
 
 							<!--  <f:selectItem itemLabel="Choose entity" itemValue="#{null}" /> -->
 
@@ -160,10 +158,13 @@
 			<style>
 #practiseDialog {
 	position: absolute !important;
-	
-	.ui-dialog{
-	top: 40% !important
-
+	.
+	ui-dialog
+	{
+	top
+	:
+	40%
+	!important
 }
 }
 </style>

@@ -100,6 +100,11 @@
     NAME="output12" PATH="/Views/Unsecured/EmailLinks/DocReminder.xhtml"
     TARGET="rules:#Views#Unsecured#EmailLinks#DocReminder.xhtml"
     TITLE="DocReminder" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="DocumentViewer::#Views#Secured#Provider#DocumentViewer.xhtml"
+    NAME="output13" PATH="/Views/Secured/Provider/DocumentViewer.xhtml"
+    TARGET="rules:#Views#Secured#Provider#DocumentViewer.xhtml"
+    TITLE="DocumentViewer" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
@@ -114,4 +119,7 @@
   NAME="rules:#Views#Secured#Transaction#ViewTransaction.xhtml"
   PATH="/Views/Secured/Transaction/ViewTransaction.xhtml"
   SHAPE="32,1825,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Provider#DocumentViewer.xhtml"
+  PATH="/Views/Secured/Provider/DocumentViewer.xhtml"
+  SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

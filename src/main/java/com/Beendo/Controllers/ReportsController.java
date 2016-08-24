@@ -52,26 +52,26 @@ public class ReportsController implements DisposableBean,Serializable {
 	@Autowired
 	IReportService reportService;
 	// Transaction
-	private List<ProviderTransaction> transactions;
-	private List<ProviderTransaction> savedTransactions;
-	private List<ProviderTransaction> providerTransactions;
-	private List<ProviderTransaction> practiceTransactions;
+	private List<ProviderTransaction> transactions = new ArrayList<>() ;
+	private List<ProviderTransaction> savedTransactions = new ArrayList<>();
+	private List<ProviderTransaction> providerTransactions = new ArrayList<>();
+	private List<ProviderTransaction> practiceTransactions = new ArrayList<>();
 //	private List<Integer> selectedPayerIds;
 
 	// Payer
-	private List<Payer> payerList;
-	private Payer currentPayer;
-	public String currentPayerStatus;
-	private List<Integer> selectedPayerIdList;
+	private List<Payer> payerList = new ArrayList<>();
+	private Payer currentPayer = new Payer();
+	public String currentPayerStatus = "";
+	private List<Integer> selectedPayerIdList = new ArrayList<>();
 
 	// Provider
-	private List<Provider> providerList;
+	private List<Provider> providerList = new ArrayList<>();
 //	private List<Provider> selectedProviderList;
 	private Integer currentProviderId;
 //	private List<Payer> payerProvider;
 
 	// Practice
-	private List<Practice> practiceList;
+	private List<Practice> practiceList = new ArrayList<>();
 //	private List<Practice> selectedPracticeList;
 	private Integer currentPracticeId;
 	private String [] statusList;
@@ -241,11 +241,12 @@ public class ReportsController implements DisposableBean,Serializable {
 				isPayerOk = isTransactionExistInPayer(t.getPayerList());
 			}
 			
-			if(!currentPayerStatus.isEmpty() &&
-			   !currentPayerStatus.equals(t.getParStatus()))
-			{
-				isStatusOk = false;
-			}
+//			if(currentPayerStatus != null &&
+//				!currentPayerStatus.isEmpty() &&
+//			   !currentPayerStatus.equals(t.getParStatus()))
+//			{
+//				isStatusOk = false;
+//			}
 			
 			if(isPayerOk &&
 			   isStatusOk)

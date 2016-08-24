@@ -279,6 +279,11 @@ public class EditProviderController {
 		}
 	}
 	
+	public String moveToDocumentViewer(){
+		
+		return "DocumentViewer";
+	}
+	
 	public void deleteFileClicked(DocumentCell cell) {
 
 		providerService.removeDocumentFromProvider(provider,cell.getDocument());

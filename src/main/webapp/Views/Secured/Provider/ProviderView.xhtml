@@ -25,7 +25,7 @@
 
  			<h2>Provider Details</h2>
 			<h:form rendered="#{providerController.canCreateProvider()}">
-				<p:commandButton value="Create" update=":myForm"
+				<p:commandButton value="Create"
 					action="#{providerController.createProviderClicked()}"
 					oncomplete="PF('Dlg1').show();" />
 
@@ -116,7 +116,7 @@
 
 			<!-- ADD / EDIT DIALOG -->
  
-			<p:dialog id="providerDialog" header="Provider" modal="true"
+<!-- 			<p:dialog id="providerDialog" header="Provider" modal="true"
 				position="top" widgetVar="Dlg1" minHeight="40">
 
 				<h:form id="myForm">
@@ -167,7 +167,7 @@
 						</p:selectCheckboxMenu>
 
 
-					<!-- 	<p:selectCheckboxMenu value="#{providerController.selectedPayers}" label="Select Payers"
+						<p:selectCheckboxMenu value="#{providerController.selectedPayers}" label="Select Payers"
 				            filter="false" filterMatchMode="startsWith" style="width:177px"  var="t" required="true"
 				            converter="javax.faces.Integer" panelStyle="width:250px">
 				            
@@ -178,7 +178,7 @@
 								<h:outputText value="#{t.name}" />
 							</p:column>
 				            
-				        </p:selectCheckboxMenu>  -->
+				        </p:selectCheckboxMenu> 
 
 						<p:inputText id="NpiNumber"
 							value="#{providerController.provider.npiNum}"
@@ -187,7 +187,7 @@
 							validatorMessage="NPI should only digits and length 10">
 
 							<f:validateRegex for="NpiNumber" pattern="[0-9]{10}" />
-								<!-- <f:convertNumber integerOnly="true"/> -->
+								<f:convertNumber integerOnly="true"/>
 
 						</p:inputText>
 						<p:inputText value="#{providerController.provider.firstName}"
@@ -295,7 +295,7 @@
 				</h:form>
 
 
-			</p:dialog>
+			</p:dialog> -->
 
 
 			<style>

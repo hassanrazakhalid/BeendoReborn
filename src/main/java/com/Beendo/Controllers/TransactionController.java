@@ -76,6 +76,7 @@ public class TransactionController implements DisposableBean{
 
 	private List<Integer> payerFilter = new ArrayList<>();
 	private List<ProviderTransaction> filterTransactions = new ArrayList<>();
+	private List<ProviderTransaction> realTimefilterList = new ArrayList<>();
 	//private HashMap<Integer, Practice> _hash = new HashMap<Integer, Practice>();
 	
 	private void refreshAllData(){
@@ -273,6 +274,8 @@ public class TransactionController implements DisposableBean{
 			
 			transactionService.remove(transac);
 			transactions.remove(transac);
+			realTimefilterList.remove(transac);
+			filterTransactions.remove(transac);
 			refreshAllData();
 			
 		}

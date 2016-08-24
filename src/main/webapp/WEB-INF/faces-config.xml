@@ -77,6 +77,10 @@
    <from-outcome>DocReminder</from-outcome>
    <to-view-id>/Views/Unsecured/EmailLinks/DocReminder.xhtml</to-view-id>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>DocumentViewer</from-outcome>
+   <to-view-id>/Views/Secured/Provider/DocumentViewer.xhtml</to-view-id>
+  </navigation-case>
  </navigation-rule>
  <application>
   <action-listener>org.primefaces.application.DialogActionListener</action-listener>
@@ -94,7 +98,7 @@ org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
 </factory> 
   
  -->
-  <factory>
+ <factory>
   <exception-handler-factory>com.Beendo.ExceptionHandlers.CustomExceptionHandlerFactory</exception-handler-factory>
  </factory>
 </faces-config>

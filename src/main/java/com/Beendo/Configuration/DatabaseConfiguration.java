@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,7 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.zaxxer.hikari.HikariConfig;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
@@ -141,6 +140,11 @@ public class DatabaseConfiguration {
 		transctionManager.setSessionFactory(sessionFactory);
 		return transctionManager;
 	}
+	
+/*	@Bean
+    public JsonDriver myJsonDriverBeanName() {
+        return new JacksonJsonDriver(new ObjectMapper());
+    }*/
 	
 	private Properties hikariProperties() throws IOException {
 		 

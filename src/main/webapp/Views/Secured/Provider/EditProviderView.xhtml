@@ -192,6 +192,14 @@
 
 									</p:column>
 
+
+									<p:column rendered="#{docCell.document.shouldRenderDocumentLink()}">
+									<h:link value="Edit " outcome="#{editProviderController.moveToDocumentViewer()}">
+								
+										<f:param name="id" value="#{docCell.document.id}" />
+								 </h:link>
+
+									</p:column>
 								</p:row>
 
 							</p:panelGrid>

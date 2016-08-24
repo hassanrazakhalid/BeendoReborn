@@ -10,5 +10,6 @@ import com.Beendo.Entities.User;
 
 public interface ProviderCallback {
 
-	public void getProviderData(User user, List<Provider>providerList,List<CEntitiy> entityList,List<Payer> payerList,List<ProviderTransaction> transactions);
+	public void getProviderData(User user, List<Provider>providerList);
+//	public void getProviderData(User user, List<Provider>providerList,List<CEntitiy> entityList,List<Payer> payerList,List<ProviderTransaction> transactions);
 }

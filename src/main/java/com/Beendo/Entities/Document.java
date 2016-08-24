@@ -39,7 +39,7 @@ public class Document {
 	public String getFullPath(){
 		
 		
-		return provider.getFolderPath()+"//" + getNameOnDisk();
+		return provider.getFolderPath()+"\\" + getNameOnDisk();
 //		return SharedData.getSharedInstace().getDocumentRootPath() + getNameOnDisk();
 //		return Constants.PROVIDER_FOLDER_PATH + getNameOnDisk();
 	}
@@ -77,5 +77,13 @@ public class Document {
 		} else {
 			System.out.println("Delete operation is failed.");
 		}
+	}
+	
+	public boolean shouldRenderDocumentLink(){
+		
+		if(this.id == null)
+			return false;
+		else
+			return true;
 	}
 }

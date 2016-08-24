@@ -51,7 +51,7 @@
 				
 				 <h:form id="mainForm"> 
     
-				    <p:dataTable value="#{transactionController.filterTransactions}" var="transaction" >
+				    <p:dataTable filteredValue="#{transactionController.realTimefilterList}" value="#{transactionController.filterTransactions}" var="transaction" >
 
 						<p:column headerText="Payer Name" filterBy="#{transaction.payerList}" filterFunction="#{transaction.filterByPayer}">
 							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
@@ -102,7 +102,8 @@
 							<p:commandButton icon="ui-icon-close" update=":mainForm"
 								resetValues="true"
 								rendered="#{transactionController.shouldShowDelete()}"
-								action="#{transactionController.removeClicked(transaction)}">
+								action="#{transactionController.removeClicked(transaction)}"	
+								>
 
 								<p:confirm header="Confirmation" message="Are you sure?"
 									icon="ui-icon-alert" />
@@ -256,8 +257,8 @@
 
 					<br />
 				  
-				  	<p:commandButton id="btnSave" value="Save" action="#{transactionController.saveInfo()}"
-				    		 update="myForm, msgs, :mainForm" />
+				  	<p:commandButton id="btnSave" value="Save" actionListener="#{transactionController.saveInfo()}"
+				    		validateClient="true" update="myForm, msgs, :mainForm" />
 				
 							<p:blockUI trigger="myForm:btnSave" block="transDialog"
 						widgetVar="block">
@@ -281,8 +282,16 @@
 
 </style>				
 				
-				
-				
+			<script type="text/javascript">
+    function handleDialogSubmit(args, dialogName) {
+
+    	console.log('In handle');
+        
+        if (!args.validationFailed) {
+            PF(dialogName).hide();
+        }
+    }	
+				</script>
 			</ui:define>
 		</ui:composition>
 	</h:body>

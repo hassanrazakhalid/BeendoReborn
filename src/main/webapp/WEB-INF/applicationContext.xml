@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
@@ -23,7 +20,18 @@
 	<context:component-scan base-package="com.Beendo.Utils" />
 	<context:component-scan base-package="com.Beendo.Controllers" />
 
-	<mvc:annotation-driven  />
+<!-- 	<mvc:annotation-driven>
+		<mvc:message-converters>
+			Use the HibernateAware mapper instead of the default
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="com.Beendo.Configuration.HibernateAwareObjectMapper" />
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven> -->
+	 <mvc:annotation-driven />
 	<context:annotation-config />
 
 	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
@@ -55,32 +63,27 @@
 		transaction-manager="transactionManager" /> -->
 
 
-<!-- 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="username" value="hassanrazakhalid89@gmail.com" />
-		<property name="password" value="haider123" />
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.socketFactory.port">465</prop>
-				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
-				<prop key="mail.smtp.port">465</prop>
-			</props>
-		</property>
-	</bean> -->
+	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+		<property name="host" value="smtp.gmail.com" /> <property name="username" 
+		value="hassanrazakhalid89@gmail.com" /> <property name="password" value="haider123" 
+		/> <property name="javaMailProperties"> <props> <prop key="mail.smtp.auth">true</prop> 
+		<prop key="mail.smtp.socketFactory.port">465</prop> <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop> 
+		<prop key="mail.smtp.port">465</prop> </props> </property> </bean> -->
 
-<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-  <property name="location">
-    <value>classpath:EmailSettings.properties</value>
-  </property>
-</bean>
-<!-- fixed-delay="${timerDuration}"   initial-delay="1000" -->
-<!-- second, minute, hour, day of month, month, day(s) of week -->
-<!-- 0 59 23 1/1 * ? --><!-- For every 12 clock -->
-<!-- 0 0/1 * 1/1 * ? --><!-- For Every 1 min -->
-<task:scheduled-tasks>
-	<task:scheduled ref="sharedData" cron="0 59 23 1/1 * ?" method="run"  />
-  </task:scheduled-tasks>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:EmailSettings.properties</value>
+		</property>
+	</bean>
+	<!-- fixed-delay="${timerDuration}" initial-delay="1000" -->
+	<!-- second, minute, hour, day of month, month, day(s) of week -->
+	<!-- 0 59 23 1/1 * ? --><!-- For every 12 clock -->
+	<!-- 0 0/1 * 1/1 * ? --><!-- For Every 1 min -->
+	<task:scheduled-tasks>
+		<task:scheduled ref="sharedData" cron="0 59 23 1/1 * ?"
+			method="run" />
+	</task:scheduled-tasks>
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${host}" />
