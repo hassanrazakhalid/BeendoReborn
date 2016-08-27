@@ -192,9 +192,9 @@ public class ProviderController extends BaseViewController implements Disposable
 		return "EditProviderView";
 	}
 
-	public void createProviderClicked() {
+	public String createProviderClicked() {
 
-
+		return "CreateProvider";
 	}
 
 

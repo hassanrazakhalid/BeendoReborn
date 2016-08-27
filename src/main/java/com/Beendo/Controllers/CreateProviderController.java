@@ -9,9 +9,14 @@ import javax.faces.event.ActionEvent;
 
 import org.hibernate.StaleObjectStateException;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FlowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.Email;
+import com.Beendo.Entities.FaxNumber;
+import com.Beendo.Entities.PhoneNumber;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.User;
@@ -28,6 +33,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Controller
 @SpringScopeView
 public class CreateProviderController extends BaseViewController {
 
@@ -48,9 +54,49 @@ public class CreateProviderController extends BaseViewController {
 	
 	private boolean isEntityListDisabled;
 	
+	private boolean skip;
+	private List<Email> emailsList = new ArrayList<>();
+	private List<PhoneNumber> phoneList = new ArrayList<>();
+	private List<FaxNumber> faxList = new ArrayList<>();
+	
 	public boolean getIsEntityListDisabled() {
 
 		return isEntityListDisabled;
+	}
+	
+	public void onLoad() {
+
+		refreshAllData();
+	}
+	
+	private void refreshAllData() {
+		
+		
+		this.entityList = entityList;
+		
+		emailsList.clear();
+		emailsList.add(new Email());
+	}
+	
+	public void addEmailClicked(){	
+		emailsList.add(new Email());
+	}
+	public void removeEmailClicked(Email sender){
+		emailsList.remove(sender);
+	}
+	
+	public void addPhoneClicked(){	
+		phoneList.add(new PhoneNumber());
+	}
+	public void removePhoneClicked(PhoneNumber sender){
+		phoneList.remove(sender);
+	}
+	
+	public void addFaxClicked(){	
+		faxList.add(new FaxNumber());
+	}
+	public void removeFaxClicked(FaxNumber sender){
+		faxList.remove(sender);
 	}
 	
 	public void createProviderClicked() {
@@ -72,12 +118,16 @@ public class CreateProviderController extends BaseViewController {
 //	documentCells = new ArrayList<>();
 ////		documentCells = provider.getDocumentCellList();
 	}
-
-	private void refreshAllData() {
-		
-		
-		this.entityList = entityList;
-	}
+	
+	public String onFlowProcess(FlowEvent event) {
+        if(skip) {
+            skip = false;   //reset in case user goes back
+            return "confirm";
+        }
+        else {
+            return event.getNewStep();
+        }
+    }
 	
 	public String getFirstEntityName() {
 

@@ -105,6 +105,12 @@
     NAME="output13" PATH="/Views/Secured/Provider/DocumentViewer.xhtml"
     TARGET="rules:#Views#Secured#Provider#DocumentViewer.xhtml"
     TITLE="DocumentViewer" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="CreateProvider::#Views#Secured#Provider#ProviderCreateView.xhtml"
+    NAME="output14"
+    PATH="/Views/Secured/Provider/ProviderCreateView.xhtml"
+    TARGET="rules:#Views#Secured#Provider#ProviderCreateView.xhtml"
+    TITLE="CreateProvider" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
@@ -122,4 +128,8 @@
  <PROCESS-ITEM NAME="rules:#Views#Secured#Provider#DocumentViewer.xhtml"
   PATH="/Views/Secured/Provider/DocumentViewer.xhtml"
   SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#Views#Secured#Provider#ProviderCreateView.xhtml"
+  PATH="/Views/Secured/Provider/ProviderCreateView.xhtml"
+  SHAPE="304,257,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

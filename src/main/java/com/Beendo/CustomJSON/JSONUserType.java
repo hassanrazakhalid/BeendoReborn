@@ -1,4 +1,4 @@
-package com.Beendo.Configuration;
+package com.Beendo.CustomJSON;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,9 +17,11 @@ import org.hibernate.usertype.UserType;
 import com.Beendo.Entities.Email;
 import com.Beendo.Entities.FaxNumber;
 import com.Beendo.Entities.PhoneNumber;
+import com.Beendo.Entities.Speciality;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +34,16 @@ import java.util.Objects;
 *      ://docs.jboss.org/hibernate/orm/4.1/javadocs/org/hibernate/usertype/
 *      UserType.html
 */
-public class JSONUserType<T> implements UserType, ParameterizedType, Serializable {
-  
+
+
+public class JSONUserType implements UserType, ParameterizedType, Serializable {
+
+	public static final String JSON_List = "JSONListType";
+	public static final String JSON_Normal = "JSONUserType";
+	
   private static final long serialVersionUID = 1L;
   
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+   static final ObjectMapper MAPPER = new ObjectMapper();
   
   private static final String CLASS_TYPE = "classType";
   private static final String TYPE = "type";
@@ -44,37 +51,55 @@ public class JSONUserType<T> implements UserType, ParameterizedType, Serializabl
   private static final int[] SQL_TYPES = new int[] { Types.LONGVARCHAR, Types.CLOB, Types.BLOB, Types.JAVA_OBJECT, Types.OTHER };
   
 //  private TypeReference classType;
-  private Class<? extends Object> classType;
+  public Class<?> classType;
 //  private int sqlType = Types.LONGVARCHAR; // before any guessing
+  
+//  private T getClass(Class<T extends Object> val){
+//	  
+//	  
+//	  retutn T;
+//  }
+ public JSONUserType() {
+	
+	 MAPPER.configure(SerializationFeature.INDENT_OUTPUT, true);
+}
   
   @Override
   public void setParameterValues(Properties params) {
     String classTypeName = params.getProperty(CLASS_TYPE);
-//    this.classType = Email.class;
-    
-    if (classTypeName.contains("Email")) {	
-    	 this.classType = new TypeReference<List<Email>>(){}.getClass();
-    }
-    else if (classTypeName.contains("FaxNumber")) {
-    	
-   	 this.classType = new TypeReference<List<FaxNumber>>(){}.getClass();
-   }
-    else if (classTypeName.contains("PhoneNumber")) {
-    	
-      	 this.classType = new TypeReference<List<PhoneNumber>>(){}.getClass();
-      }
-    
-    
-//    try {
-////      
-////   Object classType = ReflectHelper.classForName(classTypeName, this.getClass());
-//  
-//   
-//  
-//    } catch (ClassNotFoundException cnfe) {
-//      throw new HibernateException("classType not found", cnfe);
-//    }
     String type = params.getProperty(TYPE);
+//    this.classType = Email.class;
+//    if ( type == null )
+    {
+    	
+        try {
+//          
+        classType = ReflectHelper.classForName(classTypeName, this.getClass());
+        
+        } catch (ClassNotFoundException cnfe) {
+          throw new HibernateException("classType not found", cnfe);
+        }
+    }
+/*    else
+    {
+    	  if (classTypeName.contains("Email")) {	
+    	    	 this.classType = new TypeReference<List<Email>>(){}.getClass();
+    	    }
+    	    else if (classTypeName.contains("FaxNumber")) {
+    	    	
+    	   	 this.classType = new TypeReference<List<FaxNumber>>(){}.getClass();
+    	   }
+    	    else if (classTypeName.contains("PhoneNumber")) {
+    	    	
+    	      	 this.classType = new TypeReference<List<PhoneNumber>>(){}.getClass();
+    	      }
+    	    else if (classTypeName.contains("Speciality")) {
+    	    	
+   	      	 this.classType = new TypeReference<List<Speciality>>(){}.getClass();
+   	      }
+    	  
+    }*/
+//    String type = params.getProperty(TYPE);
     if (type != null) {
 //      this.sqlType = Integer.decode(type).intValue();
     }
@@ -92,7 +117,10 @@ public class JSONUserType<T> implements UserType, ParameterizedType, Serializabl
     if (value != null) {
       
       try {
-        return MAPPER.readValue(MAPPER.writeValueAsString(value), new TypeReference<List<Email>>(){});
+    	  
+    	  copy = MAPPER.readValue(MAPPER.writeValueAsString(value), classType);
+//    	copy = MAPPER.readValue(MAPPER.writeValueAsString(value), MAPPER.getTypeFactory().constructCollectionType(List.class, classType));
+//        return MAPPER.readValue(MAPPER.writeValueAsString(value), new TypeReference<List<Email>>(){});
       } catch (IOException e) {
         throw new HibernateException("unable to deep copy object", e);
       }
@@ -130,7 +158,7 @@ public class JSONUserType<T> implements UserType, ParameterizedType, Serializabl
   SQLException {
 	  
     Object obj = null;
-    if (!rs.wasNull()) {
+//    if (!rs.wasNull()) {
 //      if (this.sqlType == Types.CLOB || this.sqlType == Types.BLOB) {
 //        byte[] bytes = rs.getBytes(names[0]);
 //        if (bytes != null) {
@@ -146,13 +174,15 @@ public class JSONUserType<T> implements UserType, ParameterizedType, Serializabl
         try {
           String content = rs.getString(names[0]);
           if (content != null) {
-            obj = MAPPER.readValue(content, new TypeReference<List<Email>>(){});
+//        	  String s = MAPPER.writeValueAsString(content);
+        	  obj = MAPPER.readValue(content, MAPPER.getTypeFactory().constructCollectionType(List.class, classType));
+//            obj = MAPPER.readValue(content, new TypeReference<List<Email>>(){});
           }
         } catch (IOException e) {
           throw new HibernateException("unable to read object from result set", e);
         }
       }
-    }
+//    }
     return obj;
   }
   

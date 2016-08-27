@@ -76,11 +76,11 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 			tmpList.addAll(findProvidersByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId()));
 			dataList = tmpList;
 		}
-//		Provider p = dataList.get(0);
-//		ArrayList<Email> o = (ArrayList<Email>) p.getEmails();
-//		
-//		Email tmpMail = new Email();
-//		tmpMail.setEmail("pk2333@hotmail.com");
+/*		Provider p = dataList.get(0);
+		ArrayList<Email> o = (ArrayList<Email>) p.getEmails();
+		
+		Email tmpMail = new Email();
+		tmpMail.setEmail("pk2333@hotmail.com");*/
 //		
 ////		p.setEmails(tmpMail);
 ////		p.getEmails().setEmail("pk@hotmail.com");

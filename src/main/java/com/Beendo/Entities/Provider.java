@@ -21,6 +21,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Parameter;
@@ -28,7 +29,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 import org.springframework.util.FileSystemUtils;
-import com.Beendo.Configuration.JSONUserType;
+
+import com.Beendo.CustomJSON.JSONUserType;
 import com.Beendo.Dto.DocumentCell;
 import com.Beendo.Utils.ProviderFile;
 import com.Beendo.Utils.SharedData;
@@ -56,7 +58,7 @@ public class Provider extends BaseEntity {
 //	@JsonProperty("Emails")
 	
 //	@Column(name="emails", columnDefinition="json")
-	@Type(type = "JsonStringType", parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Email"),@Parameter(name="type", value="2000")})
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Email"),@Parameter(name="type", value="2000")})
 	private ArrayList<Email> emails;
 
 	private String CAQHId;
@@ -64,10 +66,14 @@ public class Provider extends BaseEntity {
 	private Date dob;
 	private String socialSecurityNumber;
 	private String degree;
+	private String medicareId;
 	
-	@Type(type = "JsonStringType", parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.PhoneNumber")})
+	@OneToOne
+	private ProviderQualification qualitication;
+	
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.PhoneNumber")})
 	private List<PhoneNumber> phoneNumber;
-	@Type(type = "JsonStringType", parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.FaxNumber")})
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.FaxNumber")})
 	private List<FaxNumber> faxNumber;
 	
 	@OneToMany(mappedBy="provider",cascade={CascadeType.PERSIST,CascadeType.REMOVE})

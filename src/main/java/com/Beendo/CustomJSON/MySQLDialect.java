@@ -1,4 +1,4 @@
-package com.Beendo.Configuration;
+package com.Beendo.CustomJSON;
 
 import java.sql.Types;
 

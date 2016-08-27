@@ -1,0 +1,269 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<f:metadata>
+		<f:viewAction actionListener="#{createProviderController.onLoad()}" />
+	</f:metadata>
+
+</h:head>
+
+
+
+<h:body>
+	<ui:composition template="/Views/Template/MainTemplate.xhtml">
+		<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+            
+        	</ui:define>
+
+		<ui:define name="mainContent">
+			<h2>Provider Create</h2>
+
+			<h:form id="mainForm">
+
+				<p:wizard id="signUpWizardId">
+					<p:tab id="personal" title="Personal">
+						<p:panel header="Personal Details">
+							<p:messages />
+
+							<h:panelGrid>
+
+								<p:row>
+									<p:column>
+
+										<h:outputLabel value="First Name: * " for="tfFirstName" />
+										<p:inputText id="tfFirstName"
+											value="#{createProviderController.provider.firstName}"
+											required="true" />
+
+										<p:column>
+
+											<h:outputLabel value="Last Name: * " for="tfFirstName" />
+											<p:inputText id="tfLastName"
+												value="#{createProviderController.provider.lastName}"
+												required="true" />
+
+										</p:column>
+									</p:column>
+								</p:row>
+
+								<p:row>
+
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<!-- for="tfNpiNumber" -->
+										<h:outputLabel value="NPInumber: * " />
+										<p:inputText id="tfNpiNumber"
+											value="#{createProviderController.provider.npiNum}"
+											required="true" />
+									</p:column>
+								</p:row>
+
+								<p:panel header="CAQH Information">
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="CAQH Id" />
+											<p:inputText id="tf_CAQHId"
+												value="#{createProviderController.provider.CAQHId}" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="CAQH Password" />
+											<p:inputText id="tf_CAQHPassword"
+												value="#{createProviderController.provider.CAQHPassword}" />
+										</p:column>
+									</p:row>
+								</p:panel>
+
+
+
+
+
+
+
+
+
+
+							</h:panelGrid>
+
+
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="additionalInfoId" title="Additional Information">
+						<p:panel id="panelAdditionalInfo" header="Additional Information">
+
+							<p:panelGrid id="gridAdditionalInfo">
+
+								<p:row>
+									<p:column>
+
+										<h:outputLabel value="Date of birth:* " />
+										<p:calendar id="popup"
+											value="#{createProviderController.provider.dob}" />
+
+
+										<h:outputLabel value="Medicare I.D" />
+										<p:inputText
+											value="#{createProviderController.provider.medicareId}" />
+									</p:column>
+
+									<p:column>
+
+										<h:outputLabel value="Social Security Number:* " />
+										<p:inputText id="tf_SSN"
+											value="#{createProviderController.provider.socialSecurityNumber}"
+											rendered="true" />
+
+									</p:column>
+
+									<p:column>
+										<h:outputLabel value="Degree:* " />
+										<p:inputText id="tf_Degree"
+											value="#{createProviderController.provider.degree}"
+											rendered="true" />
+									</p:column>
+
+								</p:row>
+
+								<p:row id="emailRow">
+									<p:column>
+										<p:panel id="emailPanel" header="Emails">
+											<f:facet name="header">
+												<p:outputLabel value="Emails:" />
+												<p:commandButton value="+" update="emailOutputPanel"
+													actionListener="#{createProviderController.addEmailClicked()}" />
+											</f:facet>
+											<p:outputPanel id="emailOutputPanel">
+												<p:dataTable id="emailTable" var="emailVar"
+													value="#{createProviderController.emailsList}">
+													<p:column>
+														<h:outputLabel value="Email" />
+														<p:inputText value="#{emailVar.email}" />
+													</p:column>
+
+													<p:column>
+														<p:commandButton
+															actionListener="#{createProviderController.removeEmailClicked(emailVar)}"
+															value="-" update="@parent:@parent" />
+													</p:column>
+												</p:dataTable>
+											</p:outputPanel>
+										</p:panel>
+									</p:column>
+								</p:row>
+
+								<p:row id="phoneRow">
+									<p:column>
+										<p:panel header="Phone Numbers">
+											<f:facet name="header">
+												<p:outputLabel value="Phone Number:" />
+												<p:commandButton value="+" update="phoneOutputPanel"
+													actionListener="#{createProviderController.addPhoneClicked()}" />
+											</f:facet>
+											<p:outputPanel id="phoneOutputPanel">
+												<p:dataTable var="phoneVar"
+													value="#{createProviderController.phoneList}">
+													<p:column>
+														<h:outputLabel value="Phone" />
+														<p:inputText value="#{phoneVar.number}" />
+													</p:column>
+
+													<p:column>
+														<p:commandButton
+															actionListener="#{createProviderController.removePhoneClicked(phoneVar)}"
+															value="-" update="@parent:@parent" />
+													</p:column>
+												</p:dataTable>
+											</p:outputPanel>
+										</p:panel>
+									</p:column>
+								</p:row>
+
+								<p:row id="faxRow">
+									<p:column>
+										<p:panel header="Fax Numbers">
+											<f:facet name="header">
+												<p:outputLabel value="Fax Number:" />
+												<p:commandButton value="+" update="faxOutputPanel"
+													actionListener="#{createProviderController.addFaxClicked()}" />
+											</f:facet>
+											<p:outputPanel id="faxOutputPanel">
+												<p:dataTable var="faxVar"
+													value="#{createProviderController.faxList}">
+													<p:column>
+														<h:outputLabel value="Fax Number" />
+														<p:inputText value="#{faxVar.faxNumber}" />
+													</p:column>
+
+													<p:column>
+														<p:commandButton
+															actionListener="#{createProviderController.removeFaxClicked(faxVar)}"
+															value="-" update="@parent:@parent" />
+													</p:column>
+												</p:dataTable>
+											</p:outputPanel>
+										</p:panel>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab title="Professional Qualification">
+
+						<p:panel header="Professional Qualification">
+
+							<h:panelGrid>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Medical College" />
+										<p:inputText value="#{createProviderController.provider.medicalCollege}"  />
+										
+									</p:column>
+								</p:row>
+					</h:panelGrid>
+
+						</p:panel>
+					</p:tab>
+
+				</p:wizard>
+
+			</h:form>
+
+
+			<style>
+#providerDialog {
+	position: absolute !important;
+}
+
+.red {
+	color: red
+}
+
+.green {
+	color: green
+}
+
+.ui-dialog {
+	top: 40% !important
+}
+</style>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+
+
+
+</html>

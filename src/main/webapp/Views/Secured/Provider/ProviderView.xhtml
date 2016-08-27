@@ -23,23 +23,28 @@
 		<ui:define name="mainContent">
 			<!-- <h:outputScript library="primefaces" name="jquery/jquery.js"/> -->
 
- 			<h2>Provider Details</h2>
+			<h2>Provider Details</h2>
 			<h:form rendered="#{providerController.canCreateProvider()}">
-				<p:commandButton value="Create"
+
+				<p:link outcome="#{providerController.createProviderClicked()}" value="Create Provider">
+					
+				</p:link>
+				<!-- <p:commandButton value="Create"
 					action="#{providerController.createProviderClicked()}"
-					oncomplete="PF('Dlg1').show();" />
+					oncomplete="PF('Dlg1').show();" /> -->
 
 				<br />
 			</h:form>
 
 			<h:form id="mainForm">
-			
+
 				<p:dataTable value="#{providerController.providerList}"
 					var="provider">
 
-						<p:inputText value="#{providerController.providerSearchText}">
-						<f:ajax event="change" listener="#{providerController.providerSearchTextChanged()}"></f:ajax>
-						</p:inputText>
+					<p:inputText value="#{providerController.providerSearchText}">
+						<f:ajax event="change"
+							listener="#{providerController.providerSearchTextChanged()}"></f:ajax>
+					</p:inputText>
 					<p:column headerText="Provider Name" filterMatchMode="contains"
 						filterBy="#{provider.getFullName()}">
 					
@@ -65,7 +70,7 @@
 							</ui:repeat>
 						</table>
 
-			<!-- 						         <p:selectOneMenu id="advanced"
+						<!-- 						         <p:selectOneMenu id="advanced"
 								 panelStyle="width:180px"
 								effect="fade" var="t" style="width:160px">
 								<f:selectItems value="#{provider.practiceList.toArray()}" var="practise"
@@ -86,14 +91,16 @@
 								oncomplete="PF('Dlg1').show();"
 								action="#{providerController.updateClicked(provider)}" /> -->
 
-							<h:link value="Edit " outcome="#{providerController.moveToEditView(provider)}">
-								
-								<f:param name="id" value="#{provider.id}" />
-								 </h:link>
+						<h:link value="Edit "
+							outcome="#{providerController.moveToEditView(provider)}">
+
+							<f:param name="id" value="#{provider.id}" />
+						</h:link>
 
 
 						<p:commandButton icon="ui-icon-trash" update=":mainForm"
-							resetValues="true" actionListener="#{providerController.removeClicked(provider)}"
+							resetValues="true"
+							actionListener="#{providerController.removeClicked(provider)}"
 							rendered="#{providerController.shouldShowDelete()}">
 
 							<p:confirm header="Confirmation" message="Are you sure?"
@@ -108,15 +115,15 @@
 						</p:confirmDialog>
 
 					</p:column>
-					
+
 				</p:dataTable>
-				
+
 			</h:form>
 
 
 			<!-- ADD / EDIT DIALOG -->
- 
-<!-- 			<p:dialog id="providerDialog" header="Provider" modal="true"
+
+			<!-- 			<p:dialog id="providerDialog" header="Provider" modal="true"
 				position="top" widgetVar="Dlg1" minHeight="40">
 
 				<h:form id="myForm">
@@ -310,9 +317,9 @@
 .green {
 	color: green
 }
-.ui-dialog{
-	top: 40% !important
 
+.ui-dialog {
+	top: 40% !important
 }
 </style>
 		</ui:define>
