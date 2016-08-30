@@ -1,5 +1,6 @@
 package com.Beendo.Entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,22 +27,23 @@ public class ProviderQualification extends BaseEntity {
 	@Id
 	@GeneratedValue
 	private int id;
-	private String medicalCollege;
-	private String nameOfDegreeEarned;
-	private Date graduationDate;
+	
+	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.DegreeInfo")})
+	private DegreeInfo graduationInfo =  new DegreeInfo();
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.DegreeInfo")})
+	private List<DegreeInfo> otherDegrees = new ArrayList<>();
 	
 	@OneToOne(mappedBy="qualitication")
 	private Provider provider;
 	
-	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = "classType", value = "java.lang.String"),@Parameter(name="type", value="List")})
-	private List<String> otherQualification;
-	
 	@Type( type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Experience")})
-	private Experience residencyInfo;
+	private Experience residencyInfo = new Experience();
+	
 	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Experience")})
-	private Experience internshipInfo;
+	private Experience internshipInfo = new Experience();
+	
 	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality")})
-	private Speciality primarySpeciality;
+	private Speciality primarySpeciality = new Speciality();
 	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality"),@Parameter(name="type", value="List")})
-	private List<Speciality> secondarySpeciality;
+	private List<Speciality> otherSpecialities = new ArrayList<>();
 }

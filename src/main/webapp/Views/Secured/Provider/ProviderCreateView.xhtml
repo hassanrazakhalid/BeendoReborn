@@ -2,7 +2,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 <h:head>
 
 	<f:metadata>
@@ -219,22 +219,210 @@
 						</p:panel>
 					</p:tab>
 
-					<p:tab title="Professional Qualification">
+					<p:tab title="Education">
+						<p:panel header="Education">
+							<p:panelGrid>
 
-						<p:panel header="Professional Qualification">
+								<b:container layout="fluid">
+									<b:row>
+										<b:column span="2">
+											<h:outputLabel value="Medical College" />
+										</b:column>
+										<b:column span="1">
+											<p:inputText
+												value="#{createProviderController.provider.qualitication.graduationInfo.collegeName}" />
+										</b:column>
+									</b:row>
 
-							<h:panelGrid>
+									<b:row>
+										<b:column span="2">
+											<h:outputLabel value="Name of Degree Earned" />
+										</b:column>
+										<b:column span="1">
+											<p:inputText
+												value="#{createProviderController.provider.qualitication.graduationInfo.degreeName}" />
+										</b:column>
+									</b:row>
 
-								<p:row>
-									<p:column>
-										<h:outputLabel value="Medical College" />
-										<p:inputText value="#{createProviderController.provider.medicalCollege}"  />
-										
-									</p:column>
-								</p:row>
-					</h:panelGrid>
+									<b:row>
+										<b:column span="2">
+											<h:outputLabel value="Graduation Date" />
+										</b:column>
+										<b:column span="1">
+											<p:calendar
+												value="#{createProviderController.provider.qualitication.graduationInfo.finishedDate}" />
+										</b:column>
+									</b:row>
 
+									<p:row id="educationInfoRow">
+										<p:column>
+											<p:panel id="educationInfoPanel" header="Education Info">
+												<f:facet name="header">
+													<p:outputLabel value="Emails:" />
+													<p:commandButton value="+"
+														update="educationInfoOutputPanel"
+														actionListener="#{createProviderController.addOtherDegreeClicked()}" />
+												</f:facet>
+												<p:outputPanel id="educationInfoOutputPanel">
+
+													<b:panel>
+														<f:facet name="heading">
+
+														</f:facet>
+														<ui:repeat var="degree"
+															value="#{createProviderController.degreeList}">
+
+															<b:row>
+																<b:column span="3">
+																	<h:outputLabel value="Medical College" />
+																</b:column>
+																<b:column span="1">
+																	<p:inputText value="#{degree.collegeName}" />
+																</b:column>
+															</b:row>
+
+															<b:row>
+																<b:column span="3">
+																	<h:outputLabel value="Name of Degree Earned" />
+																</b:column>
+																<b:column span="1">
+																	<p:inputText value="#{degree.degreeName}" />
+																</b:column>
+															</b:row>
+
+															<b:row>
+																<b:column span="3">
+																	<h:outputLabel value="Graduation Date" />
+																</b:column>
+																<b:column span="1">
+																	<p:calendar value="#{degree.finishedDate}" />
+																</b:column>
+															</b:row>
+
+															<b:row>
+																<b:column span="1">
+																	<p:commandButton
+																		actionListener="#{createProviderController.removeOtherDegree(degree)}"
+																		value="-" update="@parent:@parent:@parent:@parent" />
+																</b:column>
+															</b:row>
+
+														</ui:repeat>
+													</b:panel>
+													<!-- 											<p:dataTable id="educationInfoTable" var="degree"
+													value="#{createProviderController.degreeList}" rows="1">
+
+
+													<p:column>
+														<h:outputLabel value="Medical College" />
+													</p:column>
+													<p:column>
+														<p:inputText value="#{degree.collegeName}" />
+													</p:column>
+
+													<p:column>
+														<h:outputLabel value="Name of Degree Earned" />
+													</p:column>
+													<p:column>
+														<p:inputText value="#{degree.degreeName}" />
+													</p:column>
+
+													<p:column>
+														<h:outputLabel value="Graduation Date" />
+													</p:column>
+													<p:column>
+														<p:calendar value="#{degree.finishedDate}" />
+													</p:column>
+
+													 <p:column>
+														<p:commandButton
+															actionListener="#{createProviderController.removeOtherDegree(degree)}"
+															value="-" update="@parent:@parent" />
+													</p:column> 
+												</p:dataTable> -->
+												</p:outputPanel>
+											</p:panel>
+										</p:column>
+									</p:row>
+
+								</b:container>
+							</p:panelGrid>
+							<!-- </b:container> -->
 						</p:panel>
+					</p:tab>
+
+
+					<p:tab title="Experience">
+
+						<b:container layout="fluid">
+							<b:panel title="Residency">
+								<b:panelGrid colSpans="3,9" size="xs">
+
+									<p:outputLabel value="Institution Name" />
+									<p:inputText
+										value="#{createProviderController.provider.qualitication.residencyInfo.institutionName}" />
+
+									<p:outputLabel value="Started Residency" />
+									<p:calendar
+										value="#{createProviderController.provider.qualitication.residencyInfo.startDate}" />
+
+									<p:outputLabel value="Ended Residency" />
+									<p:calendar
+										value="#{createProviderController.provider.qualitication.residencyInfo.endDate}" />
+
+								</b:panelGrid>
+							</b:panel>
+
+							<b:panel title="Internship">
+								<b:panelGrid colSpans="3,9" size="xs">
+
+									<p:outputLabel value="Institution Name" />
+									<p:inputText
+										value="#{createProviderController.provider.qualitication.internshipInfo.institutionName}" />
+
+									<p:outputLabel value="Started Residency" />
+									<p:calendar
+										value="#{createProviderController.provider.qualitication.internshipInfo.startDate}" />
+
+									<p:outputLabel value="Ended Residency" />
+									<p:calendar
+										value="#{createProviderController.provider.qualitication.internshipInfo.endDate}" />
+
+								</b:panelGrid>
+							</b:panel>
+						</b:container>
+					</p:tab>
+
+					<p:tab title="Speciality">
+
+						<b:container>
+
+							<b:panel title="Primary Speciality">
+								<b:panelGrid colSpans="2,10">
+
+									<p:outputLabel  value="Primary Speclity:" />
+									<p:selectOneListbox>
+										<f:selectItem itemLabel="Option 1" itemValue="1" />
+										<f:selectItem itemLabel="Option 2" itemValue="2" />
+										<f:selectItem itemLabel="Option 3" itemValue="3" />
+									</p:selectOneListbox>
+									
+									<p:outputLabel value="Name of Board:" />
+									<p:selectOneListbox>
+										<f:selectItem itemLabel="Option 1" itemValue="1" />
+										<f:selectItem itemLabel="Option 2" itemValue="2" />
+										<f:selectItem itemLabel="Option 3" itemValue="3" />
+									</p:selectOneListbox>
+
+								</b:panelGrid>
+							</b:panel>
+							
+							<b:panel title="Other Specility">
+							
+							</b:panel>
+
+						</b:container>
+
 					</p:tab>
 
 				</p:wizard>

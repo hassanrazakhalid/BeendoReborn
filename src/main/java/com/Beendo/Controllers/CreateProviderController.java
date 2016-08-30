@@ -14,12 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.DegreeInfo;
 import com.Beendo.Entities.Email;
 import com.Beendo.Entities.FaxNumber;
 import com.Beendo.Entities.PhoneNumber;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.User;
 import com.Beendo.Services.IPractiseService;
 import com.Beendo.Services.IProviderService;
 import com.Beendo.Utils.Constants;
@@ -58,6 +58,7 @@ public class CreateProviderController extends BaseViewController {
 	private List<Email> emailsList = new ArrayList<>();
 	private List<PhoneNumber> phoneList = new ArrayList<>();
 	private List<FaxNumber> faxList = new ArrayList<>();
+	private List<DegreeInfo> degreeList = new ArrayList<>();
 	
 	public boolean getIsEntityListDisabled() {
 
@@ -76,6 +77,9 @@ public class CreateProviderController extends BaseViewController {
 		
 		emailsList.clear();
 		emailsList.add(new Email());
+		
+		degreeList.clear();
+		degreeList.add(new DegreeInfo());
 	}
 	
 	public void addEmailClicked(){	
@@ -97,6 +101,13 @@ public class CreateProviderController extends BaseViewController {
 	}
 	public void removeFaxClicked(FaxNumber sender){
 		faxList.remove(sender);
+	}
+	
+	public void addOtherDegreeClicked(){	
+		degreeList.add(new DegreeInfo());
+	}
+	public void removeOtherDegree(DegreeInfo sender){
+		degreeList.remove(sender);
 	}
 	
 	public void createProviderClicked() {

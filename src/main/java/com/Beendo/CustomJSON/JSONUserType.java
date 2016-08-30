@@ -45,7 +45,7 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
   
    static final ObjectMapper MAPPER = new ObjectMapper();
   
-  private static final String CLASS_TYPE = "classType";
+  public static final String CLASS_TYPE = "classType";
   private static final String TYPE = "type";
   
   private static final int[] SQL_TYPES = new int[] { Types.LONGVARCHAR, Types.CLOB, Types.BLOB, Types.JAVA_OBJECT, Types.OTHER };

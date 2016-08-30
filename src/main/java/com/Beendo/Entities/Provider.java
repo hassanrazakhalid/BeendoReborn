@@ -52,13 +52,8 @@ public class Provider extends BaseEntity {
 	private String lastName;
 	private String npiNum;
  	
-//	, @org.hibernate.annotations.Parameter(name = "email", value = "com.Beendo.Entities.Email")
-//	@Type(type = "json", parameters = {@Parameter(name="type", value="com.Beendo.Entities.Email"), @org.hibernate.annotations.Parameter(name = "RETURNED_CLASS", value = "com.Beendo.Entities.Email")})
-//	@Column(columnDefinition="json")
-//	@JsonProperty("Emails")
 	
-//	@Column(name="emails", columnDefinition="json")
-	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Email"),@Parameter(name="type", value="2000")})
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.Email")})
 	private ArrayList<Email> emails;
 
 	private String CAQHId;
@@ -69,11 +64,11 @@ public class Provider extends BaseEntity {
 	private String medicareId;
 	
 	@OneToOne
-	private ProviderQualification qualitication;
+	private ProviderQualification qualitication = new ProviderQualification();
 	
-	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.PhoneNumber")})
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.PhoneNumber")})
 	private List<PhoneNumber> phoneNumber;
-	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.FaxNumber")})
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.FaxNumber")})
 	private List<FaxNumber> faxNumber;
 	
 	@OneToMany(mappedBy="provider",cascade={CascadeType.PERSIST,CascadeType.REMOVE})
