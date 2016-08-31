@@ -17,9 +17,11 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.DegreeInfo;
 import com.Beendo.Entities.Email;
 import com.Beendo.Entities.FaxNumber;
+import com.Beendo.Entities.Language;
 import com.Beendo.Entities.PhoneNumber;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
+import com.Beendo.Entities.Speciality;
 import com.Beendo.Services.IPractiseService;
 import com.Beendo.Services.IProviderService;
 import com.Beendo.Utils.Constants;
@@ -59,6 +61,11 @@ public class CreateProviderController extends BaseViewController {
 	private List<PhoneNumber> phoneList = new ArrayList<>();
 	private List<FaxNumber> faxList = new ArrayList<>();
 	private List<DegreeInfo> degreeList = new ArrayList<>();
+	private List<Speciality> specilityList = new ArrayList<>();
+	private List<Language> languageList = new ArrayList<>();
+	
+	private List<String> primarySpeciality = new ArrayList<>();
+	private List<String> nameOfBoards = new ArrayList<>();
 	
 	public boolean getIsEntityListDisabled() {
 
@@ -72,8 +79,17 @@ public class CreateProviderController extends BaseViewController {
 	
 	private void refreshAllData() {
 		
+		primarySpeciality.add("Specility 1");
+		primarySpeciality.add("Specility 2");
+		primarySpeciality.add("Specility 2");
+		
+		nameOfBoards.add("Board 1");
+		nameOfBoards.add("Board 2");
+		nameOfBoards.add("Board 3");
 		
 		this.entityList = entityList;
+		
+		specilityList.add(new Speciality());
 		
 		emailsList.clear();
 		emailsList.add(new Email());
@@ -108,6 +124,20 @@ public class CreateProviderController extends BaseViewController {
 	}
 	public void removeOtherDegree(DegreeInfo sender){
 		degreeList.remove(sender);
+	}
+	
+	public void addOtherSpecilityClicked(){	
+		specilityList.add(new Speciality());
+	}
+	public void removeOtherSpecility(Speciality sender){
+		specilityList.remove(sender);
+	}
+	
+	public void addLanguageClicked(){	
+		languageList.add(new Language());
+	}
+	public void removeLanguage(Language sender){
+		languageList.remove(sender);
 	}
 	
 	public void createProviderClicked() {

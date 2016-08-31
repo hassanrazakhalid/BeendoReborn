@@ -172,11 +172,8 @@
 			<version>2.5.3</version>
 		</dependency>
 
-	<!-- 	<dependency>
-			<groupId>net.optionfactory</groupId>
-			<artifactId>hibernate-json</artifactId>
-			<version>1.0</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>net.optionfactory</groupId> <artifactId>hibernate-json</artifactId> 
+			<version>1.0</version> </dependency> -->
 
 		<dependency>
 			<groupId>commons-collections</groupId>
@@ -194,8 +191,7 @@
 		<dependency>
 			<groupId>net.bootsfaces</groupId>
 			<artifactId>bootsfaces</artifactId>
-			<version>0.8.0</version>
-			<scope>compile</scope>
+			<version>0.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces</groupId>

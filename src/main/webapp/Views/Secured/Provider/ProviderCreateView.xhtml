@@ -220,135 +220,85 @@
 					</p:tab>
 
 					<p:tab title="Education">
-						<p:panel header="Education">
-							<p:panelGrid>
 
-								<b:container layout="fluid">
+						<b:container layout="fluid">
+							<b:panel title="Primary Education" span="6">
+								<b:row>
+									<b:column span="3">
+										<h:outputLabel value="Medical College" />
+									</b:column>
+									<b:column span="9">
+										<p:inputText
+											value="#{createProviderController.provider.qualitication.graduationInfo.collegeName}" />
+									</b:column>
+								</b:row>
+
+								<b:row>
+									<b:column span="3">
+										<h:outputLabel value="Name of Degree Earned" />
+									</b:column>
+									<b:column span="9">
+										<p:inputText
+											value="#{createProviderController.provider.qualitication.graduationInfo.degreeName}" />
+									</b:column>
+								</b:row>
+
+								<b:row>
+									<b:column span="3">
+										<h:outputLabel value="Graduation Date" />
+									</b:column>
+									<b:column span="9">
+										<p:calendar
+											value="#{createProviderController.provider.qualitication.graduationInfo.finishedDate}" />
+									</b:column>
+								</b:row>
+							</b:panel>
+
+							<b:panel span="6" title="Other qualifications">
+								<f:facet name="footer">
+									<p:outputLabel value="Add Other Qualification: " />
+									<p:commandButton value=" +" update="@parent:@parent"
+										actionListener="#{createProviderController.addOtherDegreeClicked()}" />
+								</f:facet>
+								<ui:repeat var="degree"
+									value="#{createProviderController.degreeList}">
+
 									<b:row>
-										<b:column span="2">
+										<b:column span="3">
 											<h:outputLabel value="Medical College" />
 										</b:column>
-										<b:column span="1">
-											<p:inputText
-												value="#{createProviderController.provider.qualitication.graduationInfo.collegeName}" />
+										<b:column span="6">
+											<p:inputText value="#{degree.collegeName}" />
+										</b:column>
+										<b:column span="3">
+											<p:commandButton
+												actionListener="#{createProviderController.removeOtherDegree(degree)}"
+												value="-" update="@parent:@parent:@parent:@parent" />
 										</b:column>
 									</b:row>
 
 									<b:row>
-										<b:column span="2">
+										<b:column span="3">
 											<h:outputLabel value="Name of Degree Earned" />
 										</b:column>
-										<b:column span="1">
-											<p:inputText
-												value="#{createProviderController.provider.qualitication.graduationInfo.degreeName}" />
+										<b:column span="9">
+											<p:inputText value="#{degree.degreeName}" />
 										</b:column>
 									</b:row>
 
 									<b:row>
-										<b:column span="2">
+										<b:column span="3">
 											<h:outputLabel value="Graduation Date" />
 										</b:column>
-										<b:column span="1">
-											<p:calendar
-												value="#{createProviderController.provider.qualitication.graduationInfo.finishedDate}" />
+										<b:column span="9">
+											<p:calendar value="#{degree.finishedDate}" />
 										</b:column>
 									</b:row>
+								</ui:repeat>
+							</b:panel>
 
-									<p:row id="educationInfoRow">
-										<p:column>
-											<p:panel id="educationInfoPanel" header="Education Info">
-												<f:facet name="header">
-													<p:outputLabel value="Emails:" />
-													<p:commandButton value="+"
-														update="educationInfoOutputPanel"
-														actionListener="#{createProviderController.addOtherDegreeClicked()}" />
-												</f:facet>
-												<p:outputPanel id="educationInfoOutputPanel">
-
-													<b:panel>
-														<f:facet name="heading">
-
-														</f:facet>
-														<ui:repeat var="degree"
-															value="#{createProviderController.degreeList}">
-
-															<b:row>
-																<b:column span="3">
-																	<h:outputLabel value="Medical College" />
-																</b:column>
-																<b:column span="1">
-																	<p:inputText value="#{degree.collegeName}" />
-																</b:column>
-															</b:row>
-
-															<b:row>
-																<b:column span="3">
-																	<h:outputLabel value="Name of Degree Earned" />
-																</b:column>
-																<b:column span="1">
-																	<p:inputText value="#{degree.degreeName}" />
-																</b:column>
-															</b:row>
-
-															<b:row>
-																<b:column span="3">
-																	<h:outputLabel value="Graduation Date" />
-																</b:column>
-																<b:column span="1">
-																	<p:calendar value="#{degree.finishedDate}" />
-																</b:column>
-															</b:row>
-
-															<b:row>
-																<b:column span="1">
-																	<p:commandButton
-																		actionListener="#{createProviderController.removeOtherDegree(degree)}"
-																		value="-" update="@parent:@parent:@parent:@parent" />
-																</b:column>
-															</b:row>
-
-														</ui:repeat>
-													</b:panel>
-													<!-- 											<p:dataTable id="educationInfoTable" var="degree"
-													value="#{createProviderController.degreeList}" rows="1">
-
-
-													<p:column>
-														<h:outputLabel value="Medical College" />
-													</p:column>
-													<p:column>
-														<p:inputText value="#{degree.collegeName}" />
-													</p:column>
-
-													<p:column>
-														<h:outputLabel value="Name of Degree Earned" />
-													</p:column>
-													<p:column>
-														<p:inputText value="#{degree.degreeName}" />
-													</p:column>
-
-													<p:column>
-														<h:outputLabel value="Graduation Date" />
-													</p:column>
-													<p:column>
-														<p:calendar value="#{degree.finishedDate}" />
-													</p:column>
-
-													 <p:column>
-														<p:commandButton
-															actionListener="#{createProviderController.removeOtherDegree(degree)}"
-															value="-" update="@parent:@parent" />
-													</p:column> 
-												</p:dataTable> -->
-												</p:outputPanel>
-											</p:panel>
-										</p:column>
-									</p:row>
-
-								</b:container>
-							</p:panelGrid>
-							<!-- </b:container> -->
-						</p:panel>
+						</b:container>
+						<!-- </b:container> -->
 					</p:tab>
 
 
@@ -398,27 +348,129 @@
 						<b:container>
 
 							<b:panel title="Primary Speciality">
-								<b:panelGrid colSpans="2,10">
+								<b:panelGrid colSpans="3,9">
 
-									<p:outputLabel  value="Primary Speclity:" />
-									<p:selectOneListbox>
-										<f:selectItem itemLabel="Option 1" itemValue="1" />
-										<f:selectItem itemLabel="Option 2" itemValue="2" />
-										<f:selectItem itemLabel="Option 3" itemValue="3" />
-									</p:selectOneListbox>
-									
+									<p:outputLabel value="Primary Speclity:" />
+									<p:selectOneMenu
+										value="#{createProviderController.provider.qualitication.primarySpeciality.name}">
+
+										<f:selectItem itemLabel="Select One" itemValue="" />
+										<f:selectItems
+											value="#{createProviderController.primarySpeciality}"
+											var="specility" itemLabel="#{specility}"
+											itemValue="#{specility}" />
+									</p:selectOneMenu>
+
 									<p:outputLabel value="Name of Board:" />
-									<p:selectOneListbox>
-										<f:selectItem itemLabel="Option 1" itemValue="1" />
-										<f:selectItem itemLabel="Option 2" itemValue="2" />
-										<f:selectItem itemLabel="Option 3" itemValue="3" />
-									</p:selectOneListbox>
+									<p:selectOneMenu
+										value="#{createProviderController.provider.qualitication.primarySpeciality.board}">
+
+										<f:selectItem itemLabel="Select One" itemValue="" />
+										<f:selectItems
+											value="#{createProviderController.nameOfBoards}" var="board"
+											itemLabel="#{board}" itemValue="#{board}" />
+									</p:selectOneMenu>
 
 								</b:panelGrid>
 							</b:panel>
-							
-							<b:panel title="Other Specility">
-							
+
+							<b:panel>
+
+								<f:facet name="heading">
+									<p:outputLabel value="Add more" />
+									<p:commandButton value="+"
+										actionListener="#{createProviderController.addOtherSpecilityClicked()}"
+										update="@parent:@parent" />
+
+								</f:facet>
+								<b:panelGrid colSpans="3,9">
+
+									<ui:repeat var="specility"
+										value="#{createProviderController.specilityList}">
+
+										<p:outputLabel value="Speclity Name:" />
+										<p:selectOneMenu value="#{specility.name}">
+
+											<f:selectItem itemLabel="Select One" itemValue="" />
+											<f:selectItems
+												value="#{createProviderController.primarySpeciality}"
+												var="specility" itemLabel="#{specility}"
+												itemValue="#{specility}" />
+										</p:selectOneMenu>
+
+										<p:outputLabel value="Name of Board:" />
+										<p:selectOneMenu value="#{specility.board}">
+
+											<f:selectItem itemLabel="Select One" itemValue="" />
+											<f:selectItems
+												value="#{createProviderController.nameOfBoards}" var="board"
+												itemLabel="#{board}" itemValue="#{board}" />
+										</p:selectOneMenu>
+
+										<p:commandButton value="-"
+											actionListener="#{createProviderController.removeOtherSpecility(specility)}"
+											update="@parent:@parent" />
+
+									</ui:repeat>
+
+								</b:panelGrid>
+
+							</b:panel>
+
+						</b:container>
+
+					</p:tab>
+
+					<p:tab title="Other information">
+
+						<b:container>
+
+							<b:panelGrid colSpans="3,3,3,3">
+
+								<p:outputLabel value="Oldest Patient Age Limit" />
+								<p:inputText converter="javax.faces.Integer"
+									value="#{createProviderController.provider.otherInfo.oldestPatientAgeLimit}" />
+
+								<p:outputLabel value="Panel status" />
+								<p:inputSwitch
+									value="#{createProviderController.provider.otherInfo.panelStatus}" />
+							</b:panelGrid>
+
+							<b:panel>
+								<f:facet name="heading">
+									<p:outputLabel value="Add language" />
+									<p:commandButton value="+"
+										actionListener="#{createProviderController.addLanguageClicked()}"
+										update="@parent:@parent" />
+								</f:facet>
+
+								<!-- 			<b:panelGrid colSpans="3,6,3"> -->
+
+								<ui:repeat var="language"
+									value="#{createProviderController.languageList}">
+
+									<b:row>
+										<b:column span="2">
+											<p:outputLabel value="Language Name:" />
+										</b:column>
+
+										<b:column span="8">
+											<p:inputText value="#{language.languageName}" />
+										</b:column>
+
+										<b:column span="2">
+											<p:commandButton value="-"
+												actionListener="#{createProviderController.removeLanguage(language)}"
+												update="@parent:@parent:@parent:@parent" />
+										</b:column>
+
+									</b:row>
+
+
+								</ui:repeat>
+								<!-- 	</b:panelGrid>
+				 -->
+
 							</b:panel>
 
 						</b:container>

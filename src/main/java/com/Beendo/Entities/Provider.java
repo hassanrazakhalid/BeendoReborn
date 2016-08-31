@@ -66,6 +66,10 @@ public class Provider extends BaseEntity {
 	@OneToOne
 	private ProviderQualification qualitication = new ProviderQualification();
 	
+	
+	@OneToOne
+	private OtherProviderInfo otherInfo = new OtherProviderInfo();
+	
 	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.PhoneNumber")})
 	private List<PhoneNumber> phoneNumber;
 	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.FaxNumber")})
