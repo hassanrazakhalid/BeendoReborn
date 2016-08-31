@@ -76,8 +76,8 @@
   <param-value>true</param-value>
   </context-param> -->
   
- <!--  <context-param>
+<!--     <context-param>
     <param-name>primefaces.THEME</param-name>
     <param-value>bootstrap</param-value>
-</context-param> -->
+</context-param>  -->
 </web-app>
