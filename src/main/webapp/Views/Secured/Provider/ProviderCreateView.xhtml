@@ -100,122 +100,137 @@
 					</p:tab>
 
 					<p:tab id="additionalInfoId" title="Additional Information">
-						<p:panel id="panelAdditionalInfo" header="Additional Information">
 
-							<p:panelGrid id="gridAdditionalInfo">
+						<b:container>
 
-								<p:row>
-									<p:column>
-
+							<b:panel title="Additional Information" span="6">
+								<b:row>
+									<b:column span="3">
 										<h:outputLabel value="Date of birth:* " />
+									</b:column>
+
+									<b:column span="3">
 										<p:calendar id="popup"
 											value="#{createProviderController.provider.dob}" />
+									</b:column>
 
-
+									<b:column span="3">
 										<h:outputLabel value="Medicare I.D" />
+									</b:column>
+
+									<b:column span="3">
 										<p:inputText
 											value="#{createProviderController.provider.medicareId}" />
-									</p:column>
+									</b:column>
+								</b:row>
 
-									<p:column>
-
+								<b:row>
+									<b:column span="3">
 										<h:outputLabel value="Social Security Number:* " />
+										</b:column>
+										
+										<b:column span="3">
 										<p:inputText id="tf_SSN"
 											value="#{createProviderController.provider.socialSecurityNumber}"
 											rendered="true" />
+										</b:column>
 
-									</p:column>
-
-									<p:column>
+									<b:column span="3">
 										<h:outputLabel value="Degree:* " />
+										</b:column>
+										
+										<b:column span="3">
 										<p:inputText id="tf_Degree"
 											value="#{createProviderController.provider.degree}"
 											rendered="true" />
-									</p:column>
+										</b:column>										
+								</b:row>
+							</b:panel>
+						</b:container>
 
-								</p:row>
 
-								<p:row id="emailRow">
-									<p:column>
-										<p:panel id="emailPanel" header="Emails">
-											<f:facet name="header">
-												<p:outputLabel value="Emails:" />
-												<p:commandButton value="+" update="emailOutputPanel"
-													actionListener="#{createProviderController.addEmailClicked()}" />
-											</f:facet>
-											<p:outputPanel id="emailOutputPanel">
-												<p:dataTable id="emailTable" var="emailVar"
-													value="#{createProviderController.emailsList}">
-													<p:column>
-														<h:outputLabel value="Email" />
-														<p:inputText value="#{emailVar.email}" />
-													</p:column>
+					
+<!-- 						<p:row id="emailRow">
+							<p:column>
+								<p:panel id="emailPanel" header="Emails">
+									<f:facet name="header">
+										<p:outputLabel value="Emails:" />
+										<p:commandButton value="+" update="emailOutputPanel"
+											actionListener="#{createProviderController.addEmailClicked()}" />
+									</f:facet>
+									<p:outputPanel id="emailOutputPanel">
+										<p:dataTable id="emailTable" var="emailVar"
+											value="#{createProviderController.emailsList}">
+											<p:column>
+												<h:outputLabel value="Email" />
+												<p:inputText value="#{emailVar.email}" />
+											</p:column>
 
-													<p:column>
-														<p:commandButton
-															actionListener="#{createProviderController.removeEmailClicked(emailVar)}"
-															value="-" update="@parent:@parent" />
-													</p:column>
-												</p:dataTable>
-											</p:outputPanel>
-										</p:panel>
-									</p:column>
-								</p:row>
+											<p:column>
+												<p:commandButton
+													actionListener="#{createProviderController.removeEmailClicked(emailVar)}"
+													value="-" update="@parent:@parent" />
+											</p:column>
+										</p:dataTable>
+									</p:outputPanel>
+								</p:panel>
+							</p:column>
+						</p:row>
 
-								<p:row id="phoneRow">
-									<p:column>
-										<p:panel header="Phone Numbers">
-											<f:facet name="header">
-												<p:outputLabel value="Phone Number:" />
-												<p:commandButton value="+" update="phoneOutputPanel"
-													actionListener="#{createProviderController.addPhoneClicked()}" />
-											</f:facet>
-											<p:outputPanel id="phoneOutputPanel">
-												<p:dataTable var="phoneVar"
-													value="#{createProviderController.phoneList}">
-													<p:column>
-														<h:outputLabel value="Phone" />
-														<p:inputText value="#{phoneVar.number}" />
-													</p:column>
+						<p:row id="phoneRow">
+							<p:column>
+								<p:panel header="Phone Numbers">
+									<f:facet name="header">
+										<p:outputLabel value="Phone Number:" />
+										<p:commandButton value="+" update="phoneOutputPanel"
+											actionListener="#{createProviderController.addPhoneClicked()}" />
+									</f:facet>
+									<p:outputPanel id="phoneOutputPanel">
+										<p:dataTable var="phoneVar"
+											value="#{createProviderController.phoneList}">
+											<p:column>
+												<h:outputLabel value="Phone" />
+												<p:inputText value="#{phoneVar.number}" />
+											</p:column>
 
-													<p:column>
-														<p:commandButton
-															actionListener="#{createProviderController.removePhoneClicked(phoneVar)}"
-															value="-" update="@parent:@parent" />
-													</p:column>
-												</p:dataTable>
-											</p:outputPanel>
-										</p:panel>
-									</p:column>
-								</p:row>
+											<p:column>
+												<p:commandButton
+													actionListener="#{createProviderController.removePhoneClicked(phoneVar)}"
+													value="-" update="@parent:@parent" />
+											</p:column>
+										</p:dataTable>
+									</p:outputPanel>
+								</p:panel>
+							</p:column>
+						</p:row>
 
-								<p:row id="faxRow">
-									<p:column>
-										<p:panel header="Fax Numbers">
-											<f:facet name="header">
-												<p:outputLabel value="Fax Number:" />
-												<p:commandButton value="+" update="faxOutputPanel"
-													actionListener="#{createProviderController.addFaxClicked()}" />
-											</f:facet>
-											<p:outputPanel id="faxOutputPanel">
-												<p:dataTable var="faxVar"
-													value="#{createProviderController.faxList}">
-													<p:column>
-														<h:outputLabel value="Fax Number" />
-														<p:inputText value="#{faxVar.faxNumber}" />
-													</p:column>
+						<p:row id="faxRow">
+							<p:column>
+								<p:panel header="Fax Numbers">
+									<f:facet name="header">
+										<p:outputLabel value="Fax Number:" />
+										<p:commandButton value="+" update="faxOutputPanel"
+											actionListener="#{createProviderController.addFaxClicked()}" />
+									</f:facet>
+									<p:outputPanel id="faxOutputPanel">
+										<p:dataTable var="faxVar"
+											value="#{createProviderController.faxList}">
+											<p:column>
+												<h:outputLabel value="Fax Number" />
+												<p:inputText value="#{faxVar.faxNumber}" />
+											</p:column>
 
-													<p:column>
-														<p:commandButton
-															actionListener="#{createProviderController.removeFaxClicked(faxVar)}"
-															value="-" update="@parent:@parent" />
-													</p:column>
-												</p:dataTable>
-											</p:outputPanel>
-										</p:panel>
-									</p:column>
-								</p:row>
-							</p:panelGrid>
+											<p:column>
+												<p:commandButton
+													actionListener="#{createProviderController.removeFaxClicked(faxVar)}"
+													value="-" update="@parent:@parent" />
+											</p:column>
+										</p:dataTable>
+									</p:outputPanel>
+								</p:panel>
+							</p:column>
+						</p:row>
+						</p:panelGrid> -->
 						</p:panel>
 					</p:tab>
 
