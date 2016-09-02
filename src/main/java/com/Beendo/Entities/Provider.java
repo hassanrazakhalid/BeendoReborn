@@ -24,10 +24,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.FileSystemUtils;
 
 import com.Beendo.CustomJSON.JSONUserType;
@@ -52,28 +54,30 @@ public class Provider extends BaseEntity {
 	private String lastName;
 	private String npiNum;
  	
-	
-	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.Email")})
-	private ArrayList<Email> emails;
-
 	private String CAQHId;
 	private String CAQHPassword;
+	
+	@Type(type="date")
 	private Date dob;
 	private String socialSecurityNumber;
 	private String degree;
 	private String medicareId;
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
+	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
 	private ProviderQualification qualitication = new ProviderQualification();
 	
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
+	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
 	private OtherProviderInfo otherInfo = new OtherProviderInfo();
 	
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.Email")})
+	private ArrayList<Email> emails = new ArrayList<>();
 	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.PhoneNumber")})
-	private List<PhoneNumber> phoneNumber;
+	private List<PhoneNumber> phoneNumbers = new ArrayList<>();
 	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.FaxNumber")})
-	private List<FaxNumber> faxNumber;
+	private List<FaxNumber> faxNumbers = new ArrayList<>();
 	
 	@OneToMany(mappedBy="provider",cascade={CascadeType.PERSIST,CascadeType.REMOVE})
 	private Set<Document> documents = new HashSet<>();

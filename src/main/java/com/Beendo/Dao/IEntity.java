@@ -10,5 +10,9 @@ public interface IEntity extends ICRUD <CEntitiy, Integer> {
 	public String isEntitynameExist(String userName);
 	public List<CEntitiy> findAllPropertiesId(Integer id);
 	public CEntitiy findEntityById(Integer id);
+	
 	public CEntitiy findEntityWithTransaction(Integer id);
+	
+	public CEntitiy findEntityWithPractisesById(Integer id);
+	public List<CEntitiy> findEntityListWithPractises();
 }

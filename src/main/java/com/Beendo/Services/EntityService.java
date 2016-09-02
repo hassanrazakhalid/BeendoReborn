@@ -2,7 +2,9 @@ package com.Beendo.Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +40,22 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 			resultList = tmpList;
 		}
 		return resultList;
-		// return (List<CEntitiy>) hashEntities.values();
-
+	}
+	
+	@Transactional(readOnly=true)
+	public void getEntityWithPractises(Integer entityId, Consumer<List<CEntitiy>> res) {
+		
+		List<CEntitiy> resultList = new ArrayList<>();
+		if (SharedData.getSharedInstace().shouldReturnFullList())
+			resultList = _service.findEntityListWithPractises();
+		else {
+			CEntitiy entity = _service.findEntityById(entityId);
+//			List<CEntitiy> tmpList = new ArrayList<CEntitiy>();
+//			tmpList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
+			resultList.add(entity);
+		}
+		
+		res.accept(resultList);
 	}
 
 	@Transactional(readOnly=true)

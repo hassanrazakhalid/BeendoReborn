@@ -70,44 +70,6 @@ public class EntityDao extends GenericDao<CEntitiy, Integer> implements IEntity 
 //			return null;
 	}
 
-//	@Transactional
-//	@Override
-//	public void delete(CEntitiy entity) {
-//		// TODO Auto-generated method stub
-//		Session session = this.sessionFactory.getCurrentSession();
-//		
-////		entity.getPracticeList().clear();
-//		
-////		Query	query = session.createQuery("DELETE Practice P WHERE P.entity.id = :id");
-////		query.setParameter("id", entity.getId());
-////		System.out.println(query.executeUpdate());
-////		
-////	    query = session.createQuery("DELETE Provider P WHERE P.centity.id = :id");
-////		query.setParameter("id", entity.getId());
-////		System.out.println(query.executeUpdate());
-//		
-//		session.delete(entity);
-//	}
-
-//	@Override
-//	public void delete(int id) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	@Transactional
-//	public List<CEntitiy> findAll() {
-//		// TODO Auto-generated method stub
-//		return this.sessionFactory.getCurrentSession().createQuery("FROM CEntitiy").list();
-//	}
-//
-//	@Override
-//	public void deleteAll() {
-//		// TODO Auto-generated method stub
-//		
-//	}
-	
 	@Transactional
 	@Override
 	public CEntitiy findEntityById(Integer id) {
@@ -173,6 +135,31 @@ public class EntityDao extends GenericDao<CEntitiy, Integer> implements IEntity 
 			error = "Entity name already exists!";
 		}
 		return error;
+	}
+	
+	public CEntitiy findEntityWithPractisesById(Integer id) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(""
+				+ " FROM CEntitiy E"
+				+ " LEFT JOIN FETCH E.practiceList P"
+				+ " WHERE E.id = :id");
+		query.setParameter("id", id);
+		CEntitiy result = (CEntitiy) query.uniqueResult();
+		return result;
+	}
+	
+	public List<CEntitiy> findEntityListWithPractises() {
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(""
+				+ "SELECT DISTINCT E"
+				+ " FROM CEntitiy E"
+				+ " LEFT JOIN FETCH E.practiceList P"
+				+ " WHERE E.id != 1");
+//		query.setParameter("id", id);
+		List<CEntitiy> result = query.list();
+		return result;
 	}
 	
 /*	@Transactional

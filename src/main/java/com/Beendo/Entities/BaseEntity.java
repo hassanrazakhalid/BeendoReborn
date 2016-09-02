@@ -6,6 +6,7 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import com.Beendo.CustomJSON.JSONListType;
+import com.Beendo.CustomJSON.JSONMapType;
 import com.Beendo.CustomJSON.JSONUserType;
 
 //@TypeDefs({
@@ -16,7 +17,10 @@ import com.Beendo.CustomJSON.JSONUserType;
 @TypeDefs( 
 		{
 			@TypeDef( name= JSONUserType.JSON_Normal, typeClass = JSONUserType.class),
-			@TypeDef( name= JSONUserType.JSON_List, typeClass = JSONListType.class)
+			@TypeDef( name= JSONUserType.JSON_List, typeClass = JSONListType.class),
+			@TypeDef( name= JSONUserType.JSON_Map, typeClass = JSONMapType.class),
+			
+			
 			}
 		
 		)

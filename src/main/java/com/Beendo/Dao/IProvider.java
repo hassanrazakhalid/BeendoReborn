@@ -13,4 +13,5 @@ public interface IProvider extends ICRUD<Provider, Integer> {
 	public void updateProviderList(Set<Provider>list);
 	public List<Provider> findProvidersByEntity(Integer id);
 	public Provider getProviderDetails(Integer id);
+	public Provider getProviderDetailsNoFiles(Integer id);
 }

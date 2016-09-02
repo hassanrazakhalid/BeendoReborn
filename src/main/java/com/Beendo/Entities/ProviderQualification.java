@@ -26,12 +26,12 @@ public class ProviderQualification extends BaseEntity {
 
 	@Id
 	@GeneratedValue
-	private int id;
+	private Integer id;
 	
 	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.DegreeInfo")})
 	private DegreeInfo graduationInfo =  new DegreeInfo();
 	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.DegreeInfo")})
-	private List<DegreeInfo> otherDegrees = new ArrayList<>();
+	private List<DegreeInfo> otherQualification = new ArrayList<>();
 	
 	@OneToOne(mappedBy="qualitication")
 	private Provider provider;

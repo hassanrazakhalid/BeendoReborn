@@ -3,6 +3,7 @@ package com.Beendo.Services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -39,5 +40,10 @@ public interface IProviderService extends GenericService<Provider, Integer> {
 	public void getAllProviderInfo(Integer id, EditProviderCallBack callBack);
 	public void getDocumentByEmail(EmailSendingCallback callBack);
 	public void updateDocuments(List<Document>docList);
+	
+	public void createNewProvider(Provider provider);
+	public void enterDummy();
+	public void getProviderDetailsNoFiles(Integer id, Consumer<Provider> sender);
+	
 
 }

@@ -1,11 +1,12 @@
 package com.Beendo.Services;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,23 +18,18 @@ import com.Beendo.Dao.IDocument;
 import com.Beendo.Dao.IProvider;
 import com.Beendo.Dao.IUserDao;
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.DegreeInfo;
 import com.Beendo.Entities.Document;
 import com.Beendo.Entities.Email;
-import com.Beendo.Entities.Payer;
+import com.Beendo.Entities.Language;
+import com.Beendo.Entities.PhoneNumber;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Slot;
 import com.Beendo.Entities.User;
 import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
-import com.Beendo.Configuration.HibernateAwareObjectMapper;
 
 @Service
 public class ProviderService extends GenericServiceImpl<Provider, Integer> implements IProviderService {
@@ -86,26 +82,35 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 ////		p.getEmails().setEmail("pk@hotmail.com");
 //		o.get(0).setEmail("pk112233@hotmail.com");
 //		service.saveOrUpdate(p);
+		
+//		String json = "{\"Mon\" : { \"startTime\" : \"23:50:15\", \"endTime\" : \"23:70:15\" } }";
 //		ObjectMapper mapper = new ObjectMapper();
-		
 //		mapper.registerModule(new Hibernate4Module());
-		
-		
-//		mapper.registerModule(new HibernateAwareObjectMapper());
-//		String jsonString = o.toString();//"[{\"email\": \"abc\"}, {\"email\": \"abc2\"}]";
+//		
+////		mapper.registerModule(new HibernateAwareObjectMapper());
+////		String jsonString = o.toString();//"[{\"email\": \"abc\"}, {\"email\": \"abc2\"}]";
 //		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 //		try {
-//			List<Email> myObjects = mapper.readValue(jsonString, new TypeReference<List<Email>>(){});
-//			int i = 0;
+//			
+////			TypeReference<HashMap<String,Slot>> typeRef 
+////            = new TypeReference<HashMap<String,Slot>>() {};
+//            MapLikeType mapType =    mapper.getTypeFactory().constructMapLikeType(Map.class, String.class, Slot.class);
+//            Map<String, Object> exchangeRates = mapper.readValue(json, mapType);
+//            
+//            String s = mapper.writeValueAsString(exchangeRates);
+////		Object li =	mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(Map.class, Slot.class));
+////			Object myObjects = mapper.readValue(json, typeRef);
+//			System.out.println("");
 ////			Email[] pojos = objectMapper.readValue(o.toString(), Email[].class);
-//		} catch (JsonParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
+//		}
+////		catch (JsonMappingException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		} catch (IOException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+//		catch (Exception e){
 //			e.printStackTrace();
 //		}
 		
@@ -115,6 +120,61 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 //		}
 		
 		return dataList;
+	}
+	
+	@Transactional(readOnly=true)
+	public void getProviderDetailsNoFiles(Integer id, Consumer<Provider> sender) {
+		
+		Provider provider = service.getProviderDetailsNoFiles(id);
+		sender.accept(provider);
+	}
+	
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRES_NEW)
+	public void enterDummy(){
+	
+		Provider provider = new Provider();
+		provider.setCAQHId("1233444");
+		provider.setCAQHPassword("password");
+		
+		provider.setFirstName("HRK");
+		provider.setLastName("Khalid");
+		provider.setNpiNum("1233344");
+		
+		Email email = new Email();
+		email.setEmail("abc@hotmail.com");
+		Email email2 = new Email();
+		email2.setEmail("abc2@hotmail.com");
+		provider.getEmails().add(email);
+		provider.getEmails().add(email2);
+		
+		PhoneNumber n1 = new PhoneNumber();
+		n1.setNumber("1234");
+		PhoneNumber n2 = new PhoneNumber();
+		n2.setNumber("1234567");
+		provider.getPhoneNumbers().add(n1);
+		provider.getPhoneNumbers().add(n2);
+		
+		provider.getOtherInfo().setOldestPatientAgeLimit(12345);
+
+		Language l1 = new Language();
+		l1.setLanguageName("urdu");
+		Language l2 = new Language();
+		l2.setLanguageName("english");
+		provider.getOtherInfo().getLanguagesList().add(l1);
+		provider.getOtherInfo().getLanguagesList().add(l2);
+
+		DegreeInfo d1 = new DegreeInfo();
+		d1.setCollegeName("Abc");
+		d1.setDegreeName("BSCS");
+		d1.setFinishedDate(new Date());
+		provider.getQualitication().setGraduationInfo(d1);
+		
+		Slot s1 = new Slot();
+		s1.setStartTime(new Date());
+		s1.setEndTime(new Date());
+		provider.getOtherInfo().getSlots().put("Mon", s1);
+		
+		service.saveOrUpdate(provider);
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -251,5 +311,13 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 			documentDao.update(document);
 		}
 //		return documentDao.getDocumentByEmail();
+	}
+	
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
+	public void createNewProvider(Provider provider) {
+		
+		provider.getOtherInfo().setProvider(provider);
+		provider.getQualitication().setProvider(provider);
+		service.saveOrUpdate(provider);
 	}
 }

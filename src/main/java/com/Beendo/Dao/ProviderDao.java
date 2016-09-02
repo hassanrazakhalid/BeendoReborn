@@ -155,4 +155,19 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 		else
 			return null;
 	}
+	
+	@Override
+	public Provider getProviderDetailsNoFiles(Integer id){
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		Query quey = session.createQuery("SELECT P FROM Provider P"
+				+ " LEFT JOIN FETCH P.qualitication"
+				+ " LEFT JOIN FETCH P.otherInfo"
+				+ " WHERE P.id=:id");
+		quey.setParameter("id", id);
+		
+		Provider res = (Provider) quey.uniqueResult();
+		return res;
+	}
 }

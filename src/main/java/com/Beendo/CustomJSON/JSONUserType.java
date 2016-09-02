@@ -18,6 +18,7 @@ import com.Beendo.Entities.Email;
 import com.Beendo.Entities.FaxNumber;
 import com.Beendo.Entities.PhoneNumber;
 import com.Beendo.Entities.Speciality;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +41,7 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
 
 	public static final String JSON_List = "JSONListType";
 	public static final String JSON_Normal = "JSONUserType";
+	public static final String JSON_Map = "JSONMapType";
 	
   private static final long serialVersionUID = 1L;
   
@@ -62,6 +64,7 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
  public JSONUserType() {
 	
 	 MAPPER.configure(SerializationFeature.INDENT_OUTPUT, true);
+	 MAPPER.setSerializationInclusion(Include.NON_NULL);
 }
   
   @Override
@@ -174,9 +177,7 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
         try {
           String content = rs.getString(names[0]);
           if (content != null) {
-//        	  String s = MAPPER.writeValueAsString(content);
-        	  obj = MAPPER.readValue(content, MAPPER.getTypeFactory().constructCollectionType(List.class, classType));
-//            obj = MAPPER.readValue(content, new TypeReference<List<Email>>(){});
+        	  obj = MAPPER.readValue(content, classType);
           }
         } catch (IOException e) {
           throw new HibernateException("unable to read object from result set", e);
@@ -190,7 +191,8 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
   public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws HibernateException,
   SQLException {
     if (value == null) {
-//      st.setNull(index, this.sqlType);
+    	
+    	st.setNull(index, Types.JAVA_OBJECT);
     } else {
       
 //      if (this.sqlType == Types.CLOB || this.sqlType == Types.BLOB) {
