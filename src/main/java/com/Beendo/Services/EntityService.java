@@ -1,7 +1,9 @@
 package com.Beendo.Services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -11,9 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.Beendo.Dao.IBoardInfo;
 import com.Beendo.Dao.IEntity;
+import com.Beendo.Dao.ISpecialityInfo;
+import com.Beendo.Entities.BoardInfo;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.Speciality;
+import com.Beendo.Entities.SpecialityInfo;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
@@ -23,6 +30,11 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 
 	@Autowired
 	private IEntity _service;
+	
+	@Autowired
+	private IBoardInfo boardDao;
+	@Autowired
+	private ISpecialityInfo specialityDao;
 
 	@Transactional(readOnly=true)
 	public List<CEntitiy> fetchAllEntitiesByUse() {
@@ -43,7 +55,7 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 	}
 	
 	@Transactional(readOnly=true)
-	public void getEntityWithPractises(Integer entityId, Consumer<List<CEntitiy>> res) {
+	public void getEntityWithPractises(Integer entityId, Consumer<Map<String,Object>> res) {
 		
 		List<CEntitiy> resultList = new ArrayList<>();
 		if (SharedData.getSharedInstace().shouldReturnFullList())
@@ -55,7 +67,14 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 			resultList.add(entity);
 		}
 		
-		res.accept(resultList);
+		List<SpecialityInfo> specialityList = specialityDao.findAll();
+		List<BoardInfo> boardList = boardDao.findAll();
+		
+		Map<String,Object> response = new HashMap<String, Object>();
+		response.put("arg1", resultList);
+		response.put("arg2", specialityList);
+		response.put("arg3", boardList);
+		res.accept(response);
 	}
 
 	@Transactional(readOnly=true)

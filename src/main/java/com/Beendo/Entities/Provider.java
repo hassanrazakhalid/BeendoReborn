@@ -85,7 +85,21 @@ public class Provider extends BaseEntity {
 	@ManyToOne
 	private CEntitiy centity;
 	
+	public ProviderQualification getQualitication(){
+		
+		if (qualitication == null){	
+			qualitication = new ProviderQualification();
+		}
+		return qualitication;
+	}
 	
+		public OtherProviderInfo getOtherInfo(){
+		
+		if (otherInfo == null){	
+			otherInfo = new OtherProviderInfo();
+		}
+		return otherInfo;
+	}
 	
 	/*@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Payer> payerList = new HashSet<Payer>();*/
@@ -199,8 +213,6 @@ public class Provider extends BaseEntity {
 	
 	public void deleteDocumentFolder(){
 		
-		
-		
 	 	File directory = new File(getFolderPath());
 	 	FileSystemUtils.deleteRecursively(directory);
     	//make sure directory exists
@@ -225,4 +237,27 @@ public class Provider extends BaseEntity {
     	System.out.println("Done");
     }*/
 	}
+
+	public ArrayList<Email> getEmails() {
+		if (emails == null){
+			emails = new ArrayList<>();
+		}
+		return emails;
+	}
+
+	public List<PhoneNumber> getPhoneNumbers() {
+		if (phoneNumbers == null){
+			phoneNumbers = new ArrayList<>();
+		}
+		return phoneNumbers;
+	}
+
+	public List<FaxNumber> getFaxNumbers() {
+		if (faxNumbers == null){
+			faxNumbers = new ArrayList<>();
+		}
+		return faxNumbers;
+	}
+	
+	
 }

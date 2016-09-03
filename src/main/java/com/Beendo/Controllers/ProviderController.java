@@ -1,6 +1,7 @@
 package com.Beendo.Controllers;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -56,7 +57,12 @@ import lombok.Setter;
 @Controller
 //@Scope(value = "session")
 @SpringScopeView
-public class ProviderController extends BaseViewController implements DisposableBean {
+public class ProviderController extends BaseViewController implements DisposableBean,Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7529847705103493695L;
 
 	@Autowired
 	private IProviderService providerService;

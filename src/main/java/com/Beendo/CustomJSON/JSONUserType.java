@@ -45,7 +45,7 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
 	
   private static final long serialVersionUID = 1L;
   
-   static final ObjectMapper MAPPER = new ObjectMapper();
+  public static final ObjectMapper MAPPER = new ObjectMapper();
   
   public static final String CLASS_TYPE = "classType";
   private static final String TYPE = "type";

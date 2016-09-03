@@ -2,6 +2,7 @@ package com.Beendo.Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -24,6 +25,6 @@ public interface IEntityService extends GenericService<CEntitiy, Integer> {
 	public String isUsernameExist(String name);
 	public CEntitiy findEntityWithTransaction(Integer id);
 	
-	public void getEntityWithPractises(Integer id, Consumer<List<CEntitiy>> res);
+	public void getEntityWithPractises(Integer entityId, Consumer<Map<String,Object>> res);
 	
 }

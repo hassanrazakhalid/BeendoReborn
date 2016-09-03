@@ -167,7 +167,7 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 		d1.setCollegeName("Abc");
 		d1.setDegreeName("BSCS");
 		d1.setFinishedDate(new Date());
-		provider.getQualitication().setGraduationInfo(d1);
+//		provider.getQualitication().setGraduationInfo(d1);
 		
 		Slot s1 = new Slot();
 		s1.setStartTime(new Date());

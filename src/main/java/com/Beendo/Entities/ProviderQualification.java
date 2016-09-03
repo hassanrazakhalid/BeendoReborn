@@ -29,9 +29,9 @@ public class ProviderQualification extends BaseEntity {
 	private Integer id;
 	
 	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.DegreeInfo")})
-	private DegreeInfo graduationInfo =  new DegreeInfo();
+	private DegreeInfo primaryDegree =  new DegreeInfo();
 	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.DegreeInfo")})
-	private List<DegreeInfo> otherQualification = new ArrayList<>();
+	private List<DegreeInfo> otherDegrees = new ArrayList<>();
 	
 	@OneToOne(mappedBy="qualitication")
 	private Provider provider;
@@ -44,6 +44,52 @@ public class ProviderQualification extends BaseEntity {
 	
 	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality")})
 	private Speciality primarySpeciality = new Speciality();
-	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality"),@Parameter(name="type", value="List")})
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality")})
 	private List<Speciality> otherSpecialities = new ArrayList<>();
+	
+	
+	public DegreeInfo getPrimaryDegree() {
+		if (primaryDegree == null){
+			primaryDegree = new DegreeInfo();
+		}
+		
+		return primaryDegree;
+	}
+	public List<DegreeInfo> getOtherDegrees() {
+		if (otherDegrees == null){
+			otherDegrees = new ArrayList<>();
+		}
+		return otherDegrees;
+	}
+	public Experience getResidencyInfo() {
+		if (residencyInfo == null) {
+			residencyInfo = new Experience();
+		}
+		
+		return residencyInfo;
+	}
+	public Experience getInternshipInfo() {
+		
+		if (internshipInfo == null) {
+			internshipInfo = new Experience();
+		}
+		return internshipInfo;
+	}
+	public Speciality getPrimarySpeciality() {
+		
+		if (primarySpeciality == null){
+			primarySpeciality = new Speciality();
+		}
+		return primarySpeciality;
+	}
+	public List<Speciality> getOtherSpecialities() {
+		
+		if (otherSpecialities == null){
+			otherSpecialities = new ArrayList<>();
+		}
+		return otherSpecialities;
+	}
+	
+	
+	
 }

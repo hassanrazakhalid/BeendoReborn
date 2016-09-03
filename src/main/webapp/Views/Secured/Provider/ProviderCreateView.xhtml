@@ -257,12 +257,12 @@
 									<b:row>
 										<b:column span="6">
 											<b:inputText placeholder="Medical College"
-												value="#{createProviderController.provider.qualitication.graduationInfo.collegeName}" />
+												value="#{createProviderController.provider.qualitication.primaryDegree.collegeName}" />
 										</b:column>
 										<b:column span="6">
 
 											<b:inputText placeholder="Name of Degree Earned"
-												value="#{createProviderController.provider.qualitication.graduationInfo.degreeName}" />
+												value="#{createProviderController.provider.qualitication.primaryDegree.degreeName}" />
 
 										</b:column>
 									</b:row>
@@ -271,7 +271,7 @@
 										<b:column span="6">
 											<b:datepicker placeholder="Graducation Date" mode="toggle-icon"
 												showWeek="true" firstDay="1"
-												value="#{createProviderController.provider.qualitication.graduationInfo.finishedDate}" />
+												value="#{createProviderController.provider.qualitication.primaryDegree.finishedDate}" />
 										</b:column>
 									</b:row>
 								</b:panel>
@@ -285,7 +285,7 @@
 											actionListener="#{createProviderController.addOtherDegreeClicked()}" />
 									</f:facet>
 									<ui:repeat var="degree"
-										value="#{createProviderController.provider.qualitication.otherQualification}">
+										value="#{createProviderController.provider.qualitication.otherDegrees}">
 
 										<b:row>
 											<b:column span="6">
@@ -391,13 +391,14 @@
 									</b:column>
 									<b:column span="8">
 										<p:selectOneMenu
-											value="#{createProviderController.provider.qualitication.primarySpeciality.name}">
+										converter="javax.faces.Integer"
+										value="#{createProviderController.provider.qualitication.primarySpeciality.specialityInfo.id}">
 
 											<f:selectItem itemLabel="Select One" itemValue="" />
 											<f:selectItems
-												value="#{createProviderController.primarySpeciality}"
-												var="specility" itemLabel="#{specility}"
-												itemValue="#{specility}" />
+												value="#{createProviderController.specialityList}"
+												var="specilityInfo" itemLabel="#{specilityInfo.name}"
+												itemValue="#{specilityInfo.id}" />
 										</p:selectOneMenu>
 									</b:column>
 								</b:row>
@@ -408,12 +409,13 @@
 									</b:column>
 									<b:column span="8">
 										<p:selectOneMenu
-											value="#{createProviderController.provider.qualitication.primarySpeciality.board}">
+										converter="javax.faces.Integer"
+											value="#{createProviderController.provider.qualitication.primarySpeciality.boardInfo.id}">
 
 											<f:selectItem itemLabel="Select One" itemValue="" />
 											<f:selectItems
-												value="#{createProviderController.nameOfBoards}" var="board"
-												itemLabel="#{board}" itemValue="#{board}" />
+												value="#{createProviderController.boardList}" var="boardInfo"
+												itemLabel="#{boardInfo.name}" itemValue="#{boardInfo.id}" />
 										</p:selectOneMenu>
 									</b:column>
 								</b:row>
@@ -421,8 +423,7 @@
 						</b:column>
 
 					<b:column span="6">
-												<b:panel title="Secondary Specilities" span="12">
-
+							<b:panel title="Secondary Specilities" span="12">
 								<f:facet name="footer">
 									<p:outputLabel value="Add more" />
 									<p:commandButton value="+"
@@ -430,7 +431,7 @@
 										update="@parent:@parent" />
 								</f:facet>
 
-								<ui:repeat var="specility"
+ 								<ui:repeat var="specility"
 									value="#{createProviderController.provider.qualitication.otherSpecialities}">
 
 									<b:row>
@@ -439,13 +440,14 @@
 										</b:column>
 
 										<b:column span="5">
-											<p:selectOneMenu value="#{specility.name}">
-
+											<p:selectOneMenu value="#{specility.specialityInfo.id}"
+											converter="javax.faces.Integer"
+											>
 												<f:selectItem itemLabel="Select One" itemValue="" />
 												<f:selectItems
-													value="#{createProviderController.primarySpeciality}"
-													var="specility" itemLabel="#{specility}"
-													itemValue="#{specility}" />
+													value="#{createProviderController.specialityList}" var="specilityInfo"
+													 itemLabel="#{specilityInfo.name}"
+													itemValue="#{specilityInfo.id}" />
 											</p:selectOneMenu>
 										</b:column>
 
@@ -462,12 +464,12 @@
 										</b:column>
 
 										<b:column span="5">
-											<p:selectOneMenu value="#{specility.board}">
+											<p:selectOneMenu value="#{specility.boardInfo.id}">
 
 												<f:selectItem itemLabel="Select One" itemValue="" />
 												<f:selectItems
-													value="#{createProviderController.nameOfBoards}"
-													var="board" itemLabel="#{board}" itemValue="#{board}" />
+													value="#{createProviderController.boardList}" var="boardInfo"
+													itemLabel="#{boardInfo.name}" itemValue="#{boardInfo.id}" />
 											</p:selectOneMenu>
 										</b:column>
 									</b:row>

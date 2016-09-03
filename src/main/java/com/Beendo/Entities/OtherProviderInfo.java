@@ -65,4 +65,26 @@ public class OtherProviderInfo extends BaseEntity {
 		
 		return list;
 	}
+
+
+
+	public List<Language> getLanguagesList() {
+		
+		if (languagesList == null) {
+			languagesList = new ArrayList<>();
+		}
+		return languagesList;
+	}
+
+
+
+	public Map<String, Slot> getSlots() {
+		
+		if (slots == null){
+			slots = new HashMap<>();
+		}
+		return slots;
+	}
+	
+	
 }

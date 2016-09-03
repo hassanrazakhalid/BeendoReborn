@@ -11,9 +11,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.Beendo.Utils.SharedData;
+
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 	
-//    private static final Logger log = Logger.getLogger(CustomExceptionHandler.class.getCanonicalName());
+	private final Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
     private ExceptionHandler wrapped;
  
     CustomExceptionHandler(ExceptionHandler exception) {
@@ -37,6 +42,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
             // get the exception from context
             Throwable t = context.getException();
  
+            logger.debug(t.toString());
             final FacesContext fc = FacesContext.getCurrentInstance();
             final Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
             final NavigationHandler nav = fc.getApplication().getNavigationHandler();
