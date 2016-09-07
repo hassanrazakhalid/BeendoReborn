@@ -5,6 +5,7 @@ import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
+import com.Beendo.CustomJSON.JSONCustomDeserializer;
 import com.Beendo.CustomJSON.JSONListType;
 import com.Beendo.CustomJSON.JSONMapType;
 import com.Beendo.CustomJSON.JSONUserType;
@@ -19,6 +20,7 @@ import com.Beendo.CustomJSON.JSONUserType;
 			@TypeDef( name= JSONUserType.JSON_Normal, typeClass = JSONUserType.class),
 			@TypeDef( name= JSONUserType.JSON_List, typeClass = JSONListType.class),
 			@TypeDef( name= JSONUserType.JSON_Map, typeClass = JSONMapType.class),
+			@TypeDef( name= JSONUserType.JSON_CustomDeserializer, typeClass = JSONCustomDeserializer.class),
 			
 			
 			}

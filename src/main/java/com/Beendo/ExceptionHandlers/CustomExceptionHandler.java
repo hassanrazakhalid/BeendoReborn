@@ -42,7 +42,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
             // get the exception from context
             Throwable t = context.getException();
  
-            logger.debug(t.toString());
+            logger.info(t.toString());
             final FacesContext fc = FacesContext.getCurrentInstance();
             final Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
             final NavigationHandler nav = fc.getApplication().getNavigationHandler();

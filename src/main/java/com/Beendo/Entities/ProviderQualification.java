@@ -14,6 +14,8 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
 import com.Beendo.CustomJSON.JSONUserType;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,9 +44,10 @@ public class ProviderQualification extends BaseEntity {
 	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Experience")})
 	private Experience internshipInfo = new Experience();
 	
-	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality")})
+//	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality")})
+	@Type(type = JSONUserType.JSON_CustomDeserializer, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality")})
 	private Speciality primarySpeciality = new Speciality();
-	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality")})
+	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = "classType", value = "com.Beendo.Entities.Speciality")})	
 	private List<Speciality> otherSpecialities = new ArrayList<>();
 	
 	

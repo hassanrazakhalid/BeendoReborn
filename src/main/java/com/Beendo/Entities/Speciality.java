@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Getter;
@@ -26,19 +27,27 @@ import lombok.Setter;
 //@JsonSerialize(using=SpecialitySerializer.class)
 public class Speciality {
 
+//	@JsonDeserialize(using = FieldDeserializer.class)
 	private SpecialityInfo specialityInfo = new SpecialityInfo();
 	private BoardInfo boardInfo = new BoardInfo();
 	
 	public Speciality() {
 		// TODO Auto-generated constructor stub
 	}
+	
 //	HashMap<String, HashMap<String, String>>
-	@JsonCreator
+	
+	
+//	public void setSpecialityInfo(SpecialityInfo specialityInfo) {
+//		this.specialityInfo = specialityInfo;
+//	}
+//	@JsonCreator
 	public Speciality(Object info) {
 		
 		if (info instanceof Map) {
 			
 			Map<String,Map<String,String>> tmpMap = (Map<String,Map<String,String>> )info;
+			
 			Map<String,String> obj1 = tmpMap.get("boardInfo");
 			Map<String,String> obj2 = tmpMap.get("specinityInfo");
 			this.specialityInfo = deserializeSpeciality(obj1);
@@ -60,7 +69,7 @@ public class Speciality {
 			}	
 		}
 	}
-	
+
 	private SpecialityInfo deserializeSpeciality(Map<String,String> obj){
 		
 		ObjectMapper mapper = JSONUserType.MAPPER;
@@ -112,6 +121,8 @@ public class Speciality {
 		}
 		return boardInfo;
 	}
-	
+
+
+
 	
 }

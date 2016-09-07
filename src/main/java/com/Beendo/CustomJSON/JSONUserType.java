@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,8 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
 	public static final String JSON_List = "JSONListType";
 	public static final String JSON_Normal = "JSONUserType";
 	public static final String JSON_Map = "JSONMapType";
+	public static final String JSON_CustomDeserializer = "JSONCustomDeserializer";
+	
 	
   private static final long serialVersionUID = 1L;
   
@@ -65,6 +68,11 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
 	
 	 MAPPER.configure(SerializationFeature.INDENT_OUTPUT, true);
 	 MAPPER.setSerializationInclusion(Include.NON_NULL);
+	 
+//	 SimpleModule mod = new SimpleModule("MyModule");
+//	 mod.addSerializer(new CustomSerializer(SWEngineer.class));
+//	 mod.addDeserializer(Speciality.class, new FieldDeserializer(Speciality.class));
+//	 mapper.registerModule(mod);
 }
   
   @Override
