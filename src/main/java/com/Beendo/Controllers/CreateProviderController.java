@@ -101,7 +101,7 @@ public class CreateProviderController extends BaseViewController implements Seri
 	private void refreshAllData() {
 
 		Integer entityId = SharedData.getSharedInstace().getCurrentUser().getEntity().getId();
-		entityService.getEntityWithPractises(entityId, (map) -> {
+		entityService.getEntityWithPractisesAndBoardSpeciality(entityId, (map) -> {
 
 			this.entityList = (List<CEntitiy>) map.get("arg1");
 			this.specialityList = (List<SpecialityInfo>) map.get("arg2");

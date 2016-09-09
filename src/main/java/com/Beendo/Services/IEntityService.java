@@ -25,6 +25,7 @@ public interface IEntityService extends GenericService<CEntitiy, Integer> {
 	public String isUsernameExist(String name);
 	public CEntitiy findEntityWithTransaction(Integer id);
 	
-	public void getEntityWithPractises(Integer entityId, Consumer<Map<String,Object>> res);
+	public void getEntityWithPractises(Integer entityId, Consumer<List<CEntitiy>> res);
+	public void getEntityWithPractisesAndBoardSpeciality(Integer entityId, Consumer<Map<String,Object>> res);
 	
 }

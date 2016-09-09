@@ -85,6 +85,10 @@
    <from-outcome>CreateProvider</from-outcome>
    <to-view-id>/Views/Secured/Provider/ProviderCreateView.xhtml</to-view-id>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>CreatePractice</from-outcome>
+   <to-view-id>/Views/Secured/Practise/CreatePracticeView.xhtml</to-view-id>
+  </navigation-case>
  </navigation-rule>
  <application>
   <action-listener>org.primefaces.application.DialogActionListener</action-listener>

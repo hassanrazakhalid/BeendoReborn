@@ -111,6 +111,12 @@
     PATH="/Views/Secured/Provider/ProviderCreateView.xhtml"
     TARGET="rules:#Views#Secured#Provider#ProviderCreateView.xhtml"
     TITLE="CreateProvider" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="CreatePractice::#Views#Secured#Practise#CreatePracticeView.xhtml"
+    NAME="output15"
+    PATH="/Views/Secured/Practise/CreatePracticeView.xhtml"
+    TARGET="rules:#Views#Secured#Practise#CreatePracticeView.xhtml"
+    TITLE="CreatePractice" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
@@ -132,4 +138,8 @@
   NAME="rules:#Views#Secured#Provider#ProviderCreateView.xhtml"
   PATH="/Views/Secured/Provider/ProviderCreateView.xhtml"
   SHAPE="304,257,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#Views#Secured#Practise#CreatePracticeView.xhtml"
+  PATH="/Views/Secured/Practise/CreatePracticeView.xhtml"
+  SHAPE="304,145,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

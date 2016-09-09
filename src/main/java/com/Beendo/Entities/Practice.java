@@ -15,7 +15,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +33,14 @@ public class Practice {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	private String name;	
+	
+	private String groupPtan;
+	private String tin;
+	private String groupNpi;
+	
+	@OneToOne
+	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
+	private PracticeAddress practiceAddress = new PracticeAddress();
 	
 	@ManyToOne
 //	@JoinColumn(name="ENTITY_ID") just to change the column name

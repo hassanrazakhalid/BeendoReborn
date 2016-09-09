@@ -170,11 +170,12 @@ public class PractiseController {
 		practiceName = "";
 	}
 
-	public void createClicked() {
+	public String createClicked() {
 
-		this.operationType = OperationType.Create;
-		isEntityListEnabled = false;
-		initNewPractise();
+		return "CreatePractice";
+//		this.operationType = OperationType.Create;
+//		isEntityListEnabled = false;
+//		initNewPractise();
 	}
 
 	public void updateClicked(Practice sender) {

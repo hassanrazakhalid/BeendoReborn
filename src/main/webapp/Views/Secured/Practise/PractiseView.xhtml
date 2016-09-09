@@ -21,11 +21,12 @@
 		<ui:define name="mainContent">
 			<!-- <h2>Practise Details</h2> -->
 
+ <!-- resetValues="true"
+					oncomplete="PF('dlg2').show()" update=":createForm"> -->
+
 			<h:form rendered="#{practiseController.canCreatePracise()}">
-				<p:commandButton value="Create Practice"
-					action="#{practiseController.createClicked()}" resetValues="true"
-					oncomplete="PF('dlg2').show()" update=":createForm">
-				</p:commandButton>
+			
+			<p:link outcome="#{practiseController.createClicked()}" value="Create Practice" />
 			</h:form>
 
 			<!-- <ui:include src="/createPractise.xhtml" /> -->
@@ -57,11 +58,17 @@
 				<p:column headerText="Operation"
 					rendered="#{practiseController.canEditPracise()}">
 					<h:form style="text-align:center">
-						<p:commandButton icon="ui-icon-pencil"
+					
+					<h:link value="Edit "
+							outcome="#{practiseController.createClicked()}">
+
+							<f:param name="id" value="#{practise.id}" />
+						</h:link>
+						<!-- <p:commandButton icon="ui-icon-pencil"
 							action="#{practiseController.updateClicked(practise)}"
 							oncomplete="PF('dlg2').show()"
 							update=":createForm, :practiseTable" />
-
+ -->
 						<p:commandButton icon="ui-icon-trash"
 							action="#{practiseController.remove(practise)}"
 							update=":practiseTable" resetValues="true"
@@ -85,7 +92,7 @@
 
 			<!-- Create and Update Code -->
 
-			<p:dialog id="practiseDialog" header="Create Practice"
+<!-- 			<p:dialog id="practiseDialog" header="Create Practice"
 				widgetVar="dlg2" modal="true" height="250">
 
 				<h:form id="createForm">
@@ -95,12 +102,12 @@
 						<p:outputLabel for="practiseName" value="Practice Name:" />
 						<p:inputText id="practiseName" label="Practice Name"
 							required="true" value="#{practiseController.practiceName}">
-							<!-- <f:validateLength minimum="5" /> -->
+							<f:validateLength minimum="5" />
 							<p:ajax event="keyup" update="msgs,iconAlertName"></p:ajax>
-							<!-- <f:validator validatorId="custom.PractiseValidator" /> -->
+							<f:validator validatorId="custom.PractiseValidator" />
 						</p:inputText>
 						<p:message for="practiseName" display="icon" id="iconAlertName" />
-						<!-- <h:panelGroup> -->
+						<h:panelGroup>
 
 
 						<p:outputLabel for="entity" value="Entity: "
@@ -118,24 +125,24 @@
 							rendered="#{!practiseController.isSingleItemInEntityList()}"
 							disabled="#{practiseController.isEntityListEnabled}">
 
-							<!--  <f:selectItem itemLabel="Choose entity" itemValue="#{null}" /> -->
+							 <f:selectItem itemLabel="Choose entity" itemValue="#{null}" />
 
 							<f:selectItems value="#{practiseController.listEntities}"
 								var="entity" itemLabel="#{entity.name}" itemValue="#{entity.id}" />
 
-							<!-- <p:column>
+							<p:column>
 								 <h:outputText value="#{t}" />
-							</p:column> -->
+							</p:column>
 						</p:selectOneMenu>
 
-						<!-- <p:selectOneMenu id="entities"
+						<p:selectOneMenu id="entities"
 							value="#{practiseController.entityName}" style="width:150px">
 							<p:ajax listener="#{dropdownView.onCountryChange}" />
 							<f:selectItem itemLabel="Select Entity" itemValue=""
 								noSelectionOption="true" />
 							<f:selectItems value="#{practiseController.listEntities}" />
-						</p:selectOneMenu> -->
-						<!-- </h:panelGroup> -->
+						</p:selectOneMenu>
+						</h:panelGroup>
 					</h:panelGrid>
 
 					<p:separator />
@@ -152,7 +159,7 @@
 					</p:blockUI>
 				</h:form>
 			</p:dialog>
-
+ -->
 
 
 			<style>

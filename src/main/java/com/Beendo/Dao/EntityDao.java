@@ -22,35 +22,6 @@ public class EntityDao extends GenericDao<CEntitiy, Integer> implements IEntity 
 	@Autowired
     private SessionFactory sessionFactory;
 	
-//	@Override
-//	@Transactional
-//	public void save(CEntitiy entity) {
-//		
-//		this.sessionFactory.getCurrentSession().save(entity);
-//	}
-//
-//	@Override
-//	@Transactional
-//	public void update(CEntitiy entity) {
-//		
-//		this.sessionFactory.getCurrentSession().update(entity);
-//	}
-//	
-//	@Override
-//	public void update(int id) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Transactional
-//	@Override
-//	public CEntitiy findById(Integer id) {
-//		// TODO Auto-generated method stub
-//		Session session = this.sessionFactory.getCurrentSession();
-//		CEntitiy entity = (CEntitiy)session.get(CEntitiy.class, id);
-//		return entity;
-//	}
-	
 	@Transactional
 	@Override
 	public List<CEntitiy> findAllPropertiesId(Integer id) {

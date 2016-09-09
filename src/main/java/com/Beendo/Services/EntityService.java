@@ -55,15 +55,27 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 	}
 	
 	@Transactional(readOnly=true)
-	public void getEntityWithPractises(Integer entityId, Consumer<Map<String,Object>> res) {
+	public void getEntityWithPractises(Integer entityId, Consumer<List<CEntitiy>> res) {
 		
 		List<CEntitiy> resultList = new ArrayList<>();
 		if (SharedData.getSharedInstace().shouldReturnFullList())
 			resultList = _service.findEntityListWithPractises();
 		else {
 			CEntitiy entity = _service.findEntityById(entityId);
-//			List<CEntitiy> tmpList = new ArrayList<CEntitiy>();
-//			tmpList.add(SharedData.getSharedInstace().getCurrentUser().getEntity());
+			resultList.add(entity);
+		}
+	
+		res.accept(resultList);
+	}
+	
+	@Transactional(readOnly=true)
+	public void getEntityWithPractisesAndBoardSpeciality(Integer entityId, Consumer<Map<String,Object>> res) {
+		
+		List<CEntitiy> resultList = new ArrayList<>();
+		if (SharedData.getSharedInstace().shouldReturnFullList())
+			resultList = _service.findEntityListWithPractises();
+		else {
+			CEntitiy entity = _service.findEntityById(entityId);
 			resultList.add(entity);
 		}
 		
@@ -76,6 +88,7 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 		response.put("arg3", boardList);
 		res.accept(response);
 	}
+	 
 
 	@Transactional(readOnly=true)
 	public List<CEntitiy> fetchAllByRole(Screen screen) {

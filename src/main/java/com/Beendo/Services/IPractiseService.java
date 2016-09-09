@@ -26,4 +26,5 @@ public interface IPractiseService extends GenericService<Practice, Integer> {
 	public List<Practice> getPracticeByUser(Integer userId);
 	
 	public void refreshAllData(IPracticeCallBack callBack);
+
 }
