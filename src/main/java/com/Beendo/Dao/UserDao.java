@@ -3,8 +3,9 @@
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Query;
+
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -36,7 +37,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 		query.setParameter("appUserName", appUserName);
 		query.setParameter("password", password);
 		
-		List<User> result = query.list();
+		List<User> result = query.getResultList();
 		if(!result.isEmpty())
 			user = result.get(0);
 		
@@ -53,7 +54,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 		Query query = session.createQuery("FROM User U where U.appUserName = :appUserName");
 		query.setParameter("appUserName", userName);
 		
-		List<User> result = query.list();
+		List<User> result = query.getResultList();
 		if(!result.isEmpty())
 			user = result.get(0);
 		
@@ -68,7 +69,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 		Query query = session.createQuery("FROM User U where U.email = :email");
 		query.setParameter("email", email);
 		
-		List<User> result = query.list();
+		List<User> result = query.getResultList();
 		if(!result.isEmpty())
 			user = result.get(0);
 		
@@ -146,7 +147,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 		query.setParameter("arg1", Role.ROOT_ADMIN.toString());
 		query.setParameter("arg2", Role.ROOT_USER.toString());
 		
-		List<User> result = query.list();
+		List<User> result = query.getResultList();
 		return result;	
 	}
 	
@@ -160,7 +161,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 		query.setParameter("id", id);
 		query.setParameter("role", Role.ENTITY_ADMIN.toString());
 		
-		List<User> result = query.list();
+		List<User> result = query.getResultList();
 		if(result.size() > 0)// means OK
 		{
 			error = "Admin already exist";
@@ -178,7 +179,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 		
 		query.setParameter("userName", userName.toLowerCase());
 		
-		List<User> result = query.list();
+		List<User> result = query.getResultList();
 		if(result.size() > 0)// means OK
 		{
 			error = "Username already exist";
@@ -196,7 +197,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 		
 		query.setParameter("email", email.toLowerCase());
 		
-		List<User> result = query.list();
+		List<User> result = query.getResultList();
 		if(result.size() > 0)// means OK
 		{
 			error = "Email already exist";
@@ -214,7 +215,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 				+ " WHERE U.id =:id");
 		query.setParameter("id", id);
 		
-		List<Practice> list = query.list();
+		List<Practice> list = query.getResultList();
 		
 //		for (Practice practice : list) {
 //			
@@ -252,7 +253,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 
 		
 		query.setParameter("id", id);
-		List<User> list = query.list();
+		List<User> list = query.getResultList();
 		
 //		for (User user : list) {
 //		
@@ -275,7 +276,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 				+ " WHERE P.id =:id");
 		
 		query.setParameter("id", practiceId);
-		List<User> list = query.list();
+		List<User> list = query.getResultList();
 		if(list.size() > 0)
 			isExist = true;
 		return isExist;
@@ -292,7 +293,7 @@ public class UserDao extends GenericDao<User, Integer> implements IUserDao {
 				+ " U.roleName = 'ROOT_USER'");
 		
 		query.setParameter("role", "ENTITY_ADMIN");
-		List<User> list = query.list();
+		List<User> list = query.getResultList();
 		return list;
 	}
 }

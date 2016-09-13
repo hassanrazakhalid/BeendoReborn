@@ -34,7 +34,7 @@ import lombok.Setter;
 public class User implements UserDetails {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	@Column(name = "User_Id")
 	private Integer id;
 	private String name;

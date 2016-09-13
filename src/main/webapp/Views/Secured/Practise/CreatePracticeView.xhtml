@@ -32,7 +32,7 @@
 						flowListener="#{createPracticeController.onFlowProcess}">
 
 						<p:tab title="Basic Info">
-
+						<p:messages showDetail="true" autoUpdate="true" />
 							<b:column span="6">
 								<b:panel title="Enter Basic Info">
 									<!-- First Row left coloum -->
@@ -73,7 +73,7 @@
 											<p:outputLabel value="Entity List" for="entityId" />
 										</b:column>
 										<b:column span="6">
-											<p:selectOneMenu id="entityId"
+											<p:selectOneMenu disabled="#{createPracticeController.isEntityListDisabled()}" id="entityId"
 												value="#{createPracticeController.selectedEntityId}"
 												converter="javax.faces.Integer">
 
@@ -98,7 +98,7 @@
 							</b:column>
 						</p:tab>
 						<p:tab title="Address Information">
-
+						<p:messages showDetail="true" autoUpdate="true" />
 							<b:column span="6">
 								<b:panel title="Service Location Address">
 
@@ -171,6 +171,7 @@
 											</b:column>
 
 										</b:row>
+										<p:separator />
 									</ui:repeat>
 
 
@@ -250,7 +251,7 @@
 											</b:column>
 
 										</b:row>
-										
+										<p:separator />
 									</ui:repeat>
 
 									

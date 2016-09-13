@@ -3,9 +3,8 @@ package com.Beendo.Dao;
 import java.util.List;
 import java.util.Set;
 
-import javax.transaction.Transactional;
+import javax.persistence.Query;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +79,6 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 //		
 //	}
 
-	@Transactional
 	@Override
 	public String isNPIExist(String npi) {
 		// TODO Auto-generated method stub
@@ -92,7 +90,7 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 		//query.setParameter("name", name);
 		//query.setParameter("lsname", lname);
 		query.setParameter("npi", npi); 
-		List<Practice> result = query.list();
+		List<Practice> result = query.getResultList();
 		if(result.size() > 0)
 			error = "Provider NPI already exists!";
 		return error;
@@ -131,7 +129,7 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 		quey.setParameter("id", id);
 		
 		
-		List<Provider> list = quey.list();
+		List<Provider> list = quey.getResultList();
 		
 		return list;
 	}
@@ -148,7 +146,7 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 				+ " WHERE P.id=:id");
 		quey.setParameter("id", id);
 		
-		List<Provider> list = quey.list();
+		List<Provider> list = quey.getResultList();
 
 		if(list.size() > 0)
 			return list.get(0);
@@ -167,7 +165,7 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 				+ " WHERE P.id=:id");
 		quey.setParameter("id", id);
 		
-		Provider res = (Provider) quey.uniqueResult();
+		Provider res = (Provider) quey.getSingleResult();
 		return res;
 	}
 }

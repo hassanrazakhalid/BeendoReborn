@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,7 +25,7 @@ import lombok.Setter;
 public class PracticeAddress extends BaseEntity {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Type(type = JSONUserType.JSON_List, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.PracticeAddressInfo")})
@@ -34,6 +35,21 @@ public class PracticeAddress extends BaseEntity {
 	
 	@OneToOne(mappedBy="practiceAddress")
 	private Practice practice;
+
+	public List<PracticeAddressInfo> getServiceAddress() {
+		
+		if (serviceAddress == null)
+			serviceAddress = new ArrayList<>();
+		
+		return serviceAddress;
+	}
+
+	public List<PracticeAddressInfo> getBillingAddress() {
+		
+		if (billingAddress == null)
+			billingAddress = new ArrayList<>();
+		return billingAddress;
+	}
 	
 	
 }

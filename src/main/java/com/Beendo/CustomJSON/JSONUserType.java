@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.internal.util.ReflectHelper;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
@@ -23,7 +24,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,39 +165,60 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
   }
   
   @Override
-  public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException,
-  SQLException {
-	  
-    Object obj = null;
-//    if (!rs.wasNull()) {
-//      if (this.sqlType == Types.CLOB || this.sqlType == Types.BLOB) {
-//        byte[] bytes = rs.getBytes(names[0]);
-//        if (bytes != null) {
-//          try {
-//            obj = MAPPER.readValue(bytes, new TypeReference<List<Email>>(){});
-//          } catch (IOException e) {
-//            throw new HibernateException("unable to read object from result set", e);
-//          }
-//        }
-//      } 
-//      else
-      {
-        try {
-          String content = rs.getString(names[0]);
-          if (content != null) {
-        	  obj = MAPPER.readValue(content, classType);
-          }
-        } catch (IOException e) {
-          throw new HibernateException("unable to read object from result set", e);
-        }
-      }
-//    }
-    return obj;
+  public Object replace(Object original, Object target, Object owner) throws HibernateException {
+    return this.deepCopy(original);
   }
   
   @Override
-  public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws HibernateException,
-  SQLException {
+  public Class<?> returnedClass() {
+	  
+//	 return this.classType.getClass();
+    return this.classType;
+  }
+  
+  @Override
+  public int[] sqlTypes() {
+	  
+	  return new int[] { Types.JAVA_OBJECT };
+//    return SQL_TYPES;
+  }
+
+@Override
+public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
+		throws HibernateException, SQLException {
+	// TODO Auto-generated method stub
+	   Object obj = null;
+//	    if (!rs.wasNull()) {
+//	      if (this.sqlType == Types.CLOB || this.sqlType == Types.BLOB) {
+//	        byte[] bytes = rs.getBytes(names[0]);
+//	        if (bytes != null) {
+//	          try {
+//	            obj = MAPPER.readValue(bytes, new TypeReference<List<Email>>(){});
+//	          } catch (IOException e) {
+//	            throw new HibernateException("unable to read object from result set", e);
+//	          }
+//	        }
+//	      } 
+//	      else
+	      {
+	        try {
+	          String content = rs.getString(names[0]);
+	          if (content != null) {
+	        	  obj = MAPPER.readValue(content, classType);
+	          }
+	        } catch (IOException e) {
+	          throw new HibernateException("unable to read object from result set", e);
+	        }
+	      }
+//	    }
+	    return obj;
+
+}
+
+@Override
+public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session)
+		throws HibernateException, SQLException {
+	// TODO Auto-generated method stub
     if (value == null) {
     	
     	st.setNull(index, Types.JAVA_OBJECT);
@@ -219,24 +240,5 @@ public class JSONUserType implements UserType, ParameterizedType, Serializable {
         }
       }
     }
-  }
-  
-  @Override
-  public Object replace(Object original, Object target, Object owner) throws HibernateException {
-    return this.deepCopy(original);
-  }
-  
-  @Override
-  public Class<?> returnedClass() {
-	  
-//	 return this.classType.getClass();
-    return this.classType;
-  }
-  
-  @Override
-  public int[] sqlTypes() {
-	  
-	  return new int[] { Types.JAVA_OBJECT };
-//    return SQL_TYPES;
-  }
+}
 }

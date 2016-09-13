@@ -3,7 +3,8 @@ package com.Beendo.Dao;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,12 @@ public class DocumentDao extends GenericDao<Document, Integer> implements IDocum
 //
 //		query.setParameter("currentDate", new Date());
 //		List<Document> result = query.list();
-
-		Query query = session.createSQLQuery(
+		Query query = session.createNativeQuery(
 				"SELECT * FROM document as D JOIN PROVIDER as P ON P.id = D.provider_id "
 				+ "JOIN Entities as E ON E.id = P.centity_id "
-				+ "WHERE DATEDIFF(expireDate,curdate()) <= reminderDays AND reminderStatus = 0")
-				.addEntity(Document.class);
-				List<Document> result = query.list();
+				+ "WHERE DATEDIFF(expireDate,curdate()) <= reminderDays AND reminderStatus = 0",Document.class);
+				
+				List<Document> result = query.getResultList();
 		
 		return result;
 	}

@@ -2,9 +2,8 @@ package com.Beendo.Dao;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
+import javax.persistence.Query;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +68,6 @@ public class TransactionDao extends GenericDao<ProviderTransaction, Integer> imp
 //	}
 
 	@Override
-	@Transactional
 	public List<ProviderTransaction> findTransactionsByEntity(Integer id) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
@@ -79,7 +77,7 @@ public class TransactionDao extends GenericDao<ProviderTransaction, Integer> imp
 		// + " LEFT JOIN E.transactionList T"
 		// + " E.id = :id");
 		query.setParameter("id", id);
-		List<ProviderTransaction> result = query.list();
+		List<ProviderTransaction> result = query.getResultList();
 		return result;
 	}
 
@@ -96,7 +94,6 @@ public class TransactionDao extends GenericDao<ProviderTransaction, Integer> imp
 //	}
 
 	@Override
-	@Transactional
 	public void deleteTransactionByPractice(List<Integer> ids) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
@@ -114,7 +111,6 @@ public class TransactionDao extends GenericDao<ProviderTransaction, Integer> imp
 	}
 
 	@Override
-	@Transactional
 	public void deleteTransactionByProvider(List<Integer> ids) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();

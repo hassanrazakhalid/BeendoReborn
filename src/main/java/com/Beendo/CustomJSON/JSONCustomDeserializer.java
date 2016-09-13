@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 import com.fasterxml.jackson.databind.type.MapLikeType;
 
@@ -31,8 +32,8 @@ public class JSONCustomDeserializer extends JSONUserType {
 	  }
 	  
 	  @Override
-	  public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException,
-	  SQLException {
+	  public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
+				throws HibernateException, SQLException {
 		  
 	    Object obj = null;
 	      {

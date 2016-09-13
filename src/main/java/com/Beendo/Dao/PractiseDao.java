@@ -3,10 +3,9 @@ package com.Beendo.Dao;
 import java.util.List;
 import java.util.Set;
 
-import javax.transaction.Transactional;
+import javax.persistence.Query;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -71,7 +70,6 @@ public class PractiseDao extends GenericDao<Practice, Integer> implements IPract
 //	}
 
 	@Override
-	@Transactional
 	public List<Practice> findAllByEntity(Integer id) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
@@ -80,7 +78,7 @@ public class PractiseDao extends GenericDao<Practice, Integer> implements IPract
 				+ " WHERE P.entity.id =:id");
 		query.setParameter("id", id);
 		
-		return query.list();
+		return query.getResultList();
 		
 	}
 	
@@ -90,21 +88,20 @@ public class PractiseDao extends GenericDao<Practice, Integer> implements IPract
 //		
 //	}
 
-	@Transactional
 	@Override
 	public String checkDuplicateUsername(String name){
 		
 		String error = null;
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Practice P where P.name = :name");
+//		sessionFactory.getCurrentSession().createNamedQuery(name)
+		Query query = sessionFactory.getCurrentSession().createNamedQuery("FROM Practice P where P.name = :name");
 		query.setParameter("name", name);
 		
-		List<Practice> result = query.list();
+		List<Practice> result = query.getResultList();
 		if(result.size() > 0)
 			error =  "Practise already exist with duplcate name";
 		return error;
 	}
 	
-	@Transactional
 	@Override
 	public void updatePractiseList(Set<Practice>list){
 		 
@@ -120,7 +117,6 @@ public class PractiseDao extends GenericDao<Practice, Integer> implements IPract
 //		return null;
 //	}
 	
-	@Transactional
 	@Override
 	public List<Practice> getPracticeByUser(Integer userId) {
 		
@@ -132,7 +128,7 @@ public class PractiseDao extends GenericDao<Practice, Integer> implements IPract
 				+ " WHERE U.id =:id");
 		
 		query.setParameter("id", userId);
-		List<Practice> list = query.list();
+		List<Practice> list = query.getResultList();
 		
 		return list;
 	}

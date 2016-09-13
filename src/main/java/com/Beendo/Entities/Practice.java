@@ -30,7 +30,7 @@ import lombok.Setter;
 public class Practice {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;	
 	
@@ -60,6 +60,8 @@ public class Practice {
 	@OneToMany(mappedBy="practice", cascade={CascadeType.REMOVE})
 	private Set<ProviderTransaction> transactions = new HashSet<>();
 	
+	
+	
 	public void removeAllProviderDocumentsOnDisk(){
 		
 		Set<Provider> list = getProviders();
@@ -68,5 +70,15 @@ public class Practice {
 			provider.removeAllDocumentOnDisk();
 			
 		}
+	}
+
+
+
+	public PracticeAddress getPracticeAddress() {
+		
+		if (practiceAddress == null)
+			practiceAddress = new PracticeAddress();
+		
+		return practiceAddress;
 	}
 }

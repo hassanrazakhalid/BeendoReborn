@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FlowEvent;
@@ -18,6 +19,7 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.PracticeAddressInfo;
 import com.Beendo.Services.IEntityService;
 import com.Beendo.Services.IPractiseService;
+import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
 
@@ -44,6 +46,7 @@ public class CreatePracticeController implements Serializable {
 	private IPractiseService practiseService;
 	private List<String> stateList = new ArrayList<>();
 
+	private OperationType type = OperationType.Create;
 	private boolean skip;
 
 	public void onLoad() {
@@ -76,6 +79,8 @@ public class CreatePracticeController implements Serializable {
 
 			if (res != null) {
 				practice = res;
+				selectedEntityId = res.getEntity().getId();
+				type = OperationType.Edit;
 			}
 
 			// practiseService.getProviderDetailsNoFiles(Integer.parseInt(id),
@@ -93,6 +98,16 @@ public class CreatePracticeController implements Serializable {
 
 	}
 
+	public boolean isEntityListDisabled(){
+		
+	  if ( type == OperationType.Edit) {
+		  return true;
+	  }
+	  else
+		  return false;
+	  
+	}
+	
 	public boolean shouldShowList() {
 		if (entityList.size() <= 1) {
 
@@ -152,9 +167,15 @@ public class CreatePracticeController implements Serializable {
 
 				practice.setEntity(entity);
 				entity.getPracticeList().add(practice);
+				entityService.saveOrUpdate(entity);
 			}
-			
-			entityService.saveOrUpdate(entity);
+			else {
+				
+				practiseService.saveOrUpdate(practice);
+			}
+		
+
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Sucessfully Saved."));
 		}
 
 	}
