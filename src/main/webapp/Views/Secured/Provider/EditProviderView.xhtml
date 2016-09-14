@@ -31,7 +31,7 @@
 
 				 <p:growl id="gMsgs" showSummary="true" />
 
-				<h:panelGrid columns="2" cellpadding="8">
+<!-- 				<h:panelGrid columns="2" cellpadding="8">
 
 					<p:outputLabel id="entity"
 						value="#{editProviderController.entityName}" />
@@ -46,9 +46,9 @@
 							var="practice" itemLabel="#{practice.name}"
 							itemValue="#{practice.getId()}" />
 
-						<!-- <p:column>
+						<p:column>
 									<h:outputText value="#{t.name}" />
-								</p:column> -->
+								</p:column>
 
 					</p:selectCheckboxMenu>
 
@@ -57,9 +57,9 @@
 						placeholder="Npi Number" maxlength="10" label="NPI"
 						required="true"
 						validatorMessage="NPI should only digits and length 10">
-						<!--  validator="npiValidator" -->
+						 validator="npiValidator"
 						<f:validateRegex for="NpiNumber" pattern="[0-9]{10}" />
-						<!-- <f:convertNumber integerOnly="true"/> -->
+						<f:convertNumber integerOnly="true"/>
 
 					</p:inputText>
 					<p:inputText value="#{editProviderController.provider.firstName}"
@@ -73,7 +73,7 @@
 
 
 				<br />
-
+ -->
 				<p:dataGrid id="filesTable" columns="3"
 					value="#{editProviderController.documentCells}" var="docCell">
 

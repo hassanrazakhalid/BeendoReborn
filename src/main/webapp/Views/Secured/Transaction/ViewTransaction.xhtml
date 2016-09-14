@@ -6,8 +6,8 @@
 <h:head>
 
 <f:metadata>
-<f:viewAction actionListener="#{transactionController.onLoad()}"/>
-</f:metadata>
+		<f:viewAction actionListener="#{transactionController.onLoad()}" />
+	</f:metadata>
 
 </h:head>
 
@@ -48,11 +48,21 @@
 					
 				</h:form>
 				
-				
+				<!-- filterTransactions
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				 
+				 -->
 				 <h:form id="mainForm"> 
     
-				    <p:dataTable filteredValue="#{transactionController.realTimefilterList}" value="#{transactionController.filterTransactions}" var="transaction" >
-
+				    <p:dataTable
+				     filteredValue="#{transactionController.realTimefilterList}"
+				      value="#{transactionController.lazyModel}" var="transaction"
+				      lazy="true" paginator="true" 
+				      rows="10"
+				      rowsPerPageTemplate="10,20,35"
+				       
+				       >
+					
 						<p:column headerText="Payer Name" filterBy="#{transaction.payerList}" filterFunction="#{transaction.filterByPayer}">
 							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
 							

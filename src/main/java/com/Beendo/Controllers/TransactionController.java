@@ -1,11 +1,13 @@
 package com.Beendo.Controllers;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.Beendo.Dto.LazyTransactionModel;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
@@ -30,6 +33,7 @@ import com.Beendo.Services.ITransactionCallback;
 import com.Beendo.Services.ITransactionService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.Role;
+import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
@@ -40,14 +44,18 @@ import lombok.Setter;
 @Controller
 //@Scope(value="session")
 @SpringScopeView
-public class TransactionController implements DisposableBean{
+public class TransactionController implements DisposableBean, Serializable{
 	
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6178498762662211117L;
 
-	
-//	extends RootController
+	//	extends RootController
 	@Autowired
 	private ITransactionService transactionService;
-	
+
+	private LazyTransactionModel lazyModel;
 
 	
 	@Autowired
@@ -81,11 +89,15 @@ public class TransactionController implements DisposableBean{
 	
 	private void refreshAllData(){
 		
-		
-		ITransactionCallback callBack = (User user, List<ProviderTransaction>transactions, List<Payer>payerList, List<Practice>practiceList, List<Provider>providerList)->{
+		Integer entityId = SharedData.getSharedInstace().getCurrentUser().getEntity().getId();
+
+		ITransactionCallback callBack = (User user, List<ProviderTransaction>transactions, List<Payer>payerList, List<Practice>practiceList, List<Provider>providerList, Map<String,Object>otherInfo)->{
 			
 			tmpUser = user;
-			this.transactions = transactions;
+			this.lazyModel = new LazyTransactionModel(transactionService,entityId);
+			this.lazyModel.setRowCount((Integer)otherInfo.get("count"));
+//			this.lazyModel.setRowCount(20);
+//			this.transactions = transactions;
 			this.payerList = payerList;
 			this.practiceList = practiceList;
 			this.providerList = providerList;
@@ -93,21 +105,9 @@ public class TransactionController implements DisposableBean{
 			this.filterTransactions.addAll(transactions);
 		};
 
-		transactionService.refreshAllData(callBack);
-		
-//		initHashTwo(practiceList);
-//		initHashThree(payerList);
-//		initHashFour(providerList);
-		
-		//payerList.clear();
-		
+		transactionService.refreshAllData(0, 10, entityId, callBack);;
 		currentRadio = "rbPractice";
-		canPracticeShow = true;
-		
-		/*for (Practice practice : practiceList) {
-			
-			_hash.put(practice.getId(), practice);
-		}*/
+		canPracticeShow = true;		
 	}
 	
 	public void onLoad(){

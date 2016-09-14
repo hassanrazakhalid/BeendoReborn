@@ -88,19 +88,6 @@ public class ProviderController extends BaseViewController implements Disposable
 
 	private void refreshAllData() {
 
-//		// User user = SharedData.getSharedInstace().getCurrentUser();
-//		tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
-//
-//		providerList = providerService.fetchAllByRole(); // providerService.fetchAllByUser();
-//		entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
-//		payerList = payerService.getAll();
-//		// new
-//		// ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
-//
-//		transactions = transactionService.fetchAllByRole();
-		// initHashTwo(practiceList);
-
-//		refreshPractics();
 		documentCells = new ArrayList<>();
 		
 		ProviderCallback response = (User user, List<Provider>providerList)->{
@@ -193,7 +180,7 @@ public class ProviderController extends BaseViewController implements Disposable
 		}
 	}
 	
-	public String moveToEditView(Provider provider){
+	public String moveToEditView(){
 		
 		return "EditProviderView";
 	}

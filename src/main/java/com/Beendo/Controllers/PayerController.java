@@ -54,7 +54,7 @@ public class PayerController {
 	private void refreshAllData(){
 		
 		payers = payerService.getAll();
-		transactions = transactionService.fetchAllByRole();
+//		transactions = transactionService.fetchAllByRole();
 
 		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		

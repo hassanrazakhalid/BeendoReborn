@@ -69,19 +69,6 @@
 								</tr>
 							</ui:repeat>
 						</table>
-
-						<!-- 						         <p:selectOneMenu id="advanced"
-								 panelStyle="width:180px"
-								effect="fade" var="t" style="width:160px">
-								<f:selectItems value="#{provider.practiceList.toArray()}" var="practise"
-									itemLabel="#{practise.name}" itemValue="#{practise}" />
-
-								<p:column>
-									<h:outputText value="#{t.name}" />
-								</p:column>
-								
-							</p:selectOneMenu>  -->
-
 					</p:column>
 
 
@@ -96,7 +83,12 @@
 
 							<f:param name="id" value="#{provider.id}" />
 						</h:link>
-
+						
+						<h:link value="Upload Files" outcome="#{providerController.moveToEditView()}">
+						
+						<f:param name="id" value="#{provider.id}"/>
+						 </h:link>
+						
 
 						<p:commandButton icon="ui-icon-trash" update=":mainForm"
 							resetValues="true"

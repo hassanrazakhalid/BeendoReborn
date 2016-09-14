@@ -12,6 +12,7 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
 import com.Beendo.Utils.ReportType;
+import com.Beendo.Utils.SharedData;
 
 @Service
 public class ReportService extends GenericServiceImpl<ProviderTransaction, Integer> implements IReportService {
@@ -39,8 +40,10 @@ public class ReportService extends GenericServiceImpl<ProviderTransaction, Integ
 //		practiceTransactions = transactionService.fetchAllByRole();
 		List<Practice> listPractise = null;
 		List<Provider> listProvider = null;
-				
-		List<ProviderTransaction> listTransaction = transactionService.fetchAllByRole();
+		
+		Integer entityId = SharedData.getSharedInstace().getCurrentUser().getEntity().getId();
+		
+		List<ProviderTransaction> listTransaction = null;// transactionService.refreshAllData(0, 10, entityId, callBack);;
 		List<Payer> listPayer = payerService.getAll();
 		switch (type) {
 		case ReportTypePractise:

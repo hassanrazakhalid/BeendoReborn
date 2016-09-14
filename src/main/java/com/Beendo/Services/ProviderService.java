@@ -191,12 +191,12 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 
 		List<Provider>providerList = this.fetchAllByRole(); // providerService.fetchAllByUser();
-		List<CEntitiy> entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
+//		List<CEntitiy> entityList = entityService.fetchAllByRole(Screen.Screen_Provider);
 //		List<Payer> payerList = payerService.getAll();
 		// new
 		// ArrayList(SharedData.getSharedInstace().getCurrentUser().getEntity().getPracticeList());
 
-		List<ProviderTransaction> transactions = transactionService.fetchAllByRole();
+//		List<ProviderTransaction> transactions = transactionService.fetchAllByRole();
 		
 		callBack.getProviderData(tmpUser,providerList);
 	}

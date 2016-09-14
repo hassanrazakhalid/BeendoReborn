@@ -8,7 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.transaction.annotation.Transactional;
+import static java.lang.Math.toIntExact;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
@@ -20,53 +21,48 @@ public class TransactionDao extends GenericDao<ProviderTransaction, Integer> imp
 	@Autowired
 	private SessionFactory sessionFactory;
 
-//	@Override
-//	@Transactional
-//	public void save(ProviderTransaction entity) {
-//
-//		this.sessionFactory.getCurrentSession().save(entity);
-//	}
-//
-//	@Override
-//	@Transactional
-//	public void update(ProviderTransaction entity) {
-//
-//		this.sessionFactory.getCurrentSession().update(entity);
-//	}
-//
-//	@Override
-//	public void update(int id) {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	public ProviderTransaction findById(Integer id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Transactional
-//	@Override
-//	public void delete(ProviderTransaction entity) {
-//		// TODO Auto-generated method stub
-//
-//		this.sessionFactory.getCurrentSession().delete(entity);
-//	}
-//
-//	@Override
-//	public void delete(int id) {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	@Transactional
-//	public List<ProviderTransaction> findAll() {
-//		// TODO Auto-generated method stub
-//		return this.sessionFactory.getCurrentSession().createQuery("FROM ProviderTransaction").list();
-//	}
+	@Override
+	@Transactional(readOnly=true)
+	public void findTransactionsByEntity( int start, int end, int entityId, TransactionPaginationCallback callback) {
 
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query = session
+				.createQuery("SELECT P FROM ProviderTransaction P" + " LEFT JOIN P.entity E" + " WHERE E.id = :id");
+		query.setFirstResult(start);
+		query.setMaxResults(end);
+		query.setParameter("id", entityId);
+		
+		List<ProviderTransaction> result = query.getResultList();
+		callback.getPaginationResponse(result);
+//		return result;
+	}
+	
+	public Integer getTotalTransactionCount(Integer entityId){
+		
+		//Total count
+		String countQ = null;
+		Query countQuery = null;
+		if (entityId == -1){
+		
+			countQ = "SELECT count (P.id) FROM ProviderTransaction P";
+			countQuery = sessionFactory.getCurrentSession().createQuery(countQ);
+		}
+		else {
+			
+			countQ = "SELECT count (P.id) FROM ProviderTransaction P"
+					+ " LEFT JOIN P.entity E"
+					+ " WHERE E.id = :id";
+			countQuery = sessionFactory.getCurrentSession().createQuery(countQ);
+			countQuery.setParameter("id", entityId);
+		}
+		
+		Long countResult = (Long) countQuery.getSingleResult();
+		return toIntExact(countResult);
+		//Last Page
+//		int pageSize = 10;
+//		int lastPageNumber = (int) ((countResult / pageSize) + 1);
+	}
+	
 	@Override
 	public List<ProviderTransaction> findTransactionsByEntity(Integer id) {
 		// TODO Auto-generated method stub

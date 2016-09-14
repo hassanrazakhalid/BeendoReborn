@@ -7,6 +7,10 @@ import com.Beendo.Entities.ProviderTransaction;
 public interface ITransaction extends ICRUD<ProviderTransaction, Integer> {
 
 	public List<ProviderTransaction> findTransactionsByEntity(Integer id);
+	public void findTransactionsByEntity( int start, int end, int entityId, TransactionPaginationCallback callback); 
+	
+	public Integer getTotalTransactionCount(Integer entityId);
+//	, Integer count
 	
 	public void deleteTransactionByProvider(List<Integer> ids);
 	public void deleteTransactionByPractice(List<Integer> ids);

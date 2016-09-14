@@ -20,13 +20,9 @@ import com.Beendo.Utils.SharedData;
 
 public interface ITransactionService extends GenericService<ProviderTransaction, Integer> {
 
-	public List<ProviderTransaction> findAllByUser();
-
-	@Transactional(readOnly=true)
-	public List<ProviderTransaction> fetchAllByRole();
-
 	public void deleteTransactionByPractics(List<Integer> ids);
 
 	public void deleteTransactionByProvider(List<Integer> ids);
-	public void refreshAllData(ITransactionCallback callBack);
+	public void refreshAllData(int start, int end, int entityId, ITransactionCallback callBack) ;
+	public List<ProviderTransaction> fetchAllByRole(int start, int end, int entityId);
 }
