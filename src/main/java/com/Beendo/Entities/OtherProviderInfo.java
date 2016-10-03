@@ -29,7 +29,7 @@ import lombok.Setter;
 public class OtherProviderInfo extends BaseEntity {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@OneToOne(mappedBy="otherInfo")

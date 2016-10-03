@@ -24,9 +24,11 @@ import org.springframework.stereotype.Controller;
 
 import com.Beendo.Dto.DocumentCell;
 import com.Beendo.Entities.Document;
+import com.Beendo.Entities.DocumentType;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Services.EditProviderCallBack;
+import com.Beendo.Services.IDocumentService;
 import com.Beendo.Services.IProviderService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.SharedData;
@@ -45,7 +47,8 @@ public class EditProviderController {
 	@Autowired
 	private IProviderService providerService;
 
-
+	@Autowired
+	private IDocumentService docService;
 //	@Autowired
 //	private IPractiseService practiseService;
 
@@ -85,7 +88,7 @@ public class EditProviderController {
 			this.npiNumber = providerDetails.getNpiNum();
 			this.entityName = providerDetails.getCentity().getName();
 			this.practiceList = new ArrayList<>(providerDetails.getCentity().getPracticeList());
-			documentCells = providerDetails.getDocumentCellList();
+			documentCells = getDocumentCellList(providerDetails);
 			List<Integer> selectedIds = providerDetails.getPracticeList().stream()
 					.map(Practice::getId)
 					.collect(Collectors.toList());
@@ -100,6 +103,35 @@ public class EditProviderController {
 		};
 		providerService.getAllProviderInfo(Integer.valueOf(parameterOne),response);
 	}
+	
+	public List<DocumentCell> getDocumentCellList(Provider provider){
+		
+		List<DocumentCell> cells = new ArrayList<>();
+		
+		List<DocumentType>docTypeList = docService.getSharedList();
+		for (DocumentType file : docTypeList) {
+
+			DocumentCell cell = new DocumentCell();
+			Document doc = provider.getFilenameByType(file.getId());
+			
+			if(doc == null)	
+			{
+				doc = new Document();
+				doc.setOrignalName("");
+				doc.setDocType(file);
+				doc.setProvider(provider);
+			}
+			
+			cell.setAlarmEnabled(doc.getReminderBooleanValue());
+			cell.setDocument(doc);
+			
+			cell.setLbName(file.getName());
+			cells.add(cell);
+		}
+		
+		return cells;
+	}
+	
 
 	public void onLoad() {
 
@@ -132,7 +164,7 @@ public class EditProviderController {
 
 		// initHashTwo(practiceList);
 	
-		documentCells = _provider.getDocumentCellList();
+		documentCells = getDocumentCellList(_provider);
 //		selectedPractices = getSelectedPracticesIds(_provider);
 		provider = _provider;
 		// practiceList = new
@@ -265,7 +297,7 @@ public class EditProviderController {
 		Document doc = (Document)obj.getDocument();//provider.getFilenameByType(docName);
 
 		doc.setOrignalName(event.getFile().getFileName());
-		doc.setNameOnDisk(provider.getId()+"_"+doc.getType()+"."+getExtension(file.getFileName()));
+		doc.setNameOnDisk(provider.getId()+"_"+doc.getDocType().getId()+"."+getExtension(file.getFileName()));
 		doc.removeFileOnDisk();
 		
 		try {
@@ -287,7 +319,7 @@ public class EditProviderController {
 	public void deleteFileClicked(DocumentCell cell) {
 
 		providerService.removeDocumentFromProvider(provider,cell.getDocument());
-		documentCells = provider.getDocumentCellList();
+		documentCells = getDocumentCellList(provider);
 		
 //		for (DocumentCell tmpCell : documentCells) {
 //			

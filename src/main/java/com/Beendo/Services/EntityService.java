@@ -13,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.Beendo.Dao.IBoardInfo;
 import com.Beendo.Dao.IEntity;
 import com.Beendo.Dao.ISpecialityInfo;
-import com.Beendo.Entities.BoardInfo;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Speciality;
@@ -31,8 +29,6 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 	@Autowired
 	private IEntity _service;
 	
-	@Autowired
-	private IBoardInfo boardDao;
 	@Autowired
 	private ISpecialityInfo specialityDao;
 
@@ -80,12 +76,12 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 		}
 		
 		List<SpecialityInfo> specialityList = specialityDao.findAll();
-		List<BoardInfo> boardList = boardDao.findAll();
+//		List<BoardInfo> boardList = boardDao.findAll();
 		
 		Map<String,Object> response = new HashMap<String, Object>();
 		response.put("arg1", resultList);
 		response.put("arg2", specialityList);
-		response.put("arg3", boardList);
+//		response.put("arg3", boardList);
 		res.accept(response);
 	}
 	 

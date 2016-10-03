@@ -86,6 +86,7 @@ public class SharedData implements ApplicationContextAware {
 	@Qualifier("sas")
 	private SessionAuthenticationStrategy sessionAuthenticationStrategy;
 
+	
 	private void init() {
 
 		// addTimerForDocumentExpire();

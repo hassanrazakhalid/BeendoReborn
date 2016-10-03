@@ -408,15 +408,8 @@
 										<p:outputLabel value="Name of Board:" />
 									</b:column>
 									<b:column span="8">
-										<p:selectOneMenu
-										converter="javax.faces.Integer"
-											value="#{createProviderController.provider.qualitication.primarySpeciality.boardInfo.id}">
-
-											<f:selectItem itemLabel="Select One" itemValue="" />
-											<f:selectItems
-												value="#{createProviderController.boardList}" var="boardInfo"
-												itemLabel="#{boardInfo.name}" itemValue="#{boardInfo.id}" />
-										</p:selectOneMenu>
+									
+									<b:inputText placeholder="Board Name" value="#{createProviderController.provider.qualitication.primarySpeciality.boardName}" />
 									</b:column>
 								</b:row>
 							</b:panel>
@@ -464,13 +457,9 @@
 										</b:column>
 
 										<b:column span="5">
-											<p:selectOneMenu value="#{specility.boardInfo.id}">
-
-												<f:selectItem itemLabel="Select One" itemValue="" />
-												<f:selectItems
-													value="#{createProviderController.boardList}" var="boardInfo"
-													itemLabel="#{boardInfo.name}" itemValue="#{boardInfo.id}" />
-											</p:selectOneMenu>
+										
+										<b:inputText placeholder="Board Name" value="#{specility.boardName}" />
+									
 										</b:column>
 									</b:row>
 								</ui:repeat>

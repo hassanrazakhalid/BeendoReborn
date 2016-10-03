@@ -125,4 +125,21 @@ public class TransactionDao extends GenericDao<ProviderTransaction, Integer> imp
 		int result = query.executeUpdate();
 		System.out.println("Affected Row: " + result);
 	}
+	
+	@Override
+	public List<ProviderTransaction> getLatestTransactions(Integer id) {
+		
+		String queryStr = "Select * from provider_transaction t"
+				+ " inner join (SELECT tt.provider_id,MAX(transactionDate) as max_date"
+				+ " FROM provider_transaction tt where tt.entity_id = " + id 
+				+ " GROUP BY tt.provider_id)a on a.provider_id = t.provider_id and a.max_date = transactionDate";
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		Query query = session.createNativeQuery(queryStr, ProviderTransaction.class);
+		
+		List<ProviderTransaction> res = query.getResultList();
+		return res;
+	}
+	
+	
 }

@@ -24,6 +24,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Parameter;
@@ -35,7 +36,6 @@ import org.springframework.util.FileSystemUtils;
 
 import com.Beendo.CustomJSON.JSONUserType;
 import com.Beendo.Dto.DocumentCell;
-import com.Beendo.Utils.ProviderFile;
 import com.Beendo.Utils.SharedData;
 
 
@@ -49,7 +49,7 @@ import lombok.Setter;
 public class Provider extends BaseEntity {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String firstName;
 	private String lastName;
@@ -117,30 +117,31 @@ public class Provider extends BaseEntity {
 	@OneToMany(mappedBy="provider", cascade={CascadeType.REMOVE})
 	private Set<ProviderTransaction> transactions = new HashSet<>();
 	
+/*	@Transient
+	public String fullName;*/
+	
 	public String getNameWithNPI(){
 		
 		return firstName+" " + lastName+ " " + npiNum;
 	}
 	
-	public String getFullName(){
-		
+	public String getFullName() {
 		return firstName+" " + lastName;
 	}
+//	public String getFullName(){
+//		
+//		return firstName+" " + lastName;
+//	}
 	
-	public Document getFilenameByType(String fileType){
-	
-//	for (Document doc : this.getDocuments()) {
-//			
-//			System.out.println(doc.getType());
-//		}
+	public Document getFilenameByType(Integer fileId){
+				
 	Optional<Document>res = this.getDocuments().stream()
-				.filter(doc -> doc.getType().equalsIgnoreCase(fileType))
+				.filter(doc -> doc.getDocType().getId() == fileId)
 				.findFirst();
 	if(res.isPresent())
 		return res.get();
 	else
 		return null;
-	
 	}
 	
 //	public String getFolderForDocument(Document doc){
@@ -158,33 +159,7 @@ public class Provider extends BaseEntity {
 //        return path;
 //	}
 	
-	public List<DocumentCell> getDocumentCellList(){
-		
-		List<DocumentCell> cells = new ArrayList<>();
-		
-		for (ProviderFile file : ProviderFile.values()) {
 
-			DocumentCell cell = new DocumentCell();
-			Document doc = getFilenameByType(file.getFileType());
-			
-			if(doc == null)	
-			{
-				doc = new Document();
-				doc.setOrignalName("");
-				doc.setType(file.getFileType());
-				doc.setProvider(this);
-			}
-			
-			cell.setAlarmEnabled(doc.getReminderBooleanValue());
-			cell.setDocument(doc);
-			
-			cell.setLbName(file.toString());
-			cells.add(cell);
-		}
-		
-		return cells;
-	}
-	
 	public void removeAllDocumentOnDisk(){
 		
 	for (Document doc : getDocuments()) {
@@ -259,6 +234,8 @@ public class Provider extends BaseEntity {
 		}
 		return faxNumbers;
 	}
+
+
 	
 	
 }

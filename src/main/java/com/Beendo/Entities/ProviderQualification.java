@@ -28,7 +28,7 @@ import lombok.Setter;
 public class ProviderQualification extends BaseEntity {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Type(type = JSONUserType.JSON_Normal, parameters = {@Parameter(name = JSONUserType.CLASS_TYPE, value = "com.Beendo.Entities.DegreeInfo")})

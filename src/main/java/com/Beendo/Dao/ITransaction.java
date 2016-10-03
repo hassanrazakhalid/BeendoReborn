@@ -10,6 +10,7 @@ public interface ITransaction extends ICRUD<ProviderTransaction, Integer> {
 	public void findTransactionsByEntity( int start, int end, int entityId, TransactionPaginationCallback callback); 
 	
 	public Integer getTotalTransactionCount(Integer entityId);
+	public List<ProviderTransaction> getLatestTransactions(Integer id);
 //	, Integer count
 	
 	public void deleteTransactionByProvider(List<Integer> ids);

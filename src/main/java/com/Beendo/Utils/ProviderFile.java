@@ -1,6 +1,6 @@
 package com.Beendo.Utils;
 
-public enum ProviderFile {
+/*public enum ProviderFile {
 	
 	COPY_STATE_LICENCE {
 		
@@ -116,4 +116,4 @@ public enum ProviderFile {
 		}
 		return null;
 	};
-}
+}*/

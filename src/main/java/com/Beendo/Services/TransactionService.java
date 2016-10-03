@@ -43,18 +43,11 @@ public class TransactionService extends GenericServiceImpl<ProviderTransaction, 
 		if (SharedData.getSharedInstace().shouldReturnFullList()) {
 			dataList.addAll(getAll());
 		} else {
-			// List<ProviderTransaction> tmpList = new
-			// ArrayList<ProviderTransaction>();
 			service.findTransactionsByEntity(start, end, entityId, (List<ProviderTransaction> list) -> {
 
 				dataList.addAll(list);
-
 			});
-			// tmpList.addAll(result);
-
-			// dataList = tmpList;
 		}
-
 		return dataList;
 	}
 
@@ -74,6 +67,13 @@ public class TransactionService extends GenericServiceImpl<ProviderTransaction, 
 		Map<String,Object> otherInfo = new HashMap<>();
 		otherInfo.put("count", totalRows);
 		callBack.refreshAllData(user, transactions, payerList, practiceList, providerList, otherInfo);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<ProviderTransaction> getLatestTransactions(Integer id) {
+		
+		return service.getLatestTransactions(id);
 	}
 
 	public void deleteTransactionByPractics(List<Integer> ids) {

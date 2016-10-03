@@ -29,7 +29,8 @@ public class Speciality {
 
 //	@JsonDeserialize(using = FieldDeserializer.class)
 	private SpecialityInfo specialityInfo = new SpecialityInfo();
-	private BoardInfo boardInfo = new BoardInfo();
+	private  String boardName;
+//	private BoardInfo boardInfo = new BoardInfo();
 	
 	public Speciality() {
 		// TODO Auto-generated constructor stub
@@ -51,7 +52,7 @@ public class Speciality {
 			Map<String,String> obj1 = tmpMap.get("boardInfo");
 			Map<String,String> obj2 = tmpMap.get("specinityInfo");
 			this.specialityInfo = deserializeSpeciality(obj1);
-			this.boardInfo = deserializeBoardInfo(obj2);
+//			this.boardInfo = deserializeBoardInfo(obj2);
 		}
 		if (info instanceof ArrayList) {
 			
@@ -63,7 +64,7 @@ public class Speciality {
 				Map<String,String> obj2 = hashMap.get("boardInfo");
 				
 				this.specialityInfo = deserializeSpeciality(obj1);
-				this.boardInfo = deserializeBoardInfo(obj2);
+//				this.boardInfo = deserializeBoardInfo(obj2);
 
 				System.out.println("");
 			}	
@@ -90,37 +91,37 @@ public class Speciality {
 		return specialityInfo;
 	}
 	
-	private BoardInfo deserializeBoardInfo(Map<String,String> obj){
-		
-		ObjectMapper mapper = JSONUserType.MAPPER;
-		BoardInfo boardInfo = null;
-		try {
-			String src = mapper.writeValueAsString(obj);
-			boardInfo = mapper.readValue(src, BoardInfo.class);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return boardInfo;
-	}
+//	private BoardInfo deserializeBoardInfo(Map<String,String> obj){
+//		
+//		ObjectMapper mapper = JSONUserType.MAPPER;
+//		BoardInfo boardInfo = null;
+//		try {
+//			String src = mapper.writeValueAsString(obj);
+//			boardInfo = mapper.readValue(src, BoardInfo.class);
+//		} catch (JsonParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return boardInfo;
+//	}
 	public SpecialityInfo getSpecialityInfo() {
 		if (specialityInfo == null){
 			specialityInfo = new SpecialityInfo();
 		}
 		return specialityInfo;
 	}
-	public BoardInfo getBoardInfo() {
-		if(boardInfo == null){
-			boardInfo = new BoardInfo();
-		}
-		return boardInfo;
-	}
+//	public BoardInfo getBoardInfo() {
+//		if(boardInfo == null){
+//			boardInfo = new BoardInfo();
+//		}
+//		return boardInfo;
+//	}
 
 
 

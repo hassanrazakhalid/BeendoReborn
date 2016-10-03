@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Dto.SlotCell;
-import com.Beendo.Entities.BoardInfo;
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.DegreeInfo;
 import com.Beendo.Entities.Email;
@@ -83,7 +82,7 @@ public class CreateProviderController extends BaseViewController implements Seri
 
 	// List to select
 	private List<SpecialityInfo> specialityList = new ArrayList<>();
-	private List<BoardInfo> boardList = new ArrayList<>();
+//	private List<BoardInfo> boardList = new ArrayList<>();
 
 	private List<SlotCell> slotCells = new ArrayList<>();
 	// private List<String> days = new ArrayList<String>();
@@ -105,7 +104,7 @@ public class CreateProviderController extends BaseViewController implements Seri
 
 			this.entityList = (List<CEntitiy>) map.get("arg1");
 			this.specialityList = (List<SpecialityInfo>) map.get("arg2");
-			this.boardList = (List<BoardInfo>) map.get("arg3");
+//			this.boardList = (List<BoardInfo>) map.get("arg3");
 			this.practiceList.clear();
 
 			if (!entityList.isEmpty()) {
@@ -333,19 +332,19 @@ public class CreateProviderController extends BaseViewController implements Seri
 		return isOK;
 	}
 
-	private BoardInfo getBoardById(Integer id) {
-
-		Optional<BoardInfo> res = this.boardList.stream().filter((s) -> {
-
-			if (s.getId() == id) {
-
-				return true;
-			} else {
-				return false;
-			}
-		}).findFirst();
-		return res.get();
-	}
+//	private BoardInfo getBoardById(Integer id) {
+//
+//		Optional<BoardInfo> res = this.boardList.stream().filter((s) -> {
+//
+//			if (s.getId() == id) {
+//
+//				return true;
+//			} else {
+//				return false;
+//			}
+//		}).findFirst();
+//		return res.get();
+//	}
 
 	private SpecialityInfo getSpecilityById(Integer id) {
 
@@ -364,25 +363,21 @@ public class CreateProviderController extends BaseViewController implements Seri
 	private void assignSpecialityValues() {
 
 		Integer specId = provider.getQualitication().getPrimarySpeciality().getSpecialityInfo().getId();
-		Integer boardId = provider.getQualitication().getPrimarySpeciality().getBoardInfo().getId();
 
-		BoardInfo boardInfo = getBoardById(boardId);
+//		BoardInfo boardInfo = getBoardById(boardId);
 		SpecialityInfo specInfo = getSpecilityById(specId);
 
-		if (boardInfo != null && specInfo != null) {
-
+		if (specInfo != null) {
 			provider.getQualitication().getPrimarySpeciality().setSpecialityInfo(specInfo);
-			provider.getQualitication().getPrimarySpeciality().setBoardInfo(boardInfo);
 		}
 
 		for (Speciality spec : provider.getQualitication().getOtherSpecialities()) {
 
-			boardInfo = getBoardById(spec.getBoardInfo().getId());
 			specInfo = getSpecilityById(spec.getSpecialityInfo().getId());
-			if (boardInfo != null && specInfo != null) {
+			if (specInfo != null) {
 
 				spec.setSpecialityInfo(specInfo);
-				spec.setBoardInfo(boardInfo);
+//				spec.setBoardInfo(boardInfo);
 			}
 
 		}

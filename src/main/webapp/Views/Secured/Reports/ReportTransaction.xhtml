@@ -44,7 +44,13 @@
 
 				<h:form id="frmMain">
 
-					<p:dataTable value="#{reportsController.transactions}" var="transaction" >
+					<p:dataTable
+				     filteredValue="#{reportsController.filteredTransactions}"
+				      value="#{reportsController.lazyModel}" var="transaction"
+				      lazy="true" paginator="true" 
+				      rows="10"
+				      rowsPerPageTemplate="10,20,35"
+				       >
 
 						<p:column headerText="Payer Name">
 						 <!-- <p:column headerText="Payer Name" filterMatchMode="contains" filterBy="#{transaction.payer.name}"> -->

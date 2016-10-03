@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -15,15 +17,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.Beendo.Dto.LazyTransactionModel;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.User;
 import com.Beendo.Services.IPayerService;
 import com.Beendo.Services.IPractiseService;
 import com.Beendo.Services.IProviderService;
 import com.Beendo.Services.IReportCallback;
 import com.Beendo.Services.IReportService;
+import com.Beendo.Services.ITransactionCallback;
 import com.Beendo.Services.ITransactionService;
 import com.Beendo.Services.PayerService;
 import com.Beendo.Services.PractiseService;
@@ -31,6 +36,7 @@ import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.ReportType;
+import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
@@ -48,14 +54,16 @@ public class ReportsController implements DisposableBean,Serializable {
 	private static final long serialVersionUID = -3324193225905098097L;
 //	 extends RootController
 
-
+	private LazyTransactionModel lazyModel;
 	@Autowired
 	IReportService reportService;
+	@Autowired
+	ITransactionService transactionService;
 	// Transaction
-	private List<ProviderTransaction> transactions = new ArrayList<>() ;
-	private List<ProviderTransaction> savedTransactions = new ArrayList<>();
-	private List<ProviderTransaction> providerTransactions = new ArrayList<>();
-	private List<ProviderTransaction> practiceTransactions = new ArrayList<>();
+//	private List<ProviderTransaction> transactions = new ArrayList<>() ;
+	private List<ProviderTransaction> filteredTransactions = new ArrayList<>();
+//	private List<ProviderTransaction> providerTransactions = new ArrayList<>();
+//	private List<ProviderTransaction> practiceTransactions = new ArrayList<>();
 //	private List<Integer> selectedPayerIds;
 
 	// Payer
@@ -93,13 +101,38 @@ public class ReportsController implements DisposableBean,Serializable {
 	 */
 	private void loadDataByReportType(ReportType type){
 		
-		IReportCallback callBack = (List<Practice>tmpPractiseList, List<Provider>tmpProviderList, List<Payer>tmpPayerList, List<ProviderTransaction>tmpListTransaction,ReportType reportType) -> {
+		Integer entityId = SharedData.getSharedInstace().getCurrentUser().getEntity().getId();
+
+//		transactionService.getLatestTransactions(entityId);
+//		
+//		ITransactionCallback callBack = (User user, List<ProviderTransaction>transactions, List<Payer>payerList, List<Practice>practiceList, List<Provider>providerList, Map<String,Object>otherInfo)->{
+//			
+//			tmpUser = user;
+//			this.lazyModel = new LazyTransactionModel(transactionService,entityId);
+//			this.lazyModel.setRowCount((Integer)otherInfo.get("count"));
+////			this.lazyModel.setRowCount(20);
+////			this.transactions = transactions;
+//			this.payerList = payerList;
+//			this.practiceList = practiceList;
+//			this.providerList = providerList;
+//			this.filterTransactions.clear();
+//			this.filterTransactions.addAll(transactions);
+//		};
+//
+//		transactionService.refreshAllData(0, 10, entityId, callBack);
+		
+		Consumer<Map<String,Object>> sender = ( obj) -> {
 			
-			this.practiceList = tmpPractiseList;
-			this.payerList = tmpPayerList;
+//			this.providerTransactions = (List<ProviderTransaction>) obj.get("transactions");
+			this.payerList = (List<Payer>) obj.get("payerList");
 			this.reportType = reportType;
 			
-			switch (reportType) {
+			this.lazyModel = new LazyTransactionModel(transactionService,entityId);
+			this.lazyModel.setRowCount((Integer)obj.get("count"));
+			
+			this.providerList = (List<Provider>) obj.get("providerList");
+			this.practiceList = (List<Practice>) obj.get("practiseList");
+/*			switch (reportType) {
 			case ReportTypeProvider:
 				this.providerTransactions = tmpListTransaction;
 				break;
@@ -113,12 +146,10 @@ public class ReportsController implements DisposableBean,Serializable {
 
 			default:
 				break;
-			}
-			
-			this.providerList = tmpProviderList;
+			}*/
 		};
-		
-		reportService.reloadPracticeReportData(callBack, type);
+		reportService.reloadPracticeReportData(sender,0, 10,entityId, type);
+		//reportService.reloadPracticeReportData(callBack, type);
 	}
 
 	public String viewRepTransac() {
@@ -156,7 +187,7 @@ public class ReportsController implements DisposableBean,Serializable {
 
 	private void filterByPractise(){
 		
-		transactions = providerTransactions.stream().filter( (t) ->{
+		filteredTransactions = lazyModel.getDatasource().stream().filter( (t) ->{
 			
 			boolean isPractiseOk = true;
 			boolean isPayerOk = true;
@@ -193,7 +224,7 @@ public class ReportsController implements DisposableBean,Serializable {
 	
 	private void filterByProvider(){
 		
-		transactions = providerTransactions.stream().filter( (t) ->{
+		filteredTransactions = lazyModel.getDatasource().stream().filter( (t) ->{
 	
 			boolean isProviderOk = true;
 			boolean isPayerOk = true;
@@ -229,7 +260,7 @@ public class ReportsController implements DisposableBean,Serializable {
 	}
 	private void filterByTransaction(){
 		
-		transactions = providerTransactions.stream().filter( (t) ->{
+		filteredTransactions = lazyModel.getDatasource().stream().filter( (t) ->{
 			
 //			boolean isProviderOk = true;
 			boolean isPayerOk = true;
@@ -280,8 +311,8 @@ public class ReportsController implements DisposableBean,Serializable {
 
 	private void cleanData() {
 		// Transaction
-		transactions = new ArrayList<ProviderTransaction>();
-		savedTransactions = new ArrayList<ProviderTransaction>();
+//		transactions = new ArrayList<ProviderTransaction>();
+		filteredTransactions = new ArrayList<ProviderTransaction>();
 
 		// Payer
 		payerList = new ArrayList<Payer>();

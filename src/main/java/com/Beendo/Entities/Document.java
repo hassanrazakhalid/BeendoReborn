@@ -4,10 +4,12 @@ import java.io.File;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.Beendo.Utils.Constants;
@@ -23,12 +25,12 @@ import lombok.Setter;
 public class Document {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	private String orignalName;
 	private String nameOnDisk;
-	private String type;
+//	private String type;
 	private Date  expireDate;
 	private Date  effectiveDate;
 	private Integer reminderDays;
@@ -37,8 +39,10 @@ public class Document {
 	@ManyToOne
 	private Provider provider;
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	private DocumentType docType = new DocumentType();
+	
 	public String getFullPath(){
-		
 		
 		return provider.getFolderPath()+"\\" + getNameOnDisk();
 //		return SharedData.getSharedInstace().getDocumentRootPath() + getNameOnDisk();

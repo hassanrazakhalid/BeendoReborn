@@ -25,4 +25,6 @@ public interface ITransactionService extends GenericService<ProviderTransaction,
 	public void deleteTransactionByProvider(List<Integer> ids);
 	public void refreshAllData(int start, int end, int entityId, ITransactionCallback callBack) ;
 	public List<ProviderTransaction> fetchAllByRole(int start, int end, int entityId);
+	
+	public List<ProviderTransaction> getLatestTransactions(Integer id);
 }

@@ -91,6 +91,8 @@ public class TransactionController implements DisposableBean, Serializable{
 		
 		Integer entityId = SharedData.getSharedInstace().getCurrentUser().getEntity().getId();
 
+		transactionService.getLatestTransactions(entityId);
+		
 		ITransactionCallback callBack = (User user, List<ProviderTransaction>transactions, List<Payer>payerList, List<Practice>practiceList, List<Provider>providerList, Map<String,Object>otherInfo)->{
 			
 			tmpUser = user;
@@ -105,7 +107,7 @@ public class TransactionController implements DisposableBean, Serializable{
 			this.filterTransactions.addAll(transactions);
 		};
 
-		transactionService.refreshAllData(0, 10, entityId, callBack);;
+		transactionService.refreshAllData(0, 10, entityId, callBack);
 		currentRadio = "rbPractice";
 		canPracticeShow = true;		
 	}

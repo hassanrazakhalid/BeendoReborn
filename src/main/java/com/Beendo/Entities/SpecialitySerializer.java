@@ -20,8 +20,7 @@ public class SpecialitySerializer extends JsonSerializer<Speciality>{
 		gen.writeFieldName("boardInfo");
 		
 		gen.writeStartObject();
-		gen.writeNumberField("id", value.getBoardInfo().getId());
-		gen.writeStringField("name", value.getBoardInfo().getName());
+		gen.writeStringField("name", value.getBoardName());
 		
 		gen.writeEndObject();
 		
