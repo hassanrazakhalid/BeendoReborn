@@ -25,7 +25,9 @@
 						<!-- <p:outputLabel for="idPractices" value="Select Practice: " /> -->
 						 <p:selectOneMenu id="idPractices" value="#{reportsController.currentPracticeId}"
 								panelStyle="width:180px" effect="fade" converter="javax.faces.Integer"
-								 style="width:177px">
+								 style="width:177px"
+								 onchange="submit(),PF('transactionsTable').filter()"
+								 >
 								<!-- var="t" -->
 								 <!-- <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" /> -->
 								 
@@ -38,59 +40,12 @@
 								</p:column> -->
 							</p:selectOneMenu> 
 							
-						<!-- <p:selectCheckboxMenu id="idPractices" value="#{reportsController.selectedPracticeList}" label="Select Practices"
-				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
-				            converter="practiseConverter" panelStyle="width:250px">
-				            
-				            <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" />
-				            
-				            <f:selectItems value="#{reportsController.practiceList}" var="entity"
-									itemLabel="#{entity.name}" itemValue="#{entity}"  />
-
-							<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column>
-				            
-				        </p:selectCheckboxMenu> -->
-							
-					
-						<!-- <h:outputLabel  value="Select Provider: " /> -->
-						<!-- <p:selectOneMenu id="idProviders" value="#{reportsController.currentProvider}"
-								panelStyle="width:180px" effect="fade" converter="providerConverter"
-								var="t" style="width:177px">
-								
-								<p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" />
-								
-								<f:selectItem itemLabel="Select Provider" />
-								<f:selectItems value="#{reportsController.providerList}" var="entity"
-									itemLabel="#{entity.name}" itemValue="#{entity}"  />
 	
-								<p:column>
-									<h:outputText value="#{t.name}" />
-								</p:column>
-							</p:selectOneMenu> -->
-							
-							
-						<!-- <p:selectCheckboxMenu id="idProviders" value="#{reportsController.selectedProviderList}" label="Select Providers"
-				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
-				            converter="providerConverter" panelStyle="width:250px">
-				            
-				            <p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" />
-				            
-				            <f:selectItems value="#{reportsController.providerList}" var="entity"
-									itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity}"  />
-
-							<p:column>
-								<h:outputText value="#{t.firstName} #{t.lastName}" />
-							</p:column>
-				            
-				        </p:selectCheckboxMenu> -->
-							
-							
-						<!-- <h:outputLabel  value="Select Payer: " /> -->
 						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
-				            converter="javax.faces.Integer" panelStyle="width:250px">
+				            converter="javax.faces.Integer" panelStyle="width:250px"
+				            onchange="submit(),PF('transactionsTable').filter()"
+				            >
 				            
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
 								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
@@ -103,20 +58,14 @@
 				        
 				        
 				        <!-- <h:outputLabel for="status" value="Select Status:" /> -->
-			        	<p:selectOneMenu value="#{reportsController.currentPayerStatus}" style="width:175px">
+			        	<p:selectOneMenu value="#{reportsController.currentPayerStatus}" style="width:175px"
+			        	onchange="submit(),PF('transactionsTable').filter()"
+			        	>
 			        	
 			        	<f:selectItem itemLabel="Select Status" />
 			        	<f:selectItems value="#{reportsController.statusList}" var="v"
 			        	itemLabel="#{v}" itemValue="#{v}"/>
-			        		<!-- 
-				            <f:selectItem itemLabel="PAR" itemValue="PAR" />
-				            <f:selectItem itemLabel="Non-Par" itemValue="Non-Par" />
-				            <f:selectItem itemLabel="Application Package Complete" itemValue="Application Package Complete" />
-				            <f:selectItem itemLabel="Application Filed" itemValue="Application Filed" />
-				            <f:selectItem itemLabel="Application Accepted" itemValue="Application Accepted" />
-				            <f:selectItem itemLabel="Application Rejected" itemValue="Application Rejected" />
-				            <f:selectItem itemLabel="Effective Date Assigned" itemValue="Effective Date Assigned" />
-				            <f:selectItem itemLabel="Letter Received" itemValue="Letter Received" /> -->
+			   
 				        </p:selectOneMenu>
 				        
 					
@@ -131,6 +80,7 @@
 				<h:form id="frmMain">
 
 					  <p:dataTable
+					  widgetVar="transactionsTable"
 				     filteredValue="#{reportsController.filteredTransactions}"
 				      value="#{reportsController.lazyModel}" var="transaction"
 				      lazy="true" paginator="true" 

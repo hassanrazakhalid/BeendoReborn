@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -37,11 +38,14 @@ public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
 
 	private Integer entityId;
 
-	public LazyTransactionModel(ITransactionService transactionService, Integer entityId) {
+	private Predicate<ProviderTransaction> filter;
+	
+	public LazyTransactionModel(ITransactionService transactionService, Integer entityId, Predicate<ProviderTransaction> filter) {
 
 		// this.datasource = datasource;
 		this.entityId = entityId;
 		this.transactionService = transactionService;
+		this.filter = filter;
 	}
 
 	@Override
@@ -69,33 +73,33 @@ public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
 
 		datasource = fetchData(first, pageSize);
 
+		List<ProviderTransaction> filteredList = datasource.stream().filter(filter).collect(Collectors.toList());
+		
 		if (filters != null && !filters.isEmpty()) {
-			return filerData(datasource, filters);
+			return filerData(filteredList, filters);
 		}
-
-		return datasource;
+		return filteredList;
 		// return super.load(first, pageSize, sortField, sortOrder, filters);
 	}
 
 	private List<ProviderTransaction> filerData(List<ProviderTransaction> list, Map<String, Object> filters) {
-
 		
-		try {
-			for (PropertyDescriptor pd : Introspector.getBeanInfo(Provider.class).getPropertyDescriptors()) {
-				 System.out.println(pd.getReadMethod());
-//			    System.out.println(pd.getReadMethod().invoke(foo));
-				}
-		} catch (IntrospectionException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+//		try {
+//			for (PropertyDescriptor pd : Introspector.getBeanInfo(Provider.class).getPropertyDescriptors()) {
+//				 System.out.println(pd.getReadMethod());
+////			    System.out.println(pd.getReadMethod().invoke(foo));
+//				}
+//		} catch (IntrospectionException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		
 		List<ProviderTransaction> res = new ArrayList<>();
 		for (Iterator<String> it = filters.keySet().iterator(); it.hasNext();) {
 			try {
 				String filterProperty = it.next();
 				String valueToSearch = (String)filters.get(filterProperty);
-
+ 
 				res = list.stream().filter((p) -> {
 
 					try {

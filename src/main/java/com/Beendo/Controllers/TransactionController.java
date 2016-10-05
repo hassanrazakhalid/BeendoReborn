@@ -96,7 +96,7 @@ public class TransactionController implements DisposableBean, Serializable{
 		ITransactionCallback callBack = (User user, List<ProviderTransaction>transactions, List<Payer>payerList, List<Practice>practiceList, List<Provider>providerList, Map<String,Object>otherInfo)->{
 			
 			tmpUser = user;
-			this.lazyModel = new LazyTransactionModel(transactionService,entityId);
+			this.lazyModel = new LazyTransactionModel(transactionService,entityId, null);
 			this.lazyModel.setRowCount((Integer)otherInfo.get("count"));
 //			this.lazyModel.setRowCount(20);
 //			this.transactions = transactions;

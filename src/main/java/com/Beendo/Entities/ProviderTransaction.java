@@ -27,7 +27,7 @@ import lombok.Setter;
 public class ProviderTransaction {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String transactionType;
 	private String transactionDate;

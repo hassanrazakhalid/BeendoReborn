@@ -23,7 +23,9 @@
 						
 						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
-				            converter="javax.faces.Integer" panelStyle="width:250px">
+				            converter="javax.faces.Integer" panelStyle="width:250px"
+				            onchange="submit(),PF('transactionsTable').filter()"
+				            >
 				            
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
 								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
@@ -45,6 +47,7 @@
 				<h:form id="frmMain">
 
 					<p:dataTable
+					widgetVar="transactionsTable"
 				     filteredValue="#{reportsController.filteredTransactions}"
 				      value="#{reportsController.lazyModel}" var="transaction"
 				      lazy="true" paginator="true" 
