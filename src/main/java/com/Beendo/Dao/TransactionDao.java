@@ -13,6 +13,7 @@ import static java.lang.Math.toIntExact;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.SharedData;
 
 @Repository
@@ -23,14 +24,30 @@ public class TransactionDao extends GenericDao<ProviderTransaction, Integer> imp
 
 	@Override
 	@Transactional(readOnly=true)
-	public void findTransactionsByEntity( int start, int end, int entityId, TransactionPaginationCallback callback) {
+	public void findTransactionsByEntity( int start, int end, Integer entityId, TransactionPaginationCallback callback) {
 
+//		" LEFT JOIN FETCH P.payerList Payer" +
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session
-				.createQuery("SELECT P FROM ProviderTransaction P" + " LEFT JOIN P.entity E" + " WHERE E.id = :id");
-		query.setFirstResult(start);
-		query.setMaxResults(end);
-		query.setParameter("id", entityId);
+		
+		String queryString = "SELECT P FROM ProviderTransaction P"
+				+ " LEFT JOIN P.entity E";
+		Query query = null;
+		if (entityId == Constants.RootEntityId) {
+			
+			query = session
+					.createQuery(queryString);
+					query.setFirstResult(start);
+					query.setMaxResults(end);
+		}
+		else {
+			
+			queryString +=" WHERE E.id = :id";
+			query = session
+					.createQuery(queryString);
+					query.setFirstResult(start);
+					query.setMaxResults(end);
+					query.setParameter("id", entityId);
+		}
 		
 		List<ProviderTransaction> result = query.getResultList();
 		callback.getPaginationResponse(result);
@@ -42,7 +59,7 @@ public class TransactionDao extends GenericDao<ProviderTransaction, Integer> imp
 		//Total count
 		String countQ = null;
 		Query countQuery = null;
-		if (entityId == -1){
+		if (entityId == Constants.RootEntityId){
 		
 			countQ = "SELECT count (P.id) FROM ProviderTransaction P";
 			countQuery = sessionFactory.getCurrentSession().createQuery(countQ);

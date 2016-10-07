@@ -71,14 +71,29 @@ public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
 	public List<ProviderTransaction> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
 
-		datasource = fetchData(first, pageSize);
+		List<ProviderTransaction> datasource = fetchData(first, pageSize);
 
 		List<ProviderTransaction> filteredList = datasource.stream().filter(filter).collect(Collectors.toList());
 		
 		if (filters != null && !filters.isEmpty()) {
-			return filerData(filteredList, filters);
+			filteredList = filerData(filteredList, filters);
 		}
-		return filteredList;
+		
+//		int dataSize = filteredList.size();
+//		this.setRowCount(dataSize);
+//		
+//		//paginate
+//        if(dataSize > pageSize) {
+//            try {
+//                return filteredList.subList(first, first + pageSize);
+//            }
+//            catch(IndexOutOfBoundsException e) {
+//                return filteredList.subList(first, first + (dataSize % pageSize));
+//            }
+//        }
+//        else {
+            return filteredList;
+//        }
 		// return super.load(first, pageSize, sortField, sortOrder, filters);
 	}
 

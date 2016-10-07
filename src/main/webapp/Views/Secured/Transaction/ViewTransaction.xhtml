@@ -35,9 +35,11 @@
 				<p:selectCheckboxMenu id="payerMenu" label="Select payer" 
 				value="#{transactionController.payerFilter}"
 				 converter="javax.faces.Integer"
+				
+				 onHide="PF('transactionsTable').filter()"
 				>
 				
-				<f:ajax event="change" listener="#{transactionController.payerCheckBoxChanged}" render=":mainForm" />
+				 <f:ajax event="change" />
 				<f:selectItems value="#{transactionController.payerList}" var="payer"
 				itemLabel="#{payer.name}" itemValue="#{payer.id}"/>
 				
@@ -60,6 +62,7 @@
 				      lazy="true" paginator="true" 
 				      rows="10"
 				      rowsPerPageTemplate="10,20,35"
+				      widgetVar="transactionsTable"
 				       >
 					
 						<p:column headerText="Payer Name" filterBy="#{transaction.payerList}" filterFunction="#{transaction.filterByPayer}">

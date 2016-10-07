@@ -40,14 +40,14 @@ public class TransactionService extends GenericServiceImpl<ProviderTransaction, 
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
 		final List<ProviderTransaction> dataList = new ArrayList<>();
 
-		if (SharedData.getSharedInstace().shouldReturnFullList()) {
-			dataList.addAll(getAll());
-		} else {
+//		if (SharedData.getSharedInstace().shouldReturnFullList()) {
+//			dataList.addAll(getAll());
+//		} else {
 			service.findTransactionsByEntity(start, end, entityId, (List<ProviderTransaction> list) -> {
 
 				dataList.addAll(list);
 			});
-		}
+//		}
 		return dataList;
 	}
 

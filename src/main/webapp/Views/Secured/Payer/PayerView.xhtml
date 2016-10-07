@@ -2,7 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 
 <f:metadata>
@@ -21,12 +22,10 @@
 				<h2>Payer Details</h2>
 				
 				<h:form>
-					<p:commandButton value="Create" update=":myForm"
-						action="#{payerController.clearData()}"
-								oncomplete="PF('Dlg1').show();"
-								 />
-								
-					<br/>
+				<h3>
+				<p:link outcome="#{payerController.createPayerClikced()}" value="Create Payer" />
+				</h3>
+					
 				</h:form>
 				
 				 <h:form id="mainForm"> 
@@ -42,7 +41,17 @@
 						</p:column> -->
 						
 						<p:column headerText="Plan Name">
-							#{payer.planName}
+						<table>
+						<ui:repeat var="plan" value="#{payer.plans}">
+						<tr>
+						<td>
+						#{plan.name}
+						</td>
+						</tr>
+						 </ui:repeat>
+						
+						</table>
+						
 						</p:column>
 						
 						<p:column headerText="Phone Number">
@@ -67,13 +76,13 @@
 						
 						<p:column headerText="Edit"
 						 width="80">
-							<p:commandButton icon="ui-icon-pencil" update=":myForm"
-								oncomplete="PF('Dlg1').show();" 
-								 action="#{payerController.updateClicked(payer)}" />
-								 
-								 
+						 
+						 <p:link outcome="#{payerController.createPayerClikced()}" value="Edit" >
+						 <f:param name="id" value="#{payer.id}" />
+						  </p:link>
+						  					 
 							<p:commandButton icon="ui-icon-close" update=":mainForm" 
-								resetValues="true" action="#{payerController.removeClicked(payer)}">
+							 action="#{payerController.removeClicked(payer)}">
 	
 								<p:confirm header="Confirmation" message="Are you sure?"
 									icon="ui-icon-alert" />
@@ -96,7 +105,7 @@
 				
 				<!-- ADD / EDIT DIALOG -->
 				
-				<p:dialog header="Payer"  modal="true" position="top" widgetVar="Dlg1" minHeight="40">
+<!-- 				<p:dialog header="Payer"  modal="true" position="top" widgetVar="Dlg1" minHeight="40">
 				    
 				  <h:form id="myForm">
 				  
@@ -106,7 +115,7 @@
 				  	 
 				  	 	<p:outputLabel for="PayerName" value="PayerName:" />
 				  	 	<p:inputText id="PayerName" value="#{payerController.payer.name}" placeholder="Payer Name" required="true" />
-			            <!-- <p:inputText id="CompanyName" value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" />  -->
+			            <p:inputText id="CompanyName" value="#{payerController.payer.companyName}" placeholder="Company Name" required="true" /> 
 			            
 			            <p:outputLabel for="PlanName" value="PlanName:" />
 			            <p:inputText id="PlanName" value="#{payerController.payer.planName}" placeholder="Plan Name" required="true" />   			       
@@ -139,7 +148,7 @@
 					
 				  </h:form>
 
-				</p:dialog>
+				</p:dialog> -->
 				
 	<style>
 .ui-dialog{

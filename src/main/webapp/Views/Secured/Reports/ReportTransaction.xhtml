@@ -24,9 +24,10 @@
 						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="javax.faces.Integer" panelStyle="width:250px"
-				            onchange="submit(),PF('transactionsTable').filter()"
+				            onHide="PF('transactionsTable').filter()"
 				            >
 				            
+				             <f:ajax event="change" />
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
 								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
 

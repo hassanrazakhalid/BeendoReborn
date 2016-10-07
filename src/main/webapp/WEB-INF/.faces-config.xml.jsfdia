@@ -117,6 +117,11 @@
     PATH="/Views/Secured/Practise/CreatePracticeView.xhtml"
     TARGET="rules:#Views#Secured#Practise#CreatePracticeView.xhtml"
     TITLE="CreatePractice" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="CreatePayer::#Views#Secured#Payer#CreatePayer.xhtml"
+    NAME="output16" PATH="/Views/Secured/Payer/CreatePayer.xhtml"
+    TARGET="rules:#Views#Secured#Payer#CreatePayer.xhtml"
+    TITLE="CreatePayer" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
@@ -142,4 +147,6 @@
   NAME="rules:#Views#Secured#Practise#CreatePracticeView.xhtml"
   PATH="/Views/Secured/Practise/CreatePracticeView.xhtml"
   SHAPE="304,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Payer#CreatePayer.xhtml"
+  PATH="/Views/Secured/Payer/CreatePayer.xhtml" SHAPE="304,1665,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

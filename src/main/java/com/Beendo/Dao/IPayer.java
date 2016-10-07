@@ -6,4 +6,5 @@ import com.Beendo.Entities.Payer;
 
 public interface IPayer extends ICRUD<Payer, Integer > {
 
+	public boolean isPayerNameExist(String name);
 }

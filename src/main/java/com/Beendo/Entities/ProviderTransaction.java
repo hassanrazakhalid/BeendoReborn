@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -40,7 +42,12 @@ public class ProviderTransaction {
 	/*@OneToOne(fetch = FetchType.EAGER)
 	private Payer payer = new Payer();*/
 	
+
 	@ManyToMany(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
+	@JoinTable(name="provider_transaction_payer",
+	joinColumns=@JoinColumn(name="PROVIDER_TRANSACTION_id"),
+	inverseJoinColumns=@JoinColumn(name="payerList_id")
+	)
 	private Set<Payer> payerList = new HashSet<Payer>();
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
@@ -62,7 +69,7 @@ public class ProviderTransaction {
 		return finalStr;
 	}*/
 
-	public boolean filterByPayer(Object value, Object filter, Locale locale) {
+/*	public boolean filterByPayer(Object value, Object filter, Locale locale) {
         String filterText = (filter == null) ? null : filter.toString().trim();
         if(filterText == null||filterText.equals("")) {
             return true;
@@ -85,5 +92,5 @@ public class ProviderTransaction {
         });
         return result;
 //        return ((Comparable) value).compareTo(Integer.valueOf(filterText)) > 0;
-    }
+    }*/
 }

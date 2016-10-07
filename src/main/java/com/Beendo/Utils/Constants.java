@@ -7,6 +7,7 @@ public class Constants {
 	// Dev Paths
 	
 	// Server Paths
+	public static Integer RootEntityId = 1;
 	
 //	public static String PROVIDER_FOLDER_PATH = "C:\\" + "Users" + "\\" + "Hassan" + "\\" + "Documents" + "\\" + "partracker-doc" + "\\";
 //	public static String PROVIDER_FOLDER_PATH = "//" + "opt" + "//" + "partracker-doc" + "//";

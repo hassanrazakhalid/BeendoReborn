@@ -26,10 +26,11 @@
 								panelStyle="width:180px" effect="fade" converter="javax.faces.Integer"
 								 style="width:177px"
 								 onchange="submit(),PF('transactionsTable').filter()"
+								
 								  >
 								<!-- var="t" -->
 								 <!-- <p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" /> -->
-								
+								 
 								<f:selectItem itemLabel="Select Provider" />
 								<f:selectItems value="#{reportsController.providerList}" var="entity"
 									itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity.id}"  />
@@ -42,9 +43,10 @@
 						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  
 				            converter="javax.faces.Integer" panelStyle="width:250px"
-				            onchange="submit(),PF('transactionsTable').filter()"
+				             onHide="PF('transactionsTable').filter()"
 				            >
 				            <!-- var="t" -->
+				            <f:ajax event="change" />
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
 								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
 

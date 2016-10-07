@@ -33,81 +33,92 @@
 						<p:tab id="personal" title="Personal">
 							<p:messages />
 							<b:column span="6">
-							 <b:row>
-							 								<b:panel title="Personal information" span="12">
-									<b:row>
-										<b:column span="6">
+								<b:row>
+									<b:panel title="Personal information" span="12">
+										<b:row>
+											<b:column span="6">
 
-											<b:inputText placeholder="First Name *"
-												value="#{createProviderController.provider.firstName}" />
+												<b:inputText required="true"
+													requiredMessage="First name cannot be empty"
+													placeholder="First Name *"
+													value="#{createProviderController.provider.firstName}" />
 
-										</b:column>
+											</b:column>
 
-										<b:column span="6">
-											<b:inputText placeholder="Last Name *"
-												value="#{createProviderController.provider.lastName}" />
-										</b:column>
-									</b:row>
+											<b:column span="6">
+												<b:inputText required="true"
+													requiredMessage="Last name cannot be empty"
+													placeholder="Last Name *"
+													value="#{createProviderController.provider.lastName}" />
+											</b:column>
+										</b:row>
 
-									<b:row>
-										<b:column span="6">
+										<b:row>
+											<b:column span="6">
 
-											<b:inputText placeholder="NPInumber *"
-												value="#{createProviderController.provider.npiNum}" />
+												<b:inputText required="true"
+													requiredMessage="NPI cannot be empty"
+													placeholder="NPInumber *"
+													value="#{createProviderController.provider.npiNum}" />
 
-										</b:column>
-									</b:row>
-								</b:panel>
-							 </b:row>
-							
-							<b:row>
-							<b:column span="12">
-							
-							<b:panel rendered="#{createProviderController.isSingleItemInEntityList()}" title="Current Entity">
-							<b:row>
-							<b:label text="#{createProviderController.getFirstEntityName()}"></b:label>
-							</b:row>
-							</b:panel>
-							<b:panel rendered="#{!createProviderController.isSingleItemInEntityList()}" title="Select Entity">
-							<p:selectOneMenu value="#{createProviderController.selectedEntityId}"
-							 converter="javax.faces.Integer"
-							 >
-							
-							 <f:selectItem itemLabel="Select Entity" itemValue=""/>
-							 <f:selectItems itemValue="#{entity.id}" var="entity"
-							 itemLabel="#{entity.name}" value="#{createProviderController.entityList}"
-							 />
-							 
-							 <p:ajax event="change" listener="#{createProviderController.onEntityChange}"
-							 update="@parent:@parent:practiseListId"
-							 >
-							 </p:ajax>
-							
-							</p:selectOneMenu>
-							 </b:panel>
-							</b:column>
-							</b:row>
-							
-							<b:row>
-							<b:column span="12">
-							<b:panel id="practiseListId" title="Select Practise">
-							<p:selectCheckboxMenu label="Practises"
-							filter="true" filterMatchMode="startsWith"
-							 value="#{createProviderController.selectedPractices}"
-							converter="javax.faces.Integer"
-							>
-							<f:selectItems value="#{createProviderController.practiceList}" var="practise"
-							itemLabel="#{practise.name}" itemValue="#{practise.id}"
-							/>
-							
-							</p:selectCheckboxMenu>
-							</b:panel>
-							
-	
-							
-							</b:column>
-							</b:row>
-							
+											</b:column>
+										</b:row>
+									</b:panel>
+								</b:row>
+
+								<b:row>
+									<b:column span="12">
+
+										<b:panel
+											rendered="#{createProviderController.isSingleItemInEntityList()}"
+											title="Current Entity">
+											<b:row>
+												<b:label
+													text="#{createProviderController.getFirstEntityName()}"></b:label>
+											</b:row>
+										</b:panel>
+										<b:panel
+											rendered="#{!createProviderController.isSingleItemInEntityList()}"
+											title="Select Entity">
+											<p:selectOneMenu
+												value="#{createProviderController.selectedEntityId}"
+												converter="javax.faces.Integer">
+
+												<f:selectItem itemLabel="Select Entity" itemValue="" />
+												<f:selectItems itemValue="#{entity.id}" var="entity"
+													itemLabel="#{entity.name}"
+													value="#{createProviderController.entityList}" />
+
+												<p:ajax event="change"
+													listener="#{createProviderController.onEntityChange}"
+													update="@parent:@parent:practiseListId">
+												</p:ajax>
+
+											</p:selectOneMenu>
+										</b:panel>
+									</b:column>
+								</b:row>
+
+								<b:row>
+									<b:column span="12">
+										<b:panel id="practiseListId" title="Select Practise">
+											<p:selectCheckboxMenu label="Practises" filter="true"
+												filterMatchMode="startsWith"
+												value="#{createProviderController.selectedPractices}"
+												converter="javax.faces.Integer">
+												<f:selectItems
+													value="#{createProviderController.practiceList}"
+													var="practise" itemLabel="#{practise.name}"
+													itemValue="#{practise.id}" />
+
+											</p:selectCheckboxMenu>
+										</b:panel>
+
+
+
+									</b:column>
+								</b:row>
+
 							</b:column>
 
 							<b:column span="6">
@@ -115,14 +126,18 @@
 									<b:row>
 										<b:column span="6">
 
-											<b:inputText placeholder="CAQH Id *"
+											<b:inputText required="true"
+												requiredMessage="CAQH Id cannot be empty"
+												placeholder="CAQH Id *"
 												value="#{createProviderController.provider.CAQHId}" />
 
 										</b:column>
 
 										<b:column span="6">
 
-											<b:inputText placeholder="CAQH Password *"
+											<b:inputText required="true"
+												requiredMessage="CAQH password cannot be empty"
+												placeholder="CAQH Password *"
 												value="#{createProviderController.provider.CAQHPassword}" />
 
 										</b:column>
@@ -133,34 +148,39 @@
 
 						<p:tab id="additionalInfoId" title="Additional Information">
 
+							<p:messages />
 							<b:column span="6">
 
-	 							<b:row>
+								<b:row>
 									<b:panel title="Additional Information" span="12">
 										<b:row>
 											<b:column span="6">
 
-												<b:datepicker placeholder="Date of birth:*"
-													showWeek="true" firstDay="1"
-													value="#{createProviderController.provider.dob}"
-													
-													 />
+												<b:datepicker required="true"
+													requiredMessage="Please select Dob"
+													placeholder="Date of birth:*" showWeek="true" firstDay="1"
+													value="#{createProviderController.provider.dob}" />
 											</b:column>
 
 											<b:column span="6">
-												<b:inputText placeholder="Medicare I.D *"
+												<b:inputText required="true"
+													requiredMessage="Medicare I.D cannot be empty"
+													placeholder="Medicare I.D *"
 													value="#{createProviderController.provider.medicareId}" />
 											</b:column>
 										</b:row>
 
 										<b:row>
 											<b:column span="6">
-												<b:inputText placeholder="Social Security Number *"
+												<b:inputText required="true"
+													requiredMessage="SSN cannot be empty"
+													placeholder="Social Security Number *"
 													value="#{createProviderController.provider.socialSecurityNumber}" />
 											</b:column>
 
 											<b:column span="6">
-												<b:inputText placeholder="Degree *"
+												<b:inputText required="true" requiredMessage="Degree cannot be empty"
+													placeholder="Degree *"
 													value="#{createProviderController.provider.degree}" />
 											</b:column>
 										</b:row>
@@ -195,7 +215,7 @@
 								</b:row>
 							</b:column>
 
-			 			<b:column span="6">
+							<b:column span="6">
 								<b:row>
 									<b:panel title="Phone Numbers:" span="12">
 										<f:facet name="footer">
@@ -247,21 +267,24 @@
 										</ui:repeat>
 									</b:panel>
 								</b:row>
-							</b:column> 
+							</b:column>
 						</p:tab>
 
 						<p:tab title="Education">
 
+							<p:messages />
 							<b:column span="6">
 								<b:panel title="Primary Education" span="12">
 									<b:row>
 										<b:column span="6">
-											<b:inputText placeholder="Medical College"
+											<b:inputText required="true" requiredMessage="Medical college cannot be empty"
+											 placeholder="Medical College"
 												value="#{createProviderController.provider.qualitication.primaryDegree.collegeName}" />
 										</b:column>
 										<b:column span="6">
 
-											<b:inputText placeholder="Name of Degree Earned"
+											<b:inputText required="true" requiredMessage="Degree cannot be empty"
+											 placeholder="Name of Degree Earned"
 												value="#{createProviderController.provider.qualitication.primaryDegree.degreeName}" />
 
 										</b:column>
@@ -269,8 +292,9 @@
 
 									<b:row>
 										<b:column span="6">
-											<b:datepicker placeholder="Graducation Date" mode="toggle-icon"
-												showWeek="true" firstDay="1"
+											<b:datepicker required="true" requiredMessage="Graducation date cannot be empty"
+											 placeholder="Graducation Date"
+												mode="toggle-icon" showWeek="true" firstDay="1"
 												value="#{createProviderController.provider.qualitication.primaryDegree.finishedDate}" />
 										</b:column>
 									</b:row>
@@ -323,131 +347,92 @@
 
 
 						<p:tab title="Experience">
+							<p:messages />
+							<b:column span="6">
+
+								<b:row>
+
+									<b:panel title="Residency">
+										<b:row>
+											<b:column span="6">
+												<b:inputText required="true" requiredMessage="Instituation name cannot be empty"
+												 placeholder="Institution Name"
+													value="#{createProviderController.provider.qualitication.residencyInfo.institutionName}" />
+											</b:column>
+
+											<b:column span="6">
+												<b:datepicker required="true" requiredMessage="Started Residency date cannot be empty"
+												 placeholder="Started Residency"
+													mode="toggle-icon" showWeek="true" firstDay="1"
+													value="#{createProviderController.provider.qualitication.residencyInfo.startDate}" />
+											</b:column>
+										</b:row>
+
+										<b:row>
+											<b:column span="6">
+												<b:datepicker required="true" requiredMessage="Ended Residency cannot be empty"
+												 placeholder="Ended Residency"
+													mode="toggle-icon" showWeek="true" firstDay="1"
+													value="#{createProviderController.provider.qualitication.residencyInfo.endDate}" />
+											</b:column>
+										</b:row>
+									</b:panel>
+
+								</b:row>
+							</b:column>
 
 							<b:column span="6">
-							
-							<b:row>
-							
-								<b:panel title="Residency">
+
 								<b:row>
-								<b:column span="6">
-								<b:inputText placeholder="Institution Name" value="#{createProviderController.provider.qualitication.residencyInfo.institutionName}" />
-								</b:column>
-								
-								<b:column span="6">
-								<b:datepicker placeholder="Started Residency" mode="toggle-icon" showWeek="true" firstDay="1"
-								 value="#{createProviderController.provider.qualitication.residencyInfo.startDate}"/>
-								</b:column>
+
+									<b:panel title="Internship">
+										<b:row>
+											<b:column span="6">
+												<b:inputText placeholder="Institution Name"
+													value="#{createProviderController.provider.qualitication.internshipInfo.institutionName}" />
+											</b:column>
+
+											<b:column span="6">
+												<b:datepicker placeholder="Started Residency"
+													mode="toggle-icon" showWeek="true" firstDay="1"
+													value="#{createProviderController.provider.qualitication.internshipInfo.startDate}" />
+											</b:column>
+										</b:row>
+
+										<b:row>
+											<b:column span="6">
+												<b:datepicker placeholder="Ended Residency"
+													mode="toggle-icon" showWeek="true" firstDay="1"
+													value="#{createProviderController.provider.qualitication.internshipInfo.endDate}" />
+											</b:column>
+										</b:row>
+									</b:panel>
+
 								</b:row>
-								
-								<b:row>
-								<b:column span="6">
-								<b:datepicker placeholder="Ended Residency" mode="toggle-icon" showWeek="true" firstDay="1"
-								 value="#{createProviderController.provider.qualitication.residencyInfo.endDate}"/>
-								</b:column>
-								</b:row>
-								</b:panel>
-								
-								</b:row>
-						</b:column>
-						
-							<b:column span="6">
-							
-							<b:row>
-							
-								<b:panel title="Internship">
-								<b:row>
-								<b:column span="6">
-								<b:inputText placeholder="Institution Name" value="#{createProviderController.provider.qualitication.internshipInfo.institutionName}" />
-								</b:column>
-								
-								<b:column span="6">
-								<b:datepicker placeholder="Started Residency" mode="toggle-icon" showWeek="true" firstDay="1"
-								 value="#{createProviderController.provider.qualitication.internshipInfo.startDate}"/>
-								</b:column>
-								</b:row>
-								
-								<b:row>
-								<b:column span="6">
-								<b:datepicker placeholder="Ended Residency" mode="toggle-icon" showWeek="true" firstDay="1"
-								 value="#{createProviderController.provider.qualitication.internshipInfo.endDate}"/>
-								</b:column>
-								</b:row>
-								</b:panel>
-								
-								</b:row>
-						</b:column>
+							</b:column>
 
 
 						</p:tab>
 
 						<p:tab title="Speciality">
-
-					<b:column span="6">
-							<b:panel title="Primary Speciality" span="12">
-								<b:row>
-									<b:column span="4">
-										<p:outputLabel value="Primary Speclity:" />
-									</b:column>
-									<b:column span="8">
-										<p:selectOneMenu
-										converter="javax.faces.Integer"
-										value="#{createProviderController.provider.qualitication.primarySpeciality.specialityInfo.id}">
-
-											<f:selectItem itemLabel="Select One" itemValue="" />
-											<f:selectItems
-												value="#{createProviderController.specialityList}"
-												var="specilityInfo" itemLabel="#{specilityInfo.name}"
-												itemValue="#{specilityInfo.id}" />
-										</p:selectOneMenu>
-									</b:column>
-								</b:row>
-
-								<b:row>
-									<b:column span="4">
-										<p:outputLabel value="Name of Board:" />
-									</b:column>
-									<b:column span="8">
-									
-									<b:inputText placeholder="Board Name" value="#{createProviderController.provider.qualitication.primarySpeciality.boardName}" />
-									</b:column>
-								</b:row>
-							</b:panel>
-						</b:column>
-
-					<b:column span="6">
-							<b:panel title="Secondary Specilities" span="12">
-								<f:facet name="footer">
-									<p:outputLabel value="Add more" />
-									<p:commandButton value="+"
-										actionListener="#{createProviderController.addOtherSpecilityClicked()}"
-										update="@parent:@parent" />
-								</f:facet>
-
- 								<ui:repeat var="specility"
-									value="#{createProviderController.provider.qualitication.otherSpecialities}">
-
+							<p:messages />
+							<b:column span="6">
+								<b:panel title="Primary Speciality" span="12">
 									<b:row>
 										<b:column span="4">
-											<p:outputLabel value="Speclity Name:" />
+											<p:outputLabel value="Primary Speclity:" />
 										</b:column>
+										<b:column span="8">
+											<p:selectOneMenu required="true" requiredMessage="Primary speciality cannot bbe empty"
+											 converter="javax.faces.Integer"
+												value="#{createProviderController.provider.qualitication.primarySpeciality.specialityInfo.id}">
 
-										<b:column span="5">
-											<p:selectOneMenu value="#{specility.specialityInfo.id}"
-											converter="javax.faces.Integer"
-											>
 												<f:selectItem itemLabel="Select One" itemValue="" />
 												<f:selectItems
-													value="#{createProviderController.specialityList}" var="specilityInfo"
-													 itemLabel="#{specilityInfo.name}"
+													value="#{createProviderController.specialityList}"
+													var="specilityInfo" itemLabel="#{specilityInfo.name}"
 													itemValue="#{specilityInfo.id}" />
 											</p:selectOneMenu>
-										</b:column>
-
-										<b:column span="3">
-											<p:commandButton value="-"
-												actionListener="#{createProviderController.removeOtherSpecility(specility)}"
-												update="@parent:@parent:@parent:@parent" />
 										</b:column>
 									</b:row>
 
@@ -455,125 +440,178 @@
 										<b:column span="4">
 											<p:outputLabel value="Name of Board:" />
 										</b:column>
+										<b:column span="8">
 
-										<b:column span="5">
-										
-										<b:inputText placeholder="Board Name" value="#{specility.boardName}" />
-									
+											<b:inputText required="true" requiredMessage="Board name cannot be empty"
+											 placeholder="Board Name"
+												value="#{createProviderController.provider.qualitication.primarySpeciality.boardName}" />
 										</b:column>
 									</b:row>
-								</ui:repeat>
-							</b:panel>
-					</b:column>
+								</b:panel>
+							</b:column>
+
+							<b:column span="6">
+								<b:panel title="Secondary Specilities" span="12">
+									<f:facet name="footer">
+										<p:outputLabel value="Add more" />
+										<p:commandButton value="+"
+											actionListener="#{createProviderController.addOtherSpecilityClicked()}"
+											update="@parent:@parent" />
+									</f:facet>
+
+									<ui:repeat var="specility"
+										value="#{createProviderController.provider.qualitication.otherSpecialities}">
+
+										<b:row>
+											<b:column span="4">
+												<p:outputLabel value="Speclity Name:" />
+											</b:column>
+
+											<b:column span="5">
+												<p:selectOneMenu value="#{specility.specialityInfo.id}"
+													converter="javax.faces.Integer">
+													<f:selectItem itemLabel="Select One" itemValue="" />
+													<f:selectItems
+														value="#{createProviderController.specialityList}"
+														var="specilityInfo" itemLabel="#{specilityInfo.name}"
+														itemValue="#{specilityInfo.id}" />
+												</p:selectOneMenu>
+											</b:column>
+
+											<b:column span="3">
+												<p:commandButton value="-"
+													actionListener="#{createProviderController.removeOtherSpecility(specility)}"
+													update="@parent:@parent:@parent:@parent" />
+											</b:column>
+										</b:row>
+
+										<b:row>
+											<b:column span="4">
+												<p:outputLabel value="Name of Board:" />
+											</b:column>
+
+											<b:column span="5">
+
+												<b:inputText placeholder="Board Name"
+													value="#{specility.boardName}" />
+
+											</b:column>
+										</b:row>
+									</ui:repeat>
+								</b:panel>
+							</b:column>
 
 						</p:tab>
 
 						<p:tab title="Other information">
 
-<b:row>
-							<b:column span="6">
-								<b:row>
-									<b:panel span="12" title="Other information">
-										<b:row>
-											<b:column span="5">
-												<p:outputLabel value="Oldest Patient Age Limit" />
-											</b:column>
-
-											<b:column span="7">
-												<p:inputText converter="javax.faces.Integer"
-													value="#{createProviderController.provider.otherInfo.oldestPatientAgeLimit}"
-													class="form-control" />
-											</b:column>
-										</b:row>
-
-										<b:row>
-											<b:column span="5">
-												<p:outputLabel value="Panel status" />
-											</b:column>
-
-											<b:column span="7">
-												<p:inputSwitch
-													value="#{createProviderController.provider.otherInfo.panelStatus}" />
-											</b:column>
-										</b:row>
-									</b:panel>
-								</b:row>
-
-								<b:row>
-									<b:panel span="12" title="Languages">
-										<f:facet name="footer">
-											<p:outputLabel value="Add language" />
-											<p:commandButton value="+"
-												actionListener="#{createProviderController.addLanguageClicked()}"
-												update="@parent:@parent" />
-										</f:facet>
-
-										<ui:repeat var="language"
-											value="#{createProviderController.provider.otherInfo.languagesList}">
-
+							<b:row>
+								<b:column span="6">
+									<b:row>
+										<b:panel span="12" title="Other information">
 											<b:row>
-												<b:column span="2">
-													<p:outputLabel value="Language Name:" />
+												<b:column span="5">
+													<p:outputLabel value="Oldest Patient Age Limit" />
 												</b:column>
 
-												<b:column span="8">
-													<p:inputText value="#{language.languageName}"
+												<b:column span="7">
+													<p:inputText converter="javax.faces.Integer"
+														value="#{createProviderController.provider.otherInfo.oldestPatientAgeLimit}"
 														class="form-control" />
 												</b:column>
+											</b:row>
 
-												<b:column span="2">
-													<p:commandButton value="-"
-														actionListener="#{createProviderController.removeLanguage(language)}"
-														update="@parent:@parent:@parent:@parent" />
+											<b:row>
+												<b:column span="5">
+													<p:outputLabel value="Panel status" />
+												</b:column>
+
+												<b:column span="7">
+													<p:inputSwitch
+														value="#{createProviderController.provider.otherInfo.panelStatus}" />
 												</b:column>
 											</b:row>
-										</ui:repeat>
-									</b:panel>
-								</b:row>
+										</b:panel>
+									</b:row>
 
-							</b:column>
+									<b:row>
+										<b:panel span="12" title="Languages">
+											<f:facet name="footer">
+												<p:outputLabel value="Add language" />
+												<p:commandButton value="+"
+													actionListener="#{createProviderController.addLanguageClicked()}"
+													update="@parent:@parent" />
+											</f:facet>
 
-							<b:column span="6">
-								<b:row>
-									<b:panel span="12" title="Timetable">
-										<b:row>
-											<ui:repeat var="cell"
-												value="#{createProviderController.slotCells}">
+											<ui:repeat var="language"
+												value="#{createProviderController.provider.otherInfo.languagesList}">
 
-												<b:column span="6">
-													<b:row>
-														<p:outputLabel value="#{cell.day}" />
-													</b:row>
-													<b:row>
-														<b:column span="6">
-															<p:outputLabel value="Start Time" />
-														</b:column>
-														<b:column span="6">
-															<pe:timePicker value="#{cell.slot.startTime}" mode="spinnerTimeWidget" />
-														</b:column>
-													</b:row>
+												<b:row>
+													<b:column span="2">
+														<p:outputLabel value="Language Name:" />
+													</b:column>
 
-													<b:row>
-														<b:column span="6">
-															<p:outputLabel value="End Time" />
-														</b:column>
-														<b:column span="6">
-															<pe:timePicker value="#{cell.slot.endTime}" mode="spinnerTimeWidget" />
-														</b:column>
-													</b:row>
-												</b:column>
+													<b:column span="8">
+														<p:inputText value="#{language.languageName}"
+															class="form-control" />
+													</b:column>
+
+													<b:column span="2">
+														<p:commandButton value="-"
+															actionListener="#{createProviderController.removeLanguage(language)}"
+															update="@parent:@parent:@parent:@parent" />
+													</b:column>
+												</b:row>
 											</ui:repeat>
-										</b:row>
-									</b:panel>
-								</b:row>
-							</b:column>
-</b:row>
+										</b:panel>
+									</b:row>
 
-							
+								</b:column>
+
+								<b:column span="6">
+									<b:row>
+										<b:panel span="12" title="Timetable">
+											<b:row>
+												<ui:repeat var="cell"
+													value="#{createProviderController.slotCells}">
+
+													<b:column span="6">
+														<b:row>
+															<p:outputLabel value="#{cell.day}" />
+														</b:row>
+														<b:row>
+															<b:column span="6">
+																<p:outputLabel value="Start Time" />
+															</b:column>
+															<b:column span="6">
+																<pe:timePicker value="#{cell.slot.startTime}"
+																	mode="spinnerTimeWidget" />
+															</b:column>
+														</b:row>
+
+														<b:row>
+															<b:column span="6">
+																<p:outputLabel value="End Time" />
+															</b:column>
+															<b:column span="6">
+																<pe:timePicker value="#{cell.slot.endTime}"
+																	mode="spinnerTimeWidget" />
+															</b:column>
+														</b:row>
+													</b:column>
+												</ui:repeat>
+											</b:row>
+										</b:panel>
+									</b:row>
+								</b:column>
+							</b:row>
+
+
 							<b:row>
-							<p:commandButton value="Save" actionListener="#{createProviderController.saveInfo}">
-							
-							</p:commandButton>
+								<p:commandButton value="Save"
+									actionListener="#{createProviderController.saveInfo}">
+
+								</p:commandButton>
 							</b:row>
 						</p:tab>
 					</p:wizard>

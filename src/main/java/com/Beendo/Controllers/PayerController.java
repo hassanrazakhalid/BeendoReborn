@@ -44,7 +44,7 @@ public class PayerController {
 
 	private Payer payer = new Payer();
 	private List<Payer> payers;
-	private OperationType operationType;
+	
 	
 	@Autowired
 	private IUserService userService;
@@ -61,6 +61,11 @@ public class PayerController {
 //		initHashThree(payers);
 	}
 	
+	public String createPayerClikced(){
+		
+		return "CreatePayer";
+	}
+	
 	public void onLoad(){
 	
 		refreshAllData();
@@ -70,56 +75,12 @@ public class PayerController {
 		
 		return "PayerView";
 	}
-
-	public void updateClicked(Payer _payer) {
-		payer = _payer;
-		operationType = OperationType.Edit;
-	}
-
-	public void saveInfo() {
-
-		try {
-			
-			switch (this.operationType) {
-			case Create: {
-
-				List<Payer> result = payerService.isNameExist(payers, payer.getName(), payer.getPlanName(), payer.getCity(),
-						payer.getState(), payer.getZip(), payer.getStreet());
-				if (result.size() <= 0) {
-					payers.add(payer);
-					payerService.saveOrUpdate(payer);
-					RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-					//showMessage("Payer has been saved");
-				} else
-					showMessage("Payer info already exists!");
-			}
-				break;
-			case Edit: {
-				payerService.update(payer);
-				RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-				//showMessage("Payer has been updated");
-			}
-				break;
-
-			default:
-				break;
-			}
-		}
-		catch (StaleObjectStateException e){
-			
-			showMessage(Constants.ERRR_RECORDS_OUDATED);
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
 	
 	public void removeClicked(Payer _payer) {
 		
 		try
 		{
-			payers.remove(_payer);
+			
 			
 			for (ProviderTransaction providerTransaction : transactions) {
 				
@@ -135,6 +96,7 @@ public class PayerController {
 			}
 			
 			payerService.remove(_payer);
+			payers.remove(_payer);
 			refreshAllData();
 			
 		}
@@ -144,12 +106,6 @@ public class PayerController {
 		}
 		catch(Exception ex)
 		{}
-	}
-	
-	
-	public void clearData() {
-		payer = new Payer();
-		operationType = OperationType.Create;
 	}
 
 	public void showMessage(String msg) {

@@ -18,7 +18,12 @@ public class PayerService extends GenericServiceImpl<Payer, Integer> implements 
 //	@Qualifier("payerDao")
 	private IPayer service;	
 	
-	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
+	@Transactional(readOnly=true)
+	public boolean isNameExist(String name) {
+		
+		return service.isPayerNameExist(name);
+	}
+/*	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 	public List<Payer> isNameExist(List<Payer> entities, String name, String planName, String city, String state, String zip, String street){
 		
 		return filterData(entities, getNamePredicate(name, planName, city, state, zip, street));
@@ -32,6 +37,6 @@ public class PayerService extends GenericServiceImpl<Payer, Integer> implements 
 
 		return p -> p.getName().equalsIgnoreCase(name) && p.getPlanName().equalsIgnoreCase(planName);
 		 //return p -> p.getName().equalsIgnoreCase(name) && p.getPlanName().equalsIgnoreCase(planName) && p.getCity().equalsIgnoreCase(city) && p.getState().equalsIgnoreCase(state) && p.getZip().equalsIgnoreCase(zip) && p.getStreet().equalsIgnoreCase(street);
-	 }
+	 }*/
 	
 }

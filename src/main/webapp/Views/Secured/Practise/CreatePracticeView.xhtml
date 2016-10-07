@@ -38,12 +38,12 @@
 									<!-- First Row left coloum -->
 									<b:row>
 										<b:column span="6">
-											<b:inputText
+											<b:inputText required="true" requiredMessage="Practise name cannot be empty"
 												value="#{createPracticeController.practice.name}"
 												placeholder="Practice Name" />
 										</b:column>
 										<b:column span="6">
-											<b:inputText
+											<b:inputText required="true" requiredMessage="Group pan cannot be empty"
 												value="#{createPracticeController.practice.groupPtan}"
 												placeholder="Group PTAN *" />
 										</b:column>
@@ -51,11 +51,12 @@
 									<!-- Second Row left coloum -->
 									<b:row>
 										<b:column span="6">
-											<b:inputText value="#{createPracticeController.practice.tin}"
+											<b:inputText required="true" requiredMessage="TIN cannot be empty"
+											 value="#{createPracticeController.practice.tin}"
 												placeholder="TIN *" />
 										</b:column>
 										<b:column span="6">
-											<b:inputText
+											<b:inputText required="true" requiredMessage="Group NPI cannot be empty"
 												value="#{createPracticeController.practice.groupNpi}"
 												placeholder="Group NPI *" />
 										</b:column>

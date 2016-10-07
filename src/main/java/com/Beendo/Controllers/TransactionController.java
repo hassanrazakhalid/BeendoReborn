@@ -96,7 +96,7 @@ public class TransactionController implements DisposableBean, Serializable{
 		ITransactionCallback callBack = (User user, List<ProviderTransaction>transactions, List<Payer>payerList, List<Practice>practiceList, List<Provider>providerList, Map<String,Object>otherInfo)->{
 			
 			tmpUser = user;
-			this.lazyModel = new LazyTransactionModel(transactionService,entityId, null);
+			this.lazyModel = new LazyTransactionModel(transactionService,entityId, getFilterPredicate());
 			this.lazyModel.setRowCount((Integer)otherInfo.get("count"));
 //			this.lazyModel.setRowCount(20);
 //			this.transactions = transactions;
@@ -399,40 +399,44 @@ public class TransactionController implements DisposableBean, Serializable{
 	 * Filter Data logic
 	 * @param obj
 	 */
-	public void payerCheckBoxChanged(Object obj){
+	public Predicate<ProviderTransaction> getFilterPredicate(){
 		
-		filterTransactions.clear();
-		if(payerFilter.size() <= 0)
-		{
-			// show all
-			filterTransactions.addAll(transactions);
-		}
-		else
-		{
+//		filterTransactions.clear();
+//		if(payerFilter.size() <= 0)
+//		{
+//			// show all
+//			filterTransactions.addAll(transactions);
+//		}
+//		else
+//		{
 			
 			Predicate<ProviderTransaction> predicate = (t)->{
+				
+				if (payerFilter.isEmpty())
+					return true;
 				
 				Optional<Payer> res = t.getPayerList().stream().filter(p -> payerFilter.contains(p.getId()))
 				.findFirst();
 				if(res.isPresent())
 				{
-					System.out.println("true");
+//					System.out.println("true");
 					return true;
 				}
 				else
 				{
-					System.out.println("false");
+//					System.out.println("false");
 					return false;
 				}
 			};
 			
-			List<ProviderTransaction> result = transactions.stream()
-					.filter(predicate)
-					.collect(Collectors.toList());
-			
-			filterTransactions.addAll(result);
-		}
-		this.payerFilter.size();
+			return predicate;
+//			List<ProviderTransaction> result = transactions.stream()
+//					.filter(predicate)
+//					.collect(Collectors.toList());
+//			
+//			filterTransactions.addAll(result);
+//		}
+//		this.payerFilter.size();
 	}
 	
 

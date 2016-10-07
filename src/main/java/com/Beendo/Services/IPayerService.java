@@ -13,5 +13,5 @@ import com.Beendo.Entities.Payer;
 
 public interface IPayerService extends GenericService<Payer, Integer> {
 
-	public List<Payer> isNameExist(List<Payer> entities, String name, String planName, String city, String state, String zip, String street);
+	public boolean isNameExist(String name);
 }
