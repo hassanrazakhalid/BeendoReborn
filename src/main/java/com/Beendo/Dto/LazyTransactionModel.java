@@ -17,7 +17,7 @@ import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Transaction;
 import com.Beendo.Services.ITransactionService;
 
 import lombok.Getter;
@@ -25,7 +25,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
+public class LazyTransactionModel extends LazyDataModel<Transaction> {
 
 	/**
 	 * 
@@ -34,13 +34,13 @@ public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
 
 	private ITransactionService transactionService;
 
-	private List<ProviderTransaction> datasource;
+	private List<Transaction> datasource;
 
 	private Integer entityId;
 
-	private Predicate<ProviderTransaction> filter;
+	private Predicate<Transaction> filter;
 	
-	public LazyTransactionModel(ITransactionService transactionService, Integer entityId, Predicate<ProviderTransaction> filter) {
+	public LazyTransactionModel(ITransactionService transactionService, Integer entityId, Predicate<Transaction> filter) {
 
 		// this.datasource = datasource;
 		this.entityId = entityId;
@@ -49,9 +49,9 @@ public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
 	}
 
 	@Override
-	public ProviderTransaction getRowData(String rowKey) {
+	public Transaction getRowData(String rowKey) {
 
-		Optional<ProviderTransaction> res = datasource.stream().filter((p) -> {
+		Optional<Transaction> res = datasource.stream().filter((p) -> {
 
 			return true;
 		}).findFirst();
@@ -61,19 +61,19 @@ public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
 	}
 
 	@Override
-	public Object getRowKey(ProviderTransaction object) {
+	public Object getRowKey(Transaction object) {
 		// TODO Auto-generated method stub
 		// return super.getRowKey(object);
 		return object.getId();
 	}
 
 	@Override
-	public List<ProviderTransaction> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+	public List<Transaction> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
 
-		List<ProviderTransaction> datasource = fetchData(first, pageSize);
+		List<Transaction> datasource = fetchData(first, pageSize);
 
-		List<ProviderTransaction> filteredList = datasource.stream().filter(filter).collect(Collectors.toList());
+		List<Transaction> filteredList = datasource.stream().filter(filter).collect(Collectors.toList());
 		
 		if (filters != null && !filters.isEmpty()) {
 			filteredList = filerData(filteredList, filters);
@@ -97,7 +97,7 @@ public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
 		// return super.load(first, pageSize, sortField, sortOrder, filters);
 	}
 
-	private List<ProviderTransaction> filerData(List<ProviderTransaction> list, Map<String, Object> filters) {
+	private List<Transaction> filerData(List<Transaction> list, Map<String, Object> filters) {
 		
 //		try {
 //			for (PropertyDescriptor pd : Introspector.getBeanInfo(Provider.class).getPropertyDescriptors()) {
@@ -109,7 +109,7 @@ public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
 //			e1.printStackTrace();
 //		}
 		
-		List<ProviderTransaction> res = new ArrayList<>();
+		List<Transaction> res = new ArrayList<>();
 		for (Iterator<String> it = filters.keySet().iterator(); it.hasNext();) {
 			try {
 				String filterProperty = it.next();
@@ -148,9 +148,9 @@ public class LazyTransactionModel extends LazyDataModel<ProviderTransaction> {
 
 	}
 
-	private List<ProviderTransaction> fetchData(int first, int pageSize) {
+	private List<Transaction> fetchData(int first, int pageSize) {
 
-		List<ProviderTransaction> res = transactionService.fetchAllByRole(first, pageSize, entityId);
+		List<Transaction> res = transactionService.fetchAllByRole(first, pageSize, entityId);
 		return res;
 	}
 }

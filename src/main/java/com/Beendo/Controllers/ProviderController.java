@@ -27,7 +27,7 @@ import com.Beendo.Entities.Document;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Transaction;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.EntityService;
 import com.Beendo.Services.IEntityService;
@@ -66,11 +66,6 @@ public class ProviderController extends BaseViewController implements Disposable
 	@Autowired
 	private IProviderService providerService;
 
-//	private List<ProviderTransaction> transactions;
-
-
-
-	
 	private List<Provider> providerList = new ArrayList<>();
 
 

@@ -25,7 +25,7 @@ import com.Beendo.Entities.Language;
 import com.Beendo.Entities.PhoneNumber;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Transaction;
 import com.Beendo.Entities.Slot;
 import com.Beendo.Entities.User;
 import com.Beendo.Utils.Screen;

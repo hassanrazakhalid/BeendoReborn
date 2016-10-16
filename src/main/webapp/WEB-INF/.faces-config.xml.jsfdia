@@ -122,6 +122,12 @@
     NAME="output16" PATH="/Views/Secured/Payer/CreatePayer.xhtml"
     TARGET="rules:#Views#Secured#Payer#CreatePayer.xhtml"
     TITLE="CreatePayer" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="CreateTransaction::#Views#Secured#Transaction#CreateTransaction.xhtml"
+    NAME="output17"
+    PATH="/Views/Secured/Transaction/CreateTransaction.xhtml"
+    TARGET="rules:#Views#Secured#Transaction#CreateTransaction.xhtml"
+    TITLE="CreateTransaction" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
@@ -149,4 +155,8 @@
   SHAPE="304,145,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#Views#Secured#Payer#CreatePayer.xhtml"
   PATH="/Views/Secured/Payer/CreatePayer.xhtml" SHAPE="304,1665,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#Views#Secured#Transaction#CreateTransaction.xhtml"
+  PATH="/Views/Secured/Transaction/CreateTransaction.xhtml"
+  SHAPE="304,1697,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

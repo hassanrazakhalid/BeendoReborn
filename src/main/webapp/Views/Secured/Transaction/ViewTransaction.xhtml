@@ -23,14 +23,15 @@
 				<h2>Transaction Details</h2>
 				
 				<h:form rendered="#{transactionController.canCreate()}">
-					<p:commandButton value="Create" update=":myForm"
-						action="#{transactionController.clearData()}"
-								oncomplete="PF('Dlg1').show();"
-								style="float: right; margin-top: 25px;"
-								 />								
-					<br/>
+				
+				<h3>
+				<h:link outcome="#{transactionController.moveToCreateTransaction()}" value="Create Transaction">
 					
-									<h:panelGrid columns="3">
+				</h:link>
+				</h3>
+					
+					
+			<h:panelGrid columns="3">
 				<h:outputLabel for="payerMenu" value="Filter:" />
 				<p:selectCheckboxMenu id="payerMenu" label="Select payer" 
 				value="#{transactionController.payerFilter}"
@@ -54,7 +55,7 @@
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 				 
 				 -->
-				 <h:form id="mainForm"> 
+				  <h:form id="mainForm"> 
     
 				    <p:dataTable
 				     filteredValue="#{transactionController.realTimefilterList}"
@@ -65,20 +66,11 @@
 				      widgetVar="transactionsTable"
 				       >
 					
-						<p:column headerText="Payer Name" filterBy="#{transaction.payerList}" filterFunction="#{transaction.filterByPayer}">
-							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
+					 <!-- filterBy="#{transaction.payer.getName}" filterMatchMode="contains" -->
+						 <p:column headerText="Payer Name">
 							
-							<table>
-								<ui:repeat value="#{transaction.payerList.toArray()}" var="t">
-								
-									<tr>
-										<td style="border: 0px;"><h:outputText value="#{t.name} #{t.planName}" />
-										</td>
-
-									</tr>
-								</ui:repeat>
-							</table>
 							
+							#{transaction.payer.name}
 						</p:column>
 						
 						<p:column headerText="Practice Name" filterMatchMode="contains" filterBy="#{transaction.practice.name}">
@@ -105,11 +97,14 @@
 							#{transaction.parStatus}
 						</p:column>						
 						
-						<p:column headerText="Edit" width="80"
+						 <p:column headerText="Edit" width="80"
 							rendered="#{transactionController.canEdit()}">
-							<p:commandButton icon="ui-icon-pencil" update=":myForm"
-								oncomplete="PF('Dlg1').show();"
-								action="#{transactionController.updateClicked(transaction)}" />
+							
+							<h:link outcome="#{transactionController.moveToCreateTransaction()}" value="Edit">
+							<f:param name="id" value="#{transaction.id}" />
+							</h:link>
+
+
 
 							<p:commandButton icon="ui-icon-close" update=":mainForm"
 								resetValues="true"
@@ -134,155 +129,6 @@
 					</p:dataTable>
 				    
 				 </h:form>
-				
-				
-				
-				<!-- ADD / EDIT DIALOG -->
-				
-				<p:dialog id="transDialog" header="Transaction"  modal="true" position="top" widgetVar="Dlg1" minHeight="40">
-				    
-				  <h:form id="myForm">
-				  
-				  	<p:messages id="msgs" />
-				  	
-				  	<h:panelGrid columns="4" cellpadding="8"> 
-				  	
-					   <p:selectOneRadio id="currentRadio" value="#{transactionController.currentRadio}">
-				            <f:selectItem itemLabel="Practice" itemValue="rbPractice" />
-				            <f:selectItem itemLabel="Provider" itemValue="rbProvider" />
-				            
-				            <p:ajax event="change" listener="#{transactionController.onSelectionChange}" update=":myForm" /> 
-				            
-				        </p:selectOneRadio> 
-						
-						<!-- <p:outputLabel for="idPractice" value="Select Practices: " />  -->
-						
-						<p:selectOneMenu id="idPractice" value="#{transactionController.currentPractice}"
-							panelStyle="width:180px" effect="fade" rendered="#{transactionController.canPracticeShow}"
-							converter="javax.faces.Integer" required="true"
-							requiredMessage="Select atleast one practice"
-							 style="width:177px">
-							
-							<!-- <p:ajax event="change" listener="#{transactionController.onPracticeChange}" update="idPayer" />  -->
-							
-							<f:selectItem itemLabel="Select Practice" />
-							
-							<f:selectItems value="#{transactionController.practiceList}" var="entity"
-								itemLabel="#{entity.name}" itemValue="#{entity.id}"  />
-
-						<!-- 	<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column> -->
-						</p:selectOneMenu>
-						
-						<p:selectOneMenu id="idProvider" value="#{transactionController.currentProvider}"
-							panelStyle="width:180px" effect="fade" rendered="#{!transactionController.canPracticeShow}"
-							converter="javax.faces.Integer" required="true"
-							requiredMessage="Select atleast one provider"
-							 style="width:177px">
-							
-							<f:selectItem itemLabel="Select Provider" />
-							
-							<f:selectItems value="#{transactionController.providerList}" var="entity"
-								itemLabel="#{entity.getNameWithNPI()}" itemValue="#{entity.id}"  />
-								
-								<!--  #{entity.lastName} -->
-							<!-- <p:ajax event="change" listener="#{transactionController.onProviderChange}" update="idPayer" />  -->
-
-						<!-- 	<p:column>
-								<h:outputText value="#{t.getNameWithNPI()}" />
-							</p:column> -->
-						</p:selectOneMenu>
-				  	
-				  	</h:panelGrid>
-				  	
-				  	<br />
-				  
-				  	<h:panelGrid columns="4" cellpadding="8">  
-				  	
-				  		<p:outputLabel for="idPayer" value="Select Payer: " />
-				  	    <p:selectCheckboxMenu id="idPayer" value="#{transactionController.selectedPayers}"
-				  	    requiredMessage="Select atleast one payer"
-				            filter="false" filterMatchMode="startsWith" style="width:177px" required="true"
-				            converter="javax.faces.Integer" panelStyle="width:250px">
-				            
-				            <f:selectItems value="#{transactionController.payerList}" var="payer"
-								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
-
-						<!-- 	<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column> -->
-				            
-				        </p:selectCheckboxMenu> 
-				  		<!-- <p:selectOneMenu id="idPayer" value="#{transactionController.currentPayer}"
-							panelStyle="width:180px" effect="fade"  
-							converter="payerConverter" required="true"
-							var="t" style="width:177px">
-							
-							<f:selectItem itemLabel="Select" />
-							<f:selectItems value="#{transactionController.payerList}" var="entity"
-								itemLabel="#{entity.name} #{entity.planName}" itemValue="#{entity}"  />
-
-							<p:column>
-								<h:outputText value="#{t.name} #{t.planName}" />
-							</p:column>
-						</p:selectOneMenu> -->
-						
-						
-						<p:outputLabel for="idType" value="Transaction Type: " />
-						<p:selectOneMenu id="idType" value="#{transactionController.transaction.transactionType}" style="width:177px">
-				            <f:selectItem itemLabel="Application Process" itemValue="Application Process" />
-				            <f:selectItem itemLabel="Communication with Provider" itemValue="Communication with Provider" />
-				            <f:selectItem itemLabel="Communication with Payer" itemValue="Communication with Payer" />
-				            <f:selectItem itemLabel="Status Update" itemValue="Status Update" />
-				        </p:selectOneMenu>
-				  	
-				  		<p:outputLabel for="idDate" value="Current Date: " />
-				  	 	<p:inputText id="idDate" value="#{transactionController.transaction.transactionDate}" required="true" /> 
-			            
-			            <h:outputLabel for="vname" value="Select Status:" />
-			        	<p:selectOneMenu id="vname" value="#{transactionController.transaction.parStatus}" style="width:175px">
-			        		
-			        		<f:selectItems value="#{transactionController.statusList}" var="v"
-			        		itemLabel="#{v}" itemValue="#{v}"/>
-			        		<!-- <f:selectItem itemLabel="New-Provider" itemValue="New-Provider" />
-			        		<f:selectItem itemLabel="Non-Par" itemValue="Non-Par" />
-				            <f:selectItem itemLabel="PAR" itemValue="PAR" />				            
-				            <f:selectItem itemLabel="Application Package Complete" itemValue="Application Package Complete" />
-				            <f:selectItem itemLabel="Application Filed" itemValue="Application Filed" />
-				            <f:selectItem itemLabel="Application Accepted" itemValue="Application Accepted" />
-				            <f:selectItem itemLabel="Application Rejected" itemValue="Application Rejected" />
-				            <f:selectItem itemLabel="Effective Date Assigned" itemValue="Effective Date Assigned" />
-				            <f:selectItem itemLabel="Letter Received" itemValue="Letter Received" /> -->
-				        </p:selectOneMenu> 
-			            
-			        </h:panelGrid>
-			        
-			        <h:panelGrid columns="2" cellpadding="16">
-			        	<p:outputLabel for="idComments" value="Comments: " />
-			        	<p:inputTextarea id="idComments" rows="6" cols="100"
-			        	 value="#{transactionController.transaction.comments}"
-			        	 placeholder="Comments" />
-			            <!-- <p:inputText id="idComments" value="#{transactionController.transaction.comments}" 
-			            	placeholder="Comments" style="width:580px" /> --> 
-			        </h:panelGrid>   
-
-					<br />
-				  
-				  	<p:commandButton id="btnSave" value="Save" actionListener="#{transactionController.saveInfo()}"
-				    		validateClient="true" update="myForm, msgs, :mainForm" />
-				
-							<p:blockUI trigger="myForm:btnSave" block="transDialog"
-						widgetVar="block">
-            LOADING<br />
-						<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
-					</p:blockUI>
-					
-				  </h:form>
-
-		
-
-				</p:dialog>
 
 <style>
 .ui-dialog{

@@ -12,112 +12,93 @@ import org.springframework.transaction.annotation.Transactional;
 import static java.lang.Math.toIntExact;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Transaction;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.SharedData;
 
 @Repository
-public class TransactionDao extends GenericDao<ProviderTransaction, Integer> implements ITransaction {
+public class TransactionDao extends GenericDao<Transaction, Integer> implements ITransaction {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Override
-	@Transactional(readOnly=true)
-	public void findTransactionsByEntity( int start, int end, Integer entityId, TransactionPaginationCallback callback) {
+	@Transactional(readOnly = true)
+	public void findTransactionsByEntity(int start, int end, Integer entityId, TransactionPaginationCallback callback) {
 
-//		" LEFT JOIN FETCH P.payerList Payer" +
+		// " LEFT JOIN FETCH P.payerList Payer" +
 		Session session = this.sessionFactory.getCurrentSession();
-		
-		String queryString = "SELECT P FROM ProviderTransaction P"
-				+ " LEFT JOIN P.entity E";
+
+		String queryString = "SELECT P FROM Transaction P" + " LEFT JOIN P.entity E";
 		Query query = null;
 		if (entityId == Constants.RootEntityId) {
-			
-			query = session
-					.createQuery(queryString);
-					query.setFirstResult(start);
-					query.setMaxResults(end);
+
+			query = session.createQuery(queryString);
+			query.setFirstResult(start);
+			query.setMaxResults(end);
+		} else {
+
+			queryString += " WHERE E.id = :id";
+			query = session.createQuery(queryString);
+			query.setFirstResult(start);
+			query.setMaxResults(end);
+			query.setParameter("id", entityId);
 		}
-		else {
-			
-			queryString +=" WHERE E.id = :id";
-			query = session
-					.createQuery(queryString);
-					query.setFirstResult(start);
-					query.setMaxResults(end);
-					query.setParameter("id", entityId);
-		}
-		
-		List<ProviderTransaction> result = query.getResultList();
+
+		List<Transaction> result = query.getResultList();
 		callback.getPaginationResponse(result);
-//		return result;
+		// return result;
 	}
-	
-	public Integer getTotalTransactionCount(Integer entityId){
-		
-		//Total count
+
+	public Integer getTotalTransactionCount(Integer entityId) {
+
+		// Total count
 		String countQ = null;
 		Query countQuery = null;
-		if (entityId == Constants.RootEntityId){
-		
-			countQ = "SELECT count (P.id) FROM ProviderTransaction P";
+		if (entityId == Constants.RootEntityId) {
+
+			countQ = "SELECT count (P.id) FROM Transaction P";
 			countQuery = sessionFactory.getCurrentSession().createQuery(countQ);
-		}
-		else {
-			
-			countQ = "SELECT count (P.id) FROM ProviderTransaction P"
-					+ " LEFT JOIN P.entity E"
-					+ " WHERE E.id = :id";
+		} else {
+
+			countQ = "SELECT count (P.id) FROM Transaction P" + " LEFT JOIN P.entity E" + " WHERE E.id = :id";
 			countQuery = sessionFactory.getCurrentSession().createQuery(countQ);
 			countQuery.setParameter("id", entityId);
 		}
-		
+
 		Long countResult = (Long) countQuery.getSingleResult();
 		return toIntExact(countResult);
-		//Last Page
-//		int pageSize = 10;
-//		int lastPageNumber = (int) ((countResult / pageSize) + 1);
+		// Last Page
+		// int pageSize = 10;
+		// int lastPageNumber = (int) ((countResult / pageSize) + 1);
 	}
-	
+
 	@Override
-	public List<ProviderTransaction> findTransactionsByEntity(Integer id) {
+	public List<Transaction> findTransactionsByEntity(Integer id) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
 		Query query = session
-				.createQuery("SELECT P FROM ProviderTransaction P" + " LEFT JOIN P.entity E" + " WHERE E.id = :id");
+				.createQuery("SELECT P FROM Transaction P" + " LEFT JOIN P.entity E" + " WHERE E.id = :id");
 		// Query query = session.createQuery("FROM CEntitiy E"
 		// + " LEFT JOIN E.transactionList T"
 		// + " E.id = :id");
 		query.setParameter("id", id);
-		List<ProviderTransaction> result = query.getResultList();
+		List<Transaction> result = query.getResultList();
 		return result;
 	}
-
-//	@Override
-//	public void deleteAll() {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	public ProviderTransaction refresh(ProviderTransaction sender) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	@Override
 	public void deleteTransactionByPractice(List<Integer> ids) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
-//		Query query = session.createQuery("DELETE FROM ProviderTransaction T" + " WHERE T.practice.id = :id");
-		String queryStr = "DELETE FROM ProviderTransaction T" + " WHERE T.practice.id " + SharedData.getInString(ids);
+	
+		String queryStr = "DELETE FROM Transaction T" + " WHERE T.practice.id " + SharedData.getInString(ids);
 		Query query = session.createQuery(queryStr);
 
 		for (int i = 0; i < ids.size(); i++) {
 
 			Integer integer = ids.get(i);
-			query.setParameter("arg"+i,integer);
+			query.setParameter("arg" + i, integer);
 		}
 		int result = query.executeUpdate();
 		System.out.println("Affected Row: " + result);
@@ -127,36 +108,33 @@ public class TransactionDao extends GenericDao<ProviderTransaction, Integer> imp
 	public void deleteTransactionByProvider(List<Integer> ids) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
-		// Query query = session.createQuery("DELETE FROM ProviderTransaction T"
-		// + " WHERE T.provider.id = :id");
-
-		String queryStr = "DELETE FROM ProviderTransaction T" + " WHERE T.provider.id " + SharedData.getInString(ids);
+	
+		String queryStr = "DELETE FROM Transaction T" + " WHERE T.provider.id " + SharedData.getInString(ids);
 		Query query = session.createQuery(queryStr);
 
 		for (int i = 0; i < ids.size(); i++) {
 
 			Integer integer = ids.get(i);
-			query.setParameter("arg"+i,integer);
+			query.setParameter("arg" + i, integer);
 		}
-//		query.setParameter("id", id);
+		// query.setParameter("id", id);
 		int result = query.executeUpdate();
 		System.out.println("Affected Row: " + result);
 	}
-	
+
 	@Override
-	public List<ProviderTransaction> getLatestTransactions(Integer id) {
-		
-		String queryStr = "Select * from provider_transaction t"
+	public List<Transaction> getLatestTransactions(Integer id) {
+
+		String queryStr = "Select * from transaction t"
 				+ " inner join (SELECT tt.provider_id,MAX(transactionDate) as max_date"
-				+ " FROM provider_transaction tt where tt.entity_id = " + id 
+				+ " FROM transaction tt where tt.entity_id = " + id
 				+ " GROUP BY tt.provider_id)a on a.provider_id = t.provider_id and a.max_date = transactionDate";
-		
+
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createNativeQuery(queryStr, ProviderTransaction.class);
-		
-		List<ProviderTransaction> res = query.getResultList();
+		Query query = session.createNativeQuery(queryStr, Transaction.class);
+
+		List<Transaction> res = query.getResultList();
 		return res;
 	}
-	
-	
+
 }

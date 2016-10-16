@@ -1,0 +1,222 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+
+<f:metadata>
+		<f:viewAction actionListener="#{createTransactionController.onLoad()}" />
+	</f:metadata>
+
+</h:head>
+
+<h:body>
+
+	<h:body>
+		<ui:composition template="/Views/Template/MainTemplate.xhtml">
+			<ui:define name="pageTitle">
+            Welcome [Dashboard.xhtml]
+        </ui:define>
+
+			<ui:define name="mainContent">
+				<h2>Transaction Details</h2>
+						
+			<b:container>
+			  <h:form id="myForm">
+				  	<p:messages id="msgs" />
+			
+			
+			<!-- Left Side -->
+			<b:column span="6">
+			<b:panel title="Select Entity to create Transaction">
+			<b:row>
+			<b:column span="6">
+			<p:selectOneRadio id="currentRadio" value="#{createTransactionController.radioValue}"
+			converter="javax.faces.Integer"
+			>
+				            <f:selectItem itemLabel="Practice" itemValue="1" />
+				            <f:selectItem itemLabel="Provider" itemValue="2" />
+				            
+				            <p:ajax event="change" listener="#{createTransactionController.onSelectionChange}" update=":myForm" /> 
+				            
+				        </p:selectOneRadio>
+			</b:column>
+			
+			<b:column span="6">
+			
+			<p:selectOneMenu id="idPractice" value="#{createTransactionController.currentPractice}"
+							panelStyle="width:180px" effect="fade" rendered="#{createTransactionController.canPracticeShow}"
+							converter="javax.faces.Integer" required="true"
+							requiredMessage="Select atleast one practice"
+							 style="width:177px">
+							
+							<!-- <p:ajax event="change" listener="#{transactionController.onPracticeChange}" update="idPayer" />  -->
+							
+							<f:selectItem itemLabel="Select Practice" />
+							
+							<f:selectItems value="#{createTransactionController.practiceList}" var="entity"
+								itemLabel="#{entity.name}" itemValue="#{entity.id}"  />
+
+						<!-- 	<p:column>
+								<h:outputText value="#{t.name}" />
+							</p:column> -->
+						</p:selectOneMenu>
+						
+						<p:selectOneMenu id="idProvider" value="#{createTransactionController.currentProvider}"
+							panelStyle="width:180px" effect="fade" rendered="#{!createTransactionController.canPracticeShow}"
+							converter="javax.faces.Integer" required="true"
+							requiredMessage="Select atleast one provider"
+							 style="width:177px">
+							
+							<f:selectItem itemLabel="Select Provider" />
+							
+							<f:selectItems value="#{createTransactionController.providerList}" var="entity"
+								itemLabel="#{entity.getNameWithNPI()}" itemValue="#{entity.id}"  />
+								
+								<!--  #{entity.lastName} -->
+							<!-- <p:ajax event="change" listener="#{transactionController.onProviderChange}" update="idPayer" />  -->
+
+						<!-- 	<p:column>
+								<h:outputText value="#{t.getNameWithNPI()}" />
+							</p:column> -->
+						</p:selectOneMenu>
+			</b:column>
+			</b:row>
+			
+			<b:row>
+			<b:column span="6">
+			<p:outputLabel for="idPayer" value="Select Payer: " />	  	   
+			</b:column>
+			<b:column span="6">
+			 <p:selectOneMenu id="idPayer" value="#{createTransactionController.selectedPayer}"
+				  	    requiredMessage="Select atleast one payer"
+				            filter="false" filterMatchMode="startsWith" style="width:177px" required="true"
+				            converter="javax.faces.Integer" panelStyle="width:250px">
+				            
+				            <f:selectItem itemLabel="Select Payer"/>
+				            <f:selectItems value="#{createTransactionController.payerList}" var="payer"
+								itemLabel="#{payer.name} " itemValue="#{payer.id}"  />
+					<p:ajax event="change" listener="#{createTransactionController.onPayerChange}" update="@parent:@parent:planRow"></p:ajax>			
+								
+				        </p:selectOneMenu> 
+			</b:column>
+			</b:row>
+			
+			<br/>
+			
+			<b:row id="planRow">
+			<b:column span="6">
+			<b:label text="Select Plan" />
+			</b:column>
+			<b:column span="6">
+			<p:selectOneMenu id="planId" value="#{createTransactionController.selectedPlanId}">
+			
+			<f:selectItem itemLabel="Select Plan" itemValue=""/>
+			<f:selectItems value="#{createTransactionController.currentPlanList}" var="plan"
+			 itemLabel="#{plan.name}" itemValue="#{plan.id}" />
+			
+			</p:selectOneMenu>
+			</b:column>
+			
+			</b:row>
+			</b:panel>    
+			</b:column>	
+			  	
+			<!-- Right Side -->
+			<b:column span="6">
+			<b:panel title="Info">
+			
+			
+
+			<b:row>
+			<b:column span="6">
+			<p:outputLabel for="idType" value="Transaction Type: " />
+			</b:column>
+			
+			<b:column span="6">
+			<p:selectOneMenu id="idType" value="#{createTransactionController.transaction.transactionType}" style="width:177px">
+				            <f:selectItem itemLabel="Application Process" itemValue="Application Process" />
+				            <f:selectItem itemLabel="Communication with Provider" itemValue="Communication with Provider" />
+				            <f:selectItem itemLabel="Communication with Payer" itemValue="Communication with Payer" />
+				            <f:selectItem itemLabel="Status Update" itemValue="Status Update" />
+				        </p:selectOneMenu>
+			</b:column>
+			
+			</b:row>
+			
+			<b:row>
+			<b:column span="6">
+			<b:datepicker  placeholder="Select Transaction Date" value="#{createTransactionController.transaction.transactionDate}" required="true" />
+			</b:column>
+			</b:row>
+			
+			<br />
+			<b:row>
+			<b:column span="6">
+			<h:outputLabel for="vname" value="Select Status:" />
+			</b:column>
+			
+			<b:column span="6">
+			<p:selectOneMenu id="vname" value="#{createTransactionController.transaction.parStatus}" style="width:175px">
+			        		
+			        		<f:selectItems value="#{createTransactionController.statusList}" var="v"
+			        		itemLabel="#{v}" itemValue="#{v}"/>
+				        </p:selectOneMenu> 
+			</b:column>
+			</b:row>
+			<br />
+			<b:row>
+			<b:column span="12">
+			<b:inputTextarea rows="6" placeholder="Comments" value="#{createTransactionController.transaction.comments}" />
+			</b:column>
+			</b:row>
+			</b:panel>	 		
+			</b:column>
+			
+				  	
+				
+				<p:commandButton id="btnSave" value="Save" actionListener="#{createTransactionController.saveInfo()}"
+				    		validateClient="true" update="myForm, msgs" />
+				
+							<!-- <p:blockUI trigger="myForm:btnSave" block="transDialog"
+						widgetVar="block">
+            LOADING<br />
+						<p:graphicImage value="/Images/loading.gif" width="75" height="75" />
+					</p:blockUI>
+ -->					
+					 </h:form>			        
+			</b:container>			
+							    				  		  					  
+				  	
+					
+				 
+<style>
+.ui-dialog{
+	top: 10% !important;
+	position: absolute !important;
+	left: 15% !important;
+
+}
+
+</style>				
+				
+			<script type="text/javascript">
+    function handleDialogSubmit(args, dialogName) {
+
+    	console.log('In handle');
+        
+        if (!args.validationFailed) {
+            PF(dialogName).hide();
+        }
+    }	
+				</script>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+
+
+</h:body>
+
+</html>

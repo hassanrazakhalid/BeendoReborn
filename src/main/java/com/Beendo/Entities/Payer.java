@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "PAYER")
+@Table(name = "payer")
 public class Payer {
 
 	
@@ -45,6 +46,11 @@ public class Payer {
 	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
 	private List<Plan> plans = new ArrayList<>();
 	
+	@OneToMany(mappedBy="payer")
+	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
+	private List<Transaction> transactions = new ArrayList<>();
 //	@ManyToOne
 //	private Provider provider;
+	
+	
 }

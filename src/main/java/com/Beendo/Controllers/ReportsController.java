@@ -22,7 +22,7 @@ import com.Beendo.Dto.LazyTransactionModel;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Transaction;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.IPayerService;
 import com.Beendo.Services.IPractiseService;
@@ -61,13 +61,7 @@ public class ReportsController implements DisposableBean, Serializable {
 	@Autowired
 	ITransactionService transactionService;
 	// Transaction
-	// private List<ProviderTransaction> transactions = new ArrayList<>() ;
-	private List<ProviderTransaction> filteredTransactions = new ArrayList<>();
-	// private List<ProviderTransaction> providerTransactions = new
-	// ArrayList<>();
-	// private List<ProviderTransaction> practiceTransactions = new
-	// ArrayList<>();
-	// private List<Integer> selectedPayerIds;
+	private List<Transaction> filteredTransactions = new ArrayList<>();
 
 	// Payer
 	private List<Payer> payerList = new ArrayList<>();
@@ -109,39 +103,16 @@ public class ReportsController implements DisposableBean, Serializable {
 		this.reportType = type;
 		Integer entityId = SharedData.getSharedInstace().getCurrentUser().getEntity().getId();
 
-		// transactionService.getLatestTransactions(entityId);
-		//
-		// ITransactionCallback callBack = (User user,
-		// List<ProviderTransaction>transactions, List<Payer>payerList,
-		// List<Practice>practiceList, List<Provider>providerList,
-		// Map<String,Object>otherInfo)->{
-		//
-		// tmpUser = user;
-		// this.lazyModel = new
-		// LazyTransactionModel(transactionService,entityId);
-		// this.lazyModel.setRowCount((Integer)otherInfo.get("count"));
-		//// this.lazyModel.setRowCount(20);
-		//// this.transactions = transactions;
-		// this.payerList = payerList;
-		// this.practiceList = practiceList;
-		// this.providerList = providerList;
-		// this.filterTransactions.clear();
-		// this.filterTransactions.addAll(transactions);
-		// };
-		//
-		// transactionService.refreshAllData(0, 10, entityId, callBack);
-
 		Consumer<Map<String, Object>> sender = (obj) -> {
 
 			// this.providerTransactions = (List<ProviderTransaction>)
 			// obj.get("transactions");
 			this.payerList = (List<Payer>) obj.get("payerList");
-			
 
 			this.providerList = (List<Provider>) obj.get("providerList");
 			this.practiceList = (List<Practice>) obj.get("practiseList");
 
-			Predicate<ProviderTransaction> predicate = null;
+			Predicate<Transaction> predicate = null;
 
 			switch (reportType) {
 			case ReportTypeProvider:
@@ -199,9 +170,9 @@ public class ReportsController implements DisposableBean, Serializable {
 		}
 	}
 
-	private Predicate<ProviderTransaction> filterByPractise() {
+	private Predicate<Transaction> filterByPractise() {
 
-		Predicate<ProviderTransaction> predicate = (t) -> {
+		Predicate<Transaction> predicate = (t) -> {
 
 			boolean isPractiseOk = true;
 			boolean isPayerOk = true;
@@ -214,8 +185,9 @@ public class ReportsController implements DisposableBean, Serializable {
 					isPractiseOk = false;
 			}
 
+	
 			if (selectedPayerIdList != null && selectedPayerIdList.size() > 0) {
-				isPayerOk = isTransactionExistInPayer(t.getPayerList());
+				isPayerOk = isTransactionExistInPayer(t);
 			}
 
 			if (!currentPayerStatus.isEmpty() && !currentPayerStatus.equals(t.getParStatus())) {
@@ -231,9 +203,9 @@ public class ReportsController implements DisposableBean, Serializable {
 		return predicate;
 	}
 
-	private Predicate<ProviderTransaction> filterByProvider() {
+	private Predicate<Transaction> filterByProvider() {
 
-		Predicate<ProviderTransaction> predicate = (t) -> {
+		Predicate<Transaction> predicate = (t) -> {
 
 			boolean isProviderOk = true;
 			boolean isPayerOk = true;
@@ -247,7 +219,7 @@ public class ReportsController implements DisposableBean, Serializable {
 			}
 
 			if (selectedPayerIdList != null && selectedPayerIdList.size() > 0) {
-				isPayerOk = isTransactionExistInPayer(t.getPayerList());
+				isPayerOk = isTransactionExistInPayer(t);
 			}
 
 			if (!currentPayerStatus.isEmpty() && !currentPayerStatus.equals(t.getParStatus())) {
@@ -263,16 +235,16 @@ public class ReportsController implements DisposableBean, Serializable {
 		return predicate;
 	}
 
-	private Predicate<ProviderTransaction> filterByTransaction() {
+	private Predicate<Transaction> filterByTransaction() {
 
-		Predicate<ProviderTransaction> predicate = (t) -> {
+		Predicate<Transaction> predicate = (t) -> {
 
 			// boolean isProviderOk = true;
 			boolean isPayerOk = true;
 			boolean isStatusOk = true;
 
 			if (selectedPayerIdList != null && selectedPayerIdList.size() > 0) {
-				isPayerOk = isTransactionExistInPayer(t.getPayerList());
+				isPayerOk = isTransactionExistInPayer(t);
 			}
 
 			// if(currentPayerStatus != null &&
@@ -291,16 +263,18 @@ public class ReportsController implements DisposableBean, Serializable {
 		return predicate;
 	}
 
-	private boolean isTransactionExistInPayer(Set<Payer> tmpPayerList) {
+	private boolean isTransactionExistInPayer(Transaction sender) {
 
-		Set<Integer> ids = tmpPayerList.stream().map(Payer::getId).collect(Collectors.toSet());
-
-		Set<Integer> res = ids.stream().filter(selectedPayerIdList::contains).collect(Collectors.toSet());
-
-		if (res.size() > 0)
-			return true;
-		else
-			return false;
+	Optional<Integer> res =	selectedPayerIdList.stream().filter( payerId -> sender.getId() == payerId).findFirst();
+		
+//		Set<Integer> ids = tmpPayerList.stream().map(Payer::getId).collect(Collectors.toSet());
+//
+//		Set<Integer> res = ids.stream().filter(selectedPayerIdList::contains).collect(Collectors.toSet());
+	return res.isPresent();
+//		if ()
+//			return true;
+//		else
+//			return false;
 	}
 
 	public void onPracticeChange() {
@@ -312,7 +286,7 @@ public class ReportsController implements DisposableBean, Serializable {
 	private void cleanData() {
 		// Transaction
 		// transactions = new ArrayList<ProviderTransaction>();
-		filteredTransactions = new ArrayList<ProviderTransaction>();
+		filteredTransactions = new ArrayList<Transaction>();
 
 		// Payer
 		payerList = new ArrayList<Payer>();

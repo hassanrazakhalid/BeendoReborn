@@ -58,7 +58,7 @@ public class Practice {
 
 	
 	@OneToMany(mappedBy="practice", cascade={CascadeType.REMOVE})
-	private Set<ProviderTransaction> transactions = new HashSet<>();
+	private Set<Transaction> transactions = new HashSet<>();
 	
 	
 	

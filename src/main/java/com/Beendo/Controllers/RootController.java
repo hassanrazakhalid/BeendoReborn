@@ -9,7 +9,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Transaction;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 import com.Beendo.Entities.Permission;
@@ -20,7 +20,7 @@ public class RootController {
 	private HashMap<Integer, Practice> hashTwo;
 	private HashMap<Integer, Payer> hashThree;
 	private HashMap<Integer, Provider> hashFour;
-	private HashMap<Integer, ProviderTransaction> hashTrans;
+	private HashMap<Integer, Transaction> hashTrans;
 	private HashMap<Integer, Permission> hashPermission;
 	
 	public void initHashOne(List<CEntitiy> list) {
@@ -153,25 +153,25 @@ public class RootController {
 
 	// ------------------------- TRANSACTION HASH ------------------------
 
-	public void initHash(List<ProviderTransaction> list) {
+	public void initHash(List<Transaction> list) {
 
 		hashTrans = new HashMap<>();
 
 		updateHash(list);
 	}
 
-	public void updateHash(List<ProviderTransaction> list) {
+	public void updateHash(List<Transaction> list) {
 
-		for (ProviderTransaction object : list) {
+		for (Transaction object : list) {
 
 			hashTrans.put(object.getId(), object);
 		}
 	}
 
-	public List<ProviderTransaction> getAllHash() {
+	public List<Transaction> getAllHash() {
 
-		Collection<ProviderTransaction> col = hashTrans.values();
-		List<ProviderTransaction> list = new ArrayList<ProviderTransaction>(col);
+		Collection<Transaction> col = hashTrans.values();
+		List<Transaction> list = new ArrayList<Transaction>(col);
 		return list;
 	}
 
@@ -179,7 +179,7 @@ public class RootController {
 		hashTrans.clear();
 	}
 
-	public ProviderTransaction getTransactionById(Integer id) {
+	public Transaction getTransactionById(Integer id) {
 
 		return hashTrans.get(id);
 	}

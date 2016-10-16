@@ -115,7 +115,7 @@ public class Provider extends BaseEntity {
 	private Set<Practice> practiceList = new HashSet<Practice>();
 	
 	@OneToMany(mappedBy="provider", cascade={CascadeType.REMOVE})
-	private Set<ProviderTransaction> transactions = new HashSet<>();
+	private Set<Transaction> transactions = new HashSet<>();
 	
 /*	@Transient
 	public String fullName;*/

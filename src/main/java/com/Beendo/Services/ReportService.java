@@ -14,12 +14,12 @@ import com.Beendo.Dao.ITransaction;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Transaction;
 import com.Beendo.Utils.ReportType;
 import com.Beendo.Utils.SharedData;
 
 @Service
-public class ReportService extends GenericServiceImpl<ProviderTransaction, Integer> implements IReportService {
+public class ReportService extends GenericServiceImpl<Transaction, Integer> implements IReportService {
 
 	@Autowired
 	private IPayerService payerService;
@@ -48,7 +48,6 @@ public class ReportService extends GenericServiceImpl<ProviderTransaction, Integ
 		
 		Map<String, Object> result = new HashMap<>();
 				
-//		List<ProviderTransaction> listTransaction = transactionService.fetchAllByRole(start, end, entityId);
 		List<Payer> listPayer = payerService.getAll();
 //		result.put("transactions", listTransaction);
 		result.put("payerList", listPayer);
@@ -75,12 +74,6 @@ public class ReportService extends GenericServiceImpl<ProviderTransaction, Integ
 		default:
 			break;
 		}
-		
-//		List<Practice> listPractise = practiseService.getAll();
-//		List<Provider> listProvider = providerService.getAll();
-//		public void reloadPracticeReportData(List<Practice>practiseList, List<Provider>providerList, List<Payer>payerist, List<ProviderTransaction>listTransaction, ReportType type);
-//		result.put("providerList", listProvider);
-		
 		sender.accept(result);
 //		callBack.reloadPracticeReportData(listPractise,listProvider,listPayer,listTransaction,type);
 	}

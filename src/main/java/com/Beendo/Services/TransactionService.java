@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,12 +15,12 @@ import com.Beendo.Dao.ITransaction;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
-import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Transaction;
 import com.Beendo.Entities.User;
 import com.Beendo.Utils.SharedData;
 
 @Service
-public class TransactionService extends GenericServiceImpl<ProviderTransaction, Integer>
+public class TransactionService extends GenericServiceImpl<Transaction, Integer>
 		implements ITransactionService {
 
 	@Autowired
@@ -34,21 +35,39 @@ public class TransactionService extends GenericServiceImpl<ProviderTransaction, 
 	@Autowired
 	private IProviderService providerService;
 
+	@Autowired
+	private IPractise practiseDao;
+	
 	@Transactional(readOnly = true)
-	public List<ProviderTransaction> fetchAllByRole(int start, int end, int entityId) {
+	public List<Transaction> fetchAllByRole(int start, int end, int entityId) {
 
 		String userRole = SharedData.getSharedInstace().getCurrentUser().getRoleName();
-		final List<ProviderTransaction> dataList = new ArrayList<>();
+		final List<Transaction> dataList = new ArrayList<>();
 
 //		if (SharedData.getSharedInstace().shouldReturnFullList()) {
 //			dataList.addAll(getAll());
 //		} else {
-			service.findTransactionsByEntity(start, end, entityId, (List<ProviderTransaction> list) -> {
+			service.findTransactionsByEntity(start, end, entityId, (List<Transaction> list) -> {
 
 				dataList.addAll(list);
 			});
 //		}
 		return dataList;
+	}
+	
+	@Transactional(readOnly=true)
+	public void fetchDataForTransactionCreation(Consumer<Map<String, Object>> sender, Integer entityId) {
+		
+		List<Provider> providerList = providerService.findProvidersByEntity(entityId);
+		List<Practice> practiceList = practiseDao.findAllByEntity(entityId);
+		List<Payer> payerList = payerService.getAll();
+		
+		Map<String, Object> response = new HashMap<>();
+		response.put("practiceList", practiceList);
+		response.put("providerList", providerList);
+		response.put("payerList", payerList);
+		
+		sender.accept(response);
 	}
 
 	@Override
@@ -58,7 +77,7 @@ public class TransactionService extends GenericServiceImpl<ProviderTransaction, 
 		User user = SharedData.getSharedInstace().getCurrentUser();
 		user = userService.findById(user.getId(), false);
 
-		List<ProviderTransaction> transactions =  new ArrayList<>();//this.fetchAllByRole(start, end, entityId);
+		List<Transaction> transactions =  new ArrayList<>();//this.fetchAllByRole(start, end, entityId);
 		Integer totalRows = service.getTotalTransactionCount(entityId);
 		List<Payer> payerList = payerService.getAll();
 		List<Practice> practiceList = practiseService.fetchAllByRole();
@@ -71,7 +90,7 @@ public class TransactionService extends GenericServiceImpl<ProviderTransaction, 
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<ProviderTransaction> getLatestTransactions(Integer id) {
+	public List<Transaction> getLatestTransactions(Integer id) {
 		
 		return service.getLatestTransactions(id);
 	}

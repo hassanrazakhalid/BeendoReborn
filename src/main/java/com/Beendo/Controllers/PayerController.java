@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Payer;
-import com.Beendo.Entities.ProviderTransaction;
+import com.Beendo.Entities.Transaction;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.IPayerService;
 import com.Beendo.Services.ITransactionService;
@@ -49,7 +49,7 @@ public class PayerController {
 	@Autowired
 	private IUserService userService;
 	
-	private List<ProviderTransaction> transactions;
+	private List<Transaction> transactions;
 
 	private void refreshAllData(){
 		
@@ -79,22 +79,7 @@ public class PayerController {
 	public void removeClicked(Payer _payer) {
 		
 		try
-		{
-			
-			
-			for (ProviderTransaction providerTransaction : transactions) {
-				
-				for (Payer pay : providerTransaction.getPayerList()) {
-					
-					if(pay.getId() == _payer.getId())
-					{
-						providerTransaction.getPayerList().remove(pay);
-						transactionService.saveOrUpdate(providerTransaction);
-					}
-				}			
-				
-			}
-			
+		{	
 			payerService.remove(_payer);
 			payers.remove(_payer);
 			refreshAllData();

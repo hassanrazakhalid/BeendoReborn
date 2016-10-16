@@ -82,20 +82,7 @@ public class CreatePracticeController implements Serializable {
 				selectedEntityId = res.getEntity().getId();
 				type = OperationType.Edit;
 			}
-
-			// practiseService.getProviderDetailsNoFiles(Integer.parseInt(id),
-			// (p) -> {
-			//
-			// if (p != null) {
-			// this.provider = p;
-			// List<Integer> ids =
-			// p.getPracticeList().stream().map(Practice::getId).collect(Collectors.toList());
-			// selectedPractices.addAll(ids);
-			// }
-			//
-			// });
 		}
-
 	}
 
 	public boolean isEntityListDisabled(){

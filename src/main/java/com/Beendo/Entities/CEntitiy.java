@@ -45,7 +45,7 @@ public class CEntitiy implements ICache<CEntitiy>, Serializable {
 	//private Set<Provider> providerList = new HashSet<Provider>();
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.LAZY)
-	private Set<ProviderTransaction> transactionList = new HashSet<ProviderTransaction>();
+	private Set<Transaction> transactionList = new HashSet<Transaction>();
 
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entity", fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<User>();

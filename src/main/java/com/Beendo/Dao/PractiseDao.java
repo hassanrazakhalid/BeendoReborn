@@ -73,10 +73,20 @@ public class PractiseDao extends GenericDao<Practice, Integer> implements IPract
 	public List<Practice> findAllByEntity(Integer id) {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query =  session.createQuery("FROM Practice P"
-//				+ " JOIN FETCH P."
-				+ " WHERE P.entity.id =:id");
-		query.setParameter("id", id);
+		
+		Query query = null;
+		
+		if (id == -1) {
+			query =  session.createQuery("FROM Practice P");
+		}
+		else {
+			query =  session.createQuery("FROM Practice P"
+//					+ " JOIN FETCH P."
+					+ " WHERE P.entity.id =:id");
+			query.setParameter("id", id);
+		}
+		
+		
 		
 		return query.getResultList();
 		

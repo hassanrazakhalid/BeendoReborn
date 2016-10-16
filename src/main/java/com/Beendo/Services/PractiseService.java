@@ -52,7 +52,6 @@ public class PractiseService extends GenericServiceImpl<Practice, Integer> imple
 			tmpList.addAll(SharedData.getSharedInstace().getCurrentUser().getPractises());
 			resultList = tmpList;
 		}
-		
 		return resultList;
 	}
 	
