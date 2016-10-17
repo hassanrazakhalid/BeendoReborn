@@ -70,6 +70,14 @@
 										</b:inputText>
 									</b:column>
 								</b:row>
+								
+								<b:row>
+								<b:column span="6">
+								<b:inputText placeholder="Enter fax" value="#{createPayerController.payer.fax}"/>
+								
+								</b:column>
+								</b:row>
+								
 							</b:panel>
 						</b:column>
 
@@ -86,7 +94,7 @@
 									
 									<b:row>
 									<b:column span="6">
-										<b:inputText value="#{plan.name}" />
+										<b:inputText required="true" placeholder="Enter plan name*" value="#{plan.name}" />
 									</b:column>
 
 									<b:column span="3">
@@ -94,8 +102,34 @@
 											actionListener="#{createPayerController.removePlan(plan)}"
 											value="-" update="@parent:@parent:@parent:@parent" />
 									</b:column>
+									
 									</b:row>
 									
+									<b:row>
+									<b:column span="6">
+									<b:inputText placeholder="Enter Street" value="#{plan.street}" />
+									</b:column>
+									
+									<b:column span="6">
+									<b:inputText placeholder="Enter City" value="#{plan.city}" />
+									</b:column>
+									</b:row>
+									
+									<b:row>
+									<b:column span="6">
+									<b:inputText placeholder="Enter State" value="#{plan.state}" />
+									</b:column>
+									
+									<b:column span="6">
+									<b:inputText placeholder="Enter zip" value="#{plan.zip}" />
+									</b:column>
+									</b:row>
+									
+									<b:row>
+									<b:column span="6">
+									<b:inputText placeholder="Enter fax" value="#{plan.fax}" />
+									</b:column>
+									</b:row>
 
 								</ui:repeat>
 

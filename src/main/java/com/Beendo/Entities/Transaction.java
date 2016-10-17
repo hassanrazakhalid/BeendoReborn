@@ -61,6 +61,7 @@ public class Transaction {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Plan plan =  new Plan();
+	
 	/*public String getPayerWithPlan(){
 		
 		String finalStr = "";

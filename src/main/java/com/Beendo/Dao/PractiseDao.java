@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.IPractise;
+import com.Beendo.Utils.Constants;
 
 @Repository
 public class PractiseDao extends GenericDao<Practice, Integer> implements IPractise {
@@ -76,7 +77,7 @@ public class PractiseDao extends GenericDao<Practice, Integer> implements IPract
 		
 		Query query = null;
 		
-		if (id == -1) {
+		if (id == Constants.RootEntityId) {
 			query =  session.createQuery("FROM Practice P");
 		}
 		else {

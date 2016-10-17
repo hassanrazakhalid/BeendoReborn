@@ -39,6 +39,7 @@ public class Payer {
 	private String city;
 	private String state;
 	private String zip;
+	private String fax;
 	
 	private String par;
 	
@@ -52,5 +53,18 @@ public class Payer {
 //	@ManyToOne
 //	private Provider provider;
 	
-	
+	public void addNewPlan(){
+		
+		Plan plan = new Plan();
+		plan.setCity(city);
+		plan.setStreet(street);
+		plan.setState(state);
+		plan.setPhone(phoneNumber);
+		plan.setFax(fax);
+		plan.setZip(zip);
+		
+		plan.setPayer(this);
+		
+		getPlans().add(plan);
+	}
 }

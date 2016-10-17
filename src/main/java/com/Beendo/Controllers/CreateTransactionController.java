@@ -124,7 +124,12 @@ public class CreateTransactionController extends BaseViewController implements S
 					currentProvider =  transaction.getProvider().getId();
 				}
 				updateProviderStatusList();
-				selectedPlanId = transaction.getPlan().getId();
+				
+				if (transaction.getPlan() != null) {
+				
+					selectedPlanId = transaction.getPlan().getId();
+				}
+				
 			}
 		}
 	}

@@ -68,9 +68,11 @@
 					
 					 <!-- filterBy="#{transaction.payer.getName}" filterMatchMode="contains" -->
 						 <p:column headerText="Payer Name">
-							
-							
 							#{transaction.payer.name}
+						</p:column>
+						
+						<p:column headerText="Plan">
+							#{transaction.plan.name}
 						</p:column>
 						
 						<p:column headerText="Practice Name" filterMatchMode="contains" filterBy="#{transaction.practice.name}">

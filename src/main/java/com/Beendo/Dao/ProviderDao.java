@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
+import com.Beendo.Utils.Constants;
 
 @Repository
 public class ProviderDao extends GenericDao<Provider, Integer> implements IProvider {
@@ -121,16 +122,24 @@ public class ProviderDao extends GenericDao<Provider, Integer> implements IProvi
 //				+ " JOIN Pra.entity E"
 //				+ " WHERE E.id =:id");
 	
-		Query quey = session.createQuery("SELECT DISTINCT P FROM Provider P"
-				+ " JOIN FETCH P.centity E"
-				+ " LEFT JOIN FETCH E.practiceList "
-				+ " LEFT JOIN FETCH P.documents "
-				+ " WHERE P.centity.id=:id");
-		quey.setParameter("id", id);
-		
-		
-		List<Provider> list = quey.getResultList();
-		
+		Query quey = null;
+		if (id == Constants.RootEntityId) {
+			
+			quey = session.createQuery("SELECT DISTINCT P FROM Provider P"
+					+ " JOIN FETCH P.centity E"
+					+ " LEFT JOIN FETCH E.practiceList "
+					+ " LEFT JOIN FETCH P.documents ");
+		}
+		else {
+			
+			 quey = session.createQuery("SELECT DISTINCT P FROM Provider P"
+						+ " JOIN FETCH P.centity E"
+						+ " LEFT JOIN FETCH E.practiceList "
+						+ " LEFT JOIN FETCH P.documents "
+						+ " WHERE P.centity.id=:id");
+				quey.setParameter("id", id);
+		}	
+		List<Provider> list = quey.getResultList();	
 		return list;
 	}
 	

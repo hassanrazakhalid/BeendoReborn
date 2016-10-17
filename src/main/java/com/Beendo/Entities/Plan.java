@@ -27,6 +27,12 @@ public class Plan {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String phone;
+	private String fax;
+	private String street;
+	private String city;
+	private String state;
+	private String zip;
 	
 	@ManyToOne
 	private Payer payer;

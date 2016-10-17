@@ -1,5 +1,6 @@
 package com.Beendo.Controllers;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
@@ -25,8 +26,12 @@ import lombok.Setter;
 @Setter
 @Controller
 @SpringScopeView
-public class CreatePayerController extends BaseViewController {
+public class CreatePayerController extends BaseViewController implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8336317299374169267L;
 	private Payer payer = new Payer();
 	private OperationType operationType = OperationType.Create;
 	@Autowired
@@ -61,9 +66,7 @@ public class CreatePayerController extends BaseViewController {
 
 	public void addPlanClicked() {
 
-		Plan plan = new Plan();
-		plan.setPayer(payer);
-		payer.getPlans().add(plan);
+		payer.addNewPlan();
 	}
 
 	public void removePlan(Plan sender) {

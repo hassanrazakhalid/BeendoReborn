@@ -50,7 +50,10 @@
 							panelStyle="width:180px" effect="fade" rendered="#{createTransactionController.canPracticeShow}"
 							converter="javax.faces.Integer" required="true"
 							requiredMessage="Select atleast one practice"
-							 style="width:177px">
+							 style="width:177px"
+							 filter="true" filterMatchMode="startsWith"
+							
+							 >
 							
 							<!-- <p:ajax event="change" listener="#{transactionController.onPracticeChange}" update="idPayer" />  -->
 							
@@ -59,28 +62,21 @@
 							<f:selectItems value="#{createTransactionController.practiceList}" var="entity"
 								itemLabel="#{entity.name}" itemValue="#{entity.id}"  />
 
-						<!-- 	<p:column>
-								<h:outputText value="#{t.name}" />
-							</p:column> -->
 						</p:selectOneMenu>
 						
 						<p:selectOneMenu id="idProvider" value="#{createTransactionController.currentProvider}"
 							panelStyle="width:180px" effect="fade" rendered="#{!createTransactionController.canPracticeShow}"
 							converter="javax.faces.Integer" required="true"
 							requiredMessage="Select atleast one provider"
-							 style="width:177px">
+							 style="width:177px"
+							 filter="true" filterMatchMode="startsWith"
+							
+							 >
 							
 							<f:selectItem itemLabel="Select Provider" />
 							
 							<f:selectItems value="#{createTransactionController.providerList}" var="entity"
 								itemLabel="#{entity.getNameWithNPI()}" itemValue="#{entity.id}"  />
-								
-								<!--  #{entity.lastName} -->
-							<!-- <p:ajax event="change" listener="#{transactionController.onProviderChange}" update="idPayer" />  -->
-
-						<!-- 	<p:column>
-								<h:outputText value="#{t.getNameWithNPI()}" />
-							</p:column> -->
 						</p:selectOneMenu>
 			</b:column>
 			</b:row>
