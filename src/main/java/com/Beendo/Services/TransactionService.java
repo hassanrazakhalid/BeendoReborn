@@ -80,8 +80,8 @@ public class TransactionService extends GenericServiceImpl<Transaction, Integer>
 		List<Transaction> transactions =  new ArrayList<>();//this.fetchAllByRole(start, end, entityId);
 		Integer totalRows = service.getTotalTransactionCount(entityId);
 		List<Payer> payerList = payerService.getAll();
-		List<Practice> practiceList = practiseService.fetchAllByRole();
-		List<Provider> providerList = providerService.fetchAllByRole();
+		List<Practice> practiceList = new ArrayList<>();//practiseService.fetchAllByRole();
+		List<Provider> providerList = new ArrayList<>();//providerService.fetchAllByRole();
 
 		Map<String,Object> otherInfo = new HashMap<>();
 		otherInfo.put("count", totalRows);

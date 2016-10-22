@@ -6,8 +6,6 @@
 <h:head>
 </h:head>
 
-<h:body>
-
 	<h:body>
 		<ui:composition template="/Views/Template/MainTemplate.xhtml">
 			<ui:define name="pageTitle">
@@ -23,33 +21,33 @@
 					
 					
 						<!-- <p:outputLabel for="idPractices" value="Select Practice: " /> -->
-						 <p:selectOneMenu id="idPractices" value="#{reportsController.currentPracticeId}"
+						 <p:selectCheckboxMenu id="idPractices" value="#{reportsController.selectedPracticeIds}"
 								panelStyle="width:180px" effect="fade" converter="javax.faces.Integer"
 								 style="width:177px"
-								 onchange="submit(),PF('transactionsTable').filter()"
+								 label="Select Practice"
+								 filter="true" filterMatchMode="startsWith"
 								 >
 								<!-- var="t" -->
 								 <!-- <p:ajax event="change" listener="#{reportsController.onPracticeChange}" update="idProviders" /> -->
 								 
-								 <f:selectItem itemLabel="Select Practice" />
+								 <!-- <f:selectItem itemLabel="Select Practice" /> -->
 								<f:selectItems value="#{reportsController.practiceList}" var="entity"
 									itemLabel="#{entity.name}" itemValue="#{entity.id}"  />
 	
 							<!-- 	<p:column>
 									<h:outputText value="#{t.name}" />
 								</p:column> -->
-							</p:selectOneMenu> 
+							</p:selectCheckboxMenu> 
 							
 	
 						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  var="t"
 				            converter="javax.faces.Integer" panelStyle="width:250px"
-				            onHide="PF('transactionsTable').filter()"
 				            >
 				            
-				            <f:ajax event="change" />
+				           <!--  <f:ajax event="change" /> -->
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
-								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
+								itemLabel="#{payer.name}" itemValue="#{payer.id}"  />
 
 							<p:column>
 								<h:outputText value="#{t.name}" />
@@ -59,19 +57,21 @@
 				        
 				        
 				        <!-- <h:outputLabel for="status" value="Select Status:" /> -->
-			        	<p:selectOneMenu value="#{reportsController.currentPayerStatus}" style="width:175px"
-			        	onchange="submit(),PF('transactionsTable').filter()"
+			        	<p:selectCheckboxMenu value="#{reportsController.selectedStatus}" style="width:175px"
+			        	filter="true" filterMatchMode="startsWith"
+			        	label="Select Status"
 			        	>
 			        	
-			        	<f:selectItem itemLabel="Select Status" />
+			        	<!-- <f:selectItem itemLabel="Select Status" /> -->
 			        	<f:selectItems value="#{reportsController.statusList}" var="v"
 			        	itemLabel="#{v}" itemValue="#{v}"/>
 			   
-				        </p:selectOneMenu>
+				        </p:selectCheckboxMenu>
 				        
 					
-						<p:commandButton value="Search" update=":frmMain"
-							actionListener="#{reportsController.filterReport()}" />
+						<p:commandButton value="Search" actionListener="#{reportsController.searchButtonPressed()}"
+						update="@parent:@parent:@parent:frmMain"
+						 />
 						<br />
 						
 					</h:panelGrid>
@@ -93,19 +93,10 @@
 							#{transaction.practice.name}
 						</p:column>
 
-						<p:column headerText="Payer Name" filterBy="#{transaction.payerList}" filterFunction="#{transaction.filterByPayer}">
+						<p:column headerText="Payer Name" filterBy="#{transaction.payer.name}" filterMatchMode="contains">
 							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
 							
-							<table>
-								<ui:repeat value="#{transaction.payerList.toArray()}" var="t">
-
-									<tr>
-										<td style="border: 0px;"><h:outputText value="#{t.name} #{t.planName}" />
-										</td>
-
-									</tr>
-								</ui:repeat>
-							</table>
+							#{transaction.payer.name} #{transaction.plan.name}
 							
 						</p:column>
 
@@ -118,15 +109,9 @@
 						</p:column>
 		
 					</p:dataTable>
-					   
-
 				</h:form>
 
 			</ui:define>
 		</ui:composition>
 	</h:body>
-
-
-</h:body>
-
 </html>

@@ -29,9 +29,12 @@ import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.IEntityService;
+import com.Beendo.Services.IReportService;
 import com.Beendo.Services.ITransactionCallback;
 import com.Beendo.Services.ITransactionService;
 import com.Beendo.Utils.Constants;
+import com.Beendo.Utils.ReportFilter;
+import com.Beendo.Utils.ReportType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
@@ -59,12 +62,15 @@ public class TransactionController extends BaseViewController implements Disposa
 	private List<Transaction> transactions = new ArrayList<>();
 	private User tmpUser;
 
-	private List<Integer> payerFilter = new ArrayList<>();
+	private List<Integer> selectedPayers = new ArrayList<>();
 	private List<Transaction> filterTransactions = new ArrayList<>();
 	private List<Transaction> realTimefilterList = new ArrayList<>();
 	//private HashMap<Integer, Practice> _hash = new HashMap<Integer, Practice>();
 	private List<Payer> payerList = new ArrayList<>();
 	
+	@Autowired
+	IReportService reportService;
+	private ReportFilter reportFilter = new ReportFilter();
 	
 	private void refreshAllData(){
 		
@@ -72,19 +78,30 @@ public class TransactionController extends BaseViewController implements Disposa
 
 		transactionService.getLatestTransactions(entityId);
 		
+		reportFilter.setEntityId(entityId);
+		reportFilter.setReportType(ReportType.ReportTypeTransaction);
+		
 		ITransactionCallback callBack = (User user, List<Transaction>transactions, List<Payer>payerList, List<Practice>practiceList, List<Provider>providerList, Map<String,Object>otherInfo)->{
 			
 			tmpUser = user;
-			this.lazyModel = new LazyTransactionModel(transactionService,entityId, getFilterPredicate());
+			this.lazyModel = new LazyTransactionModel(reportService,entityId, reportFilter);
 			this.lazyModel.setRowCount((Integer)otherInfo.get("count"));
 //			this.lazyModel.setRowCount(20);
 //			this.transactions = transactions;
-			this.payerFilter = payerFilter;
+			this.payerList = payerList;
 			this.filterTransactions.clear();
 			this.filterTransactions.addAll(transactions);
 		};
 
 		transactionService.refreshAllData(0, 10, entityId, callBack);
+	}
+	
+	public void searchButtonPressed(){
+		seachResult();
+	}
+	
+	private void seachResult(){
+		reportFilter.setPayerIds(selectedPayers);
 	}
 	
 	public boolean canEdit(){
@@ -129,9 +146,6 @@ public class TransactionController extends BaseViewController implements Disposa
 		onLoad();
 		return "ViewTransaction";
 	}
-	
-
-
 	
 	public void removeClicked(Transaction transac)
 	{
@@ -179,7 +193,7 @@ public class TransactionController extends BaseViewController implements Disposa
 	 * Filter Data logic
 	 * @param obj
 	 */
-	public Predicate<Transaction> getFilterPredicate(){
+/*	public Predicate<Transaction> getFilterPredicate(){
 		
 //		filterTransactions.clear();
 //		if(payerFilter.size() <= 0)
@@ -212,7 +226,7 @@ public class TransactionController extends BaseViewController implements Disposa
 			
 			return predicate;
 
-	}
+	}*/
 	
 
 	@Override

@@ -3,10 +3,13 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
+      
 <h:head>
-</h:head>
+<f:metadata>
+		<f:viewAction actionListener="#{reportsController.onLoad()}" />
+	</f:metadata>
 
-<h:body>
+</h:head>
 
 	<h:body>
 		<ui:composition template="/Views/Template/MainTemplate.xhtml">
@@ -17,38 +20,39 @@
 			<ui:define name="mainContent">
 				<h2>Provider Report</h2>
 
-				<h:form>
-					
+				<h:form>		
 					<h:panelGrid columns="7" cellpadding="0">  
 					
 						 <!-- <p:outputLabel for="idProviders" value="Select Provider: " />  -->
-						 <p:selectOneMenu id="idProviders" value="#{reportsController.currentProviderId}"
+						 <p:selectCheckboxMenu id="idProviders" value="#{reportsController.selectedProviderIds}"
 								panelStyle="width:180px" effect="fade" converter="javax.faces.Integer"
 								 style="width:177px"
-								 onchange="submit(),PF('transactionsTable').filter()"
-								
+								 label="Select Provider"
+								 filter="true" filterMatchMode="startsWith"
 								  >
+								  
+								  <!-- onchange="submit(),PF('transactionsTable').filter()" -->
 								<!-- var="t" -->
 								 <!-- <p:ajax event="change" listener="#{reportsController.onEntityChange}" update="idPayers" /> -->
 								 
-								<f:selectItem itemLabel="Select Provider" />
+								<!-- <f:selectItem itemLabel="Select Provider" /> -->
 								<f:selectItems value="#{reportsController.providerList}" var="entity"
 									itemLabel="#{entity.firstName} #{entity.lastName}" itemValue="#{entity.id}"  />
 	
 								<!--  <p:column>
 									<h:outputText value="#{t.firstName} #{t.lastName}" />
 								</p:column> -->
-							</p:selectOneMenu> 
+							</p:selectCheckboxMenu> 
 
 						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"
 				            filter="true" filterMatchMode="startsWith" style="width:177px"  
 				            converter="javax.faces.Integer" panelStyle="width:250px"
-				             onHide="PF('transactionsTable').filter()"
 				            >
+				            <!-- onHide="PF('transactionsTable').filter()" -->
 				            <!-- var="t" -->
 				            <f:ajax event="change" />
 				            <f:selectItems value="#{reportsController.payerList}" var="payer"
-								itemLabel="#{payer.name} #{payer.planName}" itemValue="#{payer.id}"  />
+								itemLabel="#{payer.name}" itemValue="#{payer.id}"  />
 
 						<!-- 	<p:column>
 								<h:outputText value="#{t.name}" />
@@ -57,22 +61,23 @@
 				        </p:selectCheckboxMenu>
 				        
 				        <!-- <h:outputLabel for="status" value="Select Status:" /> -->
-			        	<p:selectOneMenu value="#{reportsController.currentPayerStatus}" style="width:175px"
-			        	onchange="submit(),PF('transactionsTable').filter()"
+			        	<p:selectCheckboxMenu value="#{reportsController.selectedStatus}" style="width:175px"
+			        	filter="true" filterMatchMode="startsWith"
+			        	label="Select Status"
 			        	>
-			        	
-			        	<f:selectItem itemLabel="Select Status" />
+			        	<!-- onchange="submit(),PF('transactionsTable').filter()" -->
+			        	<!-- <f:selectItem itemLabel="Select Status" /> -->
 			        	
 			        	<f:selectItems value="#{reportsController.statusList}" var="v"
 			        		itemLabel="#{v}" itemValue="#{v}"/>			        		
-				        </p:selectOneMenu>
+				        </p:selectCheckboxMenu>
 					
-						<p:commandButton value="Search" update=":frmMain"
-							action="#{reportsController.filterReport()}" />
-						<br />
 						
-					</h:panelGrid>
+						<p:commandButton value="Search" actionListener="#{reportsController.searchButtonPressed()}"
+						update="@parent:@parent:@parent:frmMain"
+						 />
 						
+					</h:panelGrid>						
 				</h:form>
 
 				<h:form id="frmMain">
@@ -85,23 +90,13 @@
 				      rowsPerPageTemplate="10,20,35"
 				       >
 
-						<p:column headerText="Provider Name" filterBy="#{getFullName}" filterMatchMode="contains">
+						<p:column headerText="Provider Name" filterBy="#{transaction.provider.firstName}" filterMatchMode="contains">
 							#{transaction.provider.firstName} #{transaction.provider.lastName}
 						</p:column>
 
-						<p:column headerText="Payer Name" filterBy="#{transaction.payerList}" filterFunction="#{transaction.filterByPayer}">
+						<p:column headerText="Payer Name" filterBy="#{transaction.payer.name}" filterFunction="#{transaction.filterByPayer}">
 							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
-							
-							<table>
-								<ui:repeat value="#{transaction.payerList.toArray()}" var="t">
-
-									<tr>
-										<td style="border: 0px;"><h:outputText value="#{t.name} #{t.planName}" />
-										</td>
-
-									</tr>
-								</ui:repeat>
-							</table>
+							#{transaction.payer.name} #{transaction.plan.name}
 							
 						</p:column>
 						
@@ -115,25 +110,11 @@
 		
 					</p:dataTable>
 
-					  <!-- <p:dataTable value="#{reportsController.payerProvider}" var="payer" >
-
-						<p:column headerText="Payer Name">
-							#{payer.name}
-						</p:column>
-
-						<p:column headerText="Plan Name">
-							#{payer.planName}
-						</p:column>
-								
-					</p:dataTable>   -->
+					
 
 				</h:form>
 
 			</ui:define>
 		</ui:composition>
 	</h:body>
-
-
-</h:body>
-
 </html>

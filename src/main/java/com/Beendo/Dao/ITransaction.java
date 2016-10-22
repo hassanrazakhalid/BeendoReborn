@@ -3,6 +3,7 @@ package com.Beendo.Dao;
 import java.util.List;
 
 import com.Beendo.Entities.Transaction;
+import com.Beendo.Utils.ReportFilter;
 
 public interface ITransaction extends ICRUD<Transaction, Integer> {
 
@@ -16,4 +17,6 @@ public interface ITransaction extends ICRUD<Transaction, Integer> {
 	public void deleteTransactionByProvider(List<Integer> ids);
 	public void deleteTransactionByPractice(List<Integer> ids);
 	
+	public List<Transaction> getTransactionByProvider(ReportFilter filter);
+	public Integer getPageSize(ReportFilter filter);
 }

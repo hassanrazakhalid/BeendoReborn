@@ -36,9 +36,11 @@ import com.Beendo.Services.PractiseService;
 import com.Beendo.Services.ProviderService;
 import com.Beendo.Services.TransactionService;
 import com.Beendo.Utils.Constants;
+import com.Beendo.Utils.ReportFilter;
 import com.Beendo.Utils.ReportType;
 import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -47,7 +49,7 @@ import lombok.Setter;
 @Getter
 @Controller
 @Scope(value = "session")
-// @SpringScopeView
+//@SpringScopeView
 public class ReportsController implements DisposableBean, Serializable {
 	/**
 		 * 
@@ -66,31 +68,61 @@ public class ReportsController implements DisposableBean, Serializable {
 	// Payer
 	private List<Payer> payerList = new ArrayList<>();
 	private Payer currentPayer = new Payer();
-	public String currentPayerStatus = "";
+	
 	private List<Integer> selectedPayerIdList = new ArrayList<>();
 
+	public List<String> selectedStatus = new ArrayList<>();
+	
 	// Provider
 	private List<Provider> providerList = new ArrayList<>();
-	// private List<Provider> selectedProviderList;
-	private Integer currentProviderId;
-	// private List<Payer> payerProvider;
+	private List<Integer> selectedProviderIds = new ArrayList<>();
 
 	// Practice
 	private List<Practice> practiceList = new ArrayList<>();
 	// private List<Practice> selectedPracticeList;
-	private Integer currentPracticeId;
+	private List<Integer> selectedPracticeIds = new ArrayList<>();
 	private String[] statusList;
 	private ReportType reportType;
 	// ---------------------------------------PRACTICE
 	// REPORT-----------------------------------------------
 
+	private ReportFilter reportFilter = new ReportFilter();
+	
 	public String viewRepPractice() {
 
+		clearData();
 		statusList = Constants.practiceStatus;
-		cleanData();
-
 		loadDataByReportType(ReportType.ReportTypePractise);
+//		reportType = ;
 		return "ReportPractice";
+	}
+	public String viewRepTransac() {
+		
+		clearData();
+		loadDataByReportType(ReportType.ReportTypeTransaction);
+//		reportType = ;
+		return "ReportTransaction";
+	}
+
+	public String viewRepProvider() {
+
+		clearData();
+		statusList = Constants.providerStatus;
+		loadDataByReportType(ReportType.ReportTypeProvider);
+//		reportType = ;
+		return "ReportProvider";
+	}
+	
+	private void clearData(){
+		statusList = new String[]{};
+		selectedPracticeIds = new ArrayList<>();
+		selectedPayerIdList = new ArrayList<>();
+		selectedProviderIds = new ArrayList<>();
+		
+	}
+	
+	public void onLoad(){
+//		loadDataByReportType(reportType);
 	}
 
 	/**
@@ -102,7 +134,10 @@ public class ReportsController implements DisposableBean, Serializable {
 
 		this.reportType = type;
 		Integer entityId = SharedData.getSharedInstace().getCurrentUser().getEntity().getId();
-
+		
+		reportFilter.setEntityId(entityId);
+		reportFilter.setReportType(type);
+		
 		Consumer<Map<String, Object>> sender = (obj) -> {
 
 			// this.providerTransactions = (List<ProviderTransaction>)
@@ -114,154 +149,150 @@ public class ReportsController implements DisposableBean, Serializable {
 
 			Predicate<Transaction> predicate = null;
 
-			switch (reportType) {
-			case ReportTypeProvider:
-				predicate = filterByProvider();
-				break;
-			case ReportTypePractise:
-				predicate = filterByPractise();
-				break;
+//			switch (reportType) {
+//			case ReportTypeProvider:
+//				predicate = filterByProvider();
+//				break;
+//			case ReportTypePractise:
+//				predicate = filterByPractise();
+//				break;
+//
+//			case ReportTypeTransaction:
+//				predicate = filterByTransaction();
+//				break;
+//
+//			default:
+//				break;
+//			}
 
-			case ReportTypeTransaction:
-				predicate = filterByTransaction();
-				break;
-
-			default:
-				break;
-			}
-
-			this.lazyModel = new LazyTransactionModel(transactionService, entityId, predicate);
+			this.lazyModel = new LazyTransactionModel(reportService, entityId, reportFilter);
 			this.lazyModel.setRowCount((Integer) obj.get("count"));
-		};
-		reportService.reloadPracticeReportData(sender, 0, 10, entityId, type);
+		};		
+		reportService.reloadPracticeReportData(sender, reportFilter, type);
 		// reportService.reloadPracticeReportData(callBack, type);
 	}
 
-	public String viewRepTransac() {
-		cleanData();
-		loadDataByReportType(ReportType.ReportTypeTransaction);
-		return "ReportTransaction";
+	public void searchButtonPressed(){
+		
+		seachResult();
 	}
-
-	public String viewRepProvider() {
-
-		statusList = Constants.providerStatus;
-		cleanData();
-		loadDataByReportType(ReportType.ReportTypeProvider);
-		return "ReportProvider";
-	}
-
-	public void filterReport() {
-
-		switch (reportType) {
-		case ReportTypeProvider:
-
-			filterByProvider();
-			break;
-		case ReportTypePractise:
-			filterByPractise();
-			break;
-
-		case ReportTypeTransaction:
-			filterByTransaction();
-			break;
-		default:
-			break;
-		}
-	}
-
-	private Predicate<Transaction> filterByPractise() {
-
-		Predicate<Transaction> predicate = (t) -> {
-
-			boolean isPractiseOk = true;
-			boolean isPayerOk = true;
-			boolean isStatusOk = true;
-
-			if (currentPracticeId != null) {
-				if (t.getPractice() == null)
-					isPractiseOk = false;
-				else if (currentPracticeId != t.getPractice().getId())
-					isPractiseOk = false;
-			}
-
 	
-			if (selectedPayerIdList != null && selectedPayerIdList.size() > 0) {
-				isPayerOk = isTransactionExistInPayer(t);
-			}
-
-			if (!currentPayerStatus.isEmpty() && !currentPayerStatus.equals(t.getParStatus())) {
-				isStatusOk = false;
-			}
-
-			if (isPayerOk && isPractiseOk && isStatusOk)
-				return true;
-			else
-				return false;
-		};
-
-		return predicate;
+	private void seachResult(){
+		
+		reportFilter.setProviderIds(selectedProviderIds);
+		reportFilter.setPayerIds(selectedPayerIdList);
+		reportFilter.setPracticeIds(selectedPracticeIds);
+		reportFilter.setStatusList(selectedStatus);
+		
+		
+//		List<Transaction> res = reportService.getTransactionByProvider(reportFilter);
+//		lazyModel.datasource = res;
 	}
-
-	private Predicate<Transaction> filterByProvider() {
-
-		Predicate<Transaction> predicate = (t) -> {
-
-			boolean isProviderOk = true;
-			boolean isPayerOk = true;
-			boolean isStatusOk = true;
-
-			if (currentProviderId != null) {
-				if (t.getProvider() == null)
-					isProviderOk = false;
-				else if (currentProviderId != t.getProvider().getId())
-					isProviderOk = false;
-			}
-
-			if (selectedPayerIdList != null && selectedPayerIdList.size() > 0) {
-				isPayerOk = isTransactionExistInPayer(t);
-			}
-
-			if (!currentPayerStatus.isEmpty() && !currentPayerStatus.equals(t.getParStatus())) {
-				isStatusOk = false;
-			}
-
-			if (isPayerOk && isProviderOk && isStatusOk)
-				return true;
-			else
-				return false;
-
-		};
-		return predicate;
-	}
-
-	private Predicate<Transaction> filterByTransaction() {
-
-		Predicate<Transaction> predicate = (t) -> {
-
-			// boolean isProviderOk = true;
-			boolean isPayerOk = true;
-			boolean isStatusOk = true;
-
-			if (selectedPayerIdList != null && selectedPayerIdList.size() > 0) {
-				isPayerOk = isTransactionExistInPayer(t);
-			}
-
-			// if(currentPayerStatus != null &&
-			// !currentPayerStatus.isEmpty() &&
-			// !currentPayerStatus.equals(t.getParStatus()))
-			// {
-			// isStatusOk = false;
-			// }
-
-			if (isPayerOk && isStatusOk)
-				return true;
-			else
-				return false;
-		};
-
-		return predicate;
-	}
+	
+//	public void filterReport() {
+//
+//		switch (reportType) {
+//		case ReportTypeProvider:
+//
+//			filterByProvider();
+//			break;
+//		case ReportTypePractise:
+//			filterByPractise();
+//			break;
+//
+//		case ReportTypeTransaction:
+//			filterByTransaction();
+//			break;
+//		default:
+//			break;
+//		}
+//	}
+//
+//	private Predicate<Transaction> filterByPractise() {
+//
+//		Predicate<Transaction> predicate = (t) -> {
+//
+//			boolean isPractiseOk = true;
+//			boolean isPayerOk = true;
+//			boolean isStatusOk = true;
+//
+//			if (currentPracticeId != null) {
+//				if (t.getPractice() == null)
+//					isPractiseOk = false;
+//				else if (currentPracticeId != t.getPractice().getId())
+//					isPractiseOk = false;
+//			}
+//
+//	
+//			if (selectedPayerIdList != null && selectedPayerIdList.size() > 0) {
+//				isPayerOk = isTransactionExistInPayer(t);
+//			}
+//
+//			if (!currentPayerStatus.isEmpty() && !currentPayerStatus.equals(t.getParStatus())) {
+//				isStatusOk = false;
+//			}
+//
+//			if (isPayerOk && isPractiseOk && isStatusOk)
+//				return true;
+//			else
+//				return false;
+//		};
+//
+//		return predicate;
+//	}
+//
+//	private Predicate<Transaction> filterByProvider() {
+//
+//		Predicate<Transaction> predicate = (t) -> {
+//
+//			boolean isProviderOk = true;
+//			boolean isPayerOk = true;
+//			boolean isStatusOk = true;
+//
+//			if (currentProviderId != null) {
+//				if (t.getProvider() == null)
+//					isProviderOk = false;
+//				else if (currentProviderId != t.getProvider().getId())
+//					isProviderOk = false;
+//			}
+//
+//			if (selectedPayerIdList != null && selectedPayerIdList.size() > 0) {
+//				isPayerOk = isTransactionExistInPayer(t);
+//			}
+//
+//			if (!currentPayerStatus.isEmpty() && !currentPayerStatus.equals(t.getParStatus())) {
+//				isStatusOk = false;
+//			}
+//
+//			if (isPayerOk && isProviderOk && isStatusOk)
+//				return true;
+//			else
+//				return false;
+//
+//		};
+//		return predicate;
+//	}
+//
+//	private Predicate<Transaction> filterByTransaction() {
+//
+//		Predicate<Transaction> predicate = (t) -> {
+//
+//			// boolean isProviderOk = true;
+//			boolean isPayerOk = true;
+//			boolean isStatusOk = true;
+//
+//			if (selectedPayerIdList != null && selectedPayerIdList.size() > 0) {
+//				isPayerOk = isTransactionExistInPayer(t);
+//			}
+//
+//			if (isPayerOk && isStatusOk)
+//				return true;
+//			else
+//				return false;
+//		};
+//
+//		return predicate;
+//	}
 
 	private boolean isTransactionExistInPayer(Transaction sender) {
 
@@ -275,29 +306,6 @@ public class ReportsController implements DisposableBean, Serializable {
 //			return true;
 //		else
 //			return false;
-	}
-
-	public void onPracticeChange() {
-
-		providerList.clear();
-	}
-	// -------------------------
-
-	private void cleanData() {
-		// Transaction
-		// transactions = new ArrayList<ProviderTransaction>();
-		filteredTransactions = new ArrayList<Transaction>();
-
-		// Payer
-		payerList = new ArrayList<Payer>();
-
-		// Provider
-		providerList = new ArrayList<Provider>();
-		currentProviderId = null;
-
-		// Practice
-		practiceList = new ArrayList<Practice>();
-		currentPracticeId = null;
 	}
 
 	@Override

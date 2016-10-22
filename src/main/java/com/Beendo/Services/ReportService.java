@@ -15,6 +15,7 @@ import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
+import com.Beendo.Utils.ReportFilter;
 import com.Beendo.Utils.ReportType;
 import com.Beendo.Utils.SharedData;
 
@@ -37,7 +38,7 @@ public class ReportService extends GenericServiceImpl<Transaction, Integer> impl
 
 	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 	@Override
-	public void reloadPracticeReportData(Consumer<Map<String,Object>> sender,int start, int end, int entityId, ReportType type) {
+	public void reloadPracticeReportData(Consumer<Map<String,Object>> sender, ReportFilter filter , ReportType type) {
 	
 //		practiceList = practiseService.fetchAllByRole();
 //		hashPractice.clear();
@@ -52,7 +53,7 @@ public class ReportService extends GenericServiceImpl<Transaction, Integer> impl
 //		result.put("transactions", listTransaction);
 		result.put("payerList", listPayer);
 		
-		Integer totalRows = transactionDao.getTotalTransactionCount(entityId);
+		Integer totalRows = transactionDao.getPageSize(filter); //transactionDao.getTotalTransactionCount(entityId);
 		result.put("count", totalRows);
 		switch (type) {
 		case ReportTypePractise:
@@ -78,4 +79,24 @@ public class ReportService extends GenericServiceImpl<Transaction, Integer> impl
 //		callBack.reloadPracticeReportData(listPractise,listProvider,listPayer,listTransaction,type);
 	}
 
+	@Transactional(readOnly=true)
+	@Override
+	public Integer getPageSize(ReportFilter filter) {
+	
+		return transactionDao.getPageSize(filter);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<Transaction> getTransactionByProvider(ReportFilter filter) {
+		
+		if (filter.getShouldReloadRowCount()) {
+			
+			Integer rowCount = getPageSize(filter);
+			filter.setTotalRows(rowCount);
+			filter.setShouldReloadRowCount(false);
+		}
+		
+		return transactionDao.getTransactionByProvider(filter);
+	}
 }

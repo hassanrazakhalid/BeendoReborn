@@ -11,8 +11,6 @@
 
 </h:head>
 
-<h:body>
-
 	<h:body>
 		<ui:composition template="/Views/Template/MainTemplate.xhtml">
 			<ui:define name="pageTitle">
@@ -34,19 +32,21 @@
 			<h:panelGrid columns="3">
 				<h:outputLabel for="payerMenu" value="Filter:" />
 				<p:selectCheckboxMenu id="payerMenu" label="Select payer" 
-				value="#{transactionController.payerFilter}"
+				value="#{transactionController.selectedPayers}"
 				 converter="javax.faces.Integer"
-				
-				 onHide="PF('transactionsTable').filter()"
+				filter="true" filterMatchMode="startsWith"
 				>
 				
-				 <f:ajax event="change" />
+				 <!-- <f:ajax event="change" /> -->
 				<f:selectItems value="#{transactionController.payerList}" var="payer"
 				itemLabel="#{payer.name}" itemValue="#{payer.id}"/>
 				
-				
-				
 				</p:selectCheckboxMenu>
+				
+				<p:commandButton value="Search" actionListener="#{transactionController.searchButtonPressed()}"
+						update="@parent:@parent:@parent:mainForm"
+						 />
+						<br />
 				</h:panelGrid>
 					
 				</h:form>
@@ -88,7 +88,7 @@
 						</p:column>
 						
 						<p:column headerText="Type">
-							#{transaction.transactionType}
+							#{transaction.transactionState}
 						</p:column>
 						
 						<p:column headerText="Comments">
@@ -155,8 +155,4 @@
 			</ui:define>
 		</ui:composition>
 	</h:body>
-
-
-</h:body>
-
 </html>

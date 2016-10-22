@@ -32,10 +32,11 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String transactionType;
+	private String transactionState;
 	private String transactionDate;
 	private String comments;
 	private String parStatus;
+	private Integer type;
 	
 	@ManyToOne
 	private CEntitiy entity;
@@ -62,6 +63,9 @@ public class Transaction {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Plan plan =  new Plan();
 	
+	public Transaction() {
+		// TODO Auto-generated constructor stub
+	}
 	/*public String getPayerWithPlan(){
 		
 		String finalStr = "";

@@ -1,20 +1,35 @@
 package com.Beendo.Dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.type.LongType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import static java.lang.Math.toIntExact;
+
+import java.math.BigInteger;
+
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
+import com.Beendo.Entities.Transaction_;
 import com.Beendo.Utils.Constants;
+import com.Beendo.Utils.ReportFilter;
 import com.Beendo.Utils.SharedData;
+import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
 
 @Repository
 public class TransactionDao extends GenericDao<Transaction, Integer> implements ITransaction {
@@ -137,4 +152,105 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 		return res;
 	}
 
+	@Override
+	public Integer getPageSize(ReportFilter filter) {
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		String subQuery = "SELECT *" +
+				" FROM transaction AS T"
+					;
+		switch (filter.getReportType()) {
+		case ReportTypeProvider:
+			subQuery += " GROUP BY T.provider_id";
+			break;
+		case ReportTypePractise:
+			subQuery += " GROUP BY T.practice_id";
+			break;
+		case ReportTypeTransaction:
+			break;
+		}
+		filter.setBaseQuery(subQuery);
+		String queryString = "SELECT COUNT(*) FROM (" + filter.getQueryString() + ") t";
+		
+		Query query = session.createNativeQuery(queryString);
+//				+ " ORDER BY t.transactionDate";
+//		Query query = session.createQuery(queryString);
+
+		BigInteger count = (BigInteger )query.getSingleResult();
+//		Object res = query.getSingleResult();
+//		Object res = query.getResultList();
+		return count.intValue();
+	}
+	
+	@Override
+	public List<Transaction> getTransactionByProvider(ReportFilter filter) {
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		String baseQuery = "SELECT *" +
+				" FROM transaction AS T"
+				+ " LEFT JOIN payer AS P ON P.id = T.payer_id"
+				+ " LEFT JOIN plan  AS plan ON plan.id = T.plan_id"
+					;
+		
+		switch (filter.getReportType()) {
+		case ReportTypeProvider:
+			baseQuery += " GROUP BY T.provider_id";
+			break;
+		case ReportTypePractise:
+			baseQuery += " GROUP BY T.practice_id";
+			break;
+		case ReportTypeTransaction:
+			break;
+		}
+		
+		filter.setBaseQuery(baseQuery);
+		String queryString =  filter.getQueryString();
+		queryString += " ORDER BY t.transactionDate";
+//		String queryString = "SELECT * FROM transaction T"
+//				+ " INNER JOIN ( " + filter.getQueryString() + ")"
+//				+ " subT ON subT.payer_id = T.";
+	
+		
+//		CriteriaBuilder builder = session.getCriteriaBuilder();
+//		
+//		final CriteriaQuery<Long> mainQuery = builder.createQuery(Long.class);
+//		Root<Transaction> mainRoot = mainQuery.from(Transaction.class);
+//		Subquery<Transaction> subQuery = mainQuery.subquery(Transaction.class);
+////		CriteriaQuery<Transaction> subQuery = builder.createQuery(Transaction.class);
+//		Root<Transaction> root = subQuery.from( Transaction.class );
+//		subQuery.select(root.get("id"));
+//		builder.greatest(root.get( Transaction_.transactionDate ));
+//		Path<Object> providerGroupBy = root.get("provider");
+//		subQuery.groupBy(providerGroupBy);		
+//////		if (!filter.getProviderIds().isEmpty()) {
+////			
+//			List<Integer>providersIds = new ArrayList<>();
+//			providersIds.add(71);
+//			providersIds.add(3);
+//			
+//			Expression<Integer> exp = root.get("provider").get("id");
+//			Predicate providerPredicate = exp.in(providersIds);
+//			subQuery.where(providerPredicate);
+////		}
+////		criteria.where(builder.equal(root.get("entity").get("id"), 2));
+//		
+////		criteria.select(root);
+//
+////		countCriteria.groupBy(rootCount.get("provider"));
+//		mainQuery.select(builder.count(root));
+		
+		Query query = session.createNativeQuery(queryString, Transaction.class);
+		query.setFirstResult(filter.getStart());
+		query.setMaxResults(filter.getMaxResults());
+//				+ " ORDER BY t.transactionDate";
+//		Query query = session.createQuery(queryString);
+
+		List<Transaction> res = query.getResultList();
+//		Object res = query.getSingleResult();
+//		Object res = query.getResultList();
+		return res;
+	}   
+	
 }

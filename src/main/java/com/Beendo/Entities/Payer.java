@@ -1,5 +1,6 @@
 package com.Beendo.Entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,9 +26,13 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "payer")
-public class Payer {
+public class Payer implements Serializable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -980211077285605975L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
