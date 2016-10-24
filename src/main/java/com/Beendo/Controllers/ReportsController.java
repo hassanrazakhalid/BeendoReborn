@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import javax.faces.context.FacesContext;
+
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,47 +72,39 @@ public class ReportsController extends BaseViewController implements DisposableB
 
 	private ReportFilter reportFilter = new ReportFilter();
 	
-	public String titleFunc(){
-		return "Select Parameters";
-	}
-	
 	public String viewRepPractice() {
-
-		clearData();
-		statusList = Constants.practiceStatus;
-		reportType = ReportType.ReportTypePractise;
-		loadDataByReportType(reportType);
-		
 		return "ReportPractice";
 	}
 	public String viewRepTransac() {
-		
-		clearData();
-		loadDataByReportType(ReportType.ReportTypeTransaction);
-//		reportType = ;
 		return "ReportTransaction";
 	}
 
 	public String viewRepProvider() {
 
-		clearData();
-		statusList = Constants.providerStatus;
-		loadDataByReportType(ReportType.ReportTypeProvider);
-//		reportType = ;
 		return "ReportProvider";
 	}
 	
 	private void clearData(){
-		statusList = new String[]{};
-		selectedPracticeIds = new ArrayList<>();
-		selectedPayerIdList = new ArrayList<>();
-		selectedProviderIds = new ArrayList<>();
+		return;
+//		statusList = new String[]{};
+//		selectedPracticeIds = new ArrayList<>();
+//		selectedPayerIdList = new ArrayList<>();
+//		selectedProviderIds = new ArrayList<>();
 		
 	}
 	
 	public void onLoad(){
 		
-		System.out.println("");
+		Map<String, String> params =FacesContext.getCurrentInstance().
+                getExternalContext().getRequestParameterMap();
+		String parameterOne = params.get("reportType");
+		if (parameterOne != null){
+			ReportType type = ReportType.fromInteger(Integer.valueOf(parameterOne));
+			if (type != null) {
+				loadDataByReportType(type);
+			}
+		}
+				
 //		loadDataByReportType(reportType);
 	}
 
@@ -138,21 +132,20 @@ public class ReportsController extends BaseViewController implements DisposableB
 
 			Predicate<Transaction> predicate = null;
 
-//			switch (reportType) {
-//			case ReportTypeProvider:
-//				predicate = filterByProvider();
-//				break;
-//			case ReportTypePractise:
-//				predicate = filterByPractise();
-//				break;
-//
-//			case ReportTypeTransaction:
-//				predicate = filterByTransaction();
-//				break;
-//
-//			default:
-//				break;
-//			}
+			switch (reportType) {
+			case ReportTypeProvider:
+				statusList = Constants.providerStatus;
+				break;
+			case ReportTypePractise:
+				statusList = Constants.practiceStatus;
+				break;
+			case ReportTypeTransaction:
+				
+				break;
+
+			default:
+				break;
+			}
 
 			this.lazyModel = new LazyTransactionModel(reportService, entityId, reportFilter);
 			this.lazyModel.setRowCount((Integer) obj.get("count"));

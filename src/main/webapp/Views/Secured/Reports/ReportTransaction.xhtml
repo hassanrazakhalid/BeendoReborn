@@ -4,6 +4,9 @@
 	xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
+<f:metadata>
+		<f:viewAction actionListener="#{reportsController.onLoad()}" />
+	</f:metadata>
 </h:head>
 
 <h:body>
@@ -18,7 +21,6 @@
 				<h2>Payer Transaction Report</h2>
 
 				<h:form>
-					<p:outputLabel value="#{reportsController.dummyString}" />
 					<h:panelGrid columns="3" cellpadding="0">  
 						
 						<p:selectCheckboxMenu id="idPayers" value="#{reportsController.selectedPayerIdList}" label="Select Payers"

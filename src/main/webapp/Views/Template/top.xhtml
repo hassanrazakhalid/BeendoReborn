@@ -11,7 +11,7 @@
 <h:body>
 	<ui:composition>
 
-<script type="text/javascript">
+		<script type="text/javascript">
 $( document ).ready(function(){
 
 	$(function() {
@@ -39,7 +39,7 @@ $( document ).ready(function(){
                  });
  */
  </script>
-	
+
 		<p:panelGrid columns="3" layout="grid">
 			<h:graphicImage value="/Images/Sypore_Logo.jpg" width="220" />
 
@@ -79,7 +79,7 @@ $( document ).ready(function(){
 				<!-- rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER,ROLE_ENTITY_ADMIN')}"  -->
 				<!-- rendered="#{userController.shouldShowCreateUser()}" -->
 				<p:menuitem value="Practice"
-					action="#{practiseController.viewPractise()}"  />
+					action="#{practiseController.viewPractise()}" />
 
 				<p:menuitem value="Entity" action="#{entityController.viewEntity()}"
 					rendered="#{sec:areAnyGranted('ROLE_ROOT_ADMIN,ROLE_ROOT_USER')}" />
@@ -95,13 +95,29 @@ $( document ).ready(function(){
 					action="#{transactionController.view()}" />
 
 				<p:submenu label="Reports">
-					<p:menuitem value="Transaction Report"
-						action="#{reportsController.viewRepTransac()}" />
-					<p:menuitem value="Provider Report"
-						action="ReportProvider" />
-						<!-- #{reportsController.viewRepProvider()} -->
-					<p:menuitem value="Practice Report"
-						action="#{reportsController.viewRepPractice()}" />
+					<p:menuitem>
+						<h:link outcome="#{reportsController.viewRepTransac()}">
+							<f:param name="reportType" value="3" />
+							<h:outputText value="Transaction Report" />
+						</h:link>	
+					</p:menuitem>
+					<p:menuitem>
+					
+					<h:link outcome="#{reportsController.viewRepProvider()}">
+							<f:param name="reportType" value="2" />
+							<h:outputText value="Provider Report" />
+						</h:link>	
+					
+					 </p:menuitem>
+					<!--  -->
+					<p:menuitem>
+						
+						<h:link outcome="#{reportsController.viewRepPractice()}">
+							<f:param name="reportType" value="1" />
+							<h:outputText value="Practice Report" />
+						</h:link>	
+						
+						 </p:menuitem>
 				</p:submenu>
 
 				<f:facet name="options">
