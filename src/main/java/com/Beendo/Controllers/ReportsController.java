@@ -2,20 +2,14 @@ package com.Beendo.Controllers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.Beendo.Dto.LazyTransactionModel;
@@ -23,40 +17,29 @@ import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
-import com.Beendo.Entities.User;
-import com.Beendo.Services.IPayerService;
-import com.Beendo.Services.IPractiseService;
-import com.Beendo.Services.IProviderService;
-import com.Beendo.Services.IReportCallback;
 import com.Beendo.Services.IReportService;
-import com.Beendo.Services.ITransactionCallback;
 import com.Beendo.Services.ITransactionService;
-import com.Beendo.Services.PayerService;
-import com.Beendo.Services.PractiseService;
-import com.Beendo.Services.ProviderService;
-import com.Beendo.Services.TransactionService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.ReportFilter;
 import com.Beendo.Utils.ReportType;
 import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@SpringScopeView
 @Controller
-@Scope(value = "session")
-//@SpringScopeView
-public class ReportsController implements DisposableBean, Serializable {
+//@Scope(value = "session")
+public class ReportsController extends BaseViewController implements DisposableBean, Serializable {
 	/**
 		 * 
 		 */
 	private static final long serialVersionUID = -3324193225905098097L;
 	// extends RootController
-
+	
 	private LazyTransactionModel lazyModel;
 	@Autowired
 	IReportService reportService;
@@ -79,7 +62,6 @@ public class ReportsController implements DisposableBean, Serializable {
 
 	// Practice
 	private List<Practice> practiceList = new ArrayList<>();
-	// private List<Practice> selectedPracticeList;
 	private List<Integer> selectedPracticeIds = new ArrayList<>();
 	private String[] statusList;
 	private ReportType reportType;
@@ -88,12 +70,17 @@ public class ReportsController implements DisposableBean, Serializable {
 
 	private ReportFilter reportFilter = new ReportFilter();
 	
+	public String titleFunc(){
+		return "Select Parameters";
+	}
+	
 	public String viewRepPractice() {
 
 		clearData();
 		statusList = Constants.practiceStatus;
-		loadDataByReportType(ReportType.ReportTypePractise);
-//		reportType = ;
+		reportType = ReportType.ReportTypePractise;
+		loadDataByReportType(reportType);
+		
 		return "ReportPractice";
 	}
 	public String viewRepTransac() {
@@ -122,6 +109,8 @@ public class ReportsController implements DisposableBean, Serializable {
 	}
 	
 	public void onLoad(){
+		
+		System.out.println("");
 //		loadDataByReportType(reportType);
 	}
 

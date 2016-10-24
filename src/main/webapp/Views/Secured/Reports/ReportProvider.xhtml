@@ -20,7 +20,8 @@
 			<ui:define name="mainContent">
 				<h2>Provider Report</h2>
 
-				<h:form>		
+				<h:form id="filterForm">
+				<p:outputLabel rendered="false" value="#{reportsController.viewRepProvider()}" />		
 					<h:panelGrid columns="7" cellpadding="0">  
 					
 						 <!-- <p:outputLabel for="idProviders" value="Select Provider: " />  -->
@@ -74,13 +75,13 @@
 					
 						
 						<p:commandButton value="Search" actionListener="#{reportsController.searchButtonPressed()}"
-						update="@parent:@parent:@parent:frmMain"
+						update=":filterForm:tableId"
 						 />
 						
 					</h:panelGrid>						
-				</h:form>
+			<!-- 	</h:form>
 
-				<h:form id="frmMain">
+				<h:form id="frmMain"> -->
 
 					<p:dataTable
 				     widgetVar="transactionsTable"
@@ -88,6 +89,7 @@
 				      lazy="true" paginator="true" 
 				      rows="10"
 				      rowsPerPageTemplate="10,20,35"
+				      id="tableId"
 				       >
 
 						<p:column headerText="Provider Name" filterBy="#{transaction.provider.firstName}" filterMatchMode="contains">

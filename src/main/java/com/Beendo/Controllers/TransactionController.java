@@ -143,7 +143,7 @@ public class TransactionController extends BaseViewController implements Disposa
 	
 	public String view()
 	{
-		onLoad();
+//		onLoad();
 		return "ViewTransaction";
 	}
 	

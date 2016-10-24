@@ -26,9 +26,6 @@
  <PROCESS-ITEM NAME="rules:#Views#Secured#Reports#ReportPractice.xhtml"
   PATH="/Views/Secured/Reports/ReportPractice.xhtml"
   SHAPE="304,1313,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#Views#Secured#Reports#ReportProvider.xhtml"
-  PATH="/Views/Secured/Reports/ReportProvider.xhtml"
-  SHAPE="304,1345,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#Views#Secured#Reports#ReportTransaction.xhtml"
   PATH="/Views/Secured/Reports/ReportTransaction.xhtml"
@@ -138,10 +135,6 @@
   NAME="rules:#Views#Unsecured#EmailLinks#DocReminder.xhtml"
   PATH="/Views/Unsecured/EmailLinks/DocReminder.xhtml"
   SHAPE="304,593,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#Views#Secured#Transaction#ViewTransaction.xhtml"
-  PATH="/Views/Secured/Transaction/ViewTransaction.xhtml"
-  SHAPE="32,1825,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#Views#Secured#Provider#DocumentViewer.xhtml"
   PATH="/Views/Secured/Provider/DocumentViewer.xhtml"
   SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
@@ -159,4 +152,10 @@
   NAME="rules:#Views#Secured#Transaction#CreateTransaction.xhtml"
   PATH="/Views/Secured/Transaction/CreateTransaction.xhtml"
   SHAPE="304,1697,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#Views#Secured#Transaction#ViewTransaction.xhtml"
+  PATH="/Views/Secured/Transaction/ViewTransaction.xhtml"
+  SHAPE="32,2993,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#Views#Secured#Reports#ReportProvider.xhtml"
+  PATH="/Views/Secured/Reports/ReportProvider.xhtml" SHAPE="32,3553,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
