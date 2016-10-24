@@ -80,17 +80,27 @@ public class ReportFilter {
 		String query = baseQuery;
 
 		if ( !isFilterEmpty() ){
+			Boolean shouldCheck = true;
 			switch (getReportType()) {
 			case ReportTypeProvider:
-				query += " HAVING";
+				query += " HAVING type = " + TransactionType.Provider.getValue();
+				
 				break;
 			case ReportTypePractise:
-				query += " HAVING";
+				query += " HAVING type = " + TransactionType.Practise.getValue();
 				break;
 			case ReportTypeTransaction:
 				query += " WHERE";
+				shouldCheck = false;
 				break;
 			}
+			if (shouldCheck)
+			if (!providerIds.isEmpty() ||
+					!payerIds.isEmpty() ||
+					!statusList.isEmpty() ||
+					!practiceIds.isEmpty() ||
+					entityId != Constants.RootEntityId)
+					query += " AND";
 		}
 		
 		if (entityId != Constants.RootEntityId) {

@@ -96,25 +96,26 @@ $( document ).ready(function(){
 
 				<p:submenu label="Reports">
 					<p:menuitem>
-						<h:link outcome="#{reportsController.viewRepTransac()}">
+						<h:link styleClass="ui-menuitem-link ui-corner-all" outcome="#{reportsController.viewRepTransac()}">
 							<f:param name="reportType" value="3" />
-							<h:outputText value="Transaction Report" />
+							<span class="ui-menuitem-text">Transaction Report</span> 
+							<!-- <h:outputText value="Transaction Report" /> -->
 						</h:link>	
 					</p:menuitem>
 					<p:menuitem>
 					
-					<h:link outcome="#{reportsController.viewRepProvider()}">
+					<h:link styleClass="ui-menuitem-link ui-corner-all" outcome="#{reportsController.viewRepProvider()}">
 							<f:param name="reportType" value="2" />
-							<h:outputText value="Provider Report" />
+							<span class="ui-menuitem-text">Provider Report</span> 
 						</h:link>	
 					
 					 </p:menuitem>
 					<!--  -->
 					<p:menuitem>
 						
-						<h:link outcome="#{reportsController.viewRepPractice()}">
+						<h:link styleClass="ui-menuitem-link ui-corner-all" outcome="#{reportsController.viewRepPractice()}">
 							<f:param name="reportType" value="1" />
-							<h:outputText value="Practice Report" />
+							<span class="ui-menuitem-text">Practice Report</span> 
 						</h:link>	
 						
 						 </p:menuitem>
