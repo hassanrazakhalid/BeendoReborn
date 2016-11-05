@@ -79,7 +79,7 @@ public class ReportFilter {
 
 		String query = baseQuery;
 
-		if ( !isFilterEmpty() ){
+//		if ( !isFilterEmpty() ){
 			Boolean shouldCheck = true;
 			switch (getReportType()) {
 			case ReportTypeProvider:
@@ -101,7 +101,7 @@ public class ReportFilter {
 					!practiceIds.isEmpty() ||
 					entityId != Constants.RootEntityId)
 					query += " AND";
-		}
+//		}
 		
 		if (entityId != Constants.RootEntityId) {
 			query += " T.entity_id = " + entityId;
@@ -157,4 +157,89 @@ public class ReportFilter {
 		
 		return query;
 	}
+
+//	public String getQueryString() {
+//
+//		String query = baseQuery;
+//
+//		if ( !isFilterEmpty() ){
+//			Boolean shouldCheck = true;
+//			switch (getReportType()) {
+//			case ReportTypeProvider:
+//				query  += " HAVING";
+//				query += " T.type = " + TransactionType.Provider.getValue();
+//				
+//				break;
+//			case ReportTypePractise:
+//				query  += " HAVING";
+//				query += " HAVING T.type = " + TransactionType.Practise.getValue();
+//				break;
+//			case ReportTypeTransaction:
+//				query += " WHERE";
+//				shouldCheck = false;
+//				break;
+//			}
+//			if (shouldCheck)
+//			if (!providerIds.isEmpty() ||
+//					!payerIds.isEmpty() ||
+//					!statusList.isEmpty() ||
+//					!practiceIds.isEmpty() ||
+//					entityId != Constants.RootEntityId);
+//					query += " AND";
+//		}
+//		
+//		if (entityId != Constants.RootEntityId) {
+//			query += " E.id = " + entityId;
+//
+//			if (!providerIds.isEmpty() ||
+//				!payerIds.isEmpty() ||
+//				!statusList.isEmpty() ||
+//				!practiceIds.isEmpty())
+//				query += " AND";
+//		}
+//
+//		if (!providerIds.isEmpty()) {
+//
+//			String ids = StringUtils.collectionToCommaDelimitedString(providerIds);
+//			query += " Pro.id IN(" + ids + ")";
+//
+//			if (!payerIds.isEmpty() || !statusList.isEmpty())
+//				query += " AND";
+//		}
+//		if (!practiceIds.isEmpty()) {
+//
+//			String ids = StringUtils.collectionToCommaDelimitedString(practiceIds);
+//			query += " Pra.id IN(" + ids + ")";
+//
+//			if (!payerIds.isEmpty() || !statusList.isEmpty())
+//				query += " AND";
+//		}
+//		
+//
+//		if (!payerIds.isEmpty()) {
+//
+//			String ids = StringUtils.collectionToCommaDelimitedString(payerIds);
+//			query += " Pay.id IN(" + ids + ")";
+//
+//			if (!statusList.isEmpty())
+//				query += " AND";
+//		}
+//		
+//		if (!statusList.isEmpty()) {
+//
+//			String statusString = "";
+////			String ids = StringUtils.collectionToCommaDelimitedString(statusList);
+//			for (int i=0; i < statusList.size(); i++) {
+//				String string = statusList.get(i);
+//				statusString += StringUtils.quote(string);
+//				if (i != statusList.size()-1)
+//					statusString += ",";
+//			}
+//			
+//			query += " T.parStatus IN(" + statusString + ")";
+//		}
+//
+//		
+//		return query;
+//	}
 }

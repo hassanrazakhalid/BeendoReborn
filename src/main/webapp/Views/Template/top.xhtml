@@ -92,11 +92,11 @@ $( document ).ready(function(){
 				<p:menuitem value="Provider" action="#{providerController.view()}" />
 
 				<p:menuitem value="Transaction"
-					action="#{transactionController.view()}" />
+					action="#{sharedData.toTransactionView()}" />
 
 				<p:submenu label="Reports">
 					<p:menuitem>
-						<h:link styleClass="ui-menuitem-link ui-corner-all" outcome="#{reportsController.viewRepTransac()}">
+						<h:link styleClass="ui-menuitem-link ui-corner-all" outcome="#{sharedData.toTransactionReports()}">
 							<f:param name="reportType" value="3" />
 							<span class="ui-menuitem-text">Transaction Report</span> 
 							<!-- <h:outputText value="Transaction Report" /> -->
@@ -104,7 +104,8 @@ $( document ).ready(function(){
 					</p:menuitem>
 					<p:menuitem>
 					
-					<h:link styleClass="ui-menuitem-link ui-corner-all" outcome="#{reportsController.viewRepProvider()}">
+					<!-- #{reportsController.viewRepProvider()} -->
+					<h:link styleClass="ui-menuitem-link ui-corner-all" outcome="#{sharedData.toProviderReports()}">
 							<f:param name="reportType" value="2" />
 							<span class="ui-menuitem-text">Provider Report</span> 
 						</h:link>	
@@ -113,7 +114,7 @@ $( document ).ready(function(){
 					<!--  -->
 					<p:menuitem>
 						
-						<h:link styleClass="ui-menuitem-link ui-corner-all" outcome="#{reportsController.viewRepPractice()}">
+						<h:link styleClass="ui-menuitem-link ui-corner-all" outcome="#{sharedData.toPracticeReports()}">
 							<f:param name="reportType" value="1" />
 							<span class="ui-menuitem-text">Practice Report</span> 
 						</h:link>	

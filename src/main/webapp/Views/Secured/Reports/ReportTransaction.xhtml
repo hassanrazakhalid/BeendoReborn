@@ -2,11 +2,12 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
 <h:head>
-<f:metadata>
+<!-- <f:metadata>
 		<f:viewAction actionListener="#{reportsController.onLoad()}" />
-	</f:metadata>
+	</f:metadata> -->
 </h:head>
 
 <h:body>
@@ -59,9 +60,18 @@
 				       >
 
 						<p:column headerText="Payer Name">
-						 <!-- <p:column headerText="Payer Name" filterMatchMode="contains" filterBy="#{transaction.payer.name}"> -->
-							<!-- #{transaction.payer.name} #{transaction.payer.planName} -->
-							#{transaction.payer.name} #{transaction.plan.name}			
+						
+						<ui:repeat var="plan" value="#{transaction.plans.toArray()}">
+						 <b:row>
+						 <b:column span="6">
+						 #{transaction.payer.name}
+						 </b:column>
+						 <b:column span="6">
+						 #{plan.name}
+						 </b:column>
+						 </b:row>
+						 </ui:repeat>	
+										
 						</p:column> 
 						
 						<p:column headerText="Practice Name" filterMatchMode="contains" filterBy="#{transaction.practice.name}">

@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.DisposableBean;
@@ -93,7 +94,16 @@ public class ReportsController extends BaseViewController implements DisposableB
 		
 	}
 	
+	@PostConstruct
+	public void init(){
+		
+		System.out.println("");
+		onLoad();
+//		loadDataByReportType(ReportType.ReportTypeProvider);
+	}
+	
 	public void onLoad(){
+		
 		
 		Map<String, String> params =FacesContext.getCurrentInstance().
                 getExternalContext().getRequestParameterMap();

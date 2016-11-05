@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.GenericDao;
 import com.Beendo.Dao.ICRUD;
+import com.Beendo.Entities.Transaction;
 
 @Service
 public abstract class GenericServiceImpl <E, K extends Serializable> implements GenericService<E, K> {
@@ -51,6 +52,20 @@ public abstract class GenericServiceImpl <E, K extends Serializable> implements 
 		// TODO Auto-generated method stub
 		genericDao.saveOrUpdate(entity);
 	}
+	
+	@Transactional(readOnly=true)
+	@Override
+	public E getEntityByProfiles(Integer id, List<String> profiles){
+		
+		return genericDao.getEntityByProfiles(id, profiles);
+	}
+	
+	@Transactional(readOnly=true)
+	@Override
+	public List<E> getEntitiesByProfiles(List<String> profiles){
+		
+		return genericDao.getEntitiesByProfiles(profiles);
+	}
 
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
 	@Override
@@ -66,4 +81,17 @@ public abstract class GenericServiceImpl <E, K extends Serializable> implements 
 		genericDao.remove(entity);
 	}
 
+	@Transactional(readOnly=true)
+	@Override
+	public List<E> executeListQuery(String query) {
+		
+		return genericDao.executeListQuery(query);
+	}
+	
+	@Transactional(readOnly=true)
+	@Override
+    public E executeSingleResultQuery(String query) {
+    	
+    	return genericDao.executeSingleResultQuery(query);
+    }
 }

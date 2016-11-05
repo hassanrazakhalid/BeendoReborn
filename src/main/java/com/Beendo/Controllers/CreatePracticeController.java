@@ -19,6 +19,7 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.PracticeAddressInfo;
 import com.Beendo.Services.IEntityService;
 import com.Beendo.Services.IPractiseService;
+import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
@@ -44,15 +45,17 @@ public class CreatePracticeController implements Serializable {
 	private IEntityService entityService;
 	@Autowired
 	private IPractiseService practiseService;
-	private List<String> stateList = new ArrayList<>();
 
 	private OperationType type = OperationType.Create;
 	private boolean skip;
 
+	private String[] stateList;
+	
 	public void onLoad() {
 
 		fetchData();
 		getIdIfPresent();
+		stateList = Constants.statesList;
 	}
 
 	private void fetchData() {

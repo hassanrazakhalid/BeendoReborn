@@ -7,11 +7,14 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.type.LongType;
@@ -22,6 +25,8 @@ import static java.lang.Math.toIntExact;
 
 import java.math.BigInteger;
 
+import com.Beendo.Entities.Payer;
+import com.Beendo.Entities.Plan;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
@@ -183,6 +188,53 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 		return count.intValue();
 	}
 	
+//	@Override
+//	public Integer getPageSize(ReportFilter filter) {
+//		
+//		Session session = this.sessionFactory.getCurrentSession();
+//		
+//		String subQuery = "SELECT COUNT(T)"
+//				+ " FROM Transaction T"
+////				+ " LEFT JOIN T.payer Pay"
+////				+ " JOIN FETCH T.entity E";
+//					;
+//		switch (filter.getReportType()) {
+//		case ReportTypeProvider:
+////			subQuery += " LEFT JOIN T.provider Pro";
+//			subQuery += " GROUP BY T.provider.id";
+//			break;
+//		case ReportTypePractise:
+//			subQuery += " LEFT JOIN T.practice Pra";
+//			subQuery += " GROUP BY Pra.id";
+//			break;
+//		case ReportTypeTransaction:
+//			break;
+//		}
+////		filter.setBaseQuery(subQuery);
+//		String queryString = subQuery;//filter.getQueryString();
+//		
+//		Query query = session.createQuery(queryString);
+////				+ " ORDER BY t.transactionDate";
+////		Query query = session.createQuery(queryString);
+//
+////		Long count = (Long )query.getSingleResult();
+////		Object res = query.getSingleResult();
+//		Object res = query.getResultList();
+////		return count.intValue();
+//		return 0;
+//	}
+//	@Override
+//	public Transaction getTransactionWithProfiles(Integer id, List<String> profiles){
+//		
+//		Session session = this.sessionFactory.getCurrentSession();
+//		
+//		for (String profile : profiles) {
+//			session.enableFetchProfile(profile);
+//		}
+//		Transaction transaction = session.get(Transaction.class, id);
+//		return transaction;
+//	}
+	
 	@Override
 	public List<Transaction> getTransactionByProvider(ReportFilter filter) {
 		
@@ -191,7 +243,9 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 		String baseQuery = "SELECT *" +
 				" FROM transaction AS T"
 				+ " LEFT JOIN payer AS P ON P.id = T.payer_id"
-				+ " LEFT JOIN plan  AS plan ON plan.id = T.plan_id"
+				+ " LEFT JOIN  transaction_plan AS planIds ON planIds.transaction_id = T.id"
+				+ " LEFT JOIN plan AS PL ON PL.id = planIds.plan_id"
+//				+ " WHERE T.id = 5"
 					;
 		
 		switch (filter.getReportType()) {
@@ -241,7 +295,13 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 ////		countCriteria.groupBy(rootCount.get("provider"));
 //		mainQuery.select(builder.count(root));
 		
-		Query query = session.createNativeQuery(queryString, Transaction.class);
+//		queryString = "SELECT T FROM Transaction T LEFT JOIN FETCH T.plans WHERE T.id = 5";
+//		Query query = session.createQuery(queryString, Transaction.class);
+		Query query = session.createNativeQuery(queryString)
+				.addEntity("T",Transaction.class)
+				.addJoin("PL", "T.plans")
+				.addEntity("T",Transaction.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		query.setFirstResult(filter.getStart());
 		query.setMaxResults(filter.getMaxResults());
 //				+ " ORDER BY t.transactionDate";
@@ -253,4 +313,23 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 		return res;
 	}   
 	
+//	@Override
+//	public Transaction getEntityByProfiles(Integer id, List<String> profiles) {
+//		// TODO Auto-generated method stub
+//		Session session = this.sessionFactory.getCurrentSession();
+//		
+//		CriteriaBuilder builder = session.getCriteriaBuilder();
+//		CriteriaQuery<Transaction> query = builder.createQuery(Transaction.class);
+//		Root<Transaction> root = query.from(Transaction.class);
+//		query.select(root).where(
+//				builder.equal(root.get("id"), id)
+//				);
+//	Fetch<Transaction, Payer> payerFetch =	root.fetch("payer", JoinType.LEFT);
+//	Fetch<Payer, Plan> payerPlanFetch =	payerFetch.fetch("plans", JoinType.LEFT);
+//		root.fetch("plans", JoinType.LEFT);
+//		
+//		
+//		Transaction transaction = session.createQuery(query).getSingleResult();
+//		return transaction;
+//	}
 }

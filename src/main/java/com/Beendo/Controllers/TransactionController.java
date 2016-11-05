@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
 import org.hibernate.StaleObjectStateException;
@@ -127,6 +128,7 @@ public class TransactionController extends BaseViewController implements Disposa
 		return "CreateTransaction";
 	}
 	
+	@PostConstruct
 	public void onLoad(){
 
 		refreshAllData();
@@ -139,12 +141,6 @@ public class TransactionController extends BaseViewController implements Disposa
 		if(tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()))
 			show = false;
 		return show;
-	}
-	
-	public String view()
-	{
-//		onLoad();
-		return "ViewTransaction";
 	}
 	
 	public void removeClicked(Transaction transac)
@@ -161,7 +157,7 @@ public class TransactionController extends BaseViewController implements Disposa
 		}
 		catch (StaleObjectStateException e){
 			
-			showMessage(Constants.ERRR_RECORDS_OUDATED);
+			showMessage(FacesMessage.SEVERITY_ERROR, "Transaction", Constants.ERRR_RECORDS_OUDATED);
 		}
 		catch (Exception e) {
 			// TODO: handle exception

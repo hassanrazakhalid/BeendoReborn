@@ -509,6 +509,10 @@ public class SharedData implements ApplicationContextAware {
 		mail = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
 	}
 
+	public String toProviderReports(){ return "ReportProvider";}
+	public String toTransactionReports(){ return "ReportTransaction";}
+	public String toPracticeReports(){ return "ReportPractice";}
+	public String toTransactionView(){return "ViewTransaction";}
 	// public void setCurrentUser(User currentUser) {
 	// this.currentUser = currentUser;
 	// }

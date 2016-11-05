@@ -30,12 +30,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class User implements UserDetails {
 
 	@Id
-	@GeneratedValue
-	@Column(name = "User_Id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String appUserName;

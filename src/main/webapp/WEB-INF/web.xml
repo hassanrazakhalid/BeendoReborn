@@ -71,6 +71,10 @@
     <param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
     <param-value>true</param-value>
   </context-param>
+  <!-- <context-param>
+    <param-name>BootsFaces_THEME</param-name>
+    <param-value>cerulean</param-value>
+</context-param> -->
 <!--   <context-param>
   <param-name>primefaces.FONT_AWESOME</param-name>
   <param-value>true</param-value>

@@ -23,7 +23,7 @@
 			<ui:define name="mainContent">
 				<h2>Transaction Details</h2>
 						
-			<b:container>
+			<!-- <b:container> -->
 			  <h:form id="myForm">
 				  	<p:messages id="msgs" />
 			
@@ -107,13 +107,14 @@
 			<b:label text="Select Plan" />
 			</b:column>
 			<b:column span="6">
-			<p:selectOneMenu id="planId" value="#{createTransactionController.selectedPlanId}">
+			<p:selectCheckboxMenu
+			converter="javax.faces.Integer"
+			 label="Select Plan" id="planId" value="#{createTransactionController.selectedPlanIds}">
 			
-			<f:selectItem itemLabel="Select Plan" itemValue=""/>
 			<f:selectItems value="#{createTransactionController.currentPlanList}" var="plan"
 			 itemLabel="#{plan.name}" itemValue="#{plan.id}" />
 			
-			</p:selectOneMenu>
+			</p:selectCheckboxMenu>
 			</b:column>
 			
 			</b:row>
@@ -132,7 +133,7 @@
 			</b:column>
 			
 			<b:column span="6">
-			<p:selectOneMenu id="idType" value="#{createTransactionController.transaction.transactionType}" style="width:177px">
+			<p:selectOneMenu id="idType" value="#{createTransactionController.transaction.parStatus}" style="width:177px">
 				            <f:selectItem itemLabel="Application Process" itemValue="Application Process" />
 				            <f:selectItem itemLabel="Communication with Provider" itemValue="Communication with Provider" />
 				            <f:selectItem itemLabel="Communication with Payer" itemValue="Communication with Payer" />
@@ -183,7 +184,7 @@
 					</p:blockUI>
  -->					
 					 </h:form>			        
-			</b:container>			
+			<!-- </b:container> -->			
 							    				  		  					  
 				  	
 					

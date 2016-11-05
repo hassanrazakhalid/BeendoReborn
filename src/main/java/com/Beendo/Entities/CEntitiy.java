@@ -18,6 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
+import org.hibernate.annotations.FetchProfiles;
+
 import com.Beendo.Utils.ICache;
 
 import lombok.Getter;
@@ -26,7 +30,13 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "Entities")
+@Table(name = "entity")
+@FetchProfiles({
+	
+	@FetchProfile(name="usersList",fetchOverrides=@FetchProfile.FetchOverride(entity=CEntitiy.class, association="users", mode=FetchMode.JOIN))
+	
+	
+})
 public class CEntitiy implements ICache<CEntitiy>, Serializable {
 
 	/**

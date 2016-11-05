@@ -1,5 +1,7 @@
 package com.Beendo.Entities;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +22,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
+import org.hibernate.annotations.FetchProfiles;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,18 +33,33 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "transaction")
+
+@FetchProfiles({
+	@FetchProfile(name = "transactionPlanList",fetchOverrides = {
+							@FetchProfile.FetchOverride(
+							entity = Transaction.class,
+							association = "plans",
+							mode = FetchMode.JOIN
+							)
+			}
+			
+			)
+//	,
+//	@FetchProfile(name="transactionPayerPlan",fetchOverrides={@FetchProfile.FetchOverride(entity=Payer.class,association="")})
+	
+})
 public class Transaction {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String transactionState;
-	private String transactionDate;
+	private Date transactionDate;
 	private String comments;
 	private String parStatus;
 	private Integer type;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	private CEntitiy entity;
 	
 	/*@OneToOne(fetch = FetchType.EAGER)
@@ -51,7 +72,8 @@ public class Transaction {
 //	inverseJoinColumns=@JoinColumn(name="payerList_id")
 //	)
 //	private Set<Payer> payerList = new HashSet<Payer>();
-	@ManyToOne(fetch=FetchType.EAGER)
+//	fetch=FetchType.EAGER
+	@ManyToOne()
 	private Payer payer = new Payer();
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
@@ -60,8 +82,12 @@ public class Transaction {
 	@ManyToOne(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
 	private Provider provider = new Provider();
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	private Plan plan =  new Plan();
+	@ManyToMany()
+	@JoinTable(name="transaction_plan",
+	joinColumns=@JoinColumn(name="transaction_id"),
+	inverseJoinColumns=@JoinColumn(name="plan_id")
+			)
+	private Set<Plan> plans =  new HashSet<>();
 	
 	public Transaction() {
 		// TODO Auto-generated constructor stub

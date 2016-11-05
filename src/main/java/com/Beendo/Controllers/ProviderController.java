@@ -169,7 +169,7 @@ public class ProviderController extends BaseViewController implements Disposable
 
 		} catch (StaleObjectStateException e) {
 
-			showMessage(Constants.ERRR_RECORDS_OUDATED);
+			showMessage(FacesMessage.SEVERITY_ERROR, "Provider", Constants.ERRR_RECORDS_OUDATED);
 		} catch (Exception ex) {
 		}
 	}

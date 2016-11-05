@@ -31,4 +31,6 @@ public interface ITransactionService extends GenericService<Transaction, Integer
 	public List<Transaction> getLatestTransactions(Integer id);
 	
 	public void fetchDataForTransactionCreation(Consumer<Map<String, Object>> sender, Integer entityId);
+	
+	public Transaction getEntityByProfiles(Integer id, List<String> profiles);
 }

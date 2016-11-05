@@ -1,5 +1,6 @@
 package com.Beendo.Controllers;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -53,7 +54,7 @@ public class PayerController {
 
 	private void refreshAllData(){
 		
-		payers = payerService.getAll();
+		payers = payerService.executeListQuery("select P from Payer P left join fetch P.plans");
 //		transactions = transactionService.fetchAllByRole();
 
 		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);

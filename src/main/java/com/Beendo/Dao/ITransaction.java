@@ -19,4 +19,6 @@ public interface ITransaction extends ICRUD<Transaction, Integer> {
 	
 	public List<Transaction> getTransactionByProvider(ReportFilter filter);
 	public Integer getPageSize(ReportFilter filter);
+	
+//	public Transaction getTransactionWithExtra(Integer id, List<String> profiles);
 }

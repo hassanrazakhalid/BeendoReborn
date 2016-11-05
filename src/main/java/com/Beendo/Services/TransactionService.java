@@ -1,6 +1,7 @@
 package com.Beendo.Services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,8 +61,8 @@ public class TransactionService extends GenericServiceImpl<Transaction, Integer>
 		
 		List<Provider> providerList = providerService.findProvidersByEntity(entityId);
 		List<Practice> practiceList = practiseDao.findAllByEntity(entityId);
-		List<Payer> payerList = payerService.getAll();
-		
+		List<Payer> payerList = payerService.executeListQuery("select P from Payer P left join fetch P.plans");
+//				payerService.executeListQuery("select P from Payer P left join fetch P.plans");
 		Map<String, Object> response = new HashMap<>();
 		response.put("practiceList", practiceList);
 		response.put("providerList", providerList);
@@ -86,6 +87,19 @@ public class TransactionService extends GenericServiceImpl<Transaction, Integer>
 		Map<String,Object> otherInfo = new HashMap<>();
 		otherInfo.put("count", totalRows);
 		callBack.refreshAllData(user, transactions, payerList, practiceList, providerList, otherInfo);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public Transaction getEntityByProfiles(Integer id, List<String> profiles){
+		
+//		return service.executeSingleResultQuery("select T from Transaction T"
+//				+ " left join fetch T.payer Payer"
+//				+ " left join fetch Payer.plans"
+//				+ " left join fetch T.plans"
+//				+ " where T.id = "  + id
+//				);
+		return service.getEntityByProfiles(id, profiles);
 	}
 	
 	@Override

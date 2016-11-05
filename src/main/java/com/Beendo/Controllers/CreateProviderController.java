@@ -40,6 +40,10 @@ import com.Beendo.Utils.SharedData;
 import com.Beendo.Utils.Weekdays;
 import com.github.javaplugs.jsf.SpringScopeView;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -72,6 +76,8 @@ public class CreateProviderController extends BaseViewController implements Seri
 
 	private boolean isEntityListDisabled;
 
+	private boolean updateScenario = false;
+	
 	private boolean skip;
 	// private List<Email> emailsList = new ArrayList<>();
 	// private List<PhoneNumber> phoneList = new ArrayList<>();
@@ -326,7 +332,7 @@ public class CreateProviderController extends BaseViewController implements Seri
 		String error = providerService.isNPIExist(provider.getNpiNum());
 		if (error != null) {
 			isOK = false;
-			showMessage(error);
+			showMessage(FacesMessage.SEVERITY_ERROR, "Provider", "Provider already exist with this NPI");
 		}
 
 		return isOK;
@@ -402,7 +408,7 @@ public class CreateProviderController extends BaseViewController implements Seri
 
 		assignSpecialityValues();
 		providerService.saveOrUpdate(provider);
-
+		showMessage(FacesMessage.SEVERITY_INFO, "Provider", "Provider saved sucessfully");
 		return;
 
 		// try {

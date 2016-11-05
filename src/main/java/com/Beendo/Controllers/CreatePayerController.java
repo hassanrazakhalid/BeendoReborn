@@ -3,6 +3,7 @@ package com.Beendo.Controllers;
 import java.io.Serializable;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.hibernate.StaleObjectStateException;
@@ -54,8 +55,8 @@ public class CreatePayerController extends BaseViewController implements Seriali
 		String id = params.get("id");
 
 		if (id != null) {
-
-			Payer res = payerService.get(Integer.parseInt(id));
+//			
+			Payer res = payerService.executeSingleResultQuery("select P from Payer P left join fetch P.plans where P.id = " + Integer.parseInt(id) );
 			if (res != null) {
 				payer = res;
 				previousPayerName = payer.getName();
@@ -97,13 +98,13 @@ public class CreatePayerController extends BaseViewController implements Seriali
 				boolean result = payerService.isNameExist(payer.getName());
 				if (result) {
 
-					showMessage("Payer name already exists!");
+					showMessage(FacesMessage.SEVERITY_ERROR, "Payer", "Payer name already exists!");
 					return;
 				}
 			}
 
 			payerService.saveOrUpdate(payer);
-			showMessage("Success");
+			showMessage(FacesMessage.SEVERITY_INFO, "Payer", "Payer saved successfully");
 
 			// case Edit: {
 			// payerService.update(payer);

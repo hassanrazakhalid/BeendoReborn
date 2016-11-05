@@ -135,9 +135,10 @@
 
 										<b:column span="6">
 
-											<b:inputText required="true"
+											<b:inputSecret required="true"
 												requiredMessage="CAQH password cannot be empty"
 												placeholder="CAQH Password *"
+												
 												value="#{createProviderController.provider.CAQHPassword}" />
 
 										</b:column>
@@ -158,12 +159,14 @@
 
 												<b:datepicker required="true"
 													requiredMessage="Please select Dob"
-													placeholder="Date of birth:*" showWeek="true" firstDay="1"
+													changeYear="true"
+													placeholder="Date of birth:*" change-year="true" showWeek="true" firstDay="1"
 													value="#{createProviderController.provider.dob}" />
 											</b:column>
 
 											<b:column span="6">
 												<b:inputText required="true"
+												changeYear="true"
 													requiredMessage="Medicare I.D cannot be empty"
 													placeholder="Medicare I.D *"
 													value="#{createProviderController.provider.medicareId}" />
@@ -294,6 +297,7 @@
 										<b:column span="6">
 											<b:datepicker required="true" requiredMessage="Graducation date cannot be empty"
 											 placeholder="Graducation Date"
+											 changeYear="true"
 												mode="toggle-icon" showWeek="true" firstDay="1"
 												value="#{createProviderController.provider.qualitication.primaryDegree.finishedDate}" />
 										</b:column>
@@ -334,6 +338,7 @@
 											<b:column span="6">
 
 												<b:datepicker placeholder="Graduation Date"
+												changeYear="true"
 													mode="toggle-icon" showWeek="true" firstDay="1"
 													value="#{degree.finishedDate}" />
 
@@ -363,6 +368,7 @@
 											<b:column span="6">
 												<b:datepicker required="true" requiredMessage="Started Residency date cannot be empty"
 												 placeholder="Started Residency"
+												 changeYear="true"
 													mode="toggle-icon" showWeek="true" firstDay="1"
 													value="#{createProviderController.provider.qualitication.residencyInfo.startDate}" />
 											</b:column>
@@ -372,6 +378,7 @@
 											<b:column span="6">
 												<b:datepicker required="true" requiredMessage="Ended Residency cannot be empty"
 												 placeholder="Ended Residency"
+												 changeYear="true"
 													mode="toggle-icon" showWeek="true" firstDay="1"
 													value="#{createProviderController.provider.qualitication.residencyInfo.endDate}" />
 											</b:column>
@@ -394,6 +401,7 @@
 
 											<b:column span="6">
 												<b:datepicker placeholder="Started Residency"
+												changeYear="true"
 													mode="toggle-icon" showWeek="true" firstDay="1"
 													value="#{createProviderController.provider.qualitication.internshipInfo.startDate}" />
 											</b:column>
@@ -402,6 +410,7 @@
 										<b:row>
 											<b:column span="6">
 												<b:datepicker placeholder="Ended Residency"
+												changeYear="true"
 													mode="toggle-icon" showWeek="true" firstDay="1"
 													value="#{createProviderController.provider.qualitication.internshipInfo.endDate}" />
 											</b:column>
@@ -423,7 +432,7 @@
 											<p:outputLabel value="Primary Speclity:" />
 										</b:column>
 										<b:column span="8">
-											<p:selectOneMenu required="true" requiredMessage="Primary speciality cannot bbe empty"
+											<p:selectOneMenu required="true" requiredMessage="Primary speciality cannot be empty"
 											 converter="javax.faces.Integer"
 												value="#{createProviderController.provider.qualitication.primarySpeciality.specialityInfo.id}">
 
@@ -504,7 +513,7 @@
 						</p:tab>
 
 						<p:tab title="Other information">
-
+							<p:messages id="otherMsgs" />
 							<b:row>
 								<b:column span="6">
 									<b:row>
@@ -515,9 +524,18 @@
 												</b:column>
 
 												<b:column span="7">
-													<p:inputText converter="javax.faces.Integer"
+							<!-- <p:inputText></p:inputText> -->
+													<p:inputText label="Patient age" id="patientage"
+													 converter="javax.faces.Integer"
+													
+							 						validatorMessage="Only numbers are allowed"
+							 						
 														value="#{createProviderController.provider.otherInfo.oldestPatientAgeLimit}"
-														class="form-control" />
+														class="form-control">
+														
+														 <f:validateRegex pattern="^[0-9]*" />
+														
+														</p:inputText>
 												</b:column>
 											</b:row>
 
@@ -609,7 +627,9 @@
 
 							<b:row>
 								<p:commandButton value="Save"
-									actionListener="#{createProviderController.saveInfo}">
+									actionListener="#{createProviderController.saveInfo}"
+									validateClient="true"
+									>
 
 								</p:commandButton>
 							</b:row>
@@ -617,6 +637,14 @@
 					</p:wizard>
 				</h:form>
 			</b:container>
+<script>
+$(document).ready(function() {
+    //if (#{createProviderController.updateScenario}) {
+        console.log('in next step')
+        $('li.ui-wizard-step-title a').prop('href', 'javascript:void(0)');
+    //}
+});
+</script>
 
 			<style>
 #providerDialog {

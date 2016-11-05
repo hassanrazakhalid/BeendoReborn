@@ -387,7 +387,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 				user.getPractises().clear();
 				if (user.getRoleName().equalsIgnoreCase(Role.ROOT_ADMIN.toString())
 						|| user.getRoleName().equalsIgnoreCase(Role.ROOT_USER.toString())) {
-					selectedEntity = entityService.get(1);
+					selectedEntity = entityService.executeSingleResultQuery("select E from CEntitiy E left join fetch E.users where E.id = 1");
 				} else {
 					selectedEntity = getSelectedEntity();
 					popoulatePracticesByIds(selectedPractises);
@@ -404,7 +404,8 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 				case Create:
 				case Copy: {
 
-					selectedEntity.getUsers().add(user); // addUserToSelectedPractise();
+					
+//					selectedEntity.getUsers().add(user); // addUserToSelectedPractise();
 					// userService.save(user);
 
 					{

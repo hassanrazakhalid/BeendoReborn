@@ -45,7 +45,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "PROVIDER")
+@Table(name = "provider")
 public class Provider extends BaseEntity {
 	
 	@Id
@@ -108,9 +108,9 @@ public class Provider extends BaseEntity {
 //	, cascade={CascadeType.REMOVE}
 //	,mappedBy="providers"
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="PRACTISE_PROVIDER",
-	inverseJoinColumns=@JoinColumn(name="PRACTISE_ID"),
-	joinColumns=@JoinColumn(name="PROVIDER_ID"))
+	@JoinTable(name="practice_provider",
+	joinColumns=@JoinColumn(name="provider_id"),
+	inverseJoinColumns=@JoinColumn(name="practice_id"))
 //	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private Set<Practice> practiceList = new HashSet<Practice>();
 	

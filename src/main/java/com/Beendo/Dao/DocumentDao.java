@@ -29,8 +29,8 @@ public class DocumentDao extends GenericDao<Document, Integer> implements IDocum
 //		query.setParameter("currentDate", new Date());
 //		List<Document> result = query.list();
 		Query query = session.createNativeQuery(
-				"SELECT * FROM document as D JOIN PROVIDER as P ON P.id = D.provider_id "
-				+ "JOIN Entities as E ON E.id = P.centity_id "
+				"SELECT * FROM document as D JOIN provider as P ON P.id = D.provider_id "
+				+ "JOIN entity as E ON E.id = P.centity_id "
 				+ "WHERE DATEDIFF(expireDate,curdate()) <= reminderDays AND reminderStatus = 0",Document.class);
 				
 				List<Document> result = query.getResultList();

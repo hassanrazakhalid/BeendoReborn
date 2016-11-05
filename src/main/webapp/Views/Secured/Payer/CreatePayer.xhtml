@@ -90,7 +90,7 @@
 								</f:facet>
 
 								<ui:repeat var="plan"
-									value="#{createPayerController.payer.plans}">
+									value="#{createPayerController.payer.plans.toArray()}">
 									
 									<b:row>
 									<b:column span="6">

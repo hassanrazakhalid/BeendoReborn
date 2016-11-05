@@ -18,6 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
+import org.hibernate.annotations.FetchProfiles;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +29,15 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "payer")
+
+@FetchProfiles(
+		{
+			@FetchProfile(name="planList",fetchOverrides = {
+					@FetchProfile.FetchOverride(entity=Payer.class, association="plans", mode=FetchMode.JOIN)		
+			})
+			
+		}
+		)
 public class Payer implements Serializable {
 
 	
@@ -48,9 +60,9 @@ public class Payer implements Serializable {
 	
 	private String par;
 	
-	@OneToMany(mappedBy="payer", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="payer")
 	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
-	private List<Plan> plans = new ArrayList<>();
+	private Set<Plan> plans = new HashSet<>();
 	
 	@OneToMany(mappedBy="payer")
 	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })

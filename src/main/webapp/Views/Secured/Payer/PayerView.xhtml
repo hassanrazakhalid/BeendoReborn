@@ -42,7 +42,7 @@
 						
 						<p:column headerText="Plan Name">
 						<table>
-						<ui:repeat var="plan" value="#{payer.plans}">
+						<ui:repeat var="plan" value="#{payer.plans.toArray()}">
 						<tr>
 						<td style="border: 0px;">
 						#{plan.name}

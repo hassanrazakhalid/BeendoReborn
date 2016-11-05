@@ -26,7 +26,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "PRACTISE")
+@Table(name = "practice")
 public class Practice {
 
 	@Id
@@ -49,9 +49,9 @@ public class Practice {
 //	, cascade={CascadeType.REMOVE,CascadeType.REFRESH}
 //	,
 	@ManyToMany(fetch = FetchType.EAGER,cascade={CascadeType.REMOVE})
-	@JoinTable(name="PRACTISE_PROVIDER",
-	joinColumns=@JoinColumn(name="PRACTISE_ID"),
-	inverseJoinColumns=@JoinColumn(name="PROVIDER_ID")
+	@JoinTable(name="practice_provider",
+	joinColumns=@JoinColumn(name="practice_id"),
+	inverseJoinColumns=@JoinColumn(name="provider_id")
 	) // this is required otherwise on bothside so no one can be owner and hibernate creates one JOIN table
 //	@Cascade(org.hibernate.annotations.CascadeType.DELETE)
 	private Set<Provider> providers = new HashSet<Provider>();

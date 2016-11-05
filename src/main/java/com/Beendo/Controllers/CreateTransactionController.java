@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
@@ -75,7 +77,7 @@ public class CreateTransactionController extends BaseViewController implements S
 	private Transaction transaction = new Transaction();
 	
 	//PLan
-	private Integer selectedPlanId;
+	private List<Integer> selectedPlanIds = new ArrayList<>();
 	private List<Plan> currentPlanList = new ArrayList<>();
 	
 	@Autowired
@@ -109,7 +111,9 @@ public class CreateTransactionController extends BaseViewController implements S
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String id = params.get("id");
 		if (id != null) {
-			Transaction res = transactionService.get(Integer.parseInt(id));
+			
+			List<String> profiles = Arrays.asList("transactionPlanList","planList");
+			Transaction res = transactionService.getEntityByProfiles(Integer.parseInt(id), profiles); //transactionService.get(Integer.parseInt(id));
 			if (res != null) {
 				transaction = res;
 				selectedPayer = transaction.getPayer().getId();
@@ -125,11 +129,11 @@ public class CreateTransactionController extends BaseViewController implements S
 				}
 				updateProviderStatusList();
 				
-				if (transaction.getPlan() != null) {
-				
-					selectedPlanId = transaction.getPlan().getId();
-				}
-				
+				if (transaction.getPlans() != null) {
+
+					currentPlanList = new ArrayList<>(transaction.getPayer().getPlans());
+					selectedPlanIds = transaction.getPlans().stream().map(Plan::getId).collect(Collectors.toList());
+				}				
 			}
 		}
 	}
@@ -254,7 +258,7 @@ public class CreateTransactionController extends BaseViewController implements S
 	
 	private void updatePlansList(Payer sender){
 		
-		currentPlanList = sender.getPlans();
+		currentPlanList =  new ArrayList(sender.getPlans());
 	}
 	
 	public void saveInfo()
@@ -276,13 +280,24 @@ public class CreateTransactionController extends BaseViewController implements S
 		return;
 	}
 	
-	Optional<Plan> res = currentPlanList.stream().filter( (p) -> p.getId() == selectedPlanId).findFirst();
-	if (!res.isPresent()) {
+	
+	List<Plan> res = currentPlanList.stream().filter(
+			(p) -> {
+				
+				boolean ok = selectedPlanIds.contains(p.getId());
+				return ok;
+			}).collect(Collectors.toList());
+	if (res.isEmpty()) {
+		showMessage(FacesMessage.SEVERITY_ERROR, "Transaction", "Must select atleast one plan");
 		return;
 	}
 
 		transaction.setPayer(payer.get());
-		transaction.setPlan(res.get());
+		
+		Set<Plan> planSet = new HashSet<>();
+		planSet.addAll(res);
+		
+		transaction.setPlans(planSet);
 		Integer entityId = null;
 		if(canPracticeShow)
 		{
@@ -304,6 +319,7 @@ public class CreateTransactionController extends BaseViewController implements S
 		transaction.setEntity(entity);
 		
 		transactionService.saveOrUpdate(transaction);
+		showMessage(FacesMessage.SEVERITY_INFO, "Transaction", "Transaction saved successfully");
 		try
 		{
 			
