@@ -35,7 +35,7 @@ public class OtherProviderInfo extends BaseEntity {
 	@OneToOne(mappedBy="otherInfo")
 	private Provider provider;
 	
-	private Integer oldestPatientAgeLimit;
+	private String oldestPatientAgeLimit;
 	private boolean panelStatus;
 	private String remarks;
 	

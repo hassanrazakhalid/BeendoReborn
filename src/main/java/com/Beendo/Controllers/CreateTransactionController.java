@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -32,8 +33,10 @@ import com.Beendo.Services.IEntityService;
 import com.Beendo.Services.ITransactionService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
+import com.Beendo.Utils.ReportType;
 import com.Beendo.Utils.Role;
 import com.Beendo.Utils.SharedData;
+import com.Beendo.Utils.TransactionType;
 import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
@@ -85,11 +88,13 @@ public class CreateTransactionController extends BaseViewController implements S
 	@Autowired
 	private ITransactionService transactionService;
 	
+	@PostConstruct
 	public void onLoad(){
 				
 		canPracticeShow = true;		
 		fetchData();
 		getIdIfPresent();
+		updateProviderStatusList();
 	}
 	
 	public void fetchData(){
@@ -196,11 +201,13 @@ public class CreateTransactionController extends BaseViewController implements S
 		{
 			statusList =  Constants.practiceStatus;
 			canPracticeShow = true;
+			transaction.setType(TransactionType.Practise.getValue());
 		}
 		else
 		{
 			statusList =  Constants.providerStatus;
 			canPracticeShow = false;
+			transaction.setType(TransactionType.Provider.getValue());
 		}
 	}
 	

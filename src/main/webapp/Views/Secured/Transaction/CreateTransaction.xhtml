@@ -6,9 +6,9 @@
       xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 
-<f:metadata>
+<!-- <f:metadata>
 		<f:viewAction actionListener="#{createTransactionController.onLoad()}" />
-	</f:metadata>
+	</f:metadata> -->
 
 </h:head>
 
@@ -156,7 +156,7 @@
 			</b:column>
 			
 			<b:column span="6">
-			<p:selectOneMenu id="vname" value="#{createTransactionController.transaction.parStatus}" style="width:175px">
+			<p:selectOneMenu id="vname" value="#{createTransactionController.transaction.transactionState}" style="width:175px">
 			        		
 			        		<f:selectItems value="#{createTransactionController.statusList}" var="v"
 			        		itemLabel="#{v}" itemValue="#{v}"/>

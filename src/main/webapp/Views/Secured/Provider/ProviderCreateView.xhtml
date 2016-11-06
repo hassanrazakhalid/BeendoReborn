@@ -526,13 +526,12 @@
 												<b:column span="7">
 							<!-- <p:inputText></p:inputText> -->
 													<p:inputText label="Patient age" id="patientage"
-													 converter="javax.faces.Integer"
-													
 							 						validatorMessage="Only numbers are allowed"
-							 						
+							 												 						
 														value="#{createProviderController.provider.otherInfo.oldestPatientAgeLimit}"
 														class="form-control">
 														
+														<p:ajax event="blur" update="otherMsgs"/>
 														 <f:validateRegex pattern="^[0-9]*" />
 														
 														</p:inputText>

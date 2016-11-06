@@ -154,7 +154,7 @@ public class ProviderService extends GenericServiceImpl<Provider, Integer> imple
 		provider.getPhoneNumbers().add(n1);
 		provider.getPhoneNumbers().add(n2);
 		
-		provider.getOtherInfo().setOldestPatientAgeLimit(12345);
+		provider.getOtherInfo().setOldestPatientAgeLimit("12345");
 
 		Language l1 = new Language();
 		l1.setLanguageName("urdu");
