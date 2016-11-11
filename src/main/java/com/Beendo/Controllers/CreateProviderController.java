@@ -145,6 +145,7 @@ public class CreateProviderController extends BaseViewController implements Seri
 			providerService.getProviderDetailsNoFiles(Integer.parseInt(id), (p) -> {
 
 				if (p != null) {
+					updateScenario = true;
 					this.provider = p;
 					List<Integer> ids = p.getPracticeList().stream().map(Practice::getId).collect(Collectors.toList());
 					selectedPractices.addAll(ids);

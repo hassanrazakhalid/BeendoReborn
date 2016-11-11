@@ -53,8 +53,8 @@ public class ReportService extends GenericServiceImpl<Transaction, Integer> impl
 //		result.put("transactions", listTransaction);
 		result.put("payerList", listPayer);
 		
-		Integer totalRows = transactionDao.getPageSize(filter); //transactionDao.getTotalTransactionCount(entityId);
-		result.put("count", totalRows);
+//		Integer totalRows = transactionDao.getPageSize(filter); //transactionDao.getTotalTransactionCount(entityId);
+//		result.put("count", totalRows);
 		switch (type) {
 		case ReportTypePractise:
 			

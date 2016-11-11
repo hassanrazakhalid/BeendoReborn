@@ -25,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="other_ProviderInfo")
+@Table(name="other_providerinfo")
 public class OtherProviderInfo extends BaseEntity {
 
 	@Id

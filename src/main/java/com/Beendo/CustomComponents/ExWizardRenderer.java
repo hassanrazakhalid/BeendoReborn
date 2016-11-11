@@ -39,7 +39,7 @@ public class ExWizardRenderer extends org.primefaces.component.wizard.WizardRend
                  
                 writer.startElement("a", null);
                 final String wiz = wizard.resolveWidgetVar();
-                writer.writeAttribute("href", "javascript:PF(''"+wiz+"').loadStep(PF('"+wiz+"').cfg.steps["+i+"], false)", null);
+                writer.writeAttribute("href", "javascript:PF('"+wiz+"').loadStep(PF('"+wiz+"').cfg.steps["+i+"], false)", null);
                 if (tab.getTitletip() != null) writer.writeAttribute("title", tab.getTitletip(), null);
                 writer.write(tab.getTitle());
                 writer.endElement("a");

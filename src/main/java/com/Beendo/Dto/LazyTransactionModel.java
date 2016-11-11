@@ -1,8 +1,5 @@
 package com.Beendo.Dto;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -11,20 +8,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
 import com.Beendo.Services.IReportService;
-import com.Beendo.Services.ITransactionService;
 import com.Beendo.Utils.ReportFilter;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 import lombok.Getter;
 import lombok.Setter;

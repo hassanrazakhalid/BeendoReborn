@@ -162,21 +162,21 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 		
 		Session session = this.sessionFactory.getCurrentSession();
 		
-		String subQuery = "SELECT *" +
-				" FROM transaction AS T"
-					;
-		switch (filter.getReportType()) {
-		case ReportTypeProvider:
-			subQuery += " GROUP BY T.provider_id";
-			break;
-		case ReportTypePractise:
-			subQuery += " GROUP BY T.practice_id";
-			break;
-		case ReportTypeTransaction:
-			break;
-		}
-		filter.setBaseQuery(subQuery);
-		String queryString = "SELECT COUNT(*) FROM (" + filter.getQueryString() + ") t";
+//		String subQuery = "SELECT *" +
+//				" FROM transaction AS T"
+//					;
+//		switch (filter.getReportType()) {
+//		case ReportTypeProvider:
+//			subQuery += " GROUP BY T.provider_id";
+//			break;
+//		case ReportTypePractise:
+//			subQuery += " GROUP BY T.practice_id";
+//			break;
+//		case ReportTypeTransaction:
+//			break;
+//		}
+//		filter.setBaseQuery(subQuery);
+		String queryString = "SELECT COUNT(*) FROM (" + filter.getQueryString(true) + ") t";
 		
 		Query query = session.createNativeQuery(queryString);
 //				+ " ORDER BY t.transactionDate";
@@ -188,115 +188,33 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 		return count.intValue();
 	}
 	
-//	@Override
-//	public Integer getPageSize(ReportFilter filter) {
-//		
-//		Session session = this.sessionFactory.getCurrentSession();
-//		
-//		String subQuery = "SELECT COUNT(T)"
-//				+ " FROM Transaction T"
-////				+ " LEFT JOIN T.payer Pay"
-////				+ " JOIN FETCH T.entity E";
-//					;
-//		switch (filter.getReportType()) {
-//		case ReportTypeProvider:
-////			subQuery += " LEFT JOIN T.provider Pro";
-//			subQuery += " GROUP BY T.provider.id";
-//			break;
-//		case ReportTypePractise:
-//			subQuery += " LEFT JOIN T.practice Pra";
-//			subQuery += " GROUP BY Pra.id";
-//			break;
-//		case ReportTypeTransaction:
-//			break;
-//		}
-////		filter.setBaseQuery(subQuery);
-//		String queryString = subQuery;//filter.getQueryString();
-//		
-//		Query query = session.createQuery(queryString);
-////				+ " ORDER BY t.transactionDate";
-////		Query query = session.createQuery(queryString);
-//
-////		Long count = (Long )query.getSingleResult();
-////		Object res = query.getSingleResult();
-//		Object res = query.getResultList();
-////		return count.intValue();
-//		return 0;
-//	}
-//	@Override
-//	public Transaction getTransactionWithProfiles(Integer id, List<String> profiles){
-//		
-//		Session session = this.sessionFactory.getCurrentSession();
-//		
-//		for (String profile : profiles) {
-//			session.enableFetchProfile(profile);
-//		}
-//		Transaction transaction = session.get(Transaction.class, id);
-//		return transaction;
-//	}
-	
 	@Override
 	public List<Transaction> getTransactionByProvider(ReportFilter filter) {
 		
 		Session session = this.sessionFactory.getCurrentSession();
 		
-		String baseQuery = "SELECT *" +
-				" FROM transaction AS T"
-				+ " LEFT JOIN payer AS P ON P.id = T.payer_id"
-				+ " LEFT JOIN  transaction_plan AS planIds ON planIds.transaction_id = T.id"
-				+ " LEFT JOIN plan AS PL ON PL.id = planIds.plan_id"
-//				+ " WHERE T.id = 5"
-					;
-		
-		switch (filter.getReportType()) {
-		case ReportTypeProvider:
-			baseQuery += " GROUP BY T.provider_id";
-			break;
-		case ReportTypePractise:
-			baseQuery += " GROUP BY T.practice_id";
-			break;
-		case ReportTypeTransaction:
-			break;
-		}
-		
-		filter.setBaseQuery(baseQuery);
-		String queryString =  filter.getQueryString();
-		queryString += " ORDER BY t.transactionDate";
-//		String queryString = "SELECT * FROM transaction T"
-//				+ " INNER JOIN ( " + filter.getQueryString() + ")"
-//				+ " subT ON subT.payer_id = T.";
-	
-		
-//		CriteriaBuilder builder = session.getCriteriaBuilder();
+//		String baseQuery = "SELECT *" +
+//				" FROM transaction AS T"
+//				+ " LEFT JOIN payer AS P ON P.id = T.payer_id"
+//				+ " LEFT JOIN  transaction_plan AS planIds ON planIds.transaction_id = T.id"
+//				+ " LEFT JOIN plan AS PL ON PL.id = planIds.plan_id"
+////				+ " WHERE T.id = 5"
+//					;
 //		
-//		final CriteriaQuery<Long> mainQuery = builder.createQuery(Long.class);
-//		Root<Transaction> mainRoot = mainQuery.from(Transaction.class);
-//		Subquery<Transaction> subQuery = mainQuery.subquery(Transaction.class);
-////		CriteriaQuery<Transaction> subQuery = builder.createQuery(Transaction.class);
-//		Root<Transaction> root = subQuery.from( Transaction.class );
-//		subQuery.select(root.get("id"));
-//		builder.greatest(root.get( Transaction_.transactionDate ));
-//		Path<Object> providerGroupBy = root.get("provider");
-//		subQuery.groupBy(providerGroupBy);		
-//////		if (!filter.getProviderIds().isEmpty()) {
-////			
-//			List<Integer>providersIds = new ArrayList<>();
-//			providersIds.add(71);
-//			providersIds.add(3);
-//			
-//			Expression<Integer> exp = root.get("provider").get("id");
-//			Predicate providerPredicate = exp.in(providersIds);
-//			subQuery.where(providerPredicate);
-////		}
-////		criteria.where(builder.equal(root.get("entity").get("id"), 2));
-//		
-////		criteria.select(root);
-//
-////		countCriteria.groupBy(rootCount.get("provider"));
-//		mainQuery.select(builder.count(root));
+//		switch (filter.getReportType()) {
+//		case ReportTypeProvider:
+//			baseQuery += " GROUP BY T.provider_id";
+//			break;
+//		case ReportTypePractise:
+//			baseQuery += " GROUP BY T.practice_id";
+//			break;
+//		case ReportTypeTransaction:
+//			break;
+//		}
 		
-//		queryString = "SELECT T FROM Transaction T LEFT JOIN FETCH T.plans WHERE T.id = 5";
-//		Query query = session.createQuery(queryString, Transaction.class);
+		String queryString =  filter.getQueryString(false);
+		queryString += " ORDER BY T.transactionDate DESC";
+
 		Query query = session.createNativeQuery(queryString)
 				.addEntity("T",Transaction.class)
 				.addJoin("PL", "T.plans")

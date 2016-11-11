@@ -62,7 +62,8 @@ public class Payer implements Serializable {
 	
 	@OneToMany(mappedBy="payer")
 	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
-	private Set<Plan> plans = new HashSet<>();
+//	private Set<Plan> plans = new HashSet<>();
+	private List<Plan> plans = new ArrayList<>();
 	
 	@OneToMany(mappedBy="payer")
 	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })

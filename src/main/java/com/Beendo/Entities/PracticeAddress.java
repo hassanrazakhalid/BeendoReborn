@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="practice_Address")
+@Table(name="practice_address")
 public class PracticeAddress extends BaseEntity {
 
 	@Id

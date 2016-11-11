@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "PERMISSIONS")
+@Table(name = "permissions")
 public class Permission   {
 //	implements GrantedAuthority
 	@Id

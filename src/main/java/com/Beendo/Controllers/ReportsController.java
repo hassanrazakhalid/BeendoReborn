@@ -158,7 +158,7 @@ public class ReportsController extends BaseViewController implements DisposableB
 			}
 
 			this.lazyModel = new LazyTransactionModel(reportService, entityId, reportFilter);
-			this.lazyModel.setRowCount((Integer) obj.get("count"));
+//			this.lazyModel.setRowCount((Integer) obj.get("count"));
 		};		
 		reportService.reloadPracticeReportData(sender, reportFilter, type);
 		// reportService.reloadPracticeReportData(callBack, type);

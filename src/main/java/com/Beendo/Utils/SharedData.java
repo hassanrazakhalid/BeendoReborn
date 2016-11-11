@@ -143,7 +143,7 @@ public class SharedData implements ApplicationContextAware {
 
 	public void run() {
 
-		checkForUnSendDocumentsReminders();
+		//checkForUnSendDocumentsReminders();
 	}
 
 	private void loadPaths() {

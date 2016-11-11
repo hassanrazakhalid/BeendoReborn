@@ -86,15 +86,15 @@
 								<f:facet name="footer">
 									<p:outputLabel value="Clickto add plan:" />
 									<p:commandButton value="+" update="@parent:@parent"
-										actionListener="#{createPayerController.addPlanClicked}" />
+										actionListener="#{createPayerController.addPlanClicked()}" />
 								</f:facet>
 
 								<ui:repeat var="plan"
-									value="#{createPayerController.payer.plans.toArray()}">
+									value="#{createPayerController.payer.plans}">
 									
 									<b:row>
 									<b:column span="6">
-										<b:inputText required="true" placeholder="Enter plan name*" value="#{plan.name}" />
+										<b:inputText placeholder="Enter plan name" value="#{plan.name}" />
 									</b:column>
 
 									<b:column span="3">
