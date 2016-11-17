@@ -1,6 +1,7 @@
 package com.Beendo.CustomComponents;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -13,6 +14,15 @@ public class ExWizardRenderer extends org.primefaces.component.wizard.WizardRend
      
     @Override
     protected void encodeStepStatus(FacesContext context, Wizard wizard) throws IOException {
+    	
+    	Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String id = params.get("id");
+    	
+		if (id  == null){
+			 super.encodeStepStatus(context, wizard);
+			 return;
+		}
+		
         ResponseWriter writer = context.getResponseWriter();
         String currentStep = wizard.getStep();
         boolean currentFound = false;

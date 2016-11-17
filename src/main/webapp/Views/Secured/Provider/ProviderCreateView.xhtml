@@ -211,9 +211,11 @@
 												</b:column>
 
 												<b:column span="3">
-													<p:commandButton
+													<p:commandButton id="deleteId"
 														actionListener="#{createProviderController.removeEmailClicked(emailVar)}"
 														value="-" update="@parent:@parent:@parent:@parent" />
+														
+													<p:tooltip id="toolTipFade" for="deleteId" value="Remove Email" position="top"/>
 												</b:column>
 											</b:row>
 										</ui:repeat>
@@ -239,9 +241,11 @@
 												</b:column>
 
 												<b:column span="3">
-													<p:commandButton
+													<p:commandButton id="removePh"
 														actionListener="#{createProviderController.removePhoneClicked(phoneVar)}"
 														value="-" update="@parent:@parent:@parent:@parent" />
+														
+														<p:tooltip id="toolTipFade" for="removePh" value="Remove Phone" position="top"/>
 												</b:column>
 											</b:row>
 										</ui:repeat>
@@ -641,13 +645,13 @@
 					</p:wizard>
 				</h:form>
 			<script>
-$(document).ready(function() {
+/* $(document).ready(function() {
     if (!#{createProviderController.updateScenario}) {
         console.log('in next step')
         $('li.ui-wizard-step-title a').prop('href', 'javascript:void(0)');	
     }
  
-});
+}); */
 
 	
 </script>

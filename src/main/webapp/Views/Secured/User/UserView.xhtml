@@ -81,8 +81,8 @@ function createClicked(args,dialogName){
 					</p:column>
 
 					<p:column headerText="Operation" style="text-align:center">
-
-						<p:commandButton icon="ui-icon-pencil"
+						
+						<p:commandButton value="Edit "
 							actionListener="#{userController.editButtonClicked(user)}"
 							oncomplete="PF('userCreateDialog').show()" update=":userForm" />
 

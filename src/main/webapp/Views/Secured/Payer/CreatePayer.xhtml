@@ -98,9 +98,14 @@
 									</b:column>
 
 									<b:column span="3">
-										<p:commandButton
+										<p:commandButton id="deleteId"
 											actionListener="#{createPayerController.removePlan(plan)}"
-											value="-" update="@parent:@parent:@parent:@parent" />
+											value="-" update="@parent:@parent:@parent:@parent">
+											
+											<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+											 </p:commandButton>
+											 
+											 <p:tooltip id="toolTipFade" for="deleteId" value="Remove Plan" position="top"/>
 									</b:column>
 									
 									</b:row>
@@ -143,6 +148,10 @@
 							action="#{createPayerController.saveInfo()}" update="msgs" />
 					</b:row>
 
+ <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
 				</h:form>
 			</b:container>
 

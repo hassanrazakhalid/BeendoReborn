@@ -47,7 +47,10 @@
 								<ui:repeat value="#{entity.practiceList.toArray()}" var="t">
 
 									<tr>
-										<td style="border: 0px;"><h:outputText value="#{t.name}" />
+										<td style="border: 0px;">
+										<h:link value="#{t.name}" outcome="#{sharedData.toCreatePractice()}">
+										<f:param name="id" value="#{t.id}" />
+										 </h:link> 
 										</td>
 
 									</tr>
@@ -57,10 +60,9 @@
 						</p:column>
 
 						<p:column headerText="Edit" width="80" style="text-align:center">
-							<p:commandButton icon="ui-icon-pencil" update=":addForm"
+							<p:commandButton value="Edit" update=":addForm"
 								oncomplete="PF('addDlg').show();"
 								actionListener="#{entityController.editButtonPressed(entity)}" />
-
 							<p:commandButton icon="ui-icon-trash"
 								actionListener="#{entityController.deleteEntityClicked(entity)}"
 								update=":entityTable">
@@ -83,7 +85,7 @@
 
 				<!-- CREATE ENTITY -->
 
-				<p:dialog fitViewport="true" id="addDlg" header="Add"
+				<p:dialog fitViewport="true" id="addDlg" header="Entity Info"
 					widgetVar="addDlg" position="center" modal="true" minHeight="40">
 
 					<h:form id="addForm">
