@@ -114,7 +114,7 @@
 						 <p:column headerText="Edit" width="80"
 							rendered="#{transactionController.canEdit()}">
 							
-							<h:link outcome="#{transactionController.moveToCreateTransaction()}" value="Edit">
+							<h:link rendered="#{sharedData.getCurrentUser().getRole() == 'ROOT_ADMIN'}" outcome="#{transactionController.moveToCreateTransaction()}" value="Edit">
 							<f:param name="id" value="#{transaction.id}" />
 							</h:link>
 

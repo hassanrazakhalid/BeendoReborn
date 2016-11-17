@@ -24,6 +24,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.Beendo.Utils.Role;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -85,6 +87,12 @@ public class User implements UserDetails {
 
 		System.out.println("In user login");
 
+	}
+	
+	public Role getRole(){
+		
+		Role r = Role.getRole(roleName);
+		return r;
 	}
 	
 	private boolean isSuperAdmin(){

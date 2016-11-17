@@ -8,7 +8,12 @@
 
 	<f:metadata>
 		<f:viewAction actionListener="#{createProviderController.onLoad()}" />
+
+<!-- <f:viewParam name="id" value="#{createProviderController.tmpId}" converter="javax.faces.Integer" />
+ -->
+
 	</f:metadata>
+
 
 </h:head>
 
@@ -23,7 +28,6 @@
 
 		<ui:define name="mainContent">
 
-			<b:container>
 				<h2>Provider Create</h2>
 
 				<h:form id="mainForm">
@@ -636,20 +640,13 @@
 						</p:tab>
 					</p:wizard>
 				</h:form>
-			</b:container>
 			<script>
 $(document).ready(function() {
     if (!#{createProviderController.updateScenario}) {
         console.log('in next step')
-        //$('.ui-wizard-step-title').click(function(){
         $('li.ui-wizard-step-title a').prop('href', 'javascript:void(0)');	
-        //});
     }
-        /*$(document).ready(function() {
-            $('.ui-wizard-step-title').click(function(){
-    			console.log($(this).index());
-    		});
-    });*/
+ 
 });
 
 	

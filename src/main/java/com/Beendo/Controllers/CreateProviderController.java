@@ -79,6 +79,8 @@ public class CreateProviderController extends BaseViewController implements Seri
 	private boolean updateScenario = false;
 	
 	private boolean skip;
+	
+//	private Integer tmpId;
 	// private List<Email> emailsList = new ArrayList<>();
 	// private List<PhoneNumber> phoneList = new ArrayList<>();
 	// private List<FaxNumber> faxList = new ArrayList<>();

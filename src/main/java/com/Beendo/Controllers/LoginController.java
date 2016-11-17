@@ -56,6 +56,7 @@ public class LoginController implements DisposableBean,Serializable {
 	
 	public String loginPressed() {
 
+		
 //		sendMail("hassanrazakhalid89@gmail.com", "hassanrazakhalid@yahoo.com", "From Java", "My first mail");
 		{
 			SharedData sharedData = SharedData.getSharedInstace();
