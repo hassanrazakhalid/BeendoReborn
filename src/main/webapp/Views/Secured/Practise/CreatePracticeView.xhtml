@@ -35,33 +35,25 @@
 						<p:messages showDetail="true" autoUpdate="true" />
 							<b:column span="6">
 								<b:panel title="Enter Basic Info">
-									<!-- First Row left coloum -->
-									<b:row>
-										<b:column span="6">
-											<b:inputText required="true" requiredMessage="Practice name cannot be empty"
-												value="#{createPracticeController.practice.name}"
-												placeholder="Practice Name" />
-										</b:column>
-										<b:column span="6">
-											<b:inputText required="true" requiredMessage="Group pan cannot be empty"
+								
+								<b:panelGrid col-spans="4,8">
+								
+								<b:label text="Practice name" />
+								<b:inputText required="true" requiredMessage="Group pan cannot be empty"
 												value="#{createPracticeController.practice.groupPtan}"
 												placeholder="Group PTAN *" />
-										</b:column>
-									</b:row>
-									<!-- Second Row left coloum -->
-									<b:row>
-										<b:column span="6">
+												
+											<b:label text="TIN" />
 											<b:inputText required="true" requiredMessage="TIN cannot be empty"
 											 value="#{createPracticeController.practice.tin}"
 												placeholder="TIN *" />
-										</b:column>
-										<b:column span="6">
+												
+											<b:label text="Group NPI" />
 											<b:inputText required="true" requiredMessage="Group NPI cannot be empty"
 												value="#{createPracticeController.practice.groupNpi}"
-												placeholder="Group NPI *" />
-										</b:column>
-									</b:row>
-
+												placeholder="Group NPI *" />								
+								
+								</b:panelGrid>
 								</b:panel>
 							
 							
@@ -105,62 +97,56 @@
 
 									<f:facet name="footer">
 										<p:outputLabel value="Add more:" />
-										<p:commandButton value="+" update="@parent:@parent"
+										<p:commandButton id="servideAddreessId" value="+" update="@parent:@parent"
 											actionListener="#{createPracticeController.addServiceAddress}" />
+											<p:tooltip value="Click to add service address" for="servideAddreessId" />
 									</f:facet>
 
 									<ui:repeat var="addressInfo"
 										value="#{createPracticeController.practice.practiceAddress.serviceAddress}">
 										<b:row>
-											<b:column span="6">
+										
+										<b:column span="4">
+										<b:label text="Street Address" />
+										</b:column>
+										
+										<b:column span="6">
 												<b:inputText placeholder="Street Address"
 													value="#{addressInfo.streetAddress}" />
 											</b:column>
-											<b:column span="6">
+											
+											<b:column span="2">
 
-												<p:commandButton value="-"
+												<p:commandButton id="removeServiceAddressId" value="-"
 													actionListener="#{createPracticeController.removeServiceAddress(addressInfo)}"
 													update="@parent:@parent:@parent:@parent" />
+													<p:tooltip value="Click to remove address" for="removeServiceAddressId" />
 
 											</b:column>
 										</b:row>
 
 										<b:row>
-											<b:column span="6">
-
-												<b:inputText placeholder="Fax Number *"
+										<b:panelGrid col-spans="4,8">
+										
+										<b:label text="Fax Number" />
+										<b:inputText placeholder="Fax Number *"
 													value="#{addressInfo.faxNumber}" />
-											</b:column>
-											<b:column span="6">
+													
+												<b:label text="Zip Number" />
 												<b:inputText placeholder="Zip" value="#{addressInfo.zip}" />
-											</b:column>
-										</b:row>
-
-										<b:row>
-											<b:column span="6">
+												
+												<b:label text="Email" />
 												<b:inputText placeholder="Email *"
 													value="#{addressInfo.email}" />
-											</b:column>
-
-											<b:column span="6">
+													
+												<b:label text="Phone Number" />
 												<b:inputText placeholder="Phone Number *"
 													value="#{addressInfo.phoneNumber}" />
-											</b:column>
-
-										</b:row>
-
-										<b:row>
-											<b:column span="6">
+													
+												<b:label text="City Name" />
 												<b:inputText placeholder="City" value="#{addressInfo.city}" />
-											</b:column>
-										</b:row>
-										<b:row>
-											<b:column span="3">
-												<p:outputLabel value="Select State" />
-											</b:column>
-
-											<b:column span="6">
-
+												
+												<b:label text="Select State" />
 												<p:selectOneMenu value="#{addressInfo.state}">
 
 													<f:selectItem itemLabel="Select State" itemValue="" />
@@ -168,9 +154,8 @@
 														value="#{createPracticeController.stateList}" var="state"
 														itemLabel="#{state}" itemValue="#{state}" />
 												</p:selectOneMenu>
-
-											</b:column>
-
+										
+										</b:panelGrid>
 										</b:row>
 										<p:separator />
 									</ui:repeat>
@@ -184,63 +169,57 @@
 
 									<f:facet name="footer">
 										<p:outputLabel value="Add more:" />
-										<p:commandButton value="+" update="@parent:@parent"
+										<p:commandButton id="billingAddressId" value="+" update="@parent:@parent"
 											actionListener="#{createPracticeController.addBillingAddress}" />
+											
+										<p:tooltip value="Click to add billing address" for="billingAddressId" />
 									</f:facet>
 
 									<ui:repeat var="addressInfo"
 										value="#{createPracticeController.practice.practiceAddress.billingAddress}">
 										<b:row>
+										
+										<b:column span="4">
+										<b:label text="Street Address" />
+										</b:column>
 											<b:column span="6">
 												<b:inputText placeholder="Street Address"
 													value="#{addressInfo.streetAddress}" />
 											</b:column>
-											<b:column span="6">
+											<b:column span="2">
 
-												<p:commandButton value="-"
+												<p:commandButton id="removeBillingAddressId" value="-"
 													actionListener="#{createPracticeController.removeBillingAddress(addressInfo)}"
 													update="@parent:@parent:@parent:@parent" />
+													
+													<p:tooltip value="Click to remmove billing address" for="removeBillingAddressId" />
 
 											</b:column>
 										</b:row>
 
 										<b:row>
-											<b:column span="6">
-
-												<b:inputText placeholder="Fax Number *"
+										
+										<b:panelGrid col-spans="4,8">
+										
+										<b:label text="Fax Number" />
+										<b:inputText placeholder="Fax Number *"
 													value="#{addressInfo.faxNumber}" />
-											</b:column>
-											<b:column span="6">
+													
+												<b:label text="Zip Number" />
 												<b:inputText placeholder="Zip" value="#{addressInfo.zip}" />
-											</b:column>
-										</b:row>
-
-										<b:row>
-											<b:column span="6">
+												
+												<b:label text="Email" />
 												<b:inputText placeholder="Email *"
 													value="#{addressInfo.email}" />
-											</b:column>
-
-											<b:column span="6">
+													
+												<b:label text="Phone Number" />
 												<b:inputText placeholder="Phone Number *"
 													value="#{addressInfo.phoneNumber}" />
-											</b:column>
-
-										</b:row>
-
-										<b:row>
-											<b:column span="6">
+													
+												<b:label text="City Name" />
 												<b:inputText placeholder="City" value="#{addressInfo.city}" />
-											</b:column>
-										</b:row>
-										<b:row>
-
-											<b:column span="3">
-												<p:outputLabel value="Select State" />
-											</b:column>
-											<b:column span="6" >
-
-
+												
+												<b:label text="Select State" />
 												<p:selectOneMenu value="#{addressInfo.state}">
 
 													<f:selectItem itemLabel="Select State" itemValue="" />
@@ -248,9 +227,9 @@
 														value="#{createPracticeController.stateList}" var="state"
 														itemLabel="#{state}" itemValue="#{state}" />
 												</p:selectOneMenu>
-
-											</b:column>
-
+										
+										</b:panelGrid>
+											
 										</b:row>
 										<p:separator />
 									</ui:repeat>

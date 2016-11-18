@@ -30,54 +30,40 @@
 
 						<b:column span="6">
 							<b:panel title="Create Payer">
-
-								<b:row>
-									<b:column span="6">
-										<b:inputText placeholder="Enter payer name"
+	<b:panelGrid col-spans="4,8">
+	
+	<b:label text="Payer name" />
+	<b:inputText placeholder="Enter payer name"
 											value="#{createPayerController.payer.name}" />
-									</b:column>
-
-									<b:column span="6">
+											
+										<b:label text="Phone number" />
 										<b:inputText placeholder="Enter phone number"
 											value="#{createPayerController.payer.phoneNumber}">
 											<f:convertNumber integerOnly="true" type="number" />
-										</b:inputText>
-									</b:column>
-								</b:row>
-
-								<b:row>
-									<b:column span="6">
+											</b:inputText>
+											
+										<b:label text="Street Name" />
 										<b:inputText placeholder="Enter street"
 											value="#{createPayerController.payer.street}" />
-									</b:column>
-
-									<b:column span="6">
+											
+										<b:label text="City Name" />
 										<b:inputText placeholder="Enter City"
 											value="#{createPayerController.payer.city}" />
-									</b:column>
-								</b:row>
-
-								<b:row>
-									<b:column span="6">
+											
+										<b:label text="State name" />
 										<b:inputText placeholder="Enter state name"
 											value="#{createPayerController.payer.state}" />
-									</b:column>
-
-									<b:column span="6">
+											
+										<b:label text="Zip Number" />
 										<b:inputText placeholder="Enter zip"
 											value="#{createPayerController.payer.zip}">
 											<f:convertNumber integerOnly="true" type="number" />
 										</b:inputText>
-									</b:column>
-								</b:row>
-								
-								<b:row>
-								<b:column span="6">
-								<b:inputText placeholder="Enter fax" value="#{createPayerController.payer.fax}"/>
-								
-								</b:column>
-								</b:row>
-								
+										
+										<b:label text="Fax Number" />
+										<b:inputText placeholder="Enter fax" value="#{createPayerController.payer.fax}"/>
+										
+								</b:panelGrid>			
 							</b:panel>
 						</b:column>
 
@@ -93,11 +79,15 @@
 									value="#{createPayerController.payer.plans}">
 									
 									<b:row>
+									<b:column span="4">
+									<b:label text="Plan name" />
+									</b:column>
+									
 									<b:column span="6">
 										<b:inputText placeholder="Enter plan name" value="#{plan.name}" />
 									</b:column>
 
-									<b:column span="3">
+									<b:column span="2">
 										<p:commandButton id="deleteId"
 											actionListener="#{createPayerController.removePlan(plan)}"
 											value="-" update="@parent:@parent:@parent:@parent">
@@ -111,31 +101,27 @@
 									</b:row>
 									
 									<b:row>
-									<b:column span="6">
+									<b:panelGrid col-spans="4,8">
+									
+									<b:label text="Street Name" />
 									<b:inputText placeholder="Enter Street" value="#{plan.street}" />
-									</b:column>
 									
-									<b:column span="6">
+									<b:label text="City Name" />
 									<b:inputText placeholder="Enter City" value="#{plan.city}" />
-									</b:column>
-									</b:row>
 									
-									<b:row>
-									<b:column span="6">
+									<b:label text="State Name" />
 									<b:inputText placeholder="Enter State" value="#{plan.state}" />
-									</b:column>
 									
-									<b:column span="6">
+									<b:label text="Zip Number" />
 									<b:inputText placeholder="Enter zip" value="#{plan.zip}" />
-									</b:column>
-									</b:row>
 									
-									<b:row>
-									<b:column span="6">
+									<b:label text="Fax Number" />
 									<b:inputText placeholder="Enter fax" value="#{plan.fax}" />
-									</b:column>
+									
+									</b:panelGrid>
 									</b:row>
 
+	<p:separator />
 								</ui:repeat>
 
 
