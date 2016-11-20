@@ -82,6 +82,7 @@
 			</b:row>
 			
 			<b:row>
+			
 			<b:column span="6">
 			<p:outputLabel for="idPayer" value="Select Payer: " />	  	   
 			</b:column>
@@ -103,6 +104,7 @@
 			<br/>
 			
 			<b:row id="planRow">
+			
 			<b:column span="6">
 			<b:label text="Select Plan" />
 			</b:column>
@@ -145,7 +147,8 @@
 			
 			<b:row>
 			<b:column span="6">
-			<b:datepicker  placeholder="Select Transaction Date" value="#{createTransactionController.transaction.transactionDate}" required="true" />
+			<p:calendar  placeholder="Select Transaction Date" pattern="MM/dd/yyyy HH:mm:ss"
+			 value="#{createTransactionController.transaction.transactionDate}" required="true" />
 			</b:column>
 			</b:row>
 			

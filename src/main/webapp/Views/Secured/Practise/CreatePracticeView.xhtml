@@ -1,18 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
-<h:head>
+	
+<!-- <h:head>
 
 	<f:metadata>
 		<f:viewAction actionListener="#{createPracticeController.onLoad()}" />
 	</f:metadata>
 
-</h:head>
-
-
+</h:head> -->
 
 <h:body>
 	<ui:composition template="/Views/Template/MainTemplate.xhtml">
@@ -23,7 +25,6 @@
 
 		<ui:define name="mainContent">
 
-			<b:container>
 				<h2>Practice Create</h2>
 
 				<h:form id="mainForm">
@@ -132,28 +133,28 @@
 										<b:inputText placeholder="Fax Number *"
 													value="#{addressInfo.faxNumber}" />
 													
-												<b:label text="Zip Number" />
-												<b:inputText placeholder="Zip" value="#{addressInfo.zip}" />
+										<b:label text="Zip Number" />
+										<b:inputText placeholder="Zip" value="#{addressInfo.zip}" />
 												
-												<b:label text="Email" />
-												<b:inputText placeholder="Email *"
+										<b:label text="Email" />
+										<b:inputText placeholder="Email *"
 													value="#{addressInfo.email}" />
 													
-												<b:label text="Phone Number" />
-												<b:inputText placeholder="Phone Number *"
+										<b:label text="Phone Number" />
+										<b:inputText placeholder="Phone Number *"
 													value="#{addressInfo.phoneNumber}" />
 													
-												<b:label text="City Name" />
-												<b:inputText placeholder="City" value="#{addressInfo.city}" />
+										<b:label text="City Name" />
+										<b:inputText placeholder="City" value="#{addressInfo.city}" />
 												
-												<b:label text="Select State" />
-												<p:selectOneMenu value="#{addressInfo.state}">
+										<b:label text="Select State" />
+										<p:selectOneMenu value="#{addressInfo.state}">
 
-													<f:selectItem itemLabel="Select State" itemValue="" />
-													<f:selectItems
+											<f:selectItem itemLabel="Select State" itemValue="" />
+											<f:selectItems
 														value="#{createPracticeController.stateList}" var="state"
 														itemLabel="#{state}" itemValue="#{state}" />
-												</p:selectOneMenu>
+											</p:selectOneMenu>
 										
 										</b:panelGrid>
 										</b:row>
@@ -248,8 +249,6 @@
 				
 					</p:wizard>
 				</h:form>
-			</b:container>
-
 			<style>
 #providerDialog {
 	position: absolute !important;

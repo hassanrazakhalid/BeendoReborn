@@ -1,9 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui"
+	 xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
+	
 <h:head>
 
 	<f:metadata>
@@ -13,11 +18,7 @@
  -->
 
 	</f:metadata>
-
-
 </h:head>
-
-
 
 <h:body>
 	<ui:composition template="/Views/Template/MainTemplate.xhtml">
@@ -34,7 +35,7 @@
 
 				<p:wizard id="signUpWizardId">
 
-					<p:tab id="personal" title="Personal">
+				 	<p:tab id="personal" title="Personal">
 						<p:messages />
 						<b:column span="6">
 							<b:row>
@@ -136,23 +137,20 @@
 								
 							</b:panel>
 						</b:column>
-					</p:tab>
+					</p:tab> 
 
 					<p:tab id="additionalInfoId" title="Additional Information">
 
-						<p:messages />
+						 <p:messages />
 						<b:column span="6">
 
 							<b:row>
 								<b:panel title="Additional Information" span="12">
 									<b:panelGrid col-spans="4,8">
 									
-									<b:label text="D.O.B" />
-									<b:datepicker required="true"
-												requiredMessage="Please select Dob" changeYear="true"
-												placeholder="Date of birth:*" change-year="true"
-												showWeek="true" firstDay="1"
-												value="#{createProviderController.provider.dob}" />
+								 	<b:label text="D.O.B" />
+								 	 <p:calendar style="width:200px" required="true" placeholder="Please select Dob"
+								 	  id="popup" value="#{createProviderController.provider.dob}" /> 
 												
 											<b:label text="Medicare I.D" />
 										
@@ -177,7 +175,7 @@
 								</b:panel>
 							</b:row>
 
-							<b:row>
+						<b:row>
 								<b:panel title="Emails:" span="12">
 									<f:facet name="footer">
 										<p:outputLabel value="Emails:" />
@@ -270,7 +268,7 @@
 										</b:row>
 									</ui:repeat>
 								</b:panel>
-							</b:row>
+							</b:row> 
 						</b:column>
 					</p:tab>
 
@@ -295,10 +293,9 @@
 											value="#{createProviderController.provider.qualitication.primaryDegree.degreeName}" />
 								
 								<b:label text="Graducation date" />
-								<b:datepicker required="true"
+								<p:calendar required="true"
 											requiredMessage="Graducation date cannot be empty"
-											placeholder="Graducation Date" changeYear="true"
-											mode="toggle-icon" showWeek="true" firstDay="1"
+											placeholder="Graducation Date" 
 											value="#{createProviderController.provider.qualitication.primaryDegree.finishedDate}" />
 								
 								</b:panelGrid>
@@ -353,9 +350,7 @@
 									
 									<b:column span="8">
 								
-
-											<b:datepicker placeholder="Graduation Date" changeYear="true"
-												mode="toggle-icon" showWeek="true" firstDay="1"
+											<p:calendar placeholder="Graduation Date"
 												value="#{degree.finishedDate}" />
 									</b:column>
 									
@@ -382,17 +377,15 @@
 												value="#{createProviderController.provider.qualitication.residencyInfo.institutionName}" />
 												
 											<b:label text="Started Residency" />
-											<b:datepicker required="true"
+											<p:calendar required="true"
 												requiredMessage="Started Residency date cannot be empty"
-												placeholder="Started Residency" changeYear="true"
-												mode="toggle-icon" showWeek="true" firstDay="1"
+												placeholder="Started Residency"
 												value="#{createProviderController.provider.qualitication.residencyInfo.startDate}" />
 												
 											<b:label text="Ended Residency" />
-											<b:datepicker required="true"
+											<p:calendar required="true"
 												requiredMessage="Ended Residency cannot be empty"
-												placeholder="Ended Residency" changeYear="true"
-												mode="toggle-icon" showWeek="true" firstDay="1"
+												placeholder="Ended Residency"
 												value="#{createProviderController.provider.qualitication.residencyInfo.endDate}" />
 								
 								</b:panelGrid>
@@ -409,14 +402,11 @@
 												value="#{createProviderController.provider.qualitication.internshipInfo.institutionName}" />
 											
 											<b:label text="Started Residency" />
-											<b:datepicker placeholder="Started Residency"
-												changeYear="true" mode="toggle-icon" showWeek="true"
-												firstDay="1"
+											<p:calendar placeholder="Started Residency"
 												value="#{createProviderController.provider.qualitication.internshipInfo.startDate}" />
 												
 											<b:label text="Ended Residency" />
-											<b:datepicker placeholder="Ended Residency" changeYear="true"
-												mode="toggle-icon" showWeek="true" firstDay="1"
+											<p:calendar placeholder="Ended Residency"
 												value="#{createProviderController.provider.qualitication.internshipInfo.endDate}" />
 									
 
@@ -674,6 +664,12 @@
 .ui-selectonemenu .ui-selectonemenu-trigger {
 	width: 24px;
 }
+
+.ui-state-default {
+
+ cursor: initial;
+}
+
 </style>
 
 		</ui:define>

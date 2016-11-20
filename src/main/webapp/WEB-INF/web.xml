@@ -94,10 +94,10 @@
         <param-value>bootstrap</param-value>
     </context-param>
 
-    <context-param>
+  <!--   <context-param>
         <param-name>BootsFaces_USETHEME</param-name>
         <param-value>true</param-value>
-    </context-param>
+    </context-param> -->
 
  <!--    <context-param>  
         <param-name>primefaces.THEME</param-name>  

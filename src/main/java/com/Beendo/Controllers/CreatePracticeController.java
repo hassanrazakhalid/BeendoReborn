@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -51,6 +52,7 @@ public class CreatePracticeController implements Serializable {
 
 	private String[] stateList;
 	
+	@PostConstruct
 	public void onLoad() {
 
 		fetchData();
