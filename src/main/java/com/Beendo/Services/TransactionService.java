@@ -61,7 +61,7 @@ public class TransactionService extends GenericServiceImpl<Transaction, Integer>
 		
 		List<Provider> providerList = providerService.findProvidersByEntity(entityId);
 		List<Practice> practiceList = practiseDao.findAllByEntity(entityId);
-		List<Payer> payerList = payerService.executeListQuery("select P from Payer P left join fetch P.plans");
+		List<Payer> payerList = payerService.executeListQuery("select distinct P from Payer P left join fetch P.plans");
 //				payerService.executeListQuery("select P from Payer P left join fetch P.plans");
 		Map<String, Object> response = new HashMap<>();
 		response.put("practiceList", practiceList);

@@ -1,5 +1,6 @@
 package com.Beendo.Controllers;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -42,8 +43,13 @@ import lombok.Setter;
 @Controller
 //@Scope(value = "session")
 @SpringScopeView
-public class PractiseController {
+public class PractiseController implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4815717582898261454L;
+
 	private OperationType operationType;
 
 	private String entityName;

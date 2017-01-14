@@ -56,6 +56,12 @@ public class Practice {
 //	@Cascade(org.hibernate.annotations.CascadeType.DELETE)
 	private Set<Provider> providers = new HashSet<Provider>();
 
+	@ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.REMOVE})
+	@JoinTable(name="users_practice",
+	joinColumns=@JoinColumn(name="practises_id"),
+	inverseJoinColumns=@JoinColumn(name="User_id")
+	)
+	private Set<User> users = new HashSet<User>();
 	
 	@OneToMany(mappedBy="practice", cascade={CascadeType.REMOVE})
 	private Set<Transaction> transactions = new HashSet<>();

@@ -48,53 +48,37 @@ import lombok.Setter;
 @Controller
 public class CreateTransactionController extends BaseViewController implements Serializable {
 
-	private enum RadioValue {
-		
-		Practise(1),Provider(2);
-	    
-	    private final Integer value;
-	    private RadioValue(Integer val) {
-	    	this.value = val;
-		}
-	}
+
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5981716634583291159L;
 
-	private Boolean isEditMode;
+//	private Boolean isEditMode;
 	
-	private Integer currentPractice;
-	private Integer currentProvider;
+
 	
 	private List<Practice> practiceList = new ArrayList<>();
 	private List<Payer> payerList = new ArrayList<>();
 	private List<Provider> providerList = new ArrayList<>();
-	private Integer selectedPayer;
 	
-	private Integer radioValue = RadioValue.Practise.value;
-	private Boolean canPracticeShow = true;
-	
-	private String[] statusList;
-	private Transaction transaction = new Transaction();
-	
-	//PLan
-	private List<Integer> selectedPlanIds = new ArrayList<>();
-	private List<Plan> currentPlanList = new ArrayList<>();
+	List<TransactionViewModel> transactionViewModelList = new ArrayList<>();
 	
 	@Autowired
 	private IEntityService entityService;
 	@Autowired
 	private ITransactionService transactionService;
 	
+	private OperationType operationType = OperationType.Create;
+	
 	@PostConstruct
 	public void onLoad(){
 				
-		canPracticeShow = true;		
+	
 		fetchData();
 		getIdIfPresent();
-		updateProviderStatusList();
+		
 	}
 	
 	public void fetchData(){
@@ -111,36 +95,35 @@ public class CreateTransactionController extends BaseViewController implements S
 		transactionService.fetchDataForTransactionCreation(response, entityId);
 	}
 	
+	public void addTransactionClicked(){
+		
+		transactionViewModelList.add(new TransactionViewModel(practiceList, providerList, payerList, entityService, transactionService));
+	}
+	
+	public void removeTransactionClicked(TransactionViewModel sender){
+	
+		transactionViewModelList.remove(sender);
+	}
+	
 	public void getIdIfPresent() {
 
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String id = params.get("id");
 		if (id != null) {
 			
+			operationType = OperationType.Edit;
 			List<String> profiles = Arrays.asList("transactionPlanList","planList");
 			Transaction res = transactionService.getEntityByProfiles(Integer.parseInt(id), profiles); //transactionService.get(Integer.parseInt(id));
-			if (res != null) {
-				transaction = res;
-				selectedPayer = transaction.getPayer().getId();
-				if (transaction.getPractice() != null)
-				{
-					currentPractice = transaction.getPractice().getId();
-					radioValue = RadioValue.Practise.value;
-				}
-				if (transaction.getProvider() != null )
-				{
-					radioValue = RadioValue.Provider.value;
-					currentProvider =  transaction.getProvider().getId();
-				}
-				updateProviderStatusList();
-				
-				if (transaction.getPlans() != null) {
-
-					currentPlanList = new ArrayList<>(transaction.getPayer().getPlans());
-					selectedPlanIds = transaction.getPlans().stream().map(Plan::getId).collect(Collectors.toList());
-				}				
+			TransactionViewModel transactionViewMode = new TransactionViewModel(practiceList, providerList, payerList, entityService, transactionService);
+			transactionViewMode.setTransaction(res);
+			transactionViewMode.reloadForEdit();
+			transactionViewModelList.add(transactionViewMode);
+//				updateProviderStatusList();			
 			}
-		}
+	}
+	
+	public boolean shouldRenderAddButton(){
+		return operationType == OperationType.Create ? true : false;
 	}
 	
 //	public void updateClicked(ProviderTransaction _transaction)
@@ -190,26 +173,8 @@ public class CreateTransactionController extends BaseViewController implements S
 		
 	}
 	
-	public void onSelectionChange()
-	{
-		updateProviderStatusList();
-	}
 	
-	private void updateProviderStatusList(){
-		
-		if(radioValue == RadioValue.Practise.value)
-		{
-			statusList =  Constants.practiceStatus;
-			canPracticeShow = true;
-			transaction.setType(TransactionType.Practise.getValue());
-		}
-		else
-		{
-			statusList =  Constants.providerStatus;
-			canPracticeShow = false;
-			transaction.setType(TransactionType.Provider.getValue());
-		}
-	}
+
 	
 	/*public void onProviderChange()
 	{
@@ -232,100 +197,28 @@ public class CreateTransactionController extends BaseViewController implements S
 		
 	}*/
 	
-	private Practice getPractiseById(Integer id) {
-		
-		Optional<Practice> res = practiceList.stream().
-		filter(p -> p.getId().compareTo(id) == 0).findFirst();
-		
-		if(res.isPresent())
-			return res.get();
-		else
-		return null;
-	}
 
-	private Provider getProviderById(Integer id) {
-		
-		Optional<Provider> res = providerList.stream().
-		filter(p -> p.getId().compareTo(id) == 0).findFirst();
-		
-		if(res.isPresent())
-			return res.get();
-		else
-		return null;
-	}
+
 	
-	public void onPayerChange() {
-		
-		Optional<Payer> res = payerList.stream().filter( (p) -> p.getId() == selectedPayer).findFirst();
-		if (res.isPresent()) {
-			
-			updatePlansList(res.get());
-		}
-	}
-	
-	private void updatePlansList(Payer sender){
-		
-		currentPlanList =  new ArrayList(sender.getPlans());
-	}
+
 	
 	public void saveInfo()
 	{
 		//transaction.setPayer(currentPayer);
 		
-	Optional<Payer> payer =	payerList.stream()
-		.filter(p -> {
+		try {
 			
-			if(p.getId() == selectedPayer)
-				return true;
-			else 
-				return false;
-		}).findFirst();
-		
-		
-//		Set<Payer> payers = new HashSet<Payer>(selectedPayers);
-	if ( !payer.isPresent()) {
-		return;
-	}
-	
-	
-	List<Plan> res = currentPlanList.stream().filter(
-			(p) -> {
+			for (TransactionViewModel transactionViewModel : transactionViewModelList) {
 				
-				boolean ok = selectedPlanIds.contains(p.getId());
-				return ok;
-			}).collect(Collectors.toList());
-	if (res.isEmpty()) {
-		showMessage(FacesMessage.SEVERITY_ERROR, "Transaction", "Must select atleast one plan");
-		return;
-	}
-
-		transaction.setPayer(payer.get());
-		
-		Set<Plan> planSet = new HashSet<>();
-		planSet.addAll(res);
-		
-		transaction.setPlans(planSet);
-		Integer entityId = null;
-		if(canPracticeShow)
-		{
-			Practice practice = getPractiseById(currentPractice);
-			transaction.setPractice(practice);
-			transaction.setProvider(null);
-			entityId = practice.getEntity().getId();
-		}
-		else
-		{
-			Provider provider = getProviderById(currentProvider);
-			transaction.setProvider(provider);
-			transaction.setPractice(null);
-			entityId = provider.getCentity().getId();
+				transactionViewModel.saveButtonClicked();
+			}
+			
+		} catch (Exception e) {
+			
+			showMessage(FacesMessage.SEVERITY_ERROR, "Transaction", "Must select atleast one plan");
 		}
 		
-		 
-		CEntitiy entity = entityService.findEntityWithTransaction(entityId);
-		transaction.setEntity(entity);
-		
-		transactionService.saveOrUpdate(transaction);
+//		transactionService.saveOrUpdate(transaction);
 		showMessage(FacesMessage.SEVERITY_INFO, "Transaction", "Transaction saved successfully");
 		try
 		{

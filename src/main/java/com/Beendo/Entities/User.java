@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -35,6 +37,10 @@ import lombok.Setter;
 @Table(name = "users")
 public class User implements UserDetails {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 935900234703373675L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -51,10 +57,14 @@ public class User implements UserDetails {
 /*	@OneToOne(fetch = FetchType.EAGER)
 	private CEntitiy entity;
 */	
-	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.REFRESH})
+	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.REFRESH,CascadeType.MERGE,CascadeType.PERSIST})
 	private CEntitiy entity;
 
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,CascadeType.DETACH}, fetch = FetchType.LAZY)
+	@JoinTable(name="users_practice",
+	joinColumns=@JoinColumn(name="User_id"),
+	inverseJoinColumns=@JoinColumn(name="practises_id")
+	)
 	private Set<Practice> practises = new HashSet<>(0);
 
 	public static User copy(User sender) {

@@ -17,6 +17,7 @@ import com.Beendo.Entities.CEntitiy;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.User;
+import com.Beendo.Utils.Role;
 import com.Beendo.Utils.Screen;
 import com.Beendo.Utils.SharedData;
 
@@ -76,21 +77,21 @@ public class PractiseService extends GenericServiceImpl<Practice, Integer> imple
 		}
 		else
 		{
-//			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
+			if(userRole.equalsIgnoreCase(Role.ENTITY_ADMIN.toString()))
 			{
 //				CEntitiy entity = iEntity.refresh(SharedData.getSharedInstace().getCurrentUser().getEntity());
 //				SharedData.getSharedInstace().getCurrentUser().setEntity(entity);
 				List<Practice> result = practiseDao.findAllByEntity(SharedData.getSharedInstace().getCurrentUser().getEntity().getId());
 				practiseList.addAll(result);
 			}
-//			else if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()))
+			else if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()))
 			{
 //				List<Practice> result = iUser.findPracticesByUserId(SharedData.getSharedInstace().getCurrentUser().getId());
 //				Set<Practice> res = new HashSet<Practice>(result);
 //				SharedData.getSharedInstace().getCurrentUser().setPractises(res);
 				
-//				List<Practice> result = getPracticeByUser(SharedData.getSharedInstace().getCurrentUser().getId());
-//				practiseList.addAll(result);
+				List<Practice> result = getPracticeByUser(SharedData.getSharedInstace().getCurrentUser().getId());
+				practiseList.addAll(result);
 			}
 		}
 		

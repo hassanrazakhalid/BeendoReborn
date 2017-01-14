@@ -20,6 +20,7 @@ import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
+import com.Beendo.Services.IPractiseService;
 import com.Beendo.Services.IReportService;
 import com.Beendo.Services.ITransactionService;
 import com.Beendo.Utils.Constants;
@@ -71,6 +72,8 @@ public class ReportsController extends BaseViewController implements DisposableB
 	// ---------------------------------------PRACTICE
 	// REPORT-----------------------------------------------
 
+	@Autowired
+	private IPractiseService practiseService;
 	private ReportFilter reportFilter = new ReportFilter();
 	
 	public String viewRepPractice() {
@@ -98,6 +101,7 @@ public class ReportsController extends BaseViewController implements DisposableB
 	public void init(){
 		
 		System.out.println("");
+		reportFilter.setPractiseService(practiseService);
 		onLoad();
 //		loadDataByReportType(ReportType.ReportTypeProvider);
 	}

@@ -54,12 +54,12 @@ public class Transaction {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String transactionState;
-	private Date transactionDate;
+	private Date transactionDate = new Date();
 	private String comments;
 	private String parStatus;
 	private Integer type;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	private CEntitiy entity;
 	
 	/*@OneToOne(fetch = FetchType.EAGER)

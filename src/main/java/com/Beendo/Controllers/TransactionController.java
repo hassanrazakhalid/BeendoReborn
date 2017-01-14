@@ -30,6 +30,7 @@ import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
 import com.Beendo.Entities.User;
 import com.Beendo.Services.IEntityService;
+import com.Beendo.Services.IPractiseService;
 import com.Beendo.Services.IReportService;
 import com.Beendo.Services.ITransactionCallback;
 import com.Beendo.Services.ITransactionService;
@@ -71,10 +72,13 @@ public class TransactionController extends BaseViewController implements Disposa
 	
 	@Autowired
 	IReportService reportService;
+	@Autowired
+	private IPractiseService practiseService;
 	private ReportFilter reportFilter = new ReportFilter();
 	
 	private void refreshAllData(){
 		
+		reportFilter.setPractiseService(practiseService);
 		Integer entityId = SharedData.getSharedInstace().getCurrentUser().getEntity().getId();
 
 		transactionService.getLatestTransactions(entityId);

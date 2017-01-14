@@ -54,7 +54,7 @@ public class PayerController {
 
 	private void refreshAllData(){
 		
-		payers = payerService.executeListQuery("select P from Payer P left join fetch P.plans");
+		payers = payerService.executeListQuery("select DISTINCT P from Payer P left join fetch P.plans");
 //		transactions = transactionService.fetchAllByRole();
 
 		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);

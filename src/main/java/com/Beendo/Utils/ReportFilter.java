@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.util.StringUtils;
+
+import com.Beendo.Entities.Practice;
+import com.Beendo.Entities.User;
+import com.Beendo.Services.IPractiseService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +42,8 @@ public class ReportFilter {
 	private String baseQuery;
 	private QueryState state = QueryState.start;
 
+	private IPractiseService practiseService;
+	
 	public Boolean isFilterEmpty() {
 
 		boolean isEmpty = true;
@@ -132,15 +140,41 @@ public class ReportFilter {
 				+ " LEFT JOIN plan AS PL ON PL.id = planIds.plan_id";
 	}
 
+	private void updatePractiseIdsByUser(){
+		
+		User user = SharedData.getSharedInstace().getCurrentUser();
+		List<Practice> tmpList = practiseService.getPracticeByUser(user.getId());
+//		Set<Practice> tmpList = SharedData.getSharedInstace().getCurrentUser().getPractises();
+		
+//		tmpList.stream().map(Practice::getId);
+		Set<Integer> tmpIds = tmpList .stream().map(Practice::getId ).collect(Collectors.toSet());
+		practiceIds.addAll(tmpIds);
+	}
+	
 	public String getQueryString(Boolean countMode) {
 
+		User user = SharedData.getSharedInstace().getCurrentUser();
+		String userRole = user.getRoleName();
+		
 		String str = "";
 		switch (reportType) {
 		case ReportTypeTransaction:
+			
+			if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+					practiceIds.isEmpty()) {
+				updatePractiseIdsByUser();
+			}
 			str = getTransactionBaseString(countMode);
 			break;
 		case ReportTypePractise:
+			//Getting specific
+			
+			if(userRole.equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
+					practiceIds.isEmpty()) {
+				updatePractiseIdsByUser();
+			}
 			str = getProviderPractiseBaseString("practice_id",countMode);
+			break;
 		case ReportTypeProvider:
 			str = getProviderPractiseBaseString("provider_id", countMode);
 			break;

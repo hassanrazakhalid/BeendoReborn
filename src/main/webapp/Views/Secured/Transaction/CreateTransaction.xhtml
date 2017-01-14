@@ -25,29 +25,41 @@
 						
 			<!-- <b:container> -->
 			  <h:form id="myForm">
-				  	<p:messages id="msgs" />
+				  	<!-- <p:messages id="msgs" /> -->
 			
 			
 			<!-- Left Side -->
+			<b:panel id="mainTransactionPanel" title="Create Transactions:" span="12">
+									<f:facet name="footer">
+										<p:outputLabel value="Transactions:" rendered="#{createTransactionController.shouldRenderAddButton()}" />
+										<p:commandButton id="transactionId" value="+" update="@parent:@parent:@parent"
+											actionListener="#{createTransactionController.addTransactionClicked}" process="@this"
+											rendered="#{createTransactionController.shouldRenderAddButton()}"
+											 />
+									<p:tooltip value="Click to add Transaction" for="transactionId" />		
+									</f:facet>
+			<ui:repeat var="viewModel" value="#{createTransactionController.transactionViewModelList}">
+			<!-- <p:messages id="msgs" /> -->
+			<b:row>
 			<b:column span="6">
 			<b:panel title="Select Entity to create Transaction">
 			<b:row>
 			<b:column span="6">
-			<p:selectOneRadio id="currentRadio" value="#{createTransactionController.radioValue}"
+			<p:selectOneRadio id="currentRadio" value="#{viewModel.radioValue}"
 			converter="javax.faces.Integer"
 			>
 				            <f:selectItem itemLabel="Practice" itemValue="1" />
 				            <f:selectItem itemLabel="Provider" itemValue="2" />
 				            
-				            <p:ajax event="change" listener="#{createTransactionController.onSelectionChange}" update=":myForm" /> 
+				            <p:ajax event="change" listener="#{viewModel.onSelectionChange}" update=":myForm" /> 
 				            
 				        </p:selectOneRadio>
 			</b:column>
 			
 			<b:column span="6">
 			
-			<p:selectOneMenu id="idPractice" value="#{createTransactionController.currentPractice}"
-							panelStyle="width:180px" effect="fade" rendered="#{createTransactionController.canPracticeShow}"
+			<p:selectOneMenu id="idPractice" value="#{viewModel.currentPractice}"
+							panelStyle="width:180px" effect="fade" rendered="#{viewModel.canPracticeShow}"
 							converter="javax.faces.Integer" required="true"
 							requiredMessage="Select atleast one practice"
 							 style="width:177px"
@@ -61,11 +73,11 @@
 							
 							<f:selectItems value="#{createTransactionController.practiceList}" var="entity"
 								itemLabel="#{entity.name}" itemValue="#{entity.id}"  />
-
+				<p:ajax event="change" update=":myForm" /> 
 						</p:selectOneMenu>
 						
-						<p:selectOneMenu id="idProvider" value="#{createTransactionController.currentProvider}"
-							panelStyle="width:180px" effect="fade" rendered="#{!createTransactionController.canPracticeShow}"
+						<p:selectOneMenu id="idProvider" value="#{viewModel.currentProvider}"
+							panelStyle="width:180px" effect="fade" rendered="#{!viewModel.canPracticeShow}"
 							converter="javax.faces.Integer" required="true"
 							requiredMessage="Select atleast one provider"
 							 style="width:177px"
@@ -87,7 +99,7 @@
 			<p:outputLabel for="idPayer" value="Select Payer: " />	  	   
 			</b:column>
 			<b:column span="6">
-			 <p:selectOneMenu id="idPayer" value="#{createTransactionController.selectedPayer}"
+			 <p:selectOneMenu id="idPayer" value="#{viewModel.selectedPayer}"
 				  	    requiredMessage="Select atleast one payer"
 				            filter="false" filterMatchMode="startsWith" style="width:177px" required="true"
 				            converter="javax.faces.Integer" panelStyle="width:250px">
@@ -95,7 +107,7 @@
 				            <f:selectItem itemLabel="Select Payer"/>
 				            <f:selectItems value="#{createTransactionController.payerList}" var="payer"
 								itemLabel="#{payer.name} " itemValue="#{payer.id}"  />
-					<p:ajax event="change" listener="#{createTransactionController.onPayerChange}" update="@parent:@parent:planRow"></p:ajax>			
+					<p:ajax event="change" listener="#{viewModel.onPayerChange}" update="@parent:@parent:planRow"></p:ajax>			
 								
 				        </p:selectOneMenu> 
 			</b:column>
@@ -111,14 +123,29 @@
 			<b:column span="6">
 			<p:selectCheckboxMenu
 			converter="javax.faces.Integer"
-			 label="Select Plan" id="planId" value="#{createTransactionController.selectedPlanIds}">
+			 label="Select Plan" id="planId" value="#{viewModel.selectedPlanIds}">
 			
-			<f:selectItems value="#{createTransactionController.currentPlanList}" var="plan"
+			<f:selectItems value="#{viewModel.currentPlanList}" var="plan"
 			 itemLabel="#{plan.name}" itemValue="#{plan.id}" />
 			
+			<p:ajax event="change"  process="@this" partialSubmit="true" />
 			</p:selectCheckboxMenu>
 			</b:column>
 			
+			</b:row>
+			
+			<b:row>
+			<b:column span="3">
+				<p:commandButton id="deleteId"
+					actionListener="#{createTransactionController.removeTransactionClicked(viewModel)}"
+					value="-"  update=":myForm" process="@this">
+					
+					</p:commandButton>
+					<!-- update="@parent:@parent:@parent:@parent" -->
+		
+						<!-- <p:tooltip id="toolTipFade" for="deleteId"
+									value="Click to remove Transaction" position="top" />-->
+						</b:column> 
 			</b:row>
 			</b:panel>    
 			</b:column>	
@@ -135,11 +162,13 @@
 			</b:column>
 			
 			<b:column span="6">
-			<p:selectOneMenu id="idType" value="#{createTransactionController.transaction.parStatus}" style="width:177px">
+			<p:selectOneMenu id="idType" value="#{viewModel.transaction.parStatus}" style="width:177px">
 				            <f:selectItem itemLabel="Application Process" itemValue="Application Process" />
 				            <f:selectItem itemLabel="Communication with Provider" itemValue="Communication with Provider" />
 				            <f:selectItem itemLabel="Communication with Payer" itemValue="Communication with Payer" />
 				            <f:selectItem itemLabel="Status Update" itemValue="Status Update" />
+				            
+				            <p:ajax event="change"  process="@this" partialSubmit="true" />
 				        </p:selectOneMenu>
 			</b:column>
 			
@@ -152,7 +181,10 @@
 			</b:column>
 			<b:column span="6">
 			<p:calendar  placeholder="Select Transaction Date" pattern="MM/dd/yyyy HH:mm:ss"
-			 value="#{createTransactionController.transaction.transactionDate}" required="true" />
+			 value="#{viewModel.transaction.transactionDate}" required="true">
+			 
+			 <p:ajax event="change"  process="@this" partialSubmit="true" />
+			  </p:calendar>
 			</b:column>
 			
 			</b:row>
@@ -164,26 +196,32 @@
 			</b:column>
 			
 			<b:column span="6">
-			<p:selectOneMenu id="vname" value="#{createTransactionController.transaction.transactionState}" style="width:175px">
+			<p:selectOneMenu id="vname" value="#{viewModel.transaction.transactionState}" style="width:175px">
 			        		
-			        		<f:selectItems value="#{createTransactionController.statusList}" var="v"
+			        		<f:selectItems value="#{viewModel.statusList}" var="v"
 			        		itemLabel="#{v}" itemValue="#{v}"/>
+			        		
+			        		<p:ajax  process="@this" partialSubmit="true" />
 				        </p:selectOneMenu> 
 			</b:column>
 			</b:row>
 			<br />
 			<b:row>
 			<b:column span="12">
-			<b:inputTextarea rows="6" placeholder="Comments" value="#{createTransactionController.transaction.comments}" />
+			<p:inputTextarea rows="6" cols="90" placeholder="Comments" value="#{viewModel.transaction.comments}">
+			<p:ajax  process="@this" partialSubmit="true" />
+			 </p:inputTextarea>
 			</b:column>
 			</b:row>
 			</b:panel>	 		
 			</b:column>
+			</b:row>
+			<p:separator />
+			</ui:repeat>
+			</b:panel>
 			
-				  	
-				
 				<p:commandButton id="btnSave" value="Save" actionListener="#{createTransactionController.saveInfo()}"
-				    		validateClient="true" update="myForm, msgs" />
+				    		validateClient="true" update=":myForm" />
 				
 							<!-- <p:blockUI trigger="myForm:btnSave" block="transDialog"
 						widgetVar="block">
