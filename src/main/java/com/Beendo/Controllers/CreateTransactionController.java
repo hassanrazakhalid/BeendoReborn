@@ -212,14 +212,16 @@ public class CreateTransactionController extends BaseViewController implements S
 				
 				transactionViewModel.saveButtonClicked();
 			}
+			showMessage(FacesMessage.SEVERITY_INFO, "Transaction", "Transaction saved successfully");
 			
 		} catch (Exception e) {
 			
-			showMessage(FacesMessage.SEVERITY_ERROR, "Transaction", "Must select atleast one plan");
+			showMessage(FacesMessage.SEVERITY_ERROR, "Transaction", e.getMessage());
+//			showMessage(FacesMessage.SEVERITY_ERROR, "Transaction", "Must select atleast one plan");
 		}
 		
 //		transactionService.saveOrUpdate(transaction);
-		showMessage(FacesMessage.SEVERITY_INFO, "Transaction", "Transaction saved successfully");
+		
 		try
 		{
 			

@@ -26,7 +26,7 @@
 			<!-- <b:container> -->
 			  <h:form id="myForm">
 				  	<!-- <p:messages id="msgs" /> -->
-			
+			<p:messages id="msgs" rendered="!#{createTransactionController.shouldRenderAddButton()}" />
 			
 			<!-- Left Side -->
 			<b:panel id="mainTransactionPanel" title="Create Transactions:" span="12">
@@ -38,8 +38,9 @@
 											 />
 									<p:tooltip value="Click to add Transaction" for="transactionId" />		
 									</f:facet>
+									
 			<ui:repeat var="viewModel" value="#{createTransactionController.transactionViewModelList}">
-			<!-- <p:messages id="msgs" /> -->
+			 
 			<b:row>
 			<b:column span="6">
 			<b:panel title="Select Entity to create Transaction">
@@ -84,7 +85,7 @@
 							 filter="true" filterMatchMode="startsWith"
 							
 							 >
-							
+							<p:ajax event="change" update=":myForm" />
 							<f:selectItem itemLabel="Select Provider" />
 							
 							<f:selectItems value="#{createTransactionController.providerList}" var="entity"
@@ -101,8 +102,10 @@
 			<b:column span="6">
 			 <p:selectOneMenu id="idPayer" value="#{viewModel.selectedPayer}"
 				  	    requiredMessage="Select atleast one payer"
-				            filter="false" filterMatchMode="startsWith" style="width:177px" required="true"
-				            converter="javax.faces.Integer" panelStyle="width:250px">
+				            filter="true" filterMatchMode="startsWith" style="width:177px" required="true"
+				            converter="javax.faces.Integer" panelStyle="width:250px"
+				           
+				            >
 				            
 				            <f:selectItem itemLabel="Select Payer"/>
 				            <f:selectItems value="#{createTransactionController.payerList}" var="payer"
@@ -134,7 +137,7 @@
 			
 			</b:row>
 			
-			<b:row>
+			<b:row rendered="#{createTransactionController.shouldRenderAddButton()}">
 			<b:column span="3">
 				<p:commandButton id="deleteId"
 					actionListener="#{createTransactionController.removeTransactionClicked(viewModel)}"
@@ -208,7 +211,8 @@
 			<br />
 			<b:row>
 			<b:column span="12">
-			<p:inputTextarea rows="6" cols="90" placeholder="Comments" value="#{viewModel.transaction.comments}">
+			<p:inputTextarea rows="6" cols="90" placeholder="Comments" value="#{viewModel.transaction.comments}"
+			>
 			<p:ajax  process="@this" partialSubmit="true" />
 			 </p:inputTextarea>
 			</b:column>
@@ -236,12 +240,12 @@
 				
 				 
 <style>
-.ui-dialog{
+/*.ui-dialog{
 	top: 10% !important;
 	position: absolute !important;
 	left: 15% !important;
 
-}
+}*/
 
 .hasDatepicker {
 

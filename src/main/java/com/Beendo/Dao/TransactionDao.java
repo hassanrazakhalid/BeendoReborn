@@ -1,18 +1,8 @@
 package com.Beendo.Dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Fetch;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -25,10 +15,6 @@ import static java.lang.Math.toIntExact;
 
 import java.math.BigInteger;
 
-import com.Beendo.Entities.Payer;
-import com.Beendo.Entities.Plan;
-import com.Beendo.Entities.Practice;
-import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
 import com.Beendo.Entities.Transaction_;
 import com.Beendo.Utils.Constants;
@@ -176,7 +162,7 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 //			break;
 //		}
 //		filter.setBaseQuery(subQuery);
-		String queryString = "SELECT COUNT(*) FROM (" + filter.getQueryString(true) + ") t";
+		String queryString = "SELECT COUNT(DISTINCT T.id) FROM (" + filter.getQueryString(true) + ") t";
 		
 		Query query = session.createNativeQuery(queryString);
 //				+ " ORDER BY t.transactionDate";
@@ -215,11 +201,13 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 		String queryString =  filter.getQueryString(false);
 		queryString += " ORDER BY T.transactionDate DESC";
 
+//		queryString += " Limit " + filter.getStart() + ", " + filter.getMaxResults();
+			
 		Query query = session.createNativeQuery(queryString)
 				.addEntity("T",Transaction.class)
 				.addJoin("PL", "T.plans")
 				.addEntity("T",Transaction.class)
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+				.setResultTransformer(Criteria.ROOT_ENTITY);
 		query.setFirstResult(filter.getStart());
 		query.setMaxResults(filter.getMaxResults());
 //				+ " ORDER BY t.transactionDate";

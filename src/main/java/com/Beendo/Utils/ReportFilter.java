@@ -130,6 +130,7 @@ public class ReportFilter {
 		String finalbaseString = "SELECt * from transaction  as T";
 		if (!countModeOn) {
 			finalbaseString += geJoins();
+			finalbaseString += " GROUP BY T.id";
 		}
 		return finalbaseString;
 	}
@@ -214,7 +215,7 @@ public class ReportFilter {
 				case ReportTypeProvider:
 				case ReportTypePractise:
 				case ReportTypeTransaction:
-					baseQuery += " WHERE";
+					baseQuery += " HAVING";
 					addConditions(key, value);
 					state = QueryState.conditions;
 					break;
