@@ -33,4 +33,20 @@ public class DocumentCell {
 //			 System.out.println("");			 
 		 }
 	 }
+	 
+	 public boolean isLinkDisabled(){
+		 if (document.getNameOnDisk() == null) {
+			 return true;
+		 }
+		 return document.getNameOnDisk().isEmpty();
+	 }
+	 
+	 public String getDocViewLink(){
+		 
+		 if (isLinkDisabled()){
+			 return "";
+		 }
+		 String fullLink = "https://docs.google.com/viewer?url=" + "http://documentsDev.sypore.net:8081/" + "providers/" +document.getProvider().getId() +"/" + document.getNameOnDisk();
+		 return fullLink;
+	 }
 }

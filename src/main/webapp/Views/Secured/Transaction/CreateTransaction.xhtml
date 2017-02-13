@@ -143,11 +143,16 @@
 					actionListener="#{createTransactionController.removeTransactionClicked(viewModel)}"
 					value="-"  update=":myForm" process="@this">
 					
+					<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-alert" />
 					</p:commandButton>
-					<!-- update="@parent:@parent:@parent:@parent" -->
-		
-						<!-- <p:tooltip id="toolTipFade" for="deleteId"
-									value="Click to remove Transaction" position="top" />-->
+					
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
 						</b:column> 
 			</b:row>
 			</b:panel>    

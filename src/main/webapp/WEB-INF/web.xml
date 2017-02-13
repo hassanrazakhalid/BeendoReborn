@@ -28,7 +28,7 @@
   </listener>
   <listener>
   <listener-class>com.Beendo.Configuration.CustomHttpSessionListener</listener-class>
-  </listener>
+  </listener> 
   
   <listener>
 <listener-class>

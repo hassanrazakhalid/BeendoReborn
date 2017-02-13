@@ -121,7 +121,8 @@ public class TransactionViewModel {
 				currentPlanList = new ArrayList<>(tmpPlans);
 				selectedPlanId = transaction.getPlan().getId();
 //				selectedPlanIds = transaction.getPlans().stream().map(Plan::getId).collect(Collectors.toList());
-			}		
+			}
+			updateProviderStatusList();
 		}
 		return this;
 	}

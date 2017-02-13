@@ -31,49 +31,7 @@
 
 				 <p:growl id="gMsgs" showSummary="true" />
 
-<!-- 				<h:panelGrid columns="2" cellpadding="8">
-
-					<p:outputLabel id="entity"
-						value="#{editProviderController.entityName}" />
-
-					<p:selectCheckboxMenu id="myPractices"
-						value="#{editProviderController.selectedPractices}"
-						label="Select Practices" filter="true"
-						filterMatchMode="startsWith" style="width:177px" var="t"
-						panelStyle="width:250px" converter="javax.faces.Integer">
-
-						<f:selectItems value="#{editProviderController.practiceList}"
-							var="practice" itemLabel="#{practice.name}"
-							itemValue="#{practice.getId()}" />
-
-						<p:column>
-									<h:outputText value="#{t.name}" />
-								</p:column>
-
-					</p:selectCheckboxMenu>
-
-					<p:inputText id="NpiNumber"
-						value="#{editProviderController.npiNumber}"
-						placeholder="Npi Number" maxlength="10" label="NPI"
-						required="true"
-						validatorMessage="NPI should only digits and length 10">
-						 validator="npiValidator"
-						<f:validateRegex for="NpiNumber" pattern="[0-9]{10}" />
-						<f:convertNumber integerOnly="true"/>
-
-					</p:inputText>
-					<p:inputText value="#{editProviderController.provider.firstName}"
-						placeholder="First Name" label="FirstName" required="true" />
-					<p:inputText value="#{editProviderController.provider.lastName}"
-						placeholder="Last Name" label="Last Name" required="true" />
-
-
-				</h:panelGrid>
-
-
-
 				<br />
- -->
 				<p:dataGrid id="filesTable" columns="3"
 					value="#{editProviderController.documentCells}" var="docCell">
 
@@ -82,9 +40,12 @@
 							<p:panelGrid>
 								<p:row>
 									<p:column>
-										<b><h:outputLabel id="_lbDocName" for="fileUpload"
+										<b>
+										 
+										 <h:outputLabel id="_lbDocName" for="fileUpload"
 												value="#{docCell.lbName}"
-												styleClass="#{docCell.getColorClassName()}" /></b>
+												styleClass="#{docCell.getColorClassName()}" />
+												</b>
 
 									</p:column>
 								</p:row>
@@ -94,9 +55,16 @@
 										<p:panelGrid columns="2">
 											<h:outputLabel value="Existing File: " for="idFileName"
 												styleClass="#{docCell.getColorClassName()}" />
-											<h:outputLabel id="idFileName"
+												
+												<!--  -->
+										<!-- disabled="#{docCell.isLinkDisabled()}" value="#{docCell.lbName}" -->
+										 <h:outputLink  id="idFileName" value="#{docCell.getDocViewLink()}"
+										styleClass="#{docCell.getColorClassName()}"
+										disabled="#{docCell.isLinkDisabled()}"
+										 >#{docCell.document.orignalName} </h:outputLink> 
+											<!-- <h:outputLabel id="idFileName"
 												value="#{docCell.document.orignalName}"
-												styleClass="#{docCell.getColorClassName()}" />
+												styleClass="#{docCell.getColorClassName()}" /> -->
 										</p:panelGrid>
 
 

@@ -99,16 +99,16 @@
 
 						<p:column headerText="Payer Name">
 						
-						<ui:repeat var="plan" value="#{transaction.plans.toArray()}">
+					
 						 <b:row>
 						 <b:column span="6">
 						 #{transaction.payer.name}
 						 </b:column>
 						 <b:column span="6">
-						 #{plan.name}
+						 #{transaction.plan.name}
 						 </b:column>
 						 </b:row>
-						 </ui:repeat>	
+							
 										
 						</p:column> 
 

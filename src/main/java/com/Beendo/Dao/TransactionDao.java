@@ -162,7 +162,7 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 //			break;
 //		}
 //		filter.setBaseQuery(subQuery);
-		String queryString = "SELECT COUNT(DISTINCT T.id) FROM (" + filter.getQueryString(true) + ") t";
+		String queryString = "SELECT COUNT(DISTINCT t.id) FROM (" + filter.getQueryString(true) + ") t";
 		
 		Query query = session.createNativeQuery(queryString);
 //				+ " ORDER BY t.transactionDate";
