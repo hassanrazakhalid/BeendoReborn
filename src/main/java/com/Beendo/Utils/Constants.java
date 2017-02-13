@@ -13,12 +13,12 @@ public class Constants {
 	// "partracker-doc" + "//";
 	public static String ERRR_RECORDS_OUDATED = "Records are outdated refresh the page";
 
-	public static String[] providerStatus = new String[] { "New-Provider", "Non-Par", "PAR",
-			"Application Package Complete", "Application Filed", "Application Accepted", "Application Rejected",
-			"Effective Date Assigned", "Letter Received", };
+	public static String[] providerStatus = new String[] { "New", "Non-Par", "PAR",
+			"Application Package Complete", "Application Filed", "Application Accepted", "Application Closed",
+			"Effective Date Assigned", "Letter Received", "Application Reopen" };
 
-	public static String[] practiceStatus = new String[] { "Non-Par", "PAR", "Application Package Complete",
-			"Application Filed", "Application Accepted", "Application Rejected", "Effective Date Assigned",
+	public static String[] practiceStatus = new String[] { "New","Non-Par", "PAR", "Application Package Complete",
+			"Application Filed", "Application Accepted", "Application Closed", "Effective Date Assigned",
 			"Letter Received", };
 
 	public static String[] statesList = new String[] { 

@@ -137,8 +137,8 @@ public class ReportFilter {
 	
 	private String geJoins(){
 		return " LEFT JOIN payer AS P ON P.id = T.payer_id"
-				+ " LEFT JOIN  transaction_plan AS planIds ON planIds.transaction_id = T.id"
-				+ " LEFT JOIN plan AS PL ON PL.id = planIds.plan_id";
+//				+ " LEFT JOIN  transaction_plan AS planIds ON planIds.transaction_id = T.id"
+				+ " LEFT JOIN plan AS PL ON PL.id = T.plan_id";
 	}
 
 	private void updatePractiseIdsByUser(){

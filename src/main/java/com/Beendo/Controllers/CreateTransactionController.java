@@ -78,7 +78,8 @@ public class CreateTransactionController extends BaseViewController implements S
 	
 		fetchData();
 		getIdIfPresent();
-		
+		checkIfProviderPresent();
+		checkIfPractisePresent();
 	}
 	
 	public void fetchData(){
@@ -111,6 +112,8 @@ public class CreateTransactionController extends BaseViewController implements S
 		String id = params.get("id");
 		if (id != null) {
 			
+			transactionViewModelList.clear();
+			
 			operationType = OperationType.Edit;
 			List<String> profiles = Arrays.asList("transactionPlanList","planList");
 			Transaction res = transactionService.getEntityByProfiles(Integer.parseInt(id), profiles); //transactionService.get(Integer.parseInt(id));
@@ -120,6 +123,39 @@ public class CreateTransactionController extends BaseViewController implements S
 			transactionViewModelList.add(transactionViewMode);
 //				updateProviderStatusList();			
 			}
+	}
+	
+	private void checkIfPractisePresent(){
+		
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String id = params.get("practiseId");
+		
+		if (id != null){
+			
+			transactionViewModelList.clear();
+			
+			TransactionViewModel transactionViewMode = new TransactionViewModel(practiceList, providerList, payerList, entityService, transactionService);
+			transactionViewMode.setCurrentPractice(Integer.parseInt(id));
+			transactionViewMode.onSelectionChange();
+			transactionViewModelList.add(transactionViewMode);
+		}
+	}
+	
+	private void checkIfProviderPresent(){
+		
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String id = params.get("providerId");
+		
+		if (id != null){
+			
+			transactionViewModelList.clear();
+			
+			TransactionViewModel transactionViewMode = new TransactionViewModel(practiceList, providerList, payerList, entityService, transactionService);
+			transactionViewMode.setCurrentProvider(Integer.parseInt(id));
+			transactionViewMode.setRadioValue(2);
+			transactionViewMode.onSelectionChange();
+			transactionViewModelList.add(transactionViewMode);
+		}
 	}
 	
 	public boolean shouldRenderAddButton(){
@@ -208,11 +244,15 @@ public class CreateTransactionController extends BaseViewController implements S
 		
 		try {
 			
-			for (TransactionViewModel transactionViewModel : transactionViewModelList) {
-				
-				transactionViewModel.saveButtonClicked();
+		List<Transaction> transactionList =	new ArrayList<>();
+			
+		for (TransactionViewModel transactionViewModel : transactionViewModelList) {
+//				
+				transactionViewModel.assignValuesToTransaction();
+				transactionList.add(transactionViewModel.getTransaction());
 			}
-			showMessage(FacesMessage.SEVERITY_INFO, "Transaction", "Transaction saved successfully");
+		transactionService.saveTransactions(transactionList);
+		showMessage(FacesMessage.SEVERITY_INFO, "Transaction", "Transaction saved successfully");
 			
 		} catch (Exception e) {
 			

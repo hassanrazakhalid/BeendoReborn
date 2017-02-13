@@ -514,6 +514,8 @@ public class SharedData implements ApplicationContextAware {
 	public String toPracticeReports(){ return "ReportPractice";}
 	public String toTransactionView(){return "ViewTransaction";}
 	
+	public String toCreateTransaction(){return "CreateTransaction";}
+	
 	public String toCreatePractice() {return "CreatePractice";}
 	// public void setCurrentUser(User currentUser) {
 	// this.currentUser = currentUser;

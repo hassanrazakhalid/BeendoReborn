@@ -24,7 +24,7 @@
 				<h:form rendered="#{transactionController.canCreate()}">
 				
 				<h3>
-				<h:link outcome="#{transactionController.moveToCreateTransaction()}" value="Create Transaction">
+				<h:link outcome="#{sharedData.toCreateTransaction()}" value="Create Transaction">
 					
 				</h:link>
 				</h3>
@@ -74,15 +74,12 @@
 						
 						 <p:column headerText="Plan">
 						 <table>
-						 <ui:repeat var="plan" value="#{transaction.plans.toArray()}">
 						 
 						 <tr>
 						 <td>
-						 #{plan.name}
+						 #{transaction.plan.name}
 						 </td>
 						 </tr>
-						 
-						 </ui:repeat>
 						 </table>
 							
 						</p:column> 
@@ -114,7 +111,7 @@
 						 <p:column headerText="Edit" width="80"
 							rendered="#{transactionController.canEdit()}">
 							
-							<h:link rendered="#{sharedData.getCurrentUser().getRole() == 'ROOT_ADMIN'}" outcome="#{transactionController.moveToCreateTransaction()}" value="Edit">
+							<h:link rendered="#{sharedData.getCurrentUser().getRole() == 'ROOT_ADMIN'}" outcome="#{sharedData.toCreateTransaction()}" value="Edit">
 							<f:param name="id" value="#{transaction.id}" />
 							</h:link>
 

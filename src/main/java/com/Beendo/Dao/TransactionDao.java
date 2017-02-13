@@ -205,7 +205,7 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 			
 		Query query = session.createNativeQuery(queryString)
 				.addEntity("T",Transaction.class)
-				.addJoin("PL", "T.plans")
+				.addJoin("PL", "T.plan")
 				.addEntity("T",Transaction.class)
 				.setResultTransformer(Criteria.ROOT_ENTITY);
 		query.setFirstResult(filter.getStart());

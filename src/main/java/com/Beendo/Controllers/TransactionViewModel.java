@@ -50,7 +50,7 @@ public class TransactionViewModel {
 	private Integer radioValue = RadioValue.Practise.value;
 	
 	//PLan
-	private List<Integer> selectedPlanIds = new ArrayList<>();
+	private Integer selectedPlanId =0;
 	private List<Plan> currentPlanList = new ArrayList<>();
 	
 	private Transaction transaction = new Transaction();
@@ -115,15 +115,17 @@ public class TransactionViewModel {
 				currentProvider =  transaction.getProvider().getId();
 			}
 			
-			if (transaction.getPlans() != null) {
+			if (transaction.getPlan() != null) {
 				
 				Set<Plan> tmpPlans = new HashSet<>(transaction.getPayer().getPlans());
 				currentPlanList = new ArrayList<>(tmpPlans);
-				selectedPlanIds = transaction.getPlans().stream().map(Plan::getId).collect(Collectors.toList());
+				selectedPlanId = transaction.getPlan().getId();
+//				selectedPlanIds = transaction.getPlans().stream().map(Plan::getId).collect(Collectors.toList());
 			}		
 		}
 		return this;
 	}
+	
 	//create case
 	public void onSelectionChange()
 	{
@@ -145,10 +147,21 @@ public class TransactionViewModel {
 	
 	public void onPlanSelect(){
 		System.out.println(currentPlanList);
-		System.out.println(selectedPlanIds);
+		System.out.println(selectedPlanId);
 	}
 	
-	public void saveButtonClicked() throws Exception {
+	public Optional<Plan> getSelectedPlansList(){
+		
+		Optional<Plan> res = currentPlanList.stream().filter(
+				(p) -> {
+					
+					boolean ok = selectedPlanId.equals(p.getId());
+					return ok;
+				}).findFirst();
+		return res;
+	}
+	
+	public void assignValuesToTransaction() throws Exception {
 		
 		Optional<Payer> payer =	payerList.stream()
 				.filter(p -> {
@@ -166,25 +179,20 @@ public class TransactionViewModel {
 			
 			}
 			
-			
-			List<Plan> res = currentPlanList.stream().filter(
-					(p) -> {
-						
-						boolean ok = selectedPlanIds.contains(p.getId());
-						return ok;
-					}).collect(Collectors.toList());
-			if (res.isEmpty()) {
-				throw new Exception("Must select atleast one plan");
+			Optional<Plan> res = getSelectedPlansList();
+			if (!res.isPresent()) {
+				throw new Exception("Must select plan");
 //				showMessage(FacesMessage.SEVERITY_ERROR, "Transaction", "Must select atleast one plan");
 //				return;
 			}
-
+//			Set<Plan> planSet = new HashSet<>();
+//			planSet.addAll(res);
+//			for (Plan plan : planSet) {
+				transaction.setPlan(res.get());	
+//			}
 				transaction.setPayer(payer.get());
 				
-				Set<Plan> planSet = new HashSet<>();
-				planSet.addAll(res);
 				
-				transaction.setPlans(planSet);
 				Integer entityId = null;
 				if(canPracticeShow)
 				{
@@ -205,7 +213,9 @@ public class TransactionViewModel {
 				CEntitiy entity = entityService.get(entityId);//entityService.findEntityWithTransaction(entityId);
 				transaction.setEntity(entity);
 				
-				transactionService.saveOrUpdate(transaction);
+				
+				
+//				transactionService.saveOrUpdate(transaction);
 	}
 	
 	private Practice getPractiseById(Integer id) {

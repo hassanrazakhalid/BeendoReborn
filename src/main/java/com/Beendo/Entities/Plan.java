@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -35,10 +36,7 @@ public class Plan {
 	
 	@ManyToOne
 	private Payer payer;
-	@ManyToMany()
-	@JoinTable(name="transaction_plan",
-	joinColumns=@JoinColumn(name="plan_id"),
-	inverseJoinColumns=@JoinColumn(name="transaction_id")
-			)
-	private List<Transaction> transaction = new ArrayList<>();
+	
+	@OneToMany(mappedBy="plan")
+	private List<Transaction> transactions = new ArrayList<>();
 }

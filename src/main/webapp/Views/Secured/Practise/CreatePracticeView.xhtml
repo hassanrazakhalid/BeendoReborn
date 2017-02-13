@@ -40,6 +40,11 @@
 								<b:panelGrid col-spans="4,8">
 								
 								<b:label text="Practice name" />
+								<b:inputText required="true" requiredMessage="Name cannot be empty"
+												value="#{createPracticeController.practice.name}"
+												placeholder="Name *" />
+								
+								<b:label text="Group PTAN" />
 								<b:inputText required="true" requiredMessage="Group pan cannot be empty"
 												value="#{createPracticeController.practice.groupPtan}"
 												placeholder="Group PTAN *" />

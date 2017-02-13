@@ -53,7 +53,10 @@
 					<p:column headerText="Provider Name" filterMatchMode="contains"
 						filterBy="#{provider.getFullName()}">
 					
-							#{provider.getFullName()}
+					<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{provider.getFullName()}">
+								<f:param name="providerId" value="#{provider.id}" />
+								 </h:link>
+							<!-- #{provider.getFullName()} -->
 						</p:column>
 
 					<p:column headerText="Npi Number">
@@ -69,7 +72,12 @@
 						<table>
 							<ui:repeat value="#{provider.practiceList.toArray()}" var="t">
 								<tr>
-									<td style="border: 0px;"><h:outputText value="#{t.name}" />
+									<td style="border: 0px;">
+									
+									<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{t.name}">
+								<f:param name="practiseId" value="#{t.id}" />
+								 </h:link>
+									
 									</td>
 								</tr>
 							</ui:repeat>

@@ -33,6 +33,7 @@ import com.Beendo.Entities.SpecialityInfo;
 import com.Beendo.Services.IEntityService;
 import com.Beendo.Services.IPractiseService;
 import com.Beendo.Services.IProviderService;
+import com.Beendo.Services.ITransactionService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.Role;
@@ -74,6 +75,9 @@ public class CreateProviderController extends BaseViewController implements Seri
 	@Autowired
 	private IEntityService entityService;
 
+	@Autowired
+	private ITransactionService transactionService;
+	
 	private boolean isEntityListDisabled;
 
 	private boolean updateScenario = false;
@@ -411,72 +415,15 @@ public class CreateProviderController extends BaseViewController implements Seri
 
 		assignSpecialityValues();
 		providerService.saveOrUpdate(provider);
+		
+		//entering dummy new transaction 
+		transactionService.enterStartUpTransaction(provider);
 		showMessage(FacesMessage.SEVERITY_INFO, "Provider", "Provider saved sucessfully");
-		return;
-
-		// try {
-		//
-		// if (this.opetationType == OperationType.Create && !isInfoValid())
-		// return;
-		//
-		// CEntitiy entity = null;
-		// if (entityList.size() >= 1) {
-		// entity = getEntityById(Integer.valueOf(currentEntity));//
-		// entityList.get();
-		// }
-		//
-		//// List<Payer>payerList = getSelectedPayersObject();
-		//
-		// Set<Practice> tmpPractices = getSelectedList();
-		// provider.setPracticeList(tmpPractices);
-		//// practiseService.updatePractiseList(tmpPractices);
-		// provider.setCentity(entity);
-		//// provider.get
-		// switch (this.opetationType) {
-		// case Create: {
-		// {
-		//
-		// // currentEntity.getProviderList().add(provider);
-		//
-		// if (isInfoValid()) {
-		// try {
-		// providerService.addProviderToPractise(provider, tmpPractices);
-		//// providerList.add(provider);
-		//
-		// } catch (StaleObjectStateException e) {
-		//
-		// showMessage(Constants.ERRR_RECORDS_OUDATED);
-		// } catch (Exception e) {
-		// // TODO: handle exception
-		// }
-		//
-		// // entityService.update(currentEntity);
-		// RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-		// // showMessage("Provider has been saved");
-		// }
-		// }
-		// }
-		// break;
-		// case Edit: {
-		// providerService.update(provider);
-		// // entityService.update(currentEntity);
-		// RequestContext.getCurrentInstance().execute("PF('Dlg1').hide()");
-		// // showMessage("Provider has been updated");
-		// }
-		// break;
-		//
-		// default:
-		// break;
-		// }
-		//
-		// } catch (StaleObjectStateException e) {
-		//
-		// showMessage(Constants.ERRR_RECORDS_OUDATED);
-		// } catch (Exception e) {
-		// // TODO: handle exception
-		// }
+		
+		//Entering dummy transaction for new Provider
 	}
 
+	
 	// private void refreshPractics() {
 	//
 	// if (!entityList.isEmpty()) {

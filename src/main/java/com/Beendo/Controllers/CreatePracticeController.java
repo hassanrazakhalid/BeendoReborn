@@ -20,6 +20,7 @@ import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.PracticeAddressInfo;
 import com.Beendo.Services.IEntityService;
 import com.Beendo.Services.IPractiseService;
+import com.Beendo.Services.ITransactionService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.SharedData;
@@ -46,7 +47,9 @@ public class CreatePracticeController implements Serializable {
 	private IEntityService entityService;
 	@Autowired
 	private IPractiseService practiseService;
-
+	@Autowired
+	private ITransactionService transactionService;
+	
 	private OperationType type = OperationType.Create;
 	private boolean skip;
 
@@ -160,6 +163,9 @@ public class CreatePracticeController implements Serializable {
 				practice.setEntity(entity);
 				entity.getPracticeList().add(practice);
 				entityService.saveOrUpdate(entity);
+				
+				//Entering startUp tranasction
+				transactionService.enterStartUpTransaction(practice);
 			}
 			else {
 				

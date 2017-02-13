@@ -127,11 +127,6 @@ public class TransactionController extends BaseViewController implements Disposa
 		return isOK;
 	}
 	
-	
-	public String moveToCreateTransaction(){
-		return "CreateTransaction";
-	}
-	
 	@PostConstruct
 	public void onLoad(){
 

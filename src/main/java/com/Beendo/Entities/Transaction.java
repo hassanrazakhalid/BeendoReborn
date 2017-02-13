@@ -38,7 +38,7 @@ import lombok.Setter;
 	@FetchProfile(name = "transactionPlanList",fetchOverrides = {
 							@FetchProfile.FetchOverride(
 							entity = Transaction.class,
-							association = "plans",
+							association = "plan",
 							mode = FetchMode.JOIN
 							)
 			}
@@ -81,13 +81,9 @@ public class Transaction {
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
 	private Provider provider = new Provider();
-	
-	@ManyToMany()
-	@JoinTable(name="transaction_plan",
-	joinColumns=@JoinColumn(name="transaction_id"),
-	inverseJoinColumns=@JoinColumn(name="plan_id")
-			)
-	private Set<Plan> plans =  new HashSet<>();
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
+	private Plan plan =  new Plan();
 	
 	public Transaction() {
 		// TODO Auto-generated constructor stub

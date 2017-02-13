@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.Beendo.Controllers.TransactionViewModel;
 import com.Beendo.Dao.ICRUD;
 import com.Beendo.Dao.ITransaction;
 import com.Beendo.Entities.CEntitiy;
@@ -33,4 +34,9 @@ public interface ITransactionService extends GenericService<Transaction, Integer
 	public void fetchDataForTransactionCreation(Consumer<Map<String, Object>> sender, Integer entityId);
 	
 	public Transaction getEntityByProfiles(Integer id, List<String> profiles);
+	
+	public void saveTransactions(List<Transaction> list);
+	
+	public void enterStartUpTransaction(Provider provider);
+	public void enterStartUpTransaction(Practice practise);
 }

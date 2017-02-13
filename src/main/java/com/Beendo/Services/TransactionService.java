@@ -2,6 +2,7 @@ package com.Beendo.Services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +13,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.Beendo.Controllers.TransactionViewModel;
 import com.Beendo.Dao.ITransaction;
 import com.Beendo.Entities.Payer;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
 import com.Beendo.Entities.User;
+import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.SharedData;
 
 @Service
@@ -119,5 +122,43 @@ public class TransactionService extends GenericServiceImpl<Transaction, Integer>
 
 		if (ids.size() > 0)
 			service.deleteTransactionByProvider(ids);
+	}
+	
+	@Transactional(readOnly=false)
+	public void saveTransactions(List<Transaction> list) {
+		
+		for (Transaction transaction : list) {
+			
+			service.saveOrUpdate(transaction);
+		}
+	}
+	
+	@Transactional(readOnly=false)
+	public void enterStartUpTransaction(Provider provider){
+		
+		Transaction transaction = new Transaction();
+		transaction.setParStatus("New");
+		transaction.setEntity(provider.getCentity());
+		transaction.setProvider(provider);
+		transaction.setPlan(null);
+		transaction.setPractice(null);
+		transaction.setPayer(null);
+		transaction.setTransactionDate(new Date());
+		
+		service.saveOrUpdate(transaction);
+	}
+	@Transactional(readOnly=false)
+	public void enterStartUpTransaction(Practice practise){
+		
+		Transaction transaction = new Transaction();
+		transaction.setParStatus("New");
+		transaction.setEntity(practise.getEntity());
+		transaction.setTransactionDate(new Date());
+		transaction.setPlan(null);
+		transaction.setProvider(null);
+		transaction.setPayer(null);
+		transaction.setPractice(practise);
+		
+		service.saveOrUpdate(transaction);
 	}
 }

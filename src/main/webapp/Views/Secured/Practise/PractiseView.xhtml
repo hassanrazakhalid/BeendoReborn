@@ -39,7 +39,11 @@
 					#{practise.entity.name}
 				</p:column>
 				<p:column headerText="Name">
-					#{practise.name}
+				
+				<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{practise.name}">
+								<f:param name="practiseId" value="#{practise.id}" />
+								 </h:link>
+					<!-- #{practise.name} -->
 				</p:column>
 
 				<p:column headerText="Providers">
@@ -47,8 +51,15 @@
 						<ui:repeat value="#{practise.providers.toArray()}" var="t">
 
 							<tr>
-								<td style="border: 0px;"><h:outputText
-										value="#{t.firstName} #{t.lastName}" /></td>
+								<td style="border: 0px;">
+								
+								<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{t.firstName} #{t.lastName}">
+								<f:param name="providerId" value="#{t.id}" />
+								 </h:link>
+								
+								<!-- <h:outputText
+										value="#{t.firstName} #{t.lastName}" /> -->
+										</td>
 
 							</tr>
 						</ui:repeat>
