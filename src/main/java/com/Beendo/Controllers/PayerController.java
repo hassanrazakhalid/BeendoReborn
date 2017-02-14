@@ -77,6 +77,18 @@ public class PayerController {
 		return "PayerView";
 	}
 	
+	public boolean canEditPayer(){
+		
+		if (
+				SharedData.getSharedInstace().getCurrentUser().getUsername().equalsIgnoreCase("tahiri") ||
+				SharedData.getSharedInstace().getCurrentUser().getUsername().equalsIgnoreCase("rootAdmin")
+				)
+			return true;
+			else
+				return false;
+		
+	}
+	
 	public void removeClicked(Payer _payer) {
 		
 		try

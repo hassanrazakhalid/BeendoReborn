@@ -50,7 +50,7 @@ public class TransactionViewModel {
 	private Integer radioValue = RadioValue.Practise.value;
 	
 	//PLan
-	private Integer selectedPlanId =0;
+	private List<Integer> selectedPlanIds = new ArrayList<>();
 	private List<Plan> currentPlanList = new ArrayList<>();
 	
 	private Transaction transaction = new Transaction();
@@ -119,7 +119,8 @@ public class TransactionViewModel {
 				
 				Set<Plan> tmpPlans = new HashSet<>(transaction.getPayer().getPlans());
 				currentPlanList = new ArrayList<>(tmpPlans);
-				selectedPlanId = transaction.getPlan().getId();
+				selectedPlanIds.add(transaction.getPlan().getId());
+//				selectedPlanId = transaction.getPlan().getId();
 //				selectedPlanIds = transaction.getPlans().stream().map(Plan::getId).collect(Collectors.toList());
 			}
 			updateProviderStatusList();
@@ -148,21 +149,21 @@ public class TransactionViewModel {
 	
 	public void onPlanSelect(){
 		System.out.println(currentPlanList);
-		System.out.println(selectedPlanId);
+		System.out.println(selectedPlanIds);
 	}
 	
-	public Optional<Plan> getSelectedPlansList(){
+	public List<Plan> getSelectedPlansList(){
 		
-		Optional<Plan> res = currentPlanList.stream().filter(
+		List<Plan> res = currentPlanList.stream().filter(
 				(p) -> {
 					
-					boolean ok = selectedPlanId.equals(p.getId());
+					boolean ok = selectedPlanIds.contains(p.getId());
 					return ok;
-				}).findFirst();
+				}).collect(Collectors.toList());
 		return res;
 	}
 	
-	public void assignValuesToTransaction() throws Exception {
+	public Transaction assignValuesToTransaction(Transaction sender) throws Exception {
 		
 		Optional<Payer> payer =	payerList.stream()
 				.filter(p -> {
@@ -180,43 +181,62 @@ public class TransactionViewModel {
 			
 			}
 			
-			Optional<Plan> res = getSelectedPlansList();
-			if (!res.isPresent()) {
-				throw new Exception("Must select plan");
-//				showMessage(FacesMessage.SEVERITY_ERROR, "Transaction", "Must select atleast one plan");
-//				return;
-			}
-//			Set<Plan> planSet = new HashSet<>();
-//			planSet.addAll(res);
-//			for (Plan plan : planSet) {
-				transaction.setPlan(res.get());	
+//			List<Plan> res = getSelectedPlansList();
+//			if (res.isEmpty()) {
+//				throw new Exception("Must select plan");
 //			}
-				transaction.setPayer(payer.get());
+			
+//			sender.setPlan(res.get());	
+			sender.setPayer(payer.get());
 				
 				
 				Integer entityId = null;
+				CEntitiy entity = null;
 				if(canPracticeShow)
 				{
 					Practice practice = getPractiseById(currentPractice);
-					transaction.setPractice(practice);
-					transaction.setProvider(null);
-					entityId = practice.getEntity().getId();
+					sender.setPractice(practice);
+					sender.setProvider(null);
+//					entityId = practice.getEntity().getId();
+					entity = practice.getEntity();
 				}
 				else
 				{
 					Provider provider = getProviderById(currentProvider);
-					transaction.setProvider(provider);
-					transaction.setPractice(null);
-					entityId = provider.getCentity().getId();
+					sender.setProvider(provider);
+					sender.setPractice(null);
+//					entityId = provider.getCentity().getId();
+					entity = provider.getCentity();
 				}
 				
 				 
-				CEntitiy entity = entityService.get(entityId);//entityService.findEntityWithTransaction(entityId);
-				transaction.setEntity(entity);
-				
-				
-				
+//				CEntitiy entity = entityService.get(entityId);
+				sender.setEntity(entity);	
+				return sender;
 //				transactionService.saveOrUpdate(transaction);
+	}
+	
+	public List<Transaction> getTransactionListByPlan() throws Exception{
+		
+		List<Plan> res = getSelectedPlansList();
+		if (res.isEmpty()) {
+			throw new Exception("Must select plan");
+		}
+		List<Transaction> finalList = new ArrayList<>();
+
+		for (Plan plan : res) {
+			
+			Transaction tmpTransaction = new Transaction();
+			tmpTransaction.setComments(transaction.getComments());
+			tmpTransaction.setParStatus(transaction.getParStatus());
+			tmpTransaction.setType(transaction.getType());
+			tmpTransaction.setTransactionDate(transaction.getTransactionDate());
+			tmpTransaction.setTransactionState(transaction.getTransactionState());
+			tmpTransaction.setPlan(plan);
+			assignValuesToTransaction(tmpTransaction);
+			finalList.add(tmpTransaction);
+		}
+		return finalList;
 	}
 	
 	private Practice getPractiseById(Integer id) {

@@ -248,8 +248,7 @@ public class CreateTransactionController extends BaseViewController implements S
 			
 		for (TransactionViewModel transactionViewModel : transactionViewModelList) {
 //				
-				transactionViewModel.assignValuesToTransaction();
-				transactionList.add(transactionViewModel.getTransaction());
+				transactionList.addAll(transactionViewModel.getTransactionListByPlan());
 			}
 		transactionService.saveTransactions(transactionList);
 		showMessage(FacesMessage.SEVERITY_INFO, "Transaction", "Transaction saved successfully");

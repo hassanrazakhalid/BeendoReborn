@@ -77,7 +77,7 @@
 						<p:column headerText="Edit"
 						 width="80">
 						 
-						 <p:link outcome="#{payerController.createPayerClikced()}" value="Edit" >
+						 <p:link rendered="#{payerController.canEditPayer()}" outcome="#{payerController.createPayerClikced()}" value="Edit" >
 						 <f:param name="id" value="#{payer.id}" />
 						  </p:link>
 						  					 

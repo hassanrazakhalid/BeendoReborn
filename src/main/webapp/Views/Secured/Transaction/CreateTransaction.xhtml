@@ -124,15 +124,15 @@
 			<b:label text="Select Plan" />
 			</b:column>
 			<b:column span="6">
-			<p:selectOneMenu
+			<p:selectCheckboxMenu 
 			converter="javax.faces.Integer"
-			 label="Select Plan" id="planId" value="#{viewModel.selectedPlanId}">
+			 label="Select Plan" id="planId" value="#{viewModel.selectedPlanIds}">
 			
 			<f:selectItems value="#{viewModel.currentPlanList}" var="plan"
 			 itemLabel="#{plan.name}" itemValue="#{plan.id}" />
 			
 			<p:ajax event="change"  process="@this" partialSubmit="true" />
-			</p:selectOneMenu>
+			</p:selectCheckboxMenu >
 			</b:column>
 			
 			</b:row>

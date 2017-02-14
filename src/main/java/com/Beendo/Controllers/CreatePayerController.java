@@ -18,6 +18,7 @@ import com.Beendo.Services.IPayerService;
 import com.Beendo.Services.IPlanService;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.OperationType;
+import com.Beendo.Utils.SharedData;
 import com.github.javaplugs.jsf.SpringScopeView;
 
 import lombok.Getter;
@@ -64,7 +65,7 @@ public class CreatePayerController extends BaseViewController implements Seriali
 			}
 		}
 	}
-
+	
 	public void addPlanClicked() {
 
 		payer.addNewPlan();
