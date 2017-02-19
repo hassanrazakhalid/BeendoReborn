@@ -2,6 +2,7 @@
 package com.Beendo.Dto;
 
 import com.Beendo.Entities.Document;
+import com.Beendo.Utils.SharedData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -46,7 +47,7 @@ public class DocumentCell {
 		 if (isLinkDisabled()){
 			 return "";
 		 }
-		 String fullLink = "https://docs.google.com/viewer?url=" + "http://documentsDev.sypore.net:8081/" + "providers/" +document.getProvider().getId() +"/" + document.getNameOnDisk();
+		 String fullLink = "https://docs.google.com/viewer?url=" + SharedData.getSharedInstace().getDocumentURL() + "providers/" +document.getProvider().getId() +"/" + document.getNameOnDisk();
 		 return fullLink;
 	 }
 }

@@ -377,6 +377,7 @@ public class CreateProviderController extends BaseViewController implements Seri
 
 		Integer specId = provider.getQualitication().getPrimarySpeciality().getSpecialityInfo().getId();
 
+		if (specId == null)return;
 //		BoardInfo boardInfo = getBoardById(boardId);
 		SpecialityInfo specInfo = getSpecilityById(specId);
 

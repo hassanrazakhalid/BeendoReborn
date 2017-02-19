@@ -77,6 +77,7 @@ public class SharedData implements ApplicationContextAware {
 
 	private String documentRootPath;
 	private String serverRootPath;
+	private String documentURL;
 
 	@Autowired
 	private IProviderService providerService;
@@ -92,6 +93,16 @@ public class SharedData implements ApplicationContextAware {
 		// addTimerForDocumentExpire();
 
 	}
+	
+	public String getDocumentURL() {
+		return documentURL;
+	}
+
+	public void setDocumentURL(String documentURL) {
+		this.documentURL = documentURL;
+	}
+
+
 
 	public String getDocumentRootPath() {
 		return documentRootPath;
@@ -152,6 +163,7 @@ public class SharedData implements ApplicationContextAware {
 			Properties dict = readFile("ServerSettings.properties");
 			this.setServerRootPath((String) dict.getProperty("serverPath"));
 			this.setDocumentRootPath((String) dict.getProperty("documentPath"));
+			this.setDocumentURL((String) dict.getProperty("documentURL"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
