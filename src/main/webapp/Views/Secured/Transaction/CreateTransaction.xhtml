@@ -48,6 +48,7 @@
 			<b:column span="6">
 			<p:selectOneRadio id="currentRadio" value="#{viewModel.radioValue}"
 			converter="javax.faces.Integer"
+			disabled="#{viewModel.isDisabled}"
 			>
 				            <f:selectItem itemLabel="Practice" itemValue="1" />
 				            <f:selectItem itemLabel="Provider" itemValue="2" />
@@ -65,7 +66,7 @@
 							requiredMessage="Select atleast one practice"
 							 style="width:177px"
 							 filter="true" filterMatchMode="startsWith"
-							
+			disabled="#{viewModel.isDisabled}"				
 							 >
 							
 							<!-- <p:ajax event="change" listener="#{transactionController.onPracticeChange}" update="idPayer" />  -->
@@ -83,7 +84,7 @@
 							requiredMessage="Select atleast one provider"
 							 style="width:177px"
 							 filter="true" filterMatchMode="startsWith"
-							
+							disabled="#{viewModel.isDisabled}"
 							 >
 							<p:ajax event="change" update=":myForm" />
 							<f:selectItem itemLabel="Select Provider" />
@@ -104,7 +105,7 @@
 				  	    requiredMessage="Select atleast one payer"
 				            filter="true" filterMatchMode="startsWith" style="width:177px" required="true"
 				            converter="javax.faces.Integer" panelStyle="width:250px"
-				           
+				           disabled="#{viewModel.isDisabled}"
 				            >
 				            
 				            <f:selectItem itemLabel="Select Payer"/>
@@ -126,7 +127,9 @@
 			<b:column span="6">
 			<p:selectCheckboxMenu 
 			converter="javax.faces.Integer"
-			 label="Select Plan" id="planId" value="#{viewModel.selectedPlanIds}">
+			 label="Select Plan" id="planId" value="#{viewModel.selectedPlanIds}"
+			 disabled="#{viewModel.isDisabled}"
+			 >
 			
 			<f:selectItems value="#{viewModel.currentPlanList}" var="plan"
 			 itemLabel="#{plan.name}" itemValue="#{plan.id}" />
@@ -141,7 +144,9 @@
 			<b:column span="3">
 				<p:commandButton id="deleteId"
 					actionListener="#{createTransactionController.removeTransactionClicked(viewModel)}"
-					value="-"  update=":myForm" process="@this">
+					value="-"  update=":myForm" process="@this"
+					disabled="#{viewModel.isDisabled}"
+					>
 					
 					<p:confirm header="Confirmation" message="Are you sure?"
 								icon="ui-icon-alert" />
@@ -170,7 +175,9 @@
 			</b:column>
 			
 			<b:column span="6">
-			<p:selectOneMenu id="idType" value="#{viewModel.transaction.parStatus}" style="width:177px">
+			<p:selectOneMenu id="idType" value="#{viewModel.transaction.parStatus}" style="width:177px"
+			disabled="#{viewModel.isDisabled}"
+			>
 				            <f:selectItem itemLabel="Application Process" itemValue="Application Process" />
 				            <f:selectItem itemLabel="Communication with Provider" itemValue="Communication with Provider" />
 				            <f:selectItem itemLabel="Communication with Payer" itemValue="Communication with Payer" />
@@ -189,7 +196,10 @@
 			</b:column>
 			<b:column span="6">
 			<p:calendar  placeholder="Select Transaction Date" pattern="MM/dd/yyyy HH:mm:ss"
-			 value="#{viewModel.transaction.transactionDate}" required="true">
+			 value="#{viewModel.transaction.transactionDate}" required="true"
+			  maxdate="#{createTransactionController.getMaxDate()}"
+			  disabled="#{viewModel.isDisabled}"
+			  >
 			 
 			 <p:ajax event="change"  process="@this" partialSubmit="true" />
 			  </p:calendar>
@@ -204,7 +214,11 @@
 			</b:column>
 			
 			<b:column span="6">
-			<p:selectOneMenu id="vname" value="#{viewModel.transaction.transactionState}" style="width:175px">
+			<p:selectOneMenu id="vname"
+			 value="#{viewModel.transaction.transactionState}"
+			  style="width:175px"
+			  disabled="#{viewModel.isDisabled}"
+			  >
 			        		
 			        		<f:selectItems value="#{viewModel.statusList}" var="v"
 			        		itemLabel="#{v}" itemValue="#{v}"/>
@@ -216,7 +230,9 @@
 			<br />
 			<b:row>
 			<b:column span="12">
-			<p:inputTextarea rows="6" cols="90" placeholder="Comments" value="#{viewModel.transaction.comments}"
+			<p:inputTextarea rows="6" cols="90" placeholder="Comments"
+			 value="#{viewModel.transaction.comments}"
+			 disabled="#{viewModel.isDisabled}"
 			>
 			<p:ajax  process="@this" partialSubmit="true" />
 			 </p:inputTextarea>

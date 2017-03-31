@@ -57,6 +57,8 @@ public class TransactionViewModel {
 	
 	private Boolean canPracticeShow = true;
 	
+	private Boolean isDisabled = false;
+	
 	private String[] statusList;
 	
 	public TransactionViewModel() {
@@ -76,6 +78,40 @@ public class TransactionViewModel {
 		init();
 	}
 	
+	public List<Integer> getUniqueTransactionString() {
+		
+		String finalString = "";
+		
+		if (currentProvider != null) {
+			finalString += RadioValue.Provider.value;
+			finalString += currentProvider;
+		}
+		else if (currentPractice != null) {
+			
+			finalString += RadioValue.Practise.value;
+			finalString += currentPractice;
+		}
+		
+		if (selectedPayer != null) {
+			finalString += selectedPayer;
+		}
+		
+		List<Integer> uniqueTransactionsIds = new ArrayList<>();
+		if (selectedPlanIds != null) {
+			
+			for (Integer planId : selectedPlanIds) {
+				
+				
+				Integer expectedId = Integer.parseInt(finalString + planId);
+				if (expectedId != null) {
+					uniqueTransactionsIds.add(expectedId);	
+				}
+			}	
+		}
+		return uniqueTransactionsIds;
+	}
+
+	
 	private void init(){
 		canPracticeShow = true;
 		updateProviderStatusList();
@@ -88,14 +124,16 @@ public class TransactionViewModel {
 			statusList =  Constants.practiceStatus;
 			canPracticeShow = true;
 			transaction.setType(TransactionType.Practise.getValue());
+			currentProvider = null;
 		}
 		else
 		{
 			statusList =  Constants.providerStatus;
 			canPracticeShow = false;
 			transaction.setType(TransactionType.Provider.getValue());
+			currentPractice = null;
 		}
-	}
+	}	
 	
 	//edit case
 	public TransactionViewModel reloadForEdit(){

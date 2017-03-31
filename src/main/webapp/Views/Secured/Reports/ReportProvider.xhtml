@@ -93,7 +93,7 @@
 				       >
 
 						<p:column headerText="Provider Name" filterBy="#{transaction.provider.firstName}" filterMatchMode="contains">
-							#{transaction.provider.firstName} #{transaction.provider.lastName}
+							#{transaction.provider.firstName} #{transaction.provider.lastName} #{transaction.id}
 						</p:column>
 
 						<p:column headerText="Payer Plan Name" filterBy="#{transaction.payer.name}" filterFunction="#{transaction.filterByPayer}">
@@ -101,10 +101,10 @@
 						
 						 <b:row>
 						 <b:column span="6">
-						 #{transaction.payer.name}
+						 #{transaction.payer.name} #{transaction.payer.id}
 						 </b:column>
 						 <b:column span="6">
-						 #{transaction.plan.name}
+						 #{transaction.plan.name}, #{transaction.plan.id}, #{transaction.plan.payer.id}
 						 </b:column>
 						 </b:row>
 												

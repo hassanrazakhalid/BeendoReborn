@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.print.attribute.standard.Severity;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import com.Beendo.Entities.Transaction;
 import com.Beendo.Services.IEntityService;
 import com.Beendo.Services.ITransactionService;
 import com.Beendo.Utils.Constants;
+import com.Beendo.Utils.DateUtil;
 import com.Beendo.Utils.OperationType;
 import com.Beendo.Utils.ReportType;
 import com.Beendo.Utils.Role;
@@ -64,6 +66,7 @@ public class CreateTransactionController extends BaseViewController implements S
 	private List<Provider> providerList = new ArrayList<>();
 	
 	List<TransactionViewModel> transactionViewModelList = new ArrayList<>();
+//	List<TransactionViewModel> createdTransactionViewModelList = new ArrayList<>();
 	
 	@Autowired
 	private IEntityService entityService;
@@ -81,6 +84,11 @@ public class CreateTransactionController extends BaseViewController implements S
 		checkIfProviderPresent();
 		checkIfPractisePresent();
 	}
+	
+	public Date getMaxDate(){
+		return new Date();
+//		return DateUtil.addDays(new Date(), 1);
+	} 
 	
 	public void fetchData(){
 		
@@ -235,21 +243,48 @@ public class CreateTransactionController extends BaseViewController implements S
 	
 
 
-	
+	private boolean areAllTransactionsUnique() {
+		
+		boolean isOK = true;
+		
+		if (!transactionViewModelList.isEmpty()) {
+			
+			for (int i=0; i<transactionViewModelList.size();i++) {
+				List<Integer> fixedIds = transactionViewModelList.get(i).getUniqueTransactionString();
+				for (int j=i+1; i<transactionViewModelList.size();i++) {
+					List<Integer> changingIds = transactionViewModelList.get(j).getUniqueTransactionString();
+					
+					Optional<Integer> result = fixedIds.stream().filter( x -> changingIds.contains(x)).findFirst();
+					if (result.isPresent())
+						return false;
+				}
+			}
+		}
+		return isOK;
+	}
 
-	
 	public void saveInfo()
 	{
 		//transaction.setPayer(currentPayer);
+
+		if (!areAllTransactionsUnique()) {
+			showMessage(FacesMessage.SEVERITY_INFO, "Transaction", "Transactions must be unique");
+			return;
+		}
 		
 		try {
 			
 		List<Transaction> transactionList =	new ArrayList<>();
-			
-		for (TransactionViewModel transactionViewModel : transactionViewModelList) {
-//				
+		
+		
+		for (TransactionViewModel transactionViewModel : transactionViewModelList) {				
 				transactionList.addAll(transactionViewModel.getTransactionListByPlan());
 			}
+
+		for (TransactionViewModel transactionViewModel : transactionViewModelList) {				
+			transactionViewModel.setIsDisabled(true);	
+			}
+		
 		transactionService.saveTransactions(transactionList);
 		showMessage(FacesMessage.SEVERITY_INFO, "Transaction", "Transaction saved successfully");
 			

@@ -1,6 +1,8 @@
 package com.Beendo.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,12 +115,15 @@ public class ReportFilter {
 		}
 	}
 
-	private String getProviderPractiseBaseString(String groupById, Boolean countModeOn) {
+	private String getProviderPractiseBaseString(List<String> groupByIds, Boolean countModeOn) {
+		
+		String commaSepGroupIds = String.join(",", groupByIds);
 		String finalbaseString = "SELECt * from transaction  as T"
 				+ " inner join"
-				+ " ( SELECT Max(d.transactionDate) as MaxTransactoin" + " FROM transaction  d" + " GROUP BY d."
-				+ groupById + " )"
+				+ " ( SELECT Max(d.transactionDate) as MaxTransactoin" + " FROM transaction  d" + " GROUP BY "
+				+ commaSepGroupIds + " )"
 				+ " as D on D.MaxTransactoin=T.transactionDate";
+//				+ "  as D on D.MaxTid=T.id";
 
 		if (!countModeOn) {
 			finalbaseString += geJoins();
@@ -174,10 +179,11 @@ public class ReportFilter {
 					practiceIds.isEmpty()) {
 				updatePractiseIdsByUser();
 			}
-			str = getProviderPractiseBaseString("practice_id",countMode);
+			str = getProviderPractiseBaseString(Arrays.asList("d.practice_id", "d.plan_id", "d.payer_id"),countMode);
 			break;
 		case ReportTypeProvider:
-			str = getProviderPractiseBaseString("provider_id", countMode);
+			
+			str = getProviderPractiseBaseString(Arrays.asList("d.provider_id", "d.plan_id", "d.payer_id"), countMode);
 			break;
 		default:
 			break;

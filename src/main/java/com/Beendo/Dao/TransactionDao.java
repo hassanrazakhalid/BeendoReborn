@@ -1,5 +1,9 @@
 package com.Beendo.Dao;
 
+import static java.lang.Math.toIntExact;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -7,20 +11,16 @@ import javax.persistence.Query;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.type.LongType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import static java.lang.Math.toIntExact;
 
-import java.math.BigInteger;
-
+import com.Beendo.Entities.Payer;
+import com.Beendo.Entities.Plan;
 import com.Beendo.Entities.Transaction;
-import com.Beendo.Entities.Transaction_;
 import com.Beendo.Utils.Constants;
 import com.Beendo.Utils.ReportFilter;
 import com.Beendo.Utils.SharedData;
-import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
 
 @Repository
 public class TransactionDao extends GenericDao<Transaction, Integer> implements ITransaction {
@@ -203,20 +203,40 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 
 //		queryString += " Limit " + filter.getStart() + ", " + filter.getMaxResults();
 			
+//		String tmp = "SELECt * from transaction  as T inner join (SELECT d.id as MaxTid, Max(d.transactionDate) as MaxTransactoin FROM transaction  d GROUP BY d.provider_id,d.plan_id,d.payer_id HAVING d.provider_id IN(2) ) as D  on D.MaxTid=T.id  LEFT JOIN payer AS P ON P.id = T.payer_id  LEFT JOIN plan AS PL ON PL.id = T.plan_id  AND type = 1  ORDER BY T.transactionDate DESC";
 		Query query = session.createNativeQuery(queryString)
 				.addEntity("T",Transaction.class)
+				.addJoin("P", "T.payer")
 				.addJoin("PL", "T.plan")
 				.addEntity("T",Transaction.class)
 				.setResultTransformer(Criteria.ROOT_ENTITY);
 		query.setFirstResult(filter.getStart());
 		query.setMaxResults(filter.getMaxResults());
-//				+ " ORDER BY t.transactionDate";
-//		Query query = session.createQuery(queryString);
 
-		List<Transaction> res = query.getResultList();
-//		Object res = query.getSingleResult();
-//		Object res = query.getResultList();
-		return res;
+		List<Transaction> result = query.getResultList();
+//		Query query = session.createNativeQuery(queryString)
+//				.addEntity("T",Transaction.class)
+//				.addJoin("P", "T.payer")
+//				.addJoin("PL", "T.plan");
+//		query.setFirstResult(filter.getStart());
+//		query.setMaxResults(filter.getMaxResults());
+//
+//		
+//		List<Object[]> tuples = query.getResultList();
+//		List<Transaction> result = new ArrayList<Transaction>();
+//		for(Object[] tuple : tuples) {
+//			
+//		    Transaction transaction = (Transaction)tuple[0]; 
+//		    Payer payer = (Payer)tuple[1];
+//		    Plan plan = (Plan)tuple[2];
+//		    
+//		    transaction.setPayer(payer);
+//		    transaction.setPlan(plan);
+//		    result.add(transaction);
+////		    System.out.println("..");
+//		}
+
+		return result;
 	}   
 	
 //	@Override
