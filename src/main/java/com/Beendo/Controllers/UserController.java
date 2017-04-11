@@ -406,7 +406,7 @@ public class UserController implements DisposableBean, InitializingBean, Applica
 
 					
 //					selectedEntity.getUsers().add(user); // addUserToSelectedPractise();
-					// userService.save(user);
+					 userService.update(user);
 
 					{
 						entityService.update(selectedEntity);

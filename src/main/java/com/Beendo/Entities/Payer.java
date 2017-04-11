@@ -58,7 +58,7 @@ public class Payer implements Serializable {
 	private String zip;
 	private String fax;
 	
-	private String par;
+//	private String par;
 	
 	@OneToMany(mappedBy="payer")
 	@Cascade( {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
@@ -70,6 +70,10 @@ public class Payer implements Serializable {
 	private List<Transaction> transactions = new ArrayList<>();
 //	@ManyToOne
 //	private Provider provider;
+	
+	public String getDisplayName(){
+		return name + " " + state; 
+	}
 	
 	public void addNewPlan(){
 		

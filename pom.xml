@@ -249,23 +249,29 @@
 			<version>1.2</version>
 		</dependency>
 		
-		    <dependency>  
+ 		    <dependency>  
         <groupId>org.primefaces.themes</groupId>  
         <artifactId>all-themes</artifactId>  
         <version>1.0.10</version>  
     </dependency>  
-		
+ 
+<!--   <dependency>  
+    <groupId>org.primefaces.extensions</groupId>  
+    <artifactId>all-themes</artifactId>   
+    <version>1.0.8</version>  
+</dependency>  
+ --> 		
 	</dependencies>
 
 	<repositories>
 	
-	<repository>
+ <!--    <repository>
         <id>prime-repo</id>
         <name>PrimeFaces Maven Repository</name>
         <url>http://repository.primefaces.org</url>
         <layout>default</layout>
-    </repository>
-	
+    </repository> -->
+ 	
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>

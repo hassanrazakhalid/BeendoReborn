@@ -59,7 +59,8 @@ public class Transaction {
 	private String parStatus;
 	private Integer type;
 	
-	@ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.PERSIST,CascadeType.MERGE})
+//	,cascade={CascadeType.PERSIST,CascadeType.MERGE}
+	@ManyToOne(fetch=FetchType.EAGER)
 	private CEntitiy entity;
 	
 	/*@OneToOne(fetch = FetchType.EAGER)

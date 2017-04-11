@@ -110,7 +110,7 @@
 				            
 				            <f:selectItem itemLabel="Select Payer"/>
 				            <f:selectItems value="#{createTransactionController.payerList}" var="payer"
-								itemLabel="#{payer.name} " itemValue="#{payer.id}"  />
+								itemLabel="#{payer.getDisplayName()} " itemValue="#{payer.id}"  />
 					<p:ajax event="change" listener="#{viewModel.onPayerChange}" update="@parent:@parent:planRow"></p:ajax>			
 								
 				        </p:selectOneMenu> 

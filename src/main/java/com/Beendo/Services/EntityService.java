@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.IEntity;
@@ -144,6 +145,7 @@ public class EntityService extends GenericServiceImpl<CEntitiy, Integer> impleme
 	}
 	
 	@Override
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
 	public void remove(CEntitiy entity) {
 		// TODO Auto-generated method stub
 		try {

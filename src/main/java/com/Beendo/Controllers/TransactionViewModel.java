@@ -254,6 +254,16 @@ public class TransactionViewModel {
 //				transactionService.saveOrUpdate(transaction);
 	}
 	
+	public List<Transaction> getActiveTransctions() throws Exception{
+		
+		if (isDisabled) {
+			return new ArrayList<>();
+		}
+		else {
+			return getTransactionListByPlan();
+		}
+	}
+	
 	public List<Transaction> getTransactionListByPlan() throws Exception{
 		
 		List<Plan> res = getSelectedPlansList();

@@ -251,7 +251,7 @@ public class CreateTransactionController extends BaseViewController implements S
 			
 			for (int i=0; i<transactionViewModelList.size();i++) {
 				List<Integer> fixedIds = transactionViewModelList.get(i).getUniqueTransactionString();
-				for (int j=i+1; i<transactionViewModelList.size();i++) {
+				for (int j=i+1; j<transactionViewModelList.size();j++) {
 					List<Integer> changingIds = transactionViewModelList.get(j).getUniqueTransactionString();
 					
 					Optional<Integer> result = fixedIds.stream().filter( x -> changingIds.contains(x)).findFirst();
@@ -277,8 +277,10 @@ public class CreateTransactionController extends BaseViewController implements S
 		List<Transaction> transactionList =	new ArrayList<>();
 		
 		
-		for (TransactionViewModel transactionViewModel : transactionViewModelList) {				
-				transactionList.addAll(transactionViewModel.getTransactionListByPlan());
+		for (TransactionViewModel transactionViewModel : transactionViewModelList) {
+			
+			
+				transactionList.addAll(transactionViewModel.getActiveTransctions());
 			}
 
 		for (TransactionViewModel transactionViewModel : transactionViewModelList) {				
