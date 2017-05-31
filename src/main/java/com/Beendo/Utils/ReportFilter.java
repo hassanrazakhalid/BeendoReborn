@@ -95,7 +95,7 @@ public class ReportFilter {
 		// assuming only valid coditions are comming
 		if (value instanceof List) {
 			String statusString = "";
-			if (key.equalsIgnoreCase("parStatus")) {
+			if (key.equalsIgnoreCase("transactionState")) {
 				// String ids =
 				// StringUtils.collectionToCommaDelimitedString(statusList);
 				for (int i = 0; i < statusList.size(); i++) {
@@ -104,7 +104,7 @@ public class ReportFilter {
 					if (i != statusList.size() - 1)
 						statusString += ",";
 				}
-			} else {
+			} else {	
 				List<Integer> idsList = (List<Integer>) value;
 				statusString = StringUtils.collectionToCommaDelimitedString(idsList);
 			}
@@ -207,7 +207,7 @@ public class ReportFilter {
 		if (!payerIds.isEmpty())
 			conditionsMap.put("payer_id", payerIds);
 		if (!statusList.isEmpty())
-			conditionsMap.put("parStatus", statusList);
+			conditionsMap.put("transactionState", statusList);
 
 		// addConditions(conditionsMap);
 

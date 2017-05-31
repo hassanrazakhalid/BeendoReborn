@@ -60,7 +60,7 @@ public class Transaction {
 	private Integer type;
 	
 //	,cascade={CascadeType.PERSIST,CascadeType.MERGE}
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER) 
 	private CEntitiy entity;
 	
 	/*@OneToOne(fetch = FetchType.EAGER)
