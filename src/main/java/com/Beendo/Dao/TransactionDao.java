@@ -162,7 +162,7 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 //			break;
 //		}
 //		filter.setBaseQuery(subQuery);
-		String queryString = "SELECT COUNT(DISTINCT t.id) FROM (" + filter.getQueryString(true) + ") t";
+		String queryString = "SELECT COUNT(DISTINCT tc.id) FROM (" + filter.getQueryString(true) + ") tc";
 		
 		Query query = session.createNativeQuery(queryString);
 //				+ " ORDER BY t.transactionDate";
@@ -199,19 +199,18 @@ public class TransactionDao extends GenericDao<Transaction, Integer> implements 
 //		}
 		
 		String queryString =  filter.getQueryString(false);
-		queryString += " ORDER BY T.transactionDate DESC";
-
-//		queryString += " Limit " + filter.getStart() + ", " + filter.getMaxResults();
+		queryString += " ORDER BY ts.transactionDate DESC";
+		queryString += " Limit " + filter.getStart() + ", " + filter.getMaxResults();
 			
 //		String tmp = "SELECt * from transaction  as T inner join (SELECT d.id as MaxTid, Max(d.transactionDate) as MaxTransactoin FROM transaction  d GROUP BY d.provider_id,d.plan_id,d.payer_id HAVING d.provider_id IN(2) ) as D  on D.MaxTid=T.id  LEFT JOIN payer AS P ON P.id = T.payer_id  LEFT JOIN plan AS PL ON PL.id = T.plan_id  AND type = 1  ORDER BY T.transactionDate DESC";
 		Query query = session.createNativeQuery(queryString)
-				.addEntity("T",Transaction.class)
-				.addJoin("P", "T.payer")
-				.addJoin("PL", "T.plan")
-				.addEntity("T",Transaction.class)
+				.addEntity("ts",Transaction.class)
+				.addJoin("P", "ts.payer")
+				.addJoin("PL", "ts.plan")
+				.addEntity("ts",Transaction.class)
 				.setResultTransformer(Criteria.ROOT_ENTITY);
-		query.setFirstResult(filter.getStart());
-		query.setMaxResults(filter.getMaxResults());
+//		query.setFirstResult(filter.getStart());
+//		query.setMaxResults(filter.getMaxResults());
 
 		List<Transaction> result = query.getResultList();
 //		Query query = session.createNativeQuery(queryString)

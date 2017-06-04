@@ -108,22 +108,26 @@ public class ReportFilter {
 				List<Integer> idsList = (List<Integer>) value;
 				statusString = StringUtils.collectionToCommaDelimitedString(idsList);
 			}
-			baseQuery += " T." + key + " IN(" + statusString + ")";
+			baseQuery += " ts." + key + " IN(" + statusString + ")";
 		} else if (value instanceof Integer) {
 			Integer tmpId = (Integer) value;
 			baseQuery += " " + key + " = " + tmpId;
 		}
 	}
 
-	private String getProviderPractiseBaseString(List<String> groupByIds, Boolean countModeOn) {
+	private String getProviderPractiseBaseString(List<String> groupByIds, Boolean forProvider , Boolean countModeOn) {
+		
+		String joinColumn = forProvider ? "provider_id" : "practice_id" ; 
 		
 		String commaSepGroupIds = String.join(",", groupByIds);
-		String finalbaseString = "SELECt * from transaction  as T"
+		String finalbaseString = "SELECt * from transaction  as ts"
 				+ " inner join"
-				+ " ( SELECT Max(d.transactionDate) as MaxTransactoin" + " FROM transaction  d" + " GROUP BY "
-				+ commaSepGroupIds + " )"
-				+ " as D on D.MaxTransactoin=T.transactionDate";
-//				+ "  as D on D.MaxTid=T.id";
+				+ " ( SELECT Max(t.transactionDate) as MaxTransactoin, t.payer_id as subPayerId, t." + joinColumn + " as subJoin , t.plan_id as subPlanId" + " FROM transaction  t" + " GROUP BY "
+				+ commaSepGroupIds + " )" //order by t.id
+				+ " as p on p.MaxTransactoin=ts.transactionDate"
+				+ " and p.subPayerId = ts.payer_id"
+				+ " and p.subJoin = ts." + joinColumn
+				+ " and p.subPlanId = ts.plan_id";
 
 		if (!countModeOn) {
 			finalbaseString += geJoins();
@@ -132,18 +136,18 @@ public class ReportFilter {
 	}
 
 	private String getTransactionBaseString( Boolean countModeOn) {
-		String finalbaseString = "SELECt * from transaction  as T";
+		String finalbaseString = "SELECt * from transaction  as ts";
 		if (!countModeOn) {
 			finalbaseString += geJoins();
-			finalbaseString += " GROUP BY T.id";
+			finalbaseString += " GROUP BY ts.id";
 		}
 		return finalbaseString;
 	}
 	
 	private String geJoins(){
-		return " LEFT JOIN payer AS P ON P.id = T.payer_id"
+		return " LEFT JOIN payer AS P ON P.id = ts.payer_id"
 //				+ " LEFT JOIN  transaction_plan AS planIds ON planIds.transaction_id = T.id"
-				+ " LEFT JOIN plan AS PL ON PL.id = T.plan_id";
+				+ " LEFT JOIN plan AS PL ON PL.id = ts.plan_id";
 	}
 
 	private void updatePractiseIdsByUser(){
@@ -179,11 +183,12 @@ public class ReportFilter {
 					practiceIds.isEmpty()) {
 				updatePractiseIdsByUser();
 			}
-			str = getProviderPractiseBaseString(Arrays.asList("d.practice_id", "d.plan_id", "d.payer_id"),countMode);
+			//Here false is for practise
+			str = getProviderPractiseBaseString(Arrays.asList("t.practice_id", "t.plan_id", "t.payer_id"),false,countMode);
 			break;
 		case ReportTypeProvider:
-			
-			str = getProviderPractiseBaseString(Arrays.asList("d.provider_id", "d.plan_id", "d.payer_id"), countMode);
+			//Here ttue is for provider
+			str = getProviderPractiseBaseString(Arrays.asList("t.provider_id", "t.plan_id", "t.payer_id"),true, countMode);
 			break;
 		default:
 			break;
