@@ -24,10 +24,10 @@ public class Permission   {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	private boolean canProviderAdd;
-	private boolean canProviderEdit;
-	private boolean canPayerTransactionAdd;
-	private boolean canPayerTransactionEdit;
+	private boolean canProviderAdd = false;
+	private boolean canProviderEdit = false;
+	private boolean canPayerTransactionAdd = false;
+	private boolean canPayerTransactionEdit = false;
 	
 	@OneToOne(mappedBy = "permission")
 	private User user;

@@ -40,7 +40,8 @@
 				</p:column>
 				<p:column headerText="Name">
 				
-				<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{practise.name}">
+				<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{practise.name}"
+				 disabled="#{!practiseController.tmpUser.canCreateTransaction()}">
 								<f:param name="practiseId" value="#{practise.id}" />
 								 </h:link>
 					<!-- #{practise.name} -->

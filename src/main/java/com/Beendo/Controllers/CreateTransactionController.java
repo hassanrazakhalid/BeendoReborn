@@ -30,6 +30,7 @@ import com.Beendo.Entities.Plan;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.Provider;
 import com.Beendo.Entities.Transaction;
+import com.Beendo.Entities.User;
 import com.Beendo.Services.IEntityService;
 import com.Beendo.Services.ITransactionService;
 import com.Beendo.Utils.Constants;
@@ -64,6 +65,7 @@ public class CreateTransactionController extends BaseViewController implements S
 	private List<Practice> practiceList = new ArrayList<>();
 	private List<Payer> payerList = new ArrayList<>();
 	private List<Provider> providerList = new ArrayList<>();
+	private User tmpUser;
 	
 	List<TransactionViewModel> transactionViewModelList = new ArrayList<>();
 //	List<TransactionViewModel> createdTransactionViewModelList = new ArrayList<>();
@@ -99,6 +101,7 @@ public class CreateTransactionController extends BaseViewController implements S
 			this.payerList = (List<Payer>) sender.get("payerList");
 			this.practiceList = (List<Practice>) sender.get("practiceList");
 			this.providerList = (List<Provider>) sender.get("providerList");
+			this.tmpUser = (User)sender.get("user");
 		};
 		
 		transactionService.fetchDataForTransactionCreation(response, entityId);

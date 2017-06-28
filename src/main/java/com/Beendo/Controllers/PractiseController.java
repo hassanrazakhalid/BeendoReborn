@@ -88,6 +88,7 @@ public class PractiseController implements Serializable {
 		IPracticeCallBack callback = (User user, List<CEntitiy>entityList, List<Practice>practiceList)->{
 
 			tmpUser = user;
+			//System.out.println(user.canCreateTransaction());
 			listEntities = entityList;
 			listPractise = practiceList;			
 		};

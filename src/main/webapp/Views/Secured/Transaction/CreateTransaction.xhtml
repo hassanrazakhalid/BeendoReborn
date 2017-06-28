@@ -24,9 +24,9 @@
 				<h2>Transaction Details</h2>
 						
 			<!-- <b:container> -->
-			  <h:form id="myForm">
+			  <h:form id="myForm" rendered="#{createTransactionController.tmpUser.canCreateTransaction()}">
 				  	<!-- <p:messages id="msgs" /> -->
-			<p:messages id="msgs" rendered="!#{createTransactionController.shouldRenderAddButton()}" />
+			<p:messages id="msgs"  />
 			
 			<!-- Left Side -->
 			<b:panel id="mainTransactionPanel" title="Create Transactions:" span="12">

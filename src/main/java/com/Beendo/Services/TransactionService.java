@@ -64,12 +64,14 @@ public class TransactionService extends GenericServiceImpl<Transaction, Integer>
 		
 		List<Provider> providerList = providerService.findProvidersByEntity(entityId);
 		List<Practice> practiceList = practiseDao.findAllByEntity(entityId);
+		User tmpUser = userService.findById(SharedData.getSharedInstace().getCurrentUser().getId(), false);
 		List<Payer> payerList = payerService.executeListQuery("select distinct P from Payer P left join fetch P.plans");
 //				payerService.executeListQuery("select P from Payer P left join fetch P.plans");
 		Map<String, Object> response = new HashMap<>();
 		response.put("practiceList", practiceList);
 		response.put("providerList", providerList);
 		response.put("payerList", payerList);
+		response.put("user", tmpUser);
 		
 		sender.accept(response);
 	}

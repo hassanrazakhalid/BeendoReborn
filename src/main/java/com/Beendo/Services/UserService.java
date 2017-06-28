@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.Beendo.Dao.IUserDao;
 import com.Beendo.Entities.CEntitiy;
+import com.Beendo.Entities.Permission;
 import com.Beendo.Entities.Practice;
 import com.Beendo.Entities.User;
 import com.Beendo.Utils.Role;
@@ -33,6 +34,9 @@ public class UserService extends GenericServiceImpl<User, Integer> implements Us
 	public User findById(Integer id, boolean shouldRedirect){
 
 		User user = iUserDao.find(id);
+		if (user.getPermission() == null) {
+			user.setPermission(new Permission());
+		}
 		
 		if(user == null &&
 		   shouldRedirect)

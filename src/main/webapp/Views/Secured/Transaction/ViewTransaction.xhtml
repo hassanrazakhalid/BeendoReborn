@@ -21,7 +21,7 @@
 			<ui:define name="mainContent">
 				<h2>Transaction Details</h2>
 				
-				<h:form rendered="#{transactionController.canCreate()}">
+				<h:form rendered="#{transactionController.tmpUser.canCreateTransaction()}">
 				
 				<h3>
 				<h:link outcome="#{sharedData.toCreateTransaction()}" value="Create Transaction">
@@ -109,7 +109,7 @@
 						</p:column>						
 						
 						 <p:column headerText="Edit" width="80"
-							rendered="#{transactionController.canEdit()}">
+							rendered="#{tmpUser.canEditTransaction()}">
 							
 							<h:link rendered="#{sharedData.getCurrentUser().getRole() == 'ROOT_ADMIN'}" outcome="#{sharedData.toCreateTransaction()}" value="Edit">
 							<f:param name="id" value="#{transaction.id}" />

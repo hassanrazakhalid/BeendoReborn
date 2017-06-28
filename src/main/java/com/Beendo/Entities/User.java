@@ -42,30 +42,28 @@ public class User implements UserDetails {
 	 */
 	private static final long serialVersionUID = 935900234703373675L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String appUserName;
 	private String email;
 	private String password;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Permission permission = new Permission();
-	
+
 	private String roleName;
 
-/*	@OneToOne(fetch = FetchType.EAGER)
-	private CEntitiy entity;
-*/	
-//	, cascade={CascadeType.REFRESH,CascadeType.MERGE,CascadeType.PERSIST}
+	/*
+	 * @OneToOne(fetch = FetchType.EAGER) private CEntitiy entity;
+	 */
+	// , cascade={CascadeType.REFRESH,CascadeType.MERGE,CascadeType.PERSIST}
 	@ManyToOne(fetch = FetchType.EAGER)
 	private CEntitiy entity;
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,CascadeType.DETACH}, fetch = FetchType.LAZY)
-	@JoinTable(name="users_practice",
-	joinColumns=@JoinColumn(name="User_id"),
-	inverseJoinColumns=@JoinColumn(name="practises_id")
-	)
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH }, fetch = FetchType.LAZY)
+	@JoinTable(name = "users_practice", joinColumns = @JoinColumn(name = "User_id"), inverseJoinColumns = @JoinColumn(name = "practises_id"))
 	private Set<Practice> practises = new HashSet<>(0);
 
 	public static User copy(User sender) {
@@ -85,11 +83,12 @@ public class User implements UserDetails {
 
 		String roleStr = this.getRoleName();
 
-//		SimpleGrantedAuthority simpleRole = new SimpleGrantedAuthority(roleStr);
-		SimpleGrantedAuthority simpleRole = new SimpleGrantedAuthority("ROLE_"+roleStr);
+		// SimpleGrantedAuthority simpleRole = new
+		// SimpleGrantedAuthority(roleStr);
+		SimpleGrantedAuthority simpleRole = new SimpleGrantedAuthority("ROLE_" + roleStr);
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-//		authorities.add(new SimpleGrantedAuthority("ROLE_ENTITY_USER"));
-//		return authorities;		 
+		// authorities.add(new SimpleGrantedAuthority("ROLE_ENTITY_USER"));
+		// return authorities;
 		authorities.add(simpleRole);
 		return authorities;
 	}
@@ -99,21 +98,43 @@ public class User implements UserDetails {
 		System.out.println("In user login");
 
 	}
-	
-	public Role getRole(){
-		
+
+	public Role getRole() {
+
 		Role r = Role.getRole(roleName);
 		return r;
 	}
-	
-	private boolean isSuperAdmin(){
-		
-		if(this.getAppUserName().equalsIgnoreCase("SuperAdmin") &&
-		   this.getAppUserName().equalsIgnoreCase("Password"))
-		{
+
+	public boolean canCreateTransaction() {
+
+		if (roleName.equalsIgnoreCase(Role.ROOT_ADMIN.toString())
+				|| roleName.equalsIgnoreCase(Role.ROOT_USER.toString())
+				|| roleName.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())
+				|| getPermission().isCanPayerTransactionAdd()) {
 			return true;
+		} else {
+			return false;
 		}
-		else
+	}
+
+	public boolean canEditTransaction() {
+
+		if (roleName.equalsIgnoreCase(Role.ROOT_ADMIN.toString())
+				|| roleName.equalsIgnoreCase(Role.ROOT_USER.toString())
+				|| roleName.equalsIgnoreCase(Role.ENTITY_ADMIN.toString())
+				|| getPermission().isCanPayerTransactionEdit()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean isSuperAdmin() {
+
+		if (this.getAppUserName().equalsIgnoreCase("SuperAdmin")
+				&& this.getAppUserName().equalsIgnoreCase("Password")) {
+			return true;
+		} else
 			return false;
 	}
 
@@ -146,7 +167,7 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

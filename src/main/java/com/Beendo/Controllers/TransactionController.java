@@ -109,24 +109,6 @@ public class TransactionController extends BaseViewController implements Disposa
 		reportFilter.setPayerIds(selectedPayers);
 	}
 	
-	public boolean canEdit(){
-		
-		boolean isOK = true;
-		if (tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
-				!tmpUser.getPermission().isCanPayerTransactionEdit())
-			isOK = false;
-		return isOK;
-	}
-	
-	public boolean canCreate(){
-		
-		boolean isOK = true;		
-		if (tmpUser.getRoleName().equalsIgnoreCase(Role.ENTITY_USER.toString()) &&
-				!tmpUser.getPermission().isCanPayerTransactionAdd())
-			isOK = false;
-		return isOK;
-	}
-	
 	@PostConstruct
 	public void onLoad(){
 

@@ -53,7 +53,9 @@
 					<p:column headerText="Provider Name" filterMatchMode="contains"
 						filterBy="#{provider.getFullName()}">
 					
-					<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{provider.getFullName()}">
+					<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{provider.getFullName()}"
+					disabled="#{!providerController.tmpUser.canEditTransaction()}"
+					>
 								<f:param name="providerId" value="#{provider.id}" />
 								 </h:link>
 							<!-- #{provider.getFullName()} -->
@@ -74,7 +76,9 @@
 								<tr>
 									<td style="border: 0px;">
 									
-									<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{t.name}">
+									<h:link outcome="#{sharedData.toCreateTransaction()}" value="#{t.name}"
+									disabled="!#{tmpUser.canEditTransaction()}"
+									>
 								<f:param name="practiseId" value="#{t.id}" />
 								 </h:link>
 									

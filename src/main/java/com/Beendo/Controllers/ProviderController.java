@@ -87,6 +87,7 @@ public class ProviderController extends BaseViewController implements Disposable
 		ProviderCallback response = (User user, List<Provider>providerList)->{
 
 			this.tmpUser = user;
+//			System.out.println(tmpUser.canEditTransaction());
 			this.providerList = providerList;
 			
 		};
